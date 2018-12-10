@@ -14,7 +14,7 @@ public class DBUtil {
 		public static Connection getConn() {
 			try {
 				Class.forName(pp.getProperty("className"));
-				conn=DriverManager.getConnection("jdbc:mysql:///enroll","root","admin");
+				conn=DriverManager.getConnection("jdbc:mysql://39.108.187.254:3306/enroll","root","admin");
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
