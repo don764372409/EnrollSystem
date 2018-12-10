@@ -1,6 +1,6 @@
-package com.yuanmaxinxi.dto.university;
+package com.yuanmaxinxi.entity.university;
 
-public class UniversityDTO {
+public class University{
 	private Long id;
 	private Long pId;//省外键
 	

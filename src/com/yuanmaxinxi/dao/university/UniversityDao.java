@@ -10,10 +10,10 @@ import java.util.Properties;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
-import com.yuanmaxinxi.dto.university.UniversityDTO;
+import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
-public class UniversityDao implements BaseDAO<UniversityDao>{
+public class UniversityDao implements BaseDAO<University>{
 	static {
 		Properties properties = new Properties();
 		try {
@@ -23,6 +23,12 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 			e.printStackTrace();
 		} 
 	}
+	@Override
+	public int insert(University obj) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public static Connection conn=DBUtil.getConn();
 	public int insert(UniversityDao obj) {
 		
@@ -30,7 +36,7 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 	}
 
 	@Override
-	public int update(UniversityDao obj) {
+	public int update(University obj) {
 		return 0;
 	}
 
@@ -40,23 +46,32 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 	}
 
 	@Override
-	public UniversityDao selectOneById(Long id) {
+	public University selectOneById(Long id) {
 		return null;
 	}
-
+	//查询所有的方法
 	@Override
-	public List<UniversityDao> selectAll() {
+	public List<University> selectAll() {
 		try {
-			List<UniversityDao> list = new ArrayList<>();
+			List<University> list = new ArrayList<>();
 			String sql="select * from enroll";
 			PreparedStatement state = conn.prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			while(result.next()) {
-				UniversityDTO uni = new UniversityDTO();
+				University uni = new University();
 				uni.setId(result.getLong("id"));
 				uni.setpId(result.getLong("pId"));
+				uni.setAddress(result.getString("address"));
+				uni.setQuality(result.getLong("quality"));
+				uni.setType(result.getLong("type"));
+				uni.setRemark(result.getString("remark"));
+				uni.setRanking(result.getInt("ranking"));
+				uni.setTeachers(result.getString("teachers"));
+				uni.setRecord(result.getLong("result"));
+				uni.setSubject(result.getString("subject"));
+				list.add(uni);
 			}
-			return null;
+			return list;
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,9 +79,10 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 	}
 
 	@Override
-	public List<UniversityDao> queryPage(BaseQueryPageDTO dto) {
+	public List<University> queryPage(BaseQueryPageDTO dto) {
 		return null;
 	}
 
+	
 
 }
