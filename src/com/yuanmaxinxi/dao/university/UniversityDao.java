@@ -14,7 +14,7 @@ import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class UniversityDao implements BaseDAO<University>{
-<<<<<<< HEAD
+
 	static {
 		Properties properties = new Properties();
 		try {
@@ -24,8 +24,6 @@ public class UniversityDao implements BaseDAO<University>{
 			e.printStackTrace();
 		} 
 	}
-=======
->>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 	@Override
 	public int insert(University obj) {
 		try {

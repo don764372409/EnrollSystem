@@ -97,6 +97,7 @@ public class ProvinceDao implements BaseDAO<Province>{
 			while(result.next()) {
 				province.setId(result.getLong("id"));
 				province.setName(result.getString("name"));
+				list.add(province);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
