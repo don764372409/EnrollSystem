@@ -51,11 +51,11 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 			String sql="select * from enroll";
 			PreparedStatement state = conn.prepareStatement(sql);
 			ResultSet result = state.executeQuery();
-//			while(result.next()) {
-//				UniversityDTO uni = new UniversityDTO();
-//				uni.setId(result.getLong(columnLabel));
-//				result.getLong("id");
-//			}
+			while(result.next()) {
+				UniversityDTO uni = new UniversityDTO();
+				uni.setId(result.getLong(columnLabel));
+				result.getLong("id");
+			}
 			return null;
 		}catch (Exception e) {
 			e.printStackTrace();
