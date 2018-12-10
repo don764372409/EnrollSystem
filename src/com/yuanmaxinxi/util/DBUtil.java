@@ -3,8 +3,6 @@ package com.yuanmaxinxi.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
-
-
 public class DBUtil {
 		private static Connection conn;
 		private static Properties pp;
