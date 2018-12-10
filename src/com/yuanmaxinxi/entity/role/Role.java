@@ -2,7 +2,7 @@ package com.yuanmaxinxi.entity.role;
 
 public class Role {
 	private Long id;
-	private String name;//½ÇÉ«Ãû³Æ
+	private String name;
 	public Long getId() {
 		return id;
 	}

@@ -9,12 +9,12 @@ public class Admin {
 	private String password;
 	private String headImg;
 	private String phone;
-	private Date time;//添加时间
-	private Date loginTime;//登录时间
-	private Date lastTime;//上次登录时间
-	private String ip;//登录ip
-	private String lastIp;//上次登录ip
-	private int status;//状态
+	private Date time;
+	private Date loginTime;
+	private Date lastTime;
+	private String ip;
+	private String lastIp;
+	private int status;
 	public Long getId() {
 		return id;
 	}
