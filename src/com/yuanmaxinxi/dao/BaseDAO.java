@@ -1,7 +1,6 @@
 package com.yuanmaxinxi.dao;
 
 import java.util.List;
-
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 
 public interface BaseDAO<T> {
