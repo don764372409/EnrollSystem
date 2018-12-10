@@ -8,7 +8,6 @@ import com.yuanmaxinxi.entity.role.Role;
 
 public class RoleDAO implements BaseDAO<Role>{
 
-	@Override
 	public int insert(Role obj) {
 		// TODO Auto-generated method stub
 		return 0;
