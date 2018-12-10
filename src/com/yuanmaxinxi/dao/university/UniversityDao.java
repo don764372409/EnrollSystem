@@ -1,12 +1,9 @@
 package com.yuanmaxinxi.dao.university;
 
-import java.io.FileInputStream;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
@@ -17,7 +14,7 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int insert(University obj) {
 		try {
-			String sql="insert into enroll(pId,address,quality,type,remake,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?)";
+			String sql="insert into t_university(pId,address,quality,type,remake,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?)";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			int row = state.executeUpdate();
 			return row;
@@ -29,7 +26,7 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int update(University obj) {
 		try {
-			String sql="update enroll set id=?,pId = ?,address=?,quality=?,type=?,remake=?,ranking=?,teachers=?,record=?,subject=?";
+			String sql="update t_university set id=?,pId = ?,address=?,quality=?,type=?,remake=?,ranking=?,teachers=?,record=?,subject=?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			state.setObject(1, obj.getId());
 			state.setObject(2, obj.getpId());
@@ -52,7 +49,7 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int delete(Long id) {
 		try {
-			String sql="delete from enroll where id=?";
+			String sql="delete from t_university where id=?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			state.setObject(1, id);
 			int row = state.executeUpdate();
@@ -67,7 +64,7 @@ public class UniversityDao implements BaseDAO<University>{
 	public University selectOneById(Long id) {
 		try {
 			University uni = new University();
-			String sql="select * from enroll where id = ?";
+			String sql="select * from t_university where id = ?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			state.setObject(1, id);
 			ResultSet result = state.executeQuery();
@@ -94,7 +91,7 @@ public class UniversityDao implements BaseDAO<University>{
 	public  List<University> selectAll() {
 		try {
 			List<University> list = new ArrayList<>();
-			String sql="select * from enroll";
+			String sql="select * from t_university";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			while(result.next()) {
@@ -107,7 +104,7 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setRemark(result.getString("remark"));
 				uni.setRanking(result.getInt("ranking"));
 				uni.setTeachers(result.getString("teachers"));
-				uni.setRecord(result.getLong("result"));
+				uni.setRecord(result.getLong("record"));
 				uni.setSubject(result.getString("subject"));
 				list.add(uni);
 			}
