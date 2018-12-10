@@ -53,8 +53,8 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 			ResultSet result = state.executeQuery();
 			while(result.next()) {
 				UniversityDTO uni = new UniversityDTO();
-				uni.setId(result.getLong(columnLabel));
-				result.getLong("id");
+				uni.setId(result.getLong("id"));
+				uni.setpId(result.getLong("pId"));
 			}
 			return null;
 		}catch (Exception e) {
