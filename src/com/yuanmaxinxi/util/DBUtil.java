@@ -7,13 +7,10 @@ import java.util.Properties;
 
 public class DBUtil {
 		private static Connection conn;
-		private static Properties pp;
-		public static void setProperties(Properties pro) {
-			pp=pro;
-		}
+
 		public static Connection getConn() {
 			try {
-				Class.forName(pp.getProperty("className"));
+				Class.forName("com.mysql.jdbc.Driver");
 				conn=DriverManager.getConnection("jdbc:mysql://39.108.187.254:3306/enroll","root","admin");
 			}catch(Exception e) {
 				e.printStackTrace();

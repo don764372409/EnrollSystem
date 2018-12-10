@@ -18,7 +18,7 @@ public class UniversityDao implements BaseDAO<University>{
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream("C:\\Users\\YDM-STU001\\Desktop\\EnrollSystem\\resource\\dbb.properties"));
-			DBUtil.setProperties(properties);
+//			DBUtil.setProperties(properties);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
