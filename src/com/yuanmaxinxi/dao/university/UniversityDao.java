@@ -3,16 +3,17 @@ package com.yuanmaxinxi.dao.university;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
+import com.yuanmaxinxi.dto.university.UniversityDTO;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class UniversityDao implements BaseDAO<UniversityDao>{
-	
 	static {
 		Properties properties = new Properties();
 		try {
@@ -49,9 +50,11 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 			List<UniversityDao> list = new ArrayList<>();
 			String sql="select * from enroll";
 			PreparedStatement state = conn.prepareStatement(sql);
-			
-//			while() {
-				
+			ResultSet result = state.executeQuery();
+//			while(result.next()) {
+//				UniversityDTO uni = new UniversityDTO();
+//				uni.setId(result.getLong(columnLabel));
+//				result.getLong("id");
 //			}
 			return null;
 		}catch (Exception e) {
