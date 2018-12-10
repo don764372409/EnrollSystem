@@ -22,8 +22,16 @@
 			<th>学科建设（subject）</th>
 		</tr>
 		<tr>
-			<c:forEach items="${uni}">
-			
+			<c:forEach items="${uni}" var="university">
+			<td>${university.id}</td>
+			<td>${university.pId}</td>
+			<td>${university.adress}</td>
+			<td>${university.quali}</td>
+			<td>${university.id}</td>
+			<td>${university.id}</td>
+			<td>${university.id}</td>
+			<td>${university.id}</td>
+			<td>${university.id}</td>
 			</c:forEach>
 		</tr>
 	</table>
