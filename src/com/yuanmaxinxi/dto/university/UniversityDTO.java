@@ -2,15 +2,15 @@ package com.yuanmaxinxi.dto.university;
 
 public class UniversityDTO {
 	private Long id;
-	private Long pId;//FK 省的外键
-	private String address;//所在地		
-	private Long quality;//FK 参照字典表的院校水平分类		
-	private Long type;//FK 参照字典表的院校类型分类		
-	private String remark;//简介		
-	private int ranking;//院校排名		
-	private String teachers;//师资团队,百度百科爬取		
-	private Long record;//FK 参照字典表的院校学历 
-	private String subject;//学科建设(需不需要存到字典中,暂定不存)		
+	private Long pId;
+	private String address;		
+	private Long quality;
+	private Long type;	
+	private String remark;
+	private int ranking;	
+	private String teachers;	
+	private Long record; 
+	private String subject;		
 	public Long getId() {
 		return id;
 	}

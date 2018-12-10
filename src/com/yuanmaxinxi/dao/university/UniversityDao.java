@@ -12,7 +12,7 @@ import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class UniversityDao implements BaseDAO<UniversityDao>{
-	//导入Properties,建立数据连接
+	
 	static {
 		Properties properties = new Properties();
 		try {
@@ -23,7 +23,6 @@ public class UniversityDao implements BaseDAO<UniversityDao>{
 		} 
 	}
 	public static Connection conn=DBUtil.getConn();
-	//增删改查方法
 	public int insert(UniversityDao obj) {
 		
 		return 0;
