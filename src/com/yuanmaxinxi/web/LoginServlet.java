@@ -30,36 +30,42 @@ public class LoginServlet extends BaseServlet{
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
 		if ("login".equals(cmd)) {
-			ResultDTO dto = null;
+			ResultDTO dto;
 			//接收验证码参数
 			String code = req.getParameter("code");
 			//做非空判断
-			if (StringUtil.isNullOrEmpty(code)) {
-				dto = ResultDTO.newInstance(false, "请输入验证码.");
-				putJson(dto, resp);
-				return;
-			}
+//			if (StringUtil.isNullOrEmpty(code)) {
+//				dto = ResultDTO.newInstance(false, "请输入验证码.");
+//				putJson(dto, resp);
+//				return;
+//			}
 			//从session中获取刚才放进的验证码
 			String sysCode = (String)req.getSession().getAttribute("code");
 			//忽略大小写比较 用户输入的验证码 和 系统生成验证码
-			if (!sysCode.equalsIgnoreCase(code)) {
-				dto = ResultDTO.newInstance(false, "验证码输入错误.");
-				putJson(dto, resp);
-				return;
-			}
+//			if (!sysCode.equalsIgnoreCase(code)) {
+//				dto = ResultDTO.newInstance(false, "验证码输入错误.");
+//				putJson(dto, resp);
+//				return;
+//			}
 			
 			String username = req.getParameter("username");
 			String password = req.getParameter("password");
 			try {
-				Admin loginAdmin = adminService.login(username,password);
+				Admin admin = new Admin();
+				admin.setUsername(username);
+				admin.setPassword(password);
+				//获取ip
+				String ip = req.getRemoteAddr().toString();
+				admin.setIp(ip);
+				Admin loginAdmin = adminService.login(admin);
+				//把登陆者放进作用域
+				req.getSession().setAttribute("loginAdmin", loginAdmin);
+				dto = ResultDTO.newInstance(true,"登录成功!");
 			} catch (Exception e) {
 				dto = ResultDTO.newInstance(false, e.getMessage());
 				e.printStackTrace();
 			}
-			
-			
 			putJson(dto, resp);
-			
 		}else if("showCode".equals(cmd)) {
 			//得到验证码
 			Map<String, Object> map = CodeUtil.generateCodeAndPic();

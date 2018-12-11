@@ -1,6 +1,8 @@
 package com.yuanmaxinxi.web.university;
 
 import java.io.IOException;
+
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,20 +13,35 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.entity.university.University;
-import com.yuanmaxinxi.util.DBUtil;
-@WebServlet("/cmd")
+import com.yuanmaxinxi.service.UniversityService;
+@WebServlet("/university")
 public class University_Servlet extends HttpServlet{
+	private UniversityService universityService;
 	public static UniversityDao uniDao=new UniversityDao();
-	public static DBUtil dbutil=new DBUtil();
 	private static final long serialVersionUID = 1L;
 	@Override
+	public void init() throws ServletException {
+		universityService = new UniversityService();
+	}
+	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(false) {
+		String cmd = req.getParameter("cmd");
+		if("showAdd".equals(cmd)) {
+			
+		}else if("add".equals(cmd)) {
+			
+		}else if("showEdit".equals(cmd)) {
+			
+		}else if("edit".equals(cmd)) {
+			
+		}else if("edit".equals(cmd)) {
+			
 		}
 		else {
-			List<University> universities = uniDao.selectAll();
-			req.setAttribute("uni", universities);
-			req.getRequestDispatcher("university.jsp").forward(req, resp);
+			//获取所有数据并跳转页面
+			List<University> universities = universityService.selectAll();
+			req.setAttribute("unis", universities);
+			req.getRequestDispatcher("/WEB-INF/university/university.jsp").forward(req, resp);
 		}
 	}
 }

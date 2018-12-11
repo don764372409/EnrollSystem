@@ -2,6 +2,7 @@ package com.yuanmaxinxi.dao.occupation;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,25 +16,65 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 
 	@Override
 	public int insert(Occupation obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			//获取sql语句
+			String sql = "insert into t_occupation(id,name,pId,remark,workContent)values"
+					+ "('1','叫做','1','啊啊','啊啊')";
+				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+				int result = state.executeUpdate();
+				return result;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		return -1;
 	}
 
 	@Override
 	public int update(Occupation obj) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "update t_occupation set name = "+obj.getName()+",pId = "+obj.getpId()+",remark = "+obj.getRemark()+", workContent = "+obj.getWorkContent()+"where id = "+obj.getId();
+				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+				int result = state.executeUpdate();
+				return result;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		return 0;
 	}
 
 	@Override
 	public int delete(Long id) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "delete from t_occupation where id ="+id;
+				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+				int result = state.executeUpdate();
+				return result;
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		return -1;
 	}
 
 	@Override
 	public Occupation selectOneById(Long id) {
-		// TODO Auto-generated method stub
+		List<Occupation> list = new ArrayList<>();
+		try {
+			String sql = "select * from t_occupation where id = "+id;
+			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			ResultSet result = state.executeQuery();
+			if(result.next()) {
+				Occupation oc = new Occupation();
+				oc.setId(result.getLong("id"));
+				oc.setName(result.getString("name"));
+				oc.setpId(result.getLong("pId"));
+				oc.setWorkContent(result.getString("workContent"));
+				oc.setRemark(result.getString("remark"));
+				list.add(oc);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
