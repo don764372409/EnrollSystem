@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加专业</a>
+		 	<a href="javascript:;" onclick="obj_add('添加管理员','/major?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加专业</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>

@@ -23,8 +23,15 @@ public class MajorDAO implements BaseDAO<Major>{
 		String sql = "insert into t_major(id,name,pId,type,remark,explain,ranking)values"
 				+ "(?,?,?,?,?,?,?)";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			int result = state.executeUpdate();
-			return result;
+			state.setObject(1, obj.getId());
+			state.setObject(2, obj.getName());
+			state.setObject(3, obj.getpId());
+			state.setObject(4, obj.getType());
+			state.setObject(5, obj.getRemark());
+			state.setObject(6, obj.getExplain());
+			state.setObject(7, obj.getRanking());
+			return state.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -35,12 +42,16 @@ public class MajorDAO implements BaseDAO<Major>{
 	@Override
 	public int update(Major obj) {
 		try {
-		String sql = "update t_major set name = "+obj.getName()+",pId = "+obj.getpId()+",type "
-				+ "= "+obj.getType()+",remark = "+obj.getRemark()+",explain = "+obj.getExplain()+",ranking "
-						+ "= "+obj.getRanking()+" where id = "+obj.getId();
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			int result = state.executeUpdate();
-			return result;
+		String sql = "update t_major set name = ?,pId=?,type=?,remark=?,explain=?,ranking=? where id = ?";
+		PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+		state.setObject(1, obj.getId());
+		state.setObject(2, obj.getName());
+		state.setObject(3, obj.getpId());
+		state.setObject(4, obj.getType());
+		state.setObject(5, obj.getRemark());
+		state.setObject(6, obj.getExplain());
+		state.setObject(7, obj.getRanking());
+			return state.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
