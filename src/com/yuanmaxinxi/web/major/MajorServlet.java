@@ -19,6 +19,7 @@ public class MajorServlet extends BaseServlet{
 	private MajorService majorService;
 	public void init() throws ServletException {
 		 majorService = new MajorService();
+		 
 	}
 	
 	@Override
@@ -28,7 +29,7 @@ public class MajorServlet extends BaseServlet{
 			req.getRequestDispatcher("/WEB-INF/major/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
 			String name = getInitParameter("name");
-//			Long pId = Long.parseLong(getInitParameter("pId"));
+//			sssLong pId = Long.parseLong(getInitParameter("pId"));
 //			Long type =Long.parseLong(getInitParameter("type"));
 			String remark = getInitParameter("remark");
 			String explain = getInitParameter("explain");
