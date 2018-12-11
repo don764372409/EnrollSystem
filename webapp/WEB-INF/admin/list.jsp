@@ -46,6 +46,7 @@
       <tr class="text-c">
         <th width="40">ID</th>
         <th width="100">姓名</th>
+        <th width="100">账号</th>
         <th width="100">头像</th>
         <th width="100">电话</th>
         <th width="90">状态</th>
@@ -56,6 +57,7 @@
     <c:forEach items="${list}" var="obj">
       <tr class="text-c">
         <td>${obj.id}</td>
+        <td>${obj.name}</td>
         <td>${obj.username}</td>
         <td>${obj.headImg}</td>
         <td>${obj.phone}</td>
@@ -105,14 +107,14 @@ $('.table-sort').dataTable({
 	]
 });
 function obj_add(title,url){
-// 	layer_show(title,url,550,300);
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
+	layer_show(title,url,550,400);
+// 	var index = layer.open({
+// 		type: 2,
+// 		title: title,
+// 		content: url
+// 	});
 // 	打开全屏
-	layer.full(index);
+// 	layer.full(index);
 }
 function edit(title,url,id){
 	var index = layer.open({
