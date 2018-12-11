@@ -47,9 +47,10 @@ public class AdminServlet extends BaseServlet{
 		}else if("showEdit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {
+			String idStr = req.getParameter("id");
 			
 		}else if("delete".equals(cmd)) {
-			
+			String idStr = req.getParameter("id");
 		}else {
 			//获取所有数据并跳转到列表页面
 			List<Admin> list = adminService.selectAll();
