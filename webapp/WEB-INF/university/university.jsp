@@ -36,35 +36,45 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加管理员','/admin?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加管理员</a>
     	</span>
-    <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
+    <span class="r">共有数据：<strong>${unis.size()}</strong> 条</span>
   </div>
   <div class="mt-20"></div>
   <table class="table table-border table-bordered table-hover table-bg table-sort">
     <thead>
       <tr class="text-c">
         <th width="40">ID</th>
-        <th width="100">姓名</th>
-        <th width="100">头像</th>
-        <th width="100">电话</th>
-        <th width="90">状态</th>
-        <th width="60">操作</th>
+        <th width="40">pId</th>
+        <th width="100">所在地</th>
+        <th width="60">院校水平</th>
+        <th width="90">院校类型</th>
+        <th width="100">简介</th>
+        <th width="100">院校排名</th>
+        <th width="100">师资团队</th>
+        <th width="100">院校学历</th>
+        <th width="100">学科建设</th>
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${list}" var="obj">
+    <c:forEach items="${unis}" var="obj">
       <tr class="text-c">
         <td>${obj.id}</td>
-        <td>${obj.username}</td>
-        <td>${obj.headImg}</td>
-        <td>${obj.phone}</td>
+        <td>${obj.pId}</td>
+        <td>${obj.address}</td>
+        <td>${obj.quality}</td>
+        <td>${obj.type}</td>
+        <td>${obj.remark}</td>
+        <td>${obj.teachers}</td>
+        <td>${obj.record}</td>
         <td>
-        	${obj.status}
+        	${obj.subject}
 		</td>
+		<td></td>
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
        	</td>
+       	
       </tr>
       </c:forEach>
     </tbody>
@@ -104,7 +114,7 @@ $('.table-sort').dataTable({
 // 	  {"orderable":false,"aTargets":[0,4,5]}// 制定列不参与排序
 	]
 });
-function obj_add(title,url){
+function addObj(title,url){
 // 	layer_show(title,url,550,300);
 	var index = layer.open({
 		type: 2,
