@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.service.AdminService;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -23,9 +24,26 @@ public class AdminServlet extends BaseServlet{
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
 		if ("showAdd".equals(cmd)) {
-			
+			req.getRequestDispatcher("/WEB-INF/admin/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
-			
+			String name = req.getParameter("name");
+			String username = req.getParameter("username");
+			String phone = req.getParameter("phone");
+			//封装
+			Admin admin = new Admin();
+			admin.setName(name);
+			admin.setUsername(username);
+			admin.setPhone(phone);
+			admin.setPassword("88888888");
+			//调方法添加
+			ResultDTO dto;
+			try {
+				adminService.insert(admin);
+				dto = ResultDTO.newInstance(true, "添加成功!");
+			} catch (Exception e) {
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
 		}else if("showEdit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {
