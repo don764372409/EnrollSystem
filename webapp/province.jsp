@@ -45,26 +45,26 @@
     <thead>
       <tr class="text-c">
         <th width="40">ID</th>
-        <th width="100">姓名</th>
-   		<th width="100">头像</th>
-   		<th width="100">电话</th>
-   		<th width="90">状态</th>
-  		 <th width="60">操作</th>
+        <th width="100">省份</th>
+<!--    <th width="100">头像</th> -->
+<!--    <th width="100">电话</th> -->
+<!--    <th width="90">状态</th> -->
+<!--    <th width="60">操作</th> -->
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${list}" var="obj">
       <tr class="text-c">
         <td>${obj.id}</td>
-        <td>${obj.username}</td>
-        <td>${obj.headImg}</td>
-        <td>${obj.phone}</td>
-        <td>
-        	${obj.status}
-		</td>
-        <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
-       	</td>
+        <td>${obj.name}</td>
+<%--         <td>${obj.headImg}</td> --%>
+<%--         <td>${obj.phone}</td> --%>
+<!--         <td> -->
+<%--         	${obj.status} --%>
+<!-- 		</td> -->
+<!--         <td class="f-14 user-manage"> -->
+<!-- 			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a>  -->
+<!--        	</td> -->
        	
       </tr>
       </c:forEach>

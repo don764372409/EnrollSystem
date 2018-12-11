@@ -22,7 +22,7 @@
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>管理员管理</title>
+<title>专业</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 管理员管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加专业</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -45,23 +45,25 @@
     <thead>
       <tr class="text-c">
         <th width="40">ID</th>
-        <th width="100">姓名</th>
-   		<th width="100">头像</th>
-   		<th width="100">电话</th>
-   		<th width="90">状态</th>
-  		 <th width="60">操作</th>
+        <th width="100">专业名</th>
+        <th width="100">上级专业</th>
+        <th width="100">专业所属学历分类</th>
+        <th width="90">专业简介</th>
+        <th width="60">专业解读</th>
+        <th width="60">专业排名</th>
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${list}" var="obj">
       <tr class="text-c">
         <td>${obj.id}</td>
-        <td>${obj.username}</td>
-        <td>${obj.headImg}</td>
-        <td>${obj.phone}</td>
-        <td>
-        	${obj.status}
-		</td>
+        <td>${obj.name}</td>
+        <td>${obj.pId}</td>
+        <td>${obj.type}</td>
+        <td>${obj.remark}</td>
+        <td>${obj.explain}</td>
+        <td>${obj.ranking}</td>
+       
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
        	</td>

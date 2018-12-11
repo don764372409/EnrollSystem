@@ -112,5 +112,4 @@ public class ProvinceDao implements BaseDAO<Province>{
 		return null;
 	}
 
-
 }
