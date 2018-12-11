@@ -1,5 +1,8 @@
 package com.yuanmaxinxi.web;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,9 +16,13 @@ public class BaseServlet extends HttpServlet{
 	 * @param obj
 	 * @param resp
 	 * @return
+	 * @throws IOException 
 	 */
-	public String putJson(Object obj,HttpServletResponse resp) {
-		resp.setContentType("text/json;charset=utf-8");
-		return JSON.toJSONString(obj,SerializerFeature.WRITE_MAP_NULL_FEATURES);
+	public void putJson(Object obj,HttpServletResponse resp) throws IOException{
+		resp.setContentType("text/html;charset=utf-8");
+		String json = JSON.toJSONString(obj,SerializerFeature.DisableCircularReferenceDetect);
+		PrintWriter out = resp.getWriter();
+		out.write(json);
+		out.flush();
 	}
 }

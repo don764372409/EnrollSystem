@@ -1,4 +1,4 @@
-package com.yuanmaxinxi.entity.payRecord;
+package com.yuanmaxinxi.entity.payrecord;
 
 import java.math.BigDecimal;
 
