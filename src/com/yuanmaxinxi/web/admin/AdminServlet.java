@@ -23,7 +23,7 @@ public class AdminServlet extends BaseServlet{
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
 		if ("showAdd".equals(cmd)) {
-			
+			req.getRequestDispatcher("/WEB-INF/admin/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
 			
 		}else if("showEdit".equals(cmd)) {
