@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="obj_add('添加管理员','/university?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
     	</span>
     <span class="r">共有数据：<strong>${unis.size()}</strong> 条</span>
   </div>
@@ -46,6 +46,7 @@
       <tr class="text-c">
         <th width="40">ID</th>
         <th width="40">pId</th>
+        <th width="100">院校名称</th>
         <th width="100">所在地</th>
         <th width="60">院校水平</th>
         <th width="90">院校类型</th>
@@ -61,6 +62,7 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.pId}</td>
+        <td>${obj.name}</td>
         <td>${obj.address}</td>
         <td>${obj.quality}</td>
         <td>${obj.type}</td>
@@ -114,7 +116,7 @@ $('.table-sort').dataTable({
 // 	  {"orderable":false,"aTargets":[0,4,5]}// 制定列不参与排序
 	]
 });
-function addObj(title,url){
+function obj_add(title,url){
 // 	layer_show(title,url,550,300);
 	var index = layer.open({
 		type: 2,

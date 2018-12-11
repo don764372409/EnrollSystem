@@ -13,20 +13,10 @@ import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class UniversityDao implements BaseDAO<University>{
-
-	static {
-		Properties properties = new Properties();
-		try {
-			properties.load(new FileInputStream("C:\\Users\\YDM-STU001\\Desktop\\EnrollSystem\\resource\\dbb.properties"));
-//			DBUtil.setProperties(properties);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}
 	@Override
 	public int insert(University obj) {
 		try {
-			String sql="insert into t_university(pId,address,quality,type,remake,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?)";
+			String sql="insert into t_university(pId,name,address,quality,type,remake,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?)";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			int row = state.executeUpdate();
 			return row;
@@ -38,10 +28,11 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int update(University obj) {
 		try {
-			String sql="update t_university set id=?,pId = ?,address=?,quality=?,type=?,remake=?,ranking=?,teachers=?,record=?,subject=?";
+			String sql="update t_university set id=?,pId = ?,name=?,address=?,quality=?,type=?,remake=?,ranking=?,teachers=?,record=?,subject=?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			state.setObject(1, obj.getId());
 			state.setObject(2, obj.getpId());
+			state.setObject(3, obj.getName());
 			state.setObject(3, obj.getAddress());
 			state.setObject(4, obj.getQuality());
 			state.setObject(5, obj.getType());
@@ -83,6 +74,7 @@ public class UniversityDao implements BaseDAO<University>{
 			if(result.next()) {
 				uni.setId(result.getLong("id"));
 				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
 				uni.setAddress(result.getString("address"));
 				uni.setQuality(result.getLong("quality"));
 				uni.setType(result.getLong("type"));
@@ -106,10 +98,12 @@ public class UniversityDao implements BaseDAO<University>{
 			String sql="select * from t_university";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			ResultSet result = state.executeQuery();
+			//添加获取数据库的信息
 			while(result.next()) {
 				University uni = new University();
 				uni.setId(result.getLong("id"));
 				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
 				uni.setAddress(result.getString("address"));
 				uni.setQuality(result.getLong("quality"));
 				uni.setType(result.getLong("type"));

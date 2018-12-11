@@ -3,7 +3,7 @@ package com.yuanmaxinxi.entity.university;
 public class University{
 	private Long id;
 	private Long pId;//省外键
-	
+	private String name;
 	private String address;//所在地		
 		
 	private Long quality;//FK 参照字典表的院校水平分类		
@@ -79,5 +79,11 @@ public class University{
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }
