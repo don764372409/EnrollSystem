@@ -44,9 +44,9 @@
   <table class="table table-border table-bordered table-hover table-bg table-sort">
     <thead>
       <tr class="text-c">
-        <th width="40">ID</th>
+        <th width="0">ID</th>
         <th width="100">省份</th>
-<!--    <th width="100">头像</th> -->
+<!--    <th width="100">头像2</th> -->
 <!--    <th width="100">电话</th> -->
 <!--    <th width="90">状态</th> -->
 <!--    <th width="60">操作</th> -->

@@ -36,7 +36,7 @@ public class ProvinceServlet extends BaseServlet{
 		}else if("delete".equals(cmd)) {
 			
 		}else {
-			//获取所有数据并跳转到列表页面
+			//获取所有数据并跳转到列表页面123
 			List<Province> list = provinceservice.selectAll();
 			req.setAttribute("list", list);
 			req.getRequestDispatcher("/province.jsp").forward(req, resp);
