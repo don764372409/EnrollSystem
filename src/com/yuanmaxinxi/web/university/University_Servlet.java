@@ -16,8 +16,7 @@ import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
 @WebServlet("/university")
-//11
-//213123
+
 public class University_Servlet extends HttpServlet{
 	private UniversityService universityService;
 	public static UniversityDao uniDao=new UniversityDao();
