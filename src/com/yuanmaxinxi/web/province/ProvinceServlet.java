@@ -32,7 +32,7 @@ public class ProvinceServlet extends BaseServlet{
 		}else if("showEdit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {
-			
+		//nihao
 		}else if("delete".equals(cmd)) {
 			
 		}else {
