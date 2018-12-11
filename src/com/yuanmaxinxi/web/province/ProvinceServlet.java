@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,12 +12,13 @@ import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.web.BaseServlet;
-
+@WebServlet("/province")
 public class ProvinceServlet extends BaseServlet{
+	ProvinceService provinceservice;
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
-		super.init();
+		provinceservice=new ProvinceService();
 	}
 	
 	@Override
@@ -35,9 +37,10 @@ public class ProvinceServlet extends BaseServlet{
 			
 		}else {
 			//获取所有数据并跳转到列表页面
-			List<Province> list = ProvinceService.selectAll();
+			List<Province> list = provinceservice.selectAll();
 			req.setAttribute("list", list);
-			req.getRequestDispatcher("/WEB-INF/admin/list.jsp").forward(req, resp);
+			req.getRequestDispatcher("/province.jsp").forward(req, resp);
+			System.out.println("我是province");
 		}
 	}
 }

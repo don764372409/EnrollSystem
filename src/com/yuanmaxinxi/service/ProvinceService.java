@@ -8,7 +8,7 @@ import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.entity.province.Province;
 
 public class ProvinceService {
-	static ProvinceDao provincedao=new ProvinceDao();
+	ProvinceDao provincedao=new ProvinceDao();
 	public void insert(Province obj) {
 	}
 
@@ -22,7 +22,7 @@ public class ProvinceService {
 		return null;
 	}
 
-	public static List<Province> selectAll() {
+	public List<Province> selectAll() {
 		return provincedao.selectAll();
 	}
 
