@@ -1,9 +1,12 @@
 package com.yuanmaxinxi.entity.dictionary;
 
+import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
+
 public class Dictionary {
 	private int id;
 	private String name;
-	private Long typeId;
+	private int typeId;
+	private DictionaryType dt;
 	public int getId() {
 		return id;
 	}
@@ -16,11 +19,17 @@ public class Dictionary {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getTypeId() {
+	public int getTypeId() {
 		return typeId;
 	}
-	public void setTypeId(Long typeId) {
+	public void setTypeId(int typeId) {
 		this.typeId = typeId;
+	}
+	public DictionaryType getDt() {
+		return dt;
+	}
+	public void setDt(DictionaryType dt) {
+		this.dt = dt;
 	}
 
 }
