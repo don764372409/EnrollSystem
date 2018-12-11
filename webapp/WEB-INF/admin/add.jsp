@@ -29,6 +29,7 @@
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/commons/js/Pinyin.js"></script>
 <!--[if IE 6]>
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
@@ -53,85 +54,37 @@
 <body>
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
-	<div class="panel panel-default">
-		<div class="panel-header">基本信息</div>
-		<div class="panel-body">
-			<div class="row cl">
-				<label class="form-label col-sm-2"><span class="c-red">*</span>姓名：</label>
-				<div class="formControls col-sm-10">
-					<input type="text" class="input-text" value="" placeholder="请输入管理员姓名" name="name" style="width:45%;">
-					手机：
-					<input type="text" class="input-text" value="" placeholder="请输入手机" name="phone" style="width:45%;">
-				</div>
-			</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>姓名：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" onkeyup="createUsername(this)" value="" placeholder="请输入管理员姓名" name="name">
 		</div>
 	</div>
-	<div class="mt-20"></div>
-	<div class="panel panel-default">
-		<div class="panel-header">机构部门信息</div>
-		<div class="panel-body">
-			<div class="row cl">
-				<label class="form-label col-sm-2"><span class="c-red">*</span>所属部门：</label>
-				<div class="formControls col-sm-10">
-					<div style="position: relative;">
-					<input type="hidden" value="" name="deptId">
-					<input type="text" readonly="readonly" onclick="openOrganizeDialog()" class="input-text" value="" placeholder="请选择所属机构部门" name="deptName">
-					<a title="点击查看机构列表" href="javascript:;" onclick="openOrganizeDialog()" class="ml-5 searchBtn" style="text-decoration:none;"><i class="Hui-iconfont">&#xe665;</i></a>
-					</div>
-				</div>
-			</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>账号：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="username">
 		</div>
 	</div>
-	<div class="mt-20"></div>
-	<div class="panel panel-default">
-		<div class="panel-header">角色信息</div>
-		<div class="panel-body">
-			<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择角色：</label>
-			<div class="formControls col-xs-8 col-sm-10"> <span class="select-box">
-				<select class="select" name="roleId">
-					<#list list as obj>
-						<option value="${obj.id}">
-							角色名称：${obj.name} 数据范围：
-							<#if obj.dataRange==0>
-				       			当前部门
-				       		</#if>
-				       		<#if obj.dataRange==1>
-				       			当前机构
-				       		</#if>
-				       		<#if obj.dataRange==2>
-				       			当前及下属机构
-				       		</#if>
-				       		<#if obj.dataRange==3>
-				       			所有
-				       		</#if>
-						</option>
-					</#list>
-				</select>
-				</span> </div>
-			</div>
-			<div class="row cl">
-				<div class="col-xs-8 col-sm-10 col-sm-offset-2">
-					<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-				</div>
-			</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>电话：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="phone">
+		</div>
+	</div>
+	<div class="row cl">
+		<div class="col-xs-8 col-sm-10 col-sm-offset-2">
+			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 		</div>
 	</div>
 	</form>
 </article>
 <script type="text/javascript">
-function openOrganizeDialog(){
-	var index = layer.open({
-		  type: 2,
-		  title:"部门选择",
-		  area: ['50%', '80%'], //宽高
-		  content: '/admin/showOrg',
-		  btn:['确定'],
-		  yes:function(){
-			  layer.close(index);
-		  }
-	});
+function createUsername(ele){
+	var username = codefans_net_CC2PY(ele.value);
+	$("input[name=username]").val(username);
 }
+
 $(function(){
 	$("#form-member-add").validate({
 		rules:{
@@ -142,10 +95,7 @@ $(function(){
 				required:true,
 // 				isMobile:true
 			},
-			loanTime:{
-				required:true
-			},
-			repaymentTime:{
+			username:{
 				required:true
 			},
 		},
@@ -155,13 +105,15 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/admin/add" ,
+				url: "/admin?cmd=add" ,
 				success: function(data){
+					data = JSON.parse(data);
 					if(data.result){
-						layer.msg(data.msg,{icon:1,time:2000});
-						parent.$('.btn-refresh').click();
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index);
+						layer.msg(data.msg,{icon:1,time:2000},function(){
+							parent.$('.btn-refresh').click();
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						});
 					}else{
 						layer.msg(data.msg,{icon:2,time:2000});
 					}

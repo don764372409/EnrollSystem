@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.util;
 
 import java.security.MessageDigest;
+
 import org.apache.tomcat.util.security.MD5Encoder;
 
 public class MD5Util {
