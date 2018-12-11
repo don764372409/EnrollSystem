@@ -1,1 +1,5 @@
-/com/
+*.class
+.classpath
+.project
+/
+/build/
