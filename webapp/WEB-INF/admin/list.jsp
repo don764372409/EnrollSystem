@@ -65,7 +65,6 @@
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
        	</td>
-       	
       </tr>
       </c:forEach>
     </tbody>

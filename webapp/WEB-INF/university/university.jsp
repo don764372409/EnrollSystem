@@ -38,7 +38,7 @@
 	     <span class="l">
 		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加管理员</a>
     	</span>
-    <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
+    <span class="r">共有数据：<strong>${unis.size()}</strong> 条</span>
   </div>
   <div class="mt-20"></div>
   <table class="table table-border table-bordered table-hover table-bg table-sort">
