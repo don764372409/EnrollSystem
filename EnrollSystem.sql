@@ -82,23 +82,23 @@ DROP TABLE IF EXISTS `t_enroll`;
 CREATE TABLE `t_enroll` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `uId` bigint(20) NOT NULL COMMENT 'FK 学校外键',
-  `mId` bigint(20) COMMENT 'FK 专业外键 为NULL则没专业',
+  `mId` bigint(20) DEFAULT NULL COMMENT 'FK 专业外键 为NULL则没专业',
   `batch` varchar(20) NOT NULL COMMENT '批次',
   `number` int(11) NOT NULL COMMENT '招生人数',
-  `maxNumber` int(11),
-  `minNumber` int(11),
-  `avgNumber` int(11),
-  `maxRanking` int(11),
-  `minRanking` int(11),
-  `avgRanking` int(11),
+  `maxNumber` int(11) DEFAULT NULL,
+  `minNumber` int(11) DEFAULT NULL,
+  `avgNumber` int(11) DEFAULT NULL,
+  `maxRanking` int(11) DEFAULT NULL,
+  `minRanking` int(11) DEFAULT NULL,
+  `avgRanking` int(11) DEFAULT NULL,
   `time` datetime NOT NULL COMMENT '招生发送时间',
   `tuition` decimal(10,0) NOT NULL COMMENT '学费',
   `studyYear` decimal(10,0) NOT NULL COMMENT '学制',
   PRIMARY KEY (`id`),
   KEY `fk_uId` (`uId`),
   KEY `fk_mId` (`mId`),
-  CONSTRAINT `fk_uId` FOREIGN KEY (`uId`) REFERENCES `t_university` (`id`),
-  CONSTRAINT `fk_mId` FOREIGN KEY (`mId`) REFERENCES `t_major` (`id`)
+  CONSTRAINT `fk_mId` FOREIGN KEY (`mId`) REFERENCES `t_major` (`id`),
+  CONSTRAINT `fk_uId` FOREIGN KEY (`uId`) REFERENCES `t_university` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -230,17 +230,16 @@ CREATE TABLE `t_university` (
   KEY `t_university_ibfk_2` (`record`),
   KEY `t_university_ibfk_3` (`type`),
   KEY `t_university_ibfk_4` (`quality`),
-  CONSTRAINT `t_university_ibfk_4` FOREIGN KEY (`quality`) REFERENCES `t_dictionary` (`id`),
   CONSTRAINT `t_university_ibfk_1` FOREIGN KEY (`id`) REFERENCES `t_province` (`id`),
   CONSTRAINT `t_university_ibfk_2` FOREIGN KEY (`record`) REFERENCES `t_dictionary` (`id`),
-  CONSTRAINT `t_university_ibfk_3` FOREIGN KEY (`type`) REFERENCES `t_dictionary` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `t_university_ibfk_3` FOREIGN KEY (`type`) REFERENCES `t_dictionary` (`id`),
+  CONSTRAINT `t_university_ibfk_4` FOREIGN KEY (`quality`) REFERENCES `t_dictionary` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
 LOCK TABLES `t_university` WRITE;
 /*!40000 ALTER TABLE `t_university` DISABLE KEYS */;
-INSERT INTO `t_university` VALUES (1,1,'admin',1,1,'1',1,'1',1,'1'),(2,1,'AMIN',1,2,'2',2,'2',2,'2');
 /*!40000 ALTER TABLE `t_university` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,8 +252,8 @@ CREATE TABLE `t_university_major` (
   `mId` bigint(20) NOT NULL COMMENT 'FK 专业外键',
   PRIMARY KEY (`uId`),
   KEY `mId` (`mId`),
-  CONSTRAINT `t_university_major_ibfk_2` FOREIGN KEY (`mId`) REFERENCES `t_major` (`id`),
-  CONSTRAINT `t_university_major_ibfk_1` FOREIGN KEY (`uId`) REFERENCES `t_university` (`id`)
+  CONSTRAINT `t_university_major_ibfk_1` FOREIGN KEY (`uId`) REFERENCES `t_university` (`id`),
+  CONSTRAINT `t_university_major_ibfk_2` FOREIGN KEY (`mId`) REFERENCES `t_major` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
