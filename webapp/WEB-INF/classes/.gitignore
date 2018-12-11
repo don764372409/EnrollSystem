@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 
 *.class
 .classpath
 .project
 classes/
+=======
+*.class
+.classpath
+.project
+/
+/build/
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 /com/
