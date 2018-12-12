@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class PayrecordDao implements BaseDAO<PayRecord>{
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Connection conn = DBUtil.getConn();
 	PreparedStatement sql;
 	@Override
@@ -59,18 +62,27 @@ public class PayrecordDao implements BaseDAO<PayRecord>{
 	@Override
 	public List<PayRecord> selectAll() {
 		// TODO Auto-generated method stub
+		
 		ArrayList<PayRecord> list = new ArrayList<>();
 		PayRecord payrecord = new PayRecord();
-		String sql="select * from t_province";
+		String sql="select * from t_payment";
 		try {
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet result = pre.executeQuery();
 			while(result.next()) {
 				payrecord.setId(result.getInt("id"));
 				payrecord.setuId(result.getInt("uId"));
+				try {
+					payrecord.setTime(sdf.parse(result.getString("time")));
+					System.out.println(result.getString("time"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				payrecord.setMoney(result.getBigDecimal("money"));
 				payrecord.setRemark(result.getString("remark"));
 				list.add(payrecord);
+				System.out.println("ni");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

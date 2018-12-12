@@ -84,6 +84,23 @@ public class ProvinceDao implements BaseDAO<Province>{
 		}
 		return province;
 	}
+	public Province selectOneByName(String name) {
+		// TODO Auto-generated method stub
+		Province province = new Province();
+		String sql="select from t_province where name="+name;
+		try {
+			PreparedStatement pre = conn.prepareStatement(sql);
+			ResultSet result = pre.executeQuery();
+			while(result.next()) {
+				province.setId(result.getLong("id"));
+				province.setName(result.getString("name"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();	
+		}
+		return province;
+	}
 
 	@Override
 	public List<Province> selectAll() {

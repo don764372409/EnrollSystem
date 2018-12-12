@@ -1,11 +1,12 @@
 package com.yuanmaxinxi.entity.payrecord;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class PayRecord {
 	private int id;
 	private int uId;
-	private String time;
+	private Date time;
 	private BigDecimal money;
 	private String remark;
 	public int getId() {
@@ -20,11 +21,11 @@ public class PayRecord {
 	public void setuId(int uId) {
 		this.uId = uId;
 	}
-	public String getTime() {
+	public Date getTime() {
 		return time;
 	}
-	public void setTime(String time) {
-		this.time = time;
+	public void setTime(Date date) {
+		this.time = date;
 	}
 	public BigDecimal getMoney() {
 		return money;
