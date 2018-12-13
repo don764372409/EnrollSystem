@@ -22,7 +22,7 @@
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>管理员管理</title>
+<title>院校信息</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 管理员管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -45,12 +45,12 @@
     <thead>
       <tr class="text-c">
         <th width="40">ID</th>
-        <th width="40">pId</th>
-        <th width="100">院校名称</th>
-        <th width="100">所在地</th>
-        <th width="60">院校水平</th>
-        <th width="90">院校类型</th>
-        <th width="100">简介</th>
+        <th width="80">院校名称</th>
+        <th width="100">院校所在省份</th>
+        <th width="80">院校地址</th>
+        <th width="80">院校水平</th>
+        <th width="80">院校类型</th>
+        <th width="60">简介</th>
         <th width="100">院校排名</th>
         <th width="100">师资团队</th>
         <th width="100">院校学历</th>
@@ -59,10 +59,10 @@
     </thead>
     <tbody>
     <c:forEach items="${unis}" var="obj">
-      <tr class="text-c">
+      <tr class="text-c">-
         <td>${obj.id}</td>
-        <td>${obj.pId}</td>
         <td>${obj.name}</td>
+        <td>${obj.pId}</td>
         <td>${obj.address}</td>
         <td>${obj.quality}</td>
         <td>${obj.type}</td>

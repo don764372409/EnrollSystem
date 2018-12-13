@@ -1,25 +1,36 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 package com.yuanmaxinxi.service;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
+=======
+import java.util.List;
+
+import com.yuanmaxinxi.dao.major.MajorDAO;
+import com.yuanmaxinxi.dto.BaseQueryPageDTO;
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 import com.yuanmaxinxi.entity.major.Major;
 
 public class MajorService {
 	private MajorDAO majorDAO = new MajorDAO();
-	public void insert(Admin obj) {
+	public void insert(Major obj) {
+		majorDAO.insert(obj);
 	}
 
-	public void update(Admin obj) {
+	public void update(Major obj) {
 	}
 
 	public void delete(Long id) {
 	}
 
-	public Admin selectOneById(Long id) {
+	public Major selectOneById(Long id) {
 		return null;
 	}
 
@@ -27,8 +38,11 @@ public class MajorService {
 		return majorDAO.selectAll();
 	}
 
-	public List<Admin> queryPage(BaseQueryPageDTO dto) {
+	public List<Major> queryPage(BaseQueryPageDTO dto) {
 		return null;
 	}
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git

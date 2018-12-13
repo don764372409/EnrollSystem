@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 package com.yuanmaxinxi.web.admin;
 
 import java.io.IOException;
@@ -60,4 +63,7 @@ public class AdminServlet extends BaseServlet{
 		}
 	}
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git

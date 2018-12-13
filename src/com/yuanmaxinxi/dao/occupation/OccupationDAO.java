@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
-import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.util.DBUtil;
 
@@ -19,7 +18,10 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 		try {
 			//获取sql语句
 			String sql = "insert into t_occupation(id,name,pId,remark,workContent)values"
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 					+ "(?,?,?,?,?)";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 				state.setObject(1, obj.getId());
@@ -45,17 +47,21 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 				state.setObject(4, obj.getRemark());
 				state.setObject(5, obj.getWorkContent());
 				return state.executeUpdate();
+<<<<<<< HEAD
 
 					+ "('1','叫做','1','啊啊','啊啊')";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 				int result = state.executeUpdate();
 				return result;
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		return -1;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public int update(Occupation obj) {
 		try {
@@ -69,6 +75,9 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 			}
 		return 0;
 	}
+=======
+	
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 
 	@Override
 	public int delete(Long id) {

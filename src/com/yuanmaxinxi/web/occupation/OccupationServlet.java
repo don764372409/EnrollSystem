@@ -28,7 +28,10 @@ if ("showAdd".equals(cmd)) {
 			
 		}else if("add".equals(cmd)) {
 			
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 		}else if("showEdit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {

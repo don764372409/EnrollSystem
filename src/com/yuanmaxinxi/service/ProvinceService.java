@@ -6,7 +6,10 @@ import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.entity.province.Province;
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 
 public class ProvinceService {
 	ProvinceDao provincedao=new ProvinceDao();
