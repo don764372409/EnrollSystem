@@ -1,13 +1,10 @@
 package com.yuanmaxinxi.dao.major;
 
-import java.io.FileInputStream;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
@@ -20,7 +17,7 @@ public class MajorDAO implements BaseDAO<Major>{
 	public int insert(Major obj) {
 		try {
 		//获取sql语句
-		String sql = "insert into t_major(id,name,pId,type,remark,explain,ranking)values"
+		String sql = "insert into t_major(id,name,pId,type,remark,majorExplain,ranking)values"
 				+ "(?,?,?,?,?,?,?)";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			int result = state.executeUpdate();
@@ -36,7 +33,7 @@ public class MajorDAO implements BaseDAO<Major>{
 	public int update(Major obj) {
 		try {
 		String sql = "update t_major set name = "+obj.getName()+",pId = "+obj.getpId()+",type "
-				+ "= "+obj.getType()+",remark = "+obj.getRemark()+",explain = "+obj.getExplain()+",ranking "
+				+ "= "+obj.getType()+",remark = "+obj.getRemark()+",explain = "+obj.getMajorExplain()+",ranking "
 						+ "= "+obj.getRanking()+" where id = "+obj.getId();
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			int result = state.executeUpdate();
@@ -75,8 +72,8 @@ public class MajorDAO implements BaseDAO<Major>{
 				major.setpId(result.getLong("pId"));
 				major.setType(result.getLong("name"));
 				major.setRemark(result.getString("remark"));
-				major.setExplain(result.getString("explain"));
-				major.setRanking(result.getString("ranking"));
+				major.setMajorExplain(result.getString("explain"));
+				major.setRanking(result.getInt("ranking"));
 				list.add(major);
 			}
 		} catch (Exception e) {
@@ -99,8 +96,8 @@ public class MajorDAO implements BaseDAO<Major>{
 				major.setpId(result.getLong("pId"));
 				major.setType(result.getLong("name"));
 				major.setRemark(result.getString("remark"));
-				major.setExplain(result.getString("explain"));
-				major.setRanking(result.getString("ranking"));
+				major.setMajorExplain(result.getString("explain"));
+				major.setRanking(result.getInt("ranking"));
 				list.add(major);
 			}
 		} catch (Exception e) {

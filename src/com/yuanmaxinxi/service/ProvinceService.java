@@ -6,7 +6,6 @@ import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.entity.province.Province;
-import com.yuanmaxinxi.util.StringUtil;
 
 public class ProvinceService {
 	ProvinceDao provincedao=new ProvinceDao();
