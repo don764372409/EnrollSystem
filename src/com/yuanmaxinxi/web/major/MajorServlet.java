@@ -28,35 +28,41 @@ public class MajorServlet extends BaseServlet{
 		if ("showAdd".equals(cmd)) {
 			req.getRequestDispatcher("/WEB-INF/major/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
-			String name = getInitParameter("name");
-//			sssLong pId = Long.parseLong(getInitParameter("pId"));
-//			Long type =Long.parseLong(getInitParameter("type"));
-			String remark = getInitParameter("remark");
-			String explain = getInitParameter("explain");
-			String ranking = getInitParameter("ranking");
-			ResultDTO dto;
+			String name = req.getParameter("name");
+//			Long pId = Long.parseLong(req.getParameter("pId"));
+//			Long type =Long.parseLong(req.getParameter("type"));
+			String remark = req.getParameter("remark");
+			String explain = req.getParameter("majorExplain");
+			String ranking = req.getParameter("ranking");
 			//封装
 			Major major = new Major();
 			major.setName(name);
 //			major.setpId(pId);
 //			major.setType(type);
 			major.setRemark(remark);
-			major.setExplain(explain);
-			major.setRanking(ranking);
+			major.setMajorExplain(explain);
+			major.setRanking(Integer.parseInt(ranking));
+//			req.getRequestDispatcher("/major").forward(req, resp);
+			//调用方法
+			ResultDTO dto;
 			try {
 				majorService.insert(major);
 				dto = ResultDTO.newInstance(true, "添加成功!");
 			} catch (Exception e) {
+				e.printStackTrace();
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
+//			resp.sendRedirect("major");
 			
 		}else if("showEdit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {
 			
 		}else if("delete".equals(cmd)) {
-			
+//			Long id = req.getParameter("id");
+//			majorService.delete(id);
+			resp.sendRedirect("major");
 		}else {
 			//获取所有数据并跳转到列表页面
 			List<Major> list = majorService.selectAll();

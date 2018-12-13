@@ -55,27 +55,21 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>专业名：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>职业名名：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" onkeyup="createUsername(this)" value="" placeholder="请输入管理员姓名" name="name">
+			<input type="text" class="input-text"  value="" placeholder="请输入管理员姓名" name="name">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>专业简介：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>职业简介：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="remark">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>专业解读：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>工作内容：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="explain">
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>专业排名：</label>
-		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="ranking">
+			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="workContent">
 		</div>
 	</div>
 	<div class="row cl">
@@ -86,10 +80,6 @@
 	</form>
 </article>
 <script type="text/javascript">
-function createUsername(ele){
-	var username = codefans_net_CC2PY(ele.value);
-	$("input[name=username]").val(username);
-}
 
 $(function(){
 	$("#form-member-add").validate({
@@ -101,12 +91,10 @@ $(function(){
 				required:true,
 // 				isMobile:true
 			},
-			explain:{
+			workContent:{
 				required:true
 			},
-			ranking:{
-				required:true
-			},
+			
 		},
 		onkeyup:false,
 		focusCleanup:true,

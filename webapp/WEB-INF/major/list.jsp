@@ -51,6 +51,7 @@
         <th width="90">专业简介</th>
         <th width="60">专业解读</th>
         <th width="60">专业排名</th>
+        <th width="60">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -63,7 +64,7 @@
         <td>${obj.remark}</td>
         <td>${obj.explain}</td>
         <td>${obj.ranking}</td>
-       
+       <td>删除|修改</td>
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
        	</td>
@@ -107,15 +108,15 @@ $('.table-sort').dataTable({
 // 	  {"orderable":false,"aTargets":[0,4,5]}// 制定列不参与排序
 	]
 });
-function addObj(title,url){
-// 	layer_show(title,url,550,300);
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
+function obj_add(title,url){
+	layer_show(title,url,550,300);
+//	var index = layer.open({
+// 		type: 2,
+// 		title: title,
+// 			content: url
+// 		});
 // 	打开全屏
-	layer.full(index);
+//	layer.full(index);
 }
 function edit(title,url,id){
 	var index = layer.open({

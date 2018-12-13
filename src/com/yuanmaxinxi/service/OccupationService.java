@@ -20,6 +20,7 @@ public class OccupationService {
 		if (StringUtil.isNullOrEmpty(obj.getWorkContent())) {
 			throw new RuntimeException("工作内容不能为空.");
 		}
+		int i = ocpDAO.insert(obj);
 	}
 
 	public void update(Occupation obj) {

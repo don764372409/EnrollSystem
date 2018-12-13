@@ -55,23 +55,30 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>职业名：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业名：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" onkeyup="createUsername(this)" value="" placeholder="请输入管理员姓名" name="name">
+			<input type="text" class="input-text"  value="" placeholder="请输入管理员姓名" name="name">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>职业简介：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业简介：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="remark">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>工作内容：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业解读：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="workContent">
+			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="explain">
 		</div>
 	</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业排名：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="ranking">
+		</div>
+	</div>
+	
 	<div class="row cl">
 		<div class="col-xs-8 col-sm-10 col-sm-offset-2">
 			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -95,7 +102,10 @@ $(function(){
 				required:true,
 // 				isMobile:true
 			},
-			workContent:{
+			explain:{
+				required:true
+			},
+			ranking:{
 				required:true
 			},
 		},
@@ -105,7 +115,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/admin?cmd=add" ,
+				url: "/major?cmd=add" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

@@ -104,15 +104,15 @@ $('.table-sort').dataTable({
 // 	  {"orderable":false,"aTargets":[0,4,5]}// 制定列不参与排序
 	]
 });
-function addObj(title,url){
-// 	layer_show(title,url,550,300);
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
+function obj_add(title,url){
+ 	layer_show(title,url,550,300);
+//	var index = layer.open({
+//		type: 2,
+//		title: title,
+//		content: url
 	});
 // 	打开全屏
-	layer.full(index);
+//	layer.full(index);
 }
 function edit(title,url,id){
 	var index = layer.open({

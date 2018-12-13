@@ -11,18 +11,23 @@ import com.yuanmaxinxi.util.StringUtil;
 public class MajorService {
 	private MajorDAO majorDAO = new MajorDAO();
 	public void insert(Major obj) {
-		if (StringUtil.isNullOrEmpty(obj.getName())) {
-			throw new RuntimeException("专业名不能为空.");
-		}
-		if (StringUtil.isNullOrEmpty(obj.getRemark())) {
-			throw new RuntimeException("专业简介不能为空.");
-		}
-		if (StringUtil.isNullOrEmpty(obj.getExplain())) {
-			throw new RuntimeException("专业解读不能为空.");
-		}
-		if (StringUtil.isNullOrEmpty(obj.getRanking())) {
-			throw new RuntimeException("专业排名不能为空.");
-		}
+//		if (StringUtil.isNullOrEmpty(obj.getName())) {
+//			throw new RuntimeException("专业名不能为空.");
+//		}
+//		if (StringUtil.isNullOrEmpty(obj.getRemark())) {
+//			throw new RuntimeException("专业简介不能为空.");
+//		}
+//		if (StringUtil.isNullOrEmpty(obj.getExplain())) {
+//			throw new RuntimeException("专业解读不能为空.");
+//		}
+////		if (StringUtil.isNullOrEmpty(obj.getRanking())) {
+////			throw new RuntimeException("专业排名不能为空.");
+////		}
+//		int i = majorDAO.insert(obj);
+//		if (i!=1) {
+//			throw new RuntimeException("");
+//		} 
+		majorDAO.insert(obj);
 	}
 
 	public void update(Major obj) {
