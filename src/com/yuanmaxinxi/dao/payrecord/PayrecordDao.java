@@ -171,4 +171,4 @@ public class PayrecordDao implements BaseDAO<PayRecord>{
 	}
 
 }
->>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
+

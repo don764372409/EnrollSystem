@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package com.yuanmaxinxi.dao.major;
 
 import java.sql.PreparedStatement;
@@ -242,4 +242,4 @@ public class MajorDAO implements BaseDAO<Major>{
 	}
 
 }
->>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
+
