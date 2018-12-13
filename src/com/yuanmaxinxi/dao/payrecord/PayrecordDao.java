@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.payrecord.PayRecord;
-import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class PayrecordDao implements BaseDAO<PayRecord>{

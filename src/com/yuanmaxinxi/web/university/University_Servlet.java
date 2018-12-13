@@ -1,8 +1,6 @@
 package com.yuanmaxinxi.web.university;
 
 import java.io.IOException;
-
-
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,6 +13,7 @@ import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
 @WebServlet("/university")
+
 public class University_Servlet extends HttpServlet{
 	private UniversityService universityService;
 	public static UniversityDao uniDao=new UniversityDao();

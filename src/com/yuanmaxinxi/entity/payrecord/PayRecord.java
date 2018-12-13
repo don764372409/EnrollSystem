@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.entity.payrecord;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class PayRecord {
 	private int id;
