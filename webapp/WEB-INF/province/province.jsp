@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="xxx" class="btn btn-primary radius"><i class="Hui-iconfont">xx</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="obj_add('添加管理员','/province?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -46,7 +46,7 @@
       <tr class="text-c">
         <th width="40">ID</th>
         <th width="100">省份</th>
-<!--    <th width="100">头像</th> -->
+<!--    <th width="100">头像2</th> -->
 <!--    <th width="100">电话</th> -->
 <!--    <th width="90">状态</th> -->
 <!--    <th width="60">操作</th> -->
@@ -105,15 +105,15 @@ $('.table-sort').dataTable({
 // 	  {"orderable":false,"aTargets":[0,4,5]}// 制定列不参与排序
 	]
 });
-function addObj(title,url){
-// 	layer_show(title,url,550,300);
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
+function obj_add(title,url){
+	layer_show(title,url,550,400);
+// 	var index = layer.open({
+// 		type: 2,
+// 		title: title,
+// 		content: url
+// 	});
 // 	打开全屏
-	layer.full(index);
+// 	layer.full(index);
 }
 function edit(title,url,id){
 	var index = layer.open({

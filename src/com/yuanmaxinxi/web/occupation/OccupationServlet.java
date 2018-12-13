@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+<<<<<<< HEAD
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.service.OccupationService;
@@ -45,6 +46,28 @@ public class OccupationServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
+=======
+import com.yuanmaxinxi.entity.occupation.Occupation;
+import com.yuanmaxinxi.service.OccupationService;
+import com.yuanmaxinxi.web.BaseServlet;
+@WebServlet("/occupation")
+public class OccupationServlet extends BaseServlet{
+
+	private static final long serialVersionUID = 1L;
+	private OccupationService ocpService;
+	@Override
+	public void init() throws ServletException {
+		ocpService = new OccupationService();
+		super.init();
+	}
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cmd = req.getParameter("cmd");
+if ("showAdd".equals(cmd)) {
+			
+		}else if("add".equals(cmd)) {
+			
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 		}else if("showEdit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {
