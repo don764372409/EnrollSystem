@@ -31,16 +31,16 @@ public class MajorServlet extends BaseServlet {
 			req.getRequestDispatcher("/WEB-INF/major/add.jsp").forward(req, resp);
 		} else if ("add".equals(cmd)) {
 			String name = req.getParameter("name");
-			// Long pId = Long.parseLong(req.getParameter("pId"));
-			// Long type =Long.parseLong(req.getParameter("type"));
+			 Long pId = Long.parseLong(req.getParameter("pId"));
+			 Long type =Long.parseLong(req.getParameter("type"));
 			String remark = req.getParameter("remark");
 			String explain = req.getParameter("majorExplain");
-			String ranking = req.getParameter("ranking");
+			String ranking =req.getParameter("ranking");
 			// 封装
 			Major major = new Major();
 			major.setName(name);
-			// major.setpId(pId);
-			// major.setType(type);
+			 major.setpId(pId);
+			 major.setType(type);
 			major.setRemark(remark);
 			major.setMajorExplain(explain);
 			major.setRanking(Integer.parseInt(ranking));
@@ -58,13 +58,23 @@ public class MajorServlet extends BaseServlet {
 			// resp.sendRedirect("major");
 
 		} else if ("showEdit".equals(cmd)) {
-
+			Long id = Long.parseLong(req.getParameter("id"));
+			majorService.selectOneById(id);
 		} else if ("edit".equals(cmd)) {
 
 		} else if ("delete".equals(cmd)) {
-			// Long id = req.getParameter("id");
-			// majorService.delete(id);
-			resp.sendRedirect("major");
+			 Long id = Long.parseLong(req.getParameter("id"));
+			 ResultDTO dto;
+				try {
+					majorService.delete(id);
+					dto = ResultDTO.newInstance(true, "添加成功!");
+				} catch (Exception e) {
+					e.printStackTrace();
+					dto = ResultDTO.newInstance(false, e.getMessage());
+				}
+				putJson(dto, resp);
+			 
+//			resp.sendRedirect("major");
 		} else {
 			// 获取所有数据并跳转到列表页面
 			List<Major> list = majorService.selectAll();

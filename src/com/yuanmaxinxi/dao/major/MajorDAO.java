@@ -17,11 +17,16 @@ public class MajorDAO implements BaseDAO<Major>{
 	public int insert(Major obj) {
 		try {
 		//获取sql语句
-		String sql = "insert into t_major(id,name,pId,type,remark,majorExplain,ranking)values"
-				+ "(?,?,?,?,?,?,?)";
+		String sql = "insert into t_major(name,pId,type,remark,majorExplain,ranking)values"
+				+ "(?,?,?,?,?,?)";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			int result = state.executeUpdate();
-			return result;
+			state.setObject(1, obj.getName());
+			state.setObject(2, obj.getId());
+			state.setObject(3, obj.getType());
+			state.setObject(4, obj.getRemark());
+			state.setObject(5, obj.getMajorExplain());
+			state.setObject(6, obj.getRanking());
+			return state.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -32,12 +37,16 @@ public class MajorDAO implements BaseDAO<Major>{
 	@Override
 	public int update(Major obj) {
 		try {
-		String sql = "update t_major set name = "+obj.getName()+",pId = "+obj.getpId()+",type "
-				+ "= "+obj.getType()+",remark = "+obj.getRemark()+",explain = "+obj.getMajorExplain()+",ranking "
-						+ "= "+obj.getRanking()+" where id = "+obj.getId();
+		String sql = "update t_major set name = ?,pId=?,type=?,remark=?,majorExplain=?,ranking=? where id =?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			int result = state.executeUpdate();
-			return result;
+			state.setObject(1, obj.getId());
+			state.setObject(2, obj.getName());
+			state.setObject(3, obj.getId());
+			state.setObject(4, obj.getType());
+			state.setObject(5, obj.getRemark());
+			state.setObject(6, obj.getMajorExplain());
+			state.setObject(7, obj.getRanking());
+			return state.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -47,10 +56,10 @@ public class MajorDAO implements BaseDAO<Major>{
 	@Override
 	public int delete(Long id) {
 		try {
-			String sql = "delete from t_majir where id ="+id;
+			String sql = "delete from t_major where id =?";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-				int result = state.executeUpdate();
-				return result;
+				state.setObject(1, "id");
+				return state.executeUpdate();
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -62,8 +71,9 @@ public class MajorDAO implements BaseDAO<Major>{
 	public Major selectOneById(Long id) {
 		List<Major> list = new ArrayList<>();
 		try {
-			String sql = "select * from Major where id = "+id;
+			String sql = "select * from t_major where id = ?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			state.setObject(1,id);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
 				Major major = new Major();
@@ -72,9 +82,9 @@ public class MajorDAO implements BaseDAO<Major>{
 				major.setpId(result.getLong("pId"));
 				major.setType(result.getLong("name"));
 				major.setRemark(result.getString("remark"));
-				major.setMajorExplain(result.getString("explain"));
+				major.setMajorExplain(result.getString("majorExplain"));
 				major.setRanking(result.getInt("ranking"));
-				list.add(major);
+				return major;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +96,7 @@ public class MajorDAO implements BaseDAO<Major>{
 	public List<Major> selectAll() {
 		List<Major> list = new ArrayList<>();
 		try {
-			String sql = "select * from Major";
+			String sql = "select * from t_major";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			while(result.next()) {
@@ -94,9 +104,9 @@ public class MajorDAO implements BaseDAO<Major>{
 				major.setId(result.getLong("id"));
 				major.setName(result.getString("name"));
 				major.setpId(result.getLong("pId"));
-				major.setType(result.getLong("name"));
+				major.setType(result.getLong("type"));
 				major.setRemark(result.getString("remark"));
-				major.setMajorExplain(result.getString("explain"));
+				major.setMajorExplain(result.getString("majorExplain"));
 				major.setRanking(result.getInt("ranking"));
 				list.add(major);
 			}

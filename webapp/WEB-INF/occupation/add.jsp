@@ -102,7 +102,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/admin?cmd=add" ,
+				url: "/occupation?cmd=add" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

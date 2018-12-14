@@ -61,6 +61,18 @@
 		</div>
 	</div>
 	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>父级id所属专业：</label>
+		<div class="formControls col-sm-9">
+		<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="pId">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>参照字典表中专业所属学历分类：</label>
+		<div class="formControls col-sm-9">
+		<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="type">
+		</div>
+	</div>
+	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>专业简介：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="remark">
@@ -69,7 +81,7 @@
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>专业解读：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="explain">
+			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="majorExplain">
 		</div>
 	</div>
 	<div class="row cl">
@@ -102,7 +114,7 @@ $(function(){
 				required:true,
 // 				isMobile:true
 			},
-			explain:{
+			majorExplain:{
 				required:true
 			},
 			ranking:{

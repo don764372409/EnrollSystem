@@ -17,14 +17,12 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 	public int insert(Occupation obj) {
 		try {
 			//获取sql语句
-			String sql = "insert into t_occupation(id,name,pId,remark,workContent)values"
-					+ "(?,?,?,?,?)";
+			String sql = "insert into t_occupation(name,pId,remark,workContent)values (?,?,?,?)";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-				state.setObject(1, obj.getId());
-				state.setObject(2, obj.getName());
-				state.setObject(3, obj.getpId());
-				state.setObject(4, obj.getRemark());
-				state.setObject(5, obj.getWorkContent());
+				state.setObject(1, obj.getName());
+				state.setObject(2, obj.getpId());
+				state.setObject(3, obj.getRemark());
+				state.setObject(4, obj.getWorkContent());
 				return state.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -51,11 +49,10 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 	@Override
 	public int delete(Long id) {
 		try {
-			String sql = "delete from t_occupation where id ="+id;
+			String sql = "delete from t_occupation where id =?";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-				int result = state.executeUpdate();
-				return result;
-				
+				state.setObject(1, id);
+				return state.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -66,8 +63,9 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 	public Occupation selectOneById(Long id) {
 		List<Occupation> list = new ArrayList<>();
 		try {
-			String sql = "select * from t_occupation where id = "+id;
+			String sql = "select * from t_occupation where id =?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			state.setObject(1, id);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
 				Occupation oc = new Occupation();
@@ -76,7 +74,7 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 				oc.setpId(result.getLong("pId"));
 				oc.setWorkContent(result.getString("workContent"));
 				oc.setRemark(result.getString("remark"));
-				list.add(oc);
+				return oc;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,7 +86,7 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 	public List<Occupation> selectAll() {
 		List<Occupation> list = new ArrayList<>();
 		try {
-			String sql = "select * from Occupation";
+			String sql = "select * from t_occupation";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			while(result.next()) {

@@ -16,6 +16,7 @@ public class MajorService {
 	}
 
 	public void delete(Long id) {
+		majorDAO.delete(id);
 	}
 
 	public Major selectOneById(Long id) {
