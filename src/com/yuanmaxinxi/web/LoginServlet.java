@@ -15,7 +15,6 @@ import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.service.AdminService;
 import com.yuanmaxinxi.util.CodeUtil;
-import com.yuanmaxinxi.util.StringUtil;
 
 @WebServlet("/login")
 public class LoginServlet extends BaseServlet{
