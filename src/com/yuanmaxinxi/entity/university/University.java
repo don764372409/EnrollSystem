@@ -3,7 +3,7 @@ package com.yuanmaxinxi.entity.university;
 public class University{
 	private Long id;
 	private Long pId;//省外键
-	private String name;
+	private String name;//院校名称
 	private String address;//所在地		
 		
 	private Long quality;//FK 参照字典表的院校水平分类		
