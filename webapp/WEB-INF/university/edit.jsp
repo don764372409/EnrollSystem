@@ -36,7 +36,8 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="hidden" value="${obj.id}" name="id">
+				<input type="text" class="input-text" value="${obj.name}" placeholder="请输入院校名称" id="name" name="name">
 			</div>
 		</div>
 		<div class="row cl">
@@ -142,6 +143,11 @@
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript"> 
 $(function(){
+	//回显
+// 	$("select[name=pId]").val("${obj.pId}");
+// 	$("select[name=pId]").val("5");
+	
+	
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
@@ -175,16 +181,16 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			$(form).ajaxSubmit();
+			$(form).ajaxSubmit({
 				type:'post',
-				url:"/university?cmd=add",
+				url:'/university?cmd=add',
 				success:function(data){
 					data.JSON.parse(data);
-					
+					var index = parent.layer.getFrameIndex(window.name);
+					//parent.$('.btn-refresh').click();
+					parent.layer.close(index);
 				}
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			})
 		}
 	});
 });

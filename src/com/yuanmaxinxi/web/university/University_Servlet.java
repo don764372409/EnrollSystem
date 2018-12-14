@@ -1,7 +1,6 @@
 package com.yuanmaxinxi.web.university;
 
 import java.io.IOException;
-
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,8 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.service.UniversityService;
+import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/university")
 
@@ -21,9 +23,11 @@ public class University_Servlet extends BaseServlet{
 	private UniversityService universityService;
 	public static UniversityDao uniDao=new UniversityDao();
 	private static final long serialVersionUID = 1L;
+	private ProvinceService provinceService;
 	@Override
 	public void init() throws ServletException {
 		universityService = new UniversityService();
+		provinceService = new ProvinceService();
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,6 +41,11 @@ public class University_Servlet extends BaseServlet{
 			req.setAttribute("records", selectAllByRecord);
 			req.setAttribute("qualities", selectAllByQuality);
 			req.setAttribute("types", selectAllByType);
+			
+			List<Province> pros = provinceService.selectAll();
+			req.setAttribute("pros", pros);
+			
+			
 			req.getRequestDispatcher("/WEB-INF/university/universityAdd.jsp").forward(req, resp);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -69,7 +78,23 @@ public class University_Servlet extends BaseServlet{
 				ResultDTO.newInstance(false, e.getMessage());
 			}
 		}else if("showEdit".equals(cmd)) {
-			
+			String idStr = req.getParameter("id");
+			if (StringUtil.isNotNullAndEmpty(idStr)) {
+				University obj = universityService.selectOneById(Long.parseLong(idStr));
+				req.setAttribute("obj", obj);
+				List<Dictionary> selectAllByQuality = universityService.selectAllByQuality();
+				List<Dictionary> selectAllByType = universityService.selectAllByType();
+				List<Dictionary> selectAllByRecord = universityService.selectAllByRecord();
+				req.setAttribute("records", selectAllByRecord);
+				req.setAttribute("qualities", selectAllByQuality);
+				req.setAttribute("types", selectAllByType);
+				
+				List<Province> pros = provinceService.selectAll();
+				req.setAttribute("pros", pros);
+				req.getRequestDispatcher("/WEB-INF/university/edit.jsp").forward(req, resp);
+			}else {
+				resp.sendRedirect("/university");
+			}
 		}else if("edit".equals(cmd)) {
 			
 		}else if("edit".equals(cmd)) {
@@ -78,8 +103,8 @@ public class University_Servlet extends BaseServlet{
 		else {
 			//获取所有数据并跳转页面
 			try {
-				List<University> universities = universityService.selectAll();
-				req.setAttribute("unis", universities);
+				List<University> list = universityService.selectAll();
+				req.setAttribute("list", list);
 				req.getRequestDispatcher("/WEB-INF/university/university.jsp").forward(req, resp);
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -2,9 +2,11 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
+import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.StringUtil;
 
@@ -12,6 +14,7 @@ import com.yuanmaxinxi.util.StringUtil;
 //主要进行非空验证
 public class UniversityService {
 	private UniversityDao universityDAO = new UniversityDao();
+	private ProvinceDao provinceDao = new ProvinceDao();
 	public void insert(University obj) {
 		if(StringUtil.isNotNullAndEmpty(obj.getName())) {
 			throw new RuntimeException("院校名称不能空");
@@ -52,11 +55,15 @@ public class UniversityService {
 	//查询所有的院校信息
 	public List<University> selectAll() {
 		//不存在信息的异常提示，只提示服务器，客户端不做提示
-		List<University> selectAll = universityDAO.selectAll();
+		List<University> list = universityDAO.selectAll();
+		for (University obj : list) {
+			Province pro = provinceDao.selectOneById(obj.getpId());
+			obj.setPro(pro);
+		}
 //		if (selectAll==null) {
 //			throw new RuntimeException("院校信息不存在.");
 //		}
-		return selectAll;
+		return list;
 	}
 	//查询所有省份表
 	public  List<University> selectAllByProvince() {

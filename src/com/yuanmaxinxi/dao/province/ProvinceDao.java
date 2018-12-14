@@ -68,33 +68,32 @@ public class ProvinceDao implements BaseDAO<Province>{
 
 	@Override
 	public Province selectOneById(Long id) {
-		// TODO Auto-generated method stub
-		Province province = new Province();
-		String sql="select from t_province where id="+id;
+		String sql="select * from t_province where id="+id;
 		try {
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet result = pre.executeQuery();
-			while(result.next()) {
+			if(result.next()) {
+				Province province = new Province();
 				province.setId(result.getLong("id"));
 				province.setName(result.getString("name"));
+				return province;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();	
 		}
-		return province;
+		return null;
 	}
 
 	@Override
 	public List<Province> selectAll() {
 		// TODO Auto-generated method stub
 		ArrayList<Province> list = new ArrayList<>();
-		Province province = new Province();
 		String sql="select * from t_province";
 		try {
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet result = pre.executeQuery();
 			while(result.next()) {
+				Province province = new Province();
 				province.setId(result.getLong("id"));
 				province.setName(result.getString("name"));
 				list.add(province);

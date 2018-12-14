@@ -38,7 +38,7 @@
 	     <span class="l">
 		 	<a href="javascript:;" onclick="obj_add('添加院校信息','/university?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加院校信息</a>
     	</span>
-    <span class="r">共有数据：<strong>${unis.size()}</strong> 条</span>
+    <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
   <div class="mt-20"></div>
   <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -55,14 +55,15 @@
         <th width="100">师资团队</th>
         <th width="100">院校学历</th>
         <th width="100">学科建设</th>
+        <th width="50">操作</th>
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${unis}" var="obj">
+    <c:forEach items="${list}" var="obj">
       <tr class="text-c">-
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.pId}</td>
+        <td>${obj.pro.name}</td>
         <td>${obj.address}</td>
         <td>${obj.quality}</td>
         <td>${obj.type}</td>
@@ -74,7 +75,7 @@
 		</td>
 		<td></td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
        	
       </tr>
@@ -127,10 +128,11 @@ function obj_add(title,url){
 	layer.full(index);
 }
 function edit(title,url,id){
+	console.log(url);
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }

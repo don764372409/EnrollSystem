@@ -1,5 +1,7 @@
 package com.yuanmaxinxi.entity.university;
 
+import com.yuanmaxinxi.entity.province.Province;
+
 public class University{
 	private Long id;
 	private Long pId;//省外键
@@ -19,7 +21,14 @@ public class University{
 	private Long record; //FK 参照字典表的院校学历 
 
 	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)		
-
+	private Province pro;
+	
+	public Province getPro() {
+		return pro;
+	}
+	public void setPro(Province pro) {
+		this.pro = pro;
+	}
 	public Long getId() {
 		return id;
 	}
