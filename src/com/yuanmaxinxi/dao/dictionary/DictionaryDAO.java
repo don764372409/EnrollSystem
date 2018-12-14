@@ -22,6 +22,11 @@ public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 		try {
 			rs = this.execResult(perparedSql, param);
 			while (rs.next()) {
+				Dictionary d = new Dictionary();
+				d.setId(rs.getLong("id"));
+				d.setTypeId(rs.getLong("typeId"));
+				d.setName(rs.getString("name"));
+				list.add(d);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -38,35 +43,39 @@ public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 	}
 	@Override
 	public int insert(Dictionary obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		return exceuteUpdate("INSERT INTO t_dictionary(typeId,name) VALUES(?,?)", new Object[] {
+				obj.getTypeId(), obj.getName()
+		});
 	}
 
 	@Override
 	public int update(Dictionary obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		return exceuteUpdate("UPDATE t_dictionary SET typeId=?,name=? WHERE id=?", new Object[] {
+				obj.getTypeId(), obj.getName(), obj.getId()
+		});
 	}
 
 	@Override
 	public int delete(Long id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return exceuteUpdate("DELETE FROM t_dictionary WHERE id=?",new Object[] {id});
 	}
 
 	@Override
 	public Dictionary selectOneById(Long id) {
-		return query("SELECT * FROM t_dicitonary WHERE id=?", new Object[] {id}).get(0); 
+		return query("SELECT * FROM t_dictionary WHERE id=?", new Object[] {id}).get(0); 
+	}
+	
+	public Dictionary selectOneByName(String name) {
+		return query("SELECT * FROM t_dictionary WHERE name=?", new Object[] {name}).get(0); 
 	}
 
 	@Override
 	public List<Dictionary> selectAll() {
-		return query("SELECT * FROM t_dicitonary", null); 
+		return query("SELECT * FROM t_dictionary", null); 
 	}
 
 	@Override
 	public List<Dictionary> queryPage(BaseQueryPageDTO dto) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

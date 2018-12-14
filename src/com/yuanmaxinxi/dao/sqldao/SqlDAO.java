@@ -12,7 +12,7 @@ public class SqlDAO {
 	protected ResultSet rs;
 
 	// 为pstmt设置参数
-	public void setPstmt(Object[] param) throws SQLException {
+	protected void setPstmt(Object[] param) throws SQLException {
 		int i = 0, paramLen = param.length;
 		while (++i <= paramLen) {
 			pstmt.setObject(i, param[i-1]);
@@ -25,7 +25,7 @@ public class SqlDAO {
 	 * @param param       参数的字符串数组语句
 	 * @return 影响行数
 	 */
-	public int exceuteUpdate(String perparedSql, Object[] param) {
+	protected int exceuteUpdate(String perparedSql, Object[] param) {
 		try {
 			pstmt = DBUtil.getConn().prepareStatement(perparedSql);
 			if (param != null) {
@@ -44,7 +44,7 @@ public class SqlDAO {
 	 * @param param       参数的字符串数组语句
 	 * @return 查询结果集
 	 */
-	public ResultSet execResult(String perparedSql, Object[] param) {
+	protected ResultSet execResult(String perparedSql, Object[] param) {
 		try {
 			pstmt = DBUtil.getConn().prepareStatement(perparedSql);
 			if (param != null) {
@@ -55,5 +55,16 @@ public class SqlDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	/**
+	 * 分页查询
+	 * @param perparedSql 预编译的sql
+	 * @param param       参数的字符串数组语句
+	 * @param page        查询的页码
+	 * @param count       每页的条数
+	 * @return 查询结果集
+	 */
+	protected ResultSet execResult(String perparedSql, Object[] param, int page, int count) {
+		return execResult(perparedSql+"limit "+page+" "+count, param);
 	}
 }

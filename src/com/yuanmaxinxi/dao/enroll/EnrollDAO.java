@@ -22,6 +22,21 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 		try {
 			rs = this.execResult(perparedSql, param);
 			while (rs.next()) {
+				Enroll e = new Enroll();
+				e.setId(rs.getInt("id"));
+				e.setuId(rs.getInt("uId"));
+				e.setmId(rs.getInt("mId"));
+				e.setBatch(rs.getString("batch"));
+				e.setNumber(rs.getInt("number"));
+				e.setMaxNumber(rs.getInt("maxNumber"));
+				e.setMinNumber(rs.getInt("minNumber"));
+				e.setMaxRanking(rs.getInt("maxRanking"));
+				e.setMinRanking(rs.getInt("minRanking"));
+				e.setAvgRanking(rs.getInt("avgRanking"));
+				e.setTime(null);
+				e.setTuition(rs.getBigDecimal("tuition"));
+				e.setStudyYear(rs.getBigDecimal("studyYear"));
+				list.add(e);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -38,7 +53,13 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	}
 	@Override
 	public int insert(Enroll obj) {
-		return 0;
+		return exceuteUpdate("INSERT INTO t_dictionary(uId,mId,batch,number,maxNumber,"
+				+ "minNumber,avgNumber,maxRanking,minRanking,avgRanking,time,tuition,studyYear)"
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", new Object[] {
+						obj.getuId(),obj.getmId(),obj.getBatch(),obj.getNumber(),obj.getMaxNumber(),
+						obj.getMinNumber(),obj.getAvgNumber(),obj.getMaxRanking(),obj.getMinRanking(),
+						obj.getAvgRanking(),obj.getTime(),obj.getTuition(),obj.getStudyYear()
+		});
 	}
 
 	@Override
