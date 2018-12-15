@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yuanmaxinxi.dto.ResultDTO;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.service.OccupationService;
+import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/occupation")
 public class OccupationServlet extends BaseServlet{
@@ -48,16 +50,14 @@ public class OccupationServlet extends BaseServlet{
 			}
 			putJson(dto, resp);
 		}else if("showEdit".equals(cmd)) {
-			Long id = Long.parseLong(req.getParameter("id"));
-			ResultDTO dto;
-			try {
-				ocpService.selectOneById(id);
-				dto = ResultDTO.newInstance(true, "修改成功!");
-			} catch (Exception e) {
-				e.printStackTrace();
-				dto = ResultDTO.newInstance(false, e.getMessage());
+			String id = req.getParameter("id");
+			if (StringUtil.isNotNullAndEmpty(id)) {
+				Occupation occupation = ocpService.selectOneById(Long.parseLong(id));
+				 req.setAttribute("occupation", occupation);
+				req.getRequestDispatcher("/WEB-INF/occupation/update.jsp").forward(req, resp);
+			}else {
+				resp.sendRedirect("/occupation");
 			}
-			putJson(dto, resp);
 		}else if("edit".equals(cmd)) {
 			
 		}else if("delete".equals(cmd)) {

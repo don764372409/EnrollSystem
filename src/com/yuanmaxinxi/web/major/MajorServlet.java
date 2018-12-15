@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.service.MajorService;
+import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 
 @WebServlet("/major")
@@ -58,21 +59,21 @@ public class MajorServlet extends BaseServlet {
 			// resp.sendRedirect("major");
 
 		} else if ("showEdit".equals(cmd)) {
-			Long id = Long.parseLong(req.getParameter("id"));
-			majorService.selectOneById(id);
+			String id = req.getParameter("id");
+			System.err.println(id);
+			if (StringUtil.isNotNullAndEmpty(id)) {
+				Major major = majorService.selectOneById(Long.parseLong(id));
+				 req.setAttribute("major", major);
+				req.getRequestDispatcher("/WEB-INF/major/update.jsp").forward(req, resp);
+			}else {
+				resp.sendRedirect("/major");
+			}
 		} else if ("edit".equals(cmd)) {
-
+			
 		} else if ("delete".equals(cmd)) {
-			 Long id = Long.parseLong(req.getParameter("id"));
-			 ResultDTO dto;
-				try {
-					majorService.delete(id);
-					dto = ResultDTO.newInstance(true, "添加成功!");
-				} catch (Exception e) {
-					e.printStackTrace();
-					dto = ResultDTO.newInstance(false, e.getMessage());
-				}
-				putJson(dto, resp);
+			String id = req.getParameter("id");
+			majorService.delete(Long.parseLong(id));
+				
 			 
 //			resp.sendRedirect("major");
 		} else {

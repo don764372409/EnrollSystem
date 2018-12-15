@@ -66,7 +66,8 @@
         <td>${obj.ranking}</td>
         
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('添加管理员','/major?cmd=showEdit')" href="javascript:;" title="修改"><i class="Hui-iconfont">修改</i></a>|<a href="/major?cmd=delete&id=">删除</a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改专业','/major?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>|
+       		<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除专业','这一行','/major?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a>
        	</td>
       </tr>
       </c:forEach>
@@ -121,7 +122,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }

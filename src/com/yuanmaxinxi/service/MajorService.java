@@ -13,6 +13,7 @@ public class MajorService {
 	}
 
 	public void update(Major obj) {
+		majorDAO.update(obj);
 	}
 
 	public void delete(Long id) {
@@ -20,7 +21,7 @@ public class MajorService {
 	}
 
 	public Major selectOneById(Long id) {
-		return null;
+		return majorDAO.selectOneById(id);
 	}
 
 	public List<Major> selectAll() {

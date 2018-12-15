@@ -80,10 +80,11 @@ public class MajorDAO implements BaseDAO<Major>{
 				major.setId(result.getLong("id"));
 				major.setName(result.getString("name"));
 				major.setpId(result.getLong("pId"));
-				major.setType(result.getLong("name"));
+				major.setType(result.getLong("type"));
 				major.setRemark(result.getString("remark"));
 				major.setMajorExplain(result.getString("majorExplain"));
 				major.setRanking(result.getInt("ranking"));
+//				System.err.println(major);
 				return major;
 			}
 		} catch (Exception e) {
