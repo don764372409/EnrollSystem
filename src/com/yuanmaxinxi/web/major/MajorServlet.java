@@ -60,21 +60,53 @@ public class MajorServlet extends BaseServlet {
 
 		} else if ("showEdit".equals(cmd)) {
 			String id = req.getParameter("id");
-			System.err.println(id);
 			if (StringUtil.isNotNullAndEmpty(id)) {
 				Major major = majorService.selectOneById(Long.parseLong(id));
 				 req.setAttribute("major", major);
+//				 System.err.println("servlet"+major);
 				req.getRequestDispatcher("/WEB-INF/major/update.jsp").forward(req, resp);
 			}else {
 				resp.sendRedirect("/major");
 			}
 		} else if ("edit".equals(cmd)) {
-			
+			Long id = Long.parseLong(req.getParameter("id"));
+			String name = req.getParameter("name");
+			 Long pId = Long.parseLong(req.getParameter("pId"));
+			 Long type =Long.parseLong(req.getParameter("type"));
+			String remark = req.getParameter("remark");
+			String explain = req.getParameter("majorExplain");
+			String ranking =req.getParameter("ranking");
+			// 封装
+			Major major = new Major();
+			major.setId(id);
+			major.setName(name);
+			major.setpId(pId);
+			major.setType(type);
+			major.setRemark(remark);
+			major.setMajorExplain(explain);
+			major.setRanking(Integer.parseInt(ranking));
+			ResultDTO dto;
+			try {
+				majorService.update(major);
+				dto = ResultDTO.newInstance(true, "修改成功!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
+//			resp.sendRedirect("/major");
 		} else if ("delete".equals(cmd)) {
 			String id = req.getParameter("id");
-			majorService.delete(Long.parseLong(id));
-				
-			 
+			
+			ResultDTO dto;
+			try {
+				majorService.delete(Long.parseLong(id));
+				dto = ResultDTO.newInstance(true, "删除成功!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}	
+			putJson(dto, resp);
 //			resp.sendRedirect("major");
 		} else {
 			// 获取所有数据并跳转到列表页面

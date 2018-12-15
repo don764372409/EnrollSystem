@@ -34,7 +34,7 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专业名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="hidden" value="${major.id}" name="id">
 				<input type="text" class="input-text" value="${major.name}" placeholder="请输入专业名称" id="name" name="name">
@@ -44,7 +44,7 @@
 			<label class="form-label col-xs-4 col-sm-3">父级id所属专业：</label>
 			<div class="formControls col-xs-8 col-sm-6"> <span class="select-box">
 				<select class="select" size="1" name="pId" datatype="*" nullmsg="请选择所属专业！">
-					<option value="" selected>请选择所属专业</option>
+					<option value="-1" selected>请选择所属父级专业</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 				</select>
@@ -58,32 +58,27 @@
 				<input type="text" class="input-text" value="${major.type}" placeholder="" id="type" name="type">
 			</div>
 		</div>
-		
+		<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业简介：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" value="${major.remark}" placeholder="请输入管理员账号" name="remark">
+		</div>
+	</div>
 		
 		
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">专业简介：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				
-				<textarea name="remark" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业解读：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" value="${major.majorExplain}" placeholder="请输入管理员电话" name="majorExplain">
 		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>专业排名：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" value="${major.ranking}" placeholder="请输入管理员电话" name="ranking">
+		</div>
+	</div>
 		
-		
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">专业解读：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea  name="majorExplain" cols=""  class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专业排名：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${major.ranking}" placeholder="" id="ranking" name="ranking">
-			</div>
-		</div>
 
 	
 		<div class="row cl">
@@ -147,11 +142,11 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type:'post',
-				url:'/major?cmd=add',
+				url:'/major?cmd=edit',
 				success:function(data){
-					data.JSON.parse(data);
+					data=JSON.parse(data);
 					var index = parent.layer.getFrameIndex(window.name);
-					//parent.$('.btn-refresh').click();
+					parent.$('.btn-refresh').click();
 					parent.layer.close(index);
 				}
 			})

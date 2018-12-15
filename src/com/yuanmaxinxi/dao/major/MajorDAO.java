@@ -26,6 +26,7 @@ public class MajorDAO implements BaseDAO<Major>{
 			state.setObject(4, obj.getRemark());
 			state.setObject(5, obj.getMajorExplain());
 			state.setObject(6, obj.getRanking());
+//			System.err.println(obj.getRemark());
 			return state.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -39,13 +40,15 @@ public class MajorDAO implements BaseDAO<Major>{
 		try {
 		String sql = "update t_major set name = ?,pId=?,type=?,remark=?,majorExplain=?,ranking=? where id =?";
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			state.setObject(1, obj.getId());
-			state.setObject(2, obj.getName());
-			state.setObject(3, obj.getId());
-			state.setObject(4, obj.getType());
-			state.setObject(5, obj.getRemark());
-			state.setObject(6, obj.getMajorExplain());
-			state.setObject(7, obj.getRanking());
+			state.setObject(1, obj.getName());
+			state.setObject(2, obj.getpId());
+			state.setObject(3, obj.getType());
+			state.setObject(4, obj.getRemark());
+			state.setObject(5, obj.getMajorExplain());
+			state.setObject(6, obj.getRanking());
+			state.setObject(7, obj.getId());
+			System.err.println(sql);
+			System.err.println(state);
 			return state.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
