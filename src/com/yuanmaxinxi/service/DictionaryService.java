@@ -19,7 +19,7 @@ public class DictionaryService {
 		return ds == null ? ds = new DictionaryService() : ds;
 	}
 	
-	public void insert(Dictionary obj) {
+	public void insert(Dictionary obj) throws Exception {
 		if (StringUtil.isNullOrEmpty(obj.getName())) {
 			throw new RuntimeException("名称不能为空.");
 		}
@@ -37,14 +37,16 @@ public class DictionaryService {
 		}
 	}
 
-	public void update(Dictionary obj) {
+	public void update(Dictionary obj) throws Exception{
+		dd.update(obj);
 	}
 
-	public void delete(Long id) {
+	public void delete(Long id) throws Exception{
+		dd.delete(id);
 	}
 
 	public Dictionary selectOneById(Long id) {
-		return null;
+		return dd.selectOneById(id);
 	}
 
 	public List<Dictionary> selectAll() {

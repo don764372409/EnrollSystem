@@ -25,7 +25,7 @@ public class SqlDAO {
 	 * @param param       参数的字符串数组语句
 	 * @return 影响行数
 	 */
-	protected int exceuteUpdate(String perparedSql, Object[] param) {
+	protected synchronized int exceuteUpdate(String perparedSql, Object[] param) {
 		try {
 			pstmt = DBUtil.getConn().prepareStatement(perparedSql);
 			if (param != null) {

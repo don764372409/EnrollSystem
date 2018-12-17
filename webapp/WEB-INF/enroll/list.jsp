@@ -67,12 +67,14 @@
         <td>${obj.tuition}</td>
         <td>${obj.studyYear}</td>
         <td>
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改录取数据','/dictionary?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="details('录取数据详情','/enroll?cmd=details',${obj.id})" href="javascript:;" title="详情"><i class="Hui-iconfont">&#xe6df;</i></a> 
+		 </td>
+        <td>
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改录取数据','/enroll?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		 </td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="deleltObj()" href="javascript:;" title="删除"><i class="Hui-iconfont">xxx</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除录取数据','当前这条数据','/enroll?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
         </td>
-        <td>c</td>
       </tr>
       </c:forEach>
     </tbody>
@@ -122,11 +124,19 @@ function obj_add(title,url){
 // 	打开全屏
 // 	layer.full(index);
 }
+function details(title,url,id){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url+"&id="+id
+	});
+	layer.full(index);
+}
 function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }

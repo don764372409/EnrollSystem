@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
 import com.yuanmaxinxi.service.DictionaryTypeService;
+import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/dictionaryType")
 public class DictionaryTypeServlet extends BaseServlet{
@@ -40,23 +41,36 @@ public class DictionaryTypeServlet extends BaseServlet{
 			}
 			putJson(dto, resp);
 		}else if("showEdit".equals(cmd)) {
-			
-		}else if("edit".equals(cmd)) {
 			String idStr = req.getParameter("id");
-			DictionaryType dictionaryType = new DictionaryType();
-			dictionaryType.setName(req.getParameter("name"));
+			if (StringUtil.isNotNullAndEmpty(idStr)) {
+				req.setAttribute("obj", dts.selectOneById(Long.parseLong(idStr)));
+				req.getRequestDispatcher("/WEB-INF/dictionaryType/edit.jsp").forward(req, resp);
+			}else {
+				resp.sendRedirect("/dictionaryType");
+			}
+		}else if("edit".equals(cmd)) {
+			DictionaryType dt = new DictionaryType();
+			dt.setId(Integer.parseInt(req.getParameter("id")));
+			dt.setName(req.getParameter("name"));
 			
 			ResultDTO dto;
 			try {
-				dts.insert(dictionaryType);
-				dto = ResultDTO.newInstance(true, "添加成功!");
+				dts.update(dt);
+				dto = ResultDTO.newInstance(true, "修改成功!");
 			} catch (Exception e) {
 				e.printStackTrace();
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
 		}else if("delete".equals(cmd)) {
-			String idStr = req.getParameter("id");
+			ResultDTO dto;
+			try {
+				dts.delete(Long.parseLong(req.getParameter("id")));
+				dto=ResultDTO.newInstance(true, "删除成功");
+			}catch (Exception e) {
+				dto=ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
 		}else {
 			//获取所有数据并跳转到列表页面
 			List<DictionaryType> list = dts.selectAll();

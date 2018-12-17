@@ -59,10 +59,10 @@
         <td>${obj.dt.name}</td>
         <td>
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典信息','/dictionary?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
-		</td>
+		 </td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="deleltObj()" href="javascript:;" title="删除"><i class="Hui-iconfont">xxx</i></a> 
-       	</td>
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除字典信息','当前这条数据','/dictionary?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+        </td>
       </tr>
       </c:forEach>
     </tbody>
@@ -116,7 +116,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }

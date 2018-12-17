@@ -15,17 +15,20 @@ public class EnrollService {
 		return es == null ? es = new EnrollService() : es;
 	}
 	
-	public void insert(Enroll obj) {
+	public void insert(Enroll obj) throws Exception{
+		ed.insert(obj);
 	}
 
-	public void update(Enroll obj) {
+	public void update(Enroll obj) throws Exception{
+		ed.update(obj);
 	}
 
-	public void delete(Long id) {
+	public void delete(Long id) throws Exception{
+		ed.delete(id);
 	}
 
 	public Enroll selectOneById(Long id) {
-		return null;
+		return ed.selectOneById(id);
 	}
 
 	public List<Enroll> selectAll() {

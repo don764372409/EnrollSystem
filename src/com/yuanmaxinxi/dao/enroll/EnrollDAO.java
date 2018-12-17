@@ -61,7 +61,7 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	}
 	@Override
 	public int insert(Enroll obj) {
-		return exceuteUpdate("INSERT INTO t_dictionary(uId,mId,batch,number,maxNumber,"
+		return exceuteUpdate("INSERT INTO t_enroll(uId,mId,batch,number,maxNumber,"
 				+ "minNumber,avgNumber,maxRanking,minRanking,avgRanking,time,tuition,studyYear)"
 				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", new Object[] {
 						obj.getuId(),obj.getmId(),obj.getBatch(),obj.getNumber(),obj.getMaxNumber(),
@@ -72,7 +72,7 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 
 	@Override
 	public int update(Enroll obj) {
-		return exceuteUpdate("UPDATE t_dictionary SET uId=?,mId=?,batch=?number=?,maxNumber=?,"
+		return exceuteUpdate("UPDATE t_enroll SET uId=?,mId=?,batch=?number=?,maxNumber=?,"
 				+ "minNumber=?,avgNumber=?,maxRanking=?,minRanking=?,avgRanking=?,time=?,tuition=?,"
 				+ "studyYear=? WHERE id=?", new Object[] {
 						obj.getuId(),obj.getmId(),obj.getBatch(),obj.getNumber(),obj.getMaxNumber(),

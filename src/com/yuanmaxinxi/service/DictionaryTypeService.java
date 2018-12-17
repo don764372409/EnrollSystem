@@ -2,12 +2,8 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
-import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
 import com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO;
-import com.yuanmaxinxi.entity.admin.Admin;
-import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
-import com.yuanmaxinxi.util.MD5Util;
 import com.yuanmaxinxi.util.StringUtil;
 
 
@@ -21,7 +17,7 @@ public class DictionaryTypeService {
 		return dts == null ? dts = new DictionaryTypeService() : dts;
 	}
 	
-	public void insert(DictionaryType obj) {
+	public void insert(DictionaryType obj) throws Exception {
 		if (StringUtil.isNullOrEmpty(obj.getName())) {
 			throw new RuntimeException("名称不能为空.");
 		}
@@ -39,14 +35,16 @@ public class DictionaryTypeService {
 		}
 	}
 
-	public void update(Dictionary obj) {
+	public void update(DictionaryType obj) throws Exception {
+		dtd.update(obj);
 	}
 
-	public void delete(Long id) {
+	public void delete(Long id) throws Exception {
+		dtd.delete(id);
 	}
 
-	public Dictionary selectOneById(Long id) {
-		return null;
+	public DictionaryType selectOneById(Long id) {
+		return dtd.selectOneById(id);
 	}
 
 	public List<DictionaryType> selectAll() {

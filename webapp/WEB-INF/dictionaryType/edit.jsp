@@ -36,7 +36,7 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
-<title>修改字典</title>
+<title>修改字典类型</title>
 <style type="text/css">
 	.searchBtn{
 		position: absolute;
@@ -59,17 +59,7 @@
 		<label class="form-label col-sm-3"><span class="c-red">*</span>名称：</label>
 		<div class="formControls col-sm-9">
 			<input type="hidden" value="${obj.id}" name="id"/>
-			<input type="text" class="input-text" placeholder="请输入字典名称" id="name" name="name"/>
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>类型：</label>
-		<div class="formControls col-sm-9">
-			<select class="select" name="type" size="1">
-					<c:forEach items="${dtlist}" var="xxx">
-						<option value="${xxx.id}">${xxx.name}</option>
-					</c:forEach>
-			</select>
+			<input type="text" class="input-text" placeholder="请输入字典类型名称" id="name" name="name"/>
 		</div>
 	</div>
 	<div class="row cl">
@@ -105,7 +95,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/dictionary?cmd=edit" ,
+				url: "/dictionaryType?cmd=edit" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

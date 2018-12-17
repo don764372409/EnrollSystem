@@ -8,19 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
-import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
 import com.yuanmaxinxi.service.DictionaryService;
+import com.yuanmaxinxi.service.DictionaryTypeService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/dictionary")
-public class dictionaryServlet extends BaseServlet{
+public class DictionaryServlet extends BaseServlet{
 	private static final long serialVersionUID = 1L;
 	private DictionaryService ds;
+	private DictionaryTypeService dts;
 	public void init() throws ServletException {
 		ds = DictionaryService.getDictionaryService();
+		dts = DictionaryTypeService.getDictionaryService();
 	}
 	
 	
@@ -28,8 +29,7 @@ public class dictionaryServlet extends BaseServlet{
 		String cmd = req.getParameter("cmd");
 		System.err.println(cmd);
 		if ("showAdd".equals(cmd)) {
-			List<DictionaryType> dt = DictionaryTypeDAO.getDictionaryTypeDao().selectAll();
-			req.setAttribute("dtlist", dt);
+			req.setAttribute("dtlist", dts.selectAll());
 			req.getRequestDispatcher("/WEB-INF/dictionary/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
 			//封装
@@ -47,11 +47,9 @@ public class dictionaryServlet extends BaseServlet{
 			putJson(dto, resp);
 		}else if("showEdit".equals(cmd)) {
 			String idStr = req.getParameter("id");
-			System.err.print(req.getParameter("type"));
 			if (StringUtil.isNotNullAndEmpty(idStr)) {
 				req.setAttribute("obj", ds.selectOneById(Long.parseLong(idStr)));
-				List<DictionaryType> dt = DictionaryTypeDAO.getDictionaryTypeDao().selectAll();
-				req.setAttribute("dtlist", dt);
+				req.setAttribute("dtlist", dts.selectAll());
 				req.getRequestDispatcher("/WEB-INF/dictionary/edit.jsp").forward(req, resp);
 			}else {
 				resp.sendRedirect("/dictionary");
@@ -59,22 +57,28 @@ public class dictionaryServlet extends BaseServlet{
 			
 			
 		}else if("edit".equals(cmd)) {
-			Dictionary dictionary = new Dictionary();
-			dictionary.setId(Integer.parseInt(req.getParameter("id")));
-			dictionary.setName(req.getParameter("name"));
-			dictionary.setTypeId(Integer.parseInt(req.getParameter("type")));
 			ResultDTO dto;
 			try {
-				ds.update(dictionary);
+				Dictionary d = new Dictionary();
+				d.setId(Integer.parseInt(req.getParameter("id")));
+				d.setName(req.getParameter("name"));
+				d.setTypeId(Integer.parseInt(req.getParameter("type")));
+				ds.update(d);
 				dto = ResultDTO.newInstance(true, "修改成功!");
 			} catch (Exception e) {
-				e.printStackTrace();
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
 			
 		}else if("delete".equals(cmd)) {
-			String idStr = req.getParameter("id");
+			ResultDTO dto;
+			try {
+				ds.delete(Long.parseLong(req.getParameter("id")));
+				dto=ResultDTO.newInstance(true, "删除成功");
+			}catch (Exception e) {
+				dto=ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
 		}else {
 			//获取所有数据并跳转到列表页面
 			List<Dictionary> list = ds.selectAll();

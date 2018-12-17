@@ -26,13 +26,14 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加录取数据</title>
+<title>修改录取数据</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+		<input type="hidden" value="${obj.id}" name="id"/>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>请选择学校：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -172,7 +173,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/enroll?cmd=add" ,
+				url: "/enroll?cmd=edit" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){
