@@ -49,7 +49,7 @@
         <th width="100">账号</th>
         <th width="100">头像</th>
         <th width="100">电话</th>
-        <th width="90">状态</th>
+<!--    <th width="90">状态</th> -->
         <th width="60">操作</th>
       </tr>
     </thead>
@@ -61,11 +61,8 @@
         <td>${obj.username}</td>
         <td>${obj.headImg}</td>
         <td>${obj.phone}</td>
-        <td>
-        	${obj.status}
-		</td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/admin?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
       </tr>
       </c:forEach>
@@ -117,10 +114,11 @@ function obj_add(title,url){
 // 	layer.full(index);
 }
 function edit(title,url,id){
+	console.log(url);
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }

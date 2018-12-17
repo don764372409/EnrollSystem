@@ -29,12 +29,10 @@ public class AdminDAO implements BaseDAO<Admin>{
 	}
 
 	public int update(Admin obj) throws SQLException {
-		PreparedStatement state = DBUtil.getConn().prepareStatement("update t_admin set lastTime = ?,loginTime=?,lastIp=?,ip=? where id = ?");
-		state.setObject(1, obj.getLastTime());
-		state.setObject(2, obj.getLoginTime());
-		state.setObject(3, obj.getLastIp());
-		state.setObject(4, obj.getIp());
-		state.setObject(5, obj.getId());
+		PreparedStatement state = DBUtil.getConn().prepareStatement("update t_admin set name = ?,phone=? where id = ?");
+		state.setObject(1, obj.getName());
+		state.setObject(2, obj.getPhone());
+		state.setObject(3, obj.getIp());
 		return state.executeUpdate();
 	}
 
@@ -47,6 +45,23 @@ public class AdminDAO implements BaseDAO<Admin>{
 	@Override
 	public Admin selectOneById(Long id) {
 		// TODO Auto-generated method stub
+		Admin admin;
+		Connection conn = DBUtil.getConn();
+		try {
+			PreparedStatement pre = conn.prepareStatement("select * from t_admin where id="+id);
+			ResultSet result = pre.executeQuery();
+			while(result.next()) {
+				admin = new Admin();
+				admin.setName(result.getString("name"));
+				admin.setUsername(result.getString("username"));
+				admin.setHeadImg(result.getString("headImg"));
+				admin.setPhone(result.getString("phone"));
+				return admin;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
