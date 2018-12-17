@@ -60,7 +60,7 @@
     </thead>
     <tbody>
     <c:forEach items="${list}" var="obj">
-      <tr class="text-c">-
+      <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
         <td>${obj.pro.name}</td>

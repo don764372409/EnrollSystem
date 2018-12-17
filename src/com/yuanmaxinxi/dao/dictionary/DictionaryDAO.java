@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
+import com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO;
 import com.yuanmaxinxi.dao.sqldao.SqlDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
+import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 
 public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
@@ -24,7 +26,9 @@ public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 			while (rs.next()) {
 				Dictionary d = new Dictionary();
 				d.setId(rs.getLong("id"));
-				d.setTypeId(rs.getLong("typeId"));
+				Long typeId = rs.getLong("typeId");
+				d.setTypeId(typeId);
+				d.setDt(DictionaryTypeDAO.getDictionaryTypeDao().selectOneById(typeId));
 				d.setName(rs.getString("name"));
 				list.add(d);
 			}
@@ -62,11 +66,13 @@ public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 
 	@Override
 	public Dictionary selectOneById(Long id) {
-		return query("SELECT * FROM t_dictionary WHERE id=?", new Object[] {id}).get(0); 
+		List<Dictionary> query = query("SELECT * FROM t_dictionary WHERE id=?", new Object[] {id});
+		return query.isEmpty()?null:query.get(0);
 	}
 	
 	public Dictionary selectOneByName(String name) {
-		return query("SELECT * FROM t_dictionary WHERE name=?", new Object[] {name}).get(0); 
+		List<Dictionary> query = query("SELECT * FROM t_dictionary WHERE name=?", new Object[] {name});
+		return query.isEmpty()?null:query.get(0);
 	}
 
 	@Override

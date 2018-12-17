@@ -22,10 +22,10 @@
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>字典管理</title>
+<title>录取数据管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 管理员管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 录取数据管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
 <!--   <div class="text-c"> 短信发送时间： -->
 <!--     <input type="text" onfocus="WdatePicker()" id="datemin" class="input-text Wdate" style="width:120px;"> -->
@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加字典','/admin?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="obj_add('添加录取数据','/enroll?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加录取数据</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -44,29 +44,35 @@
   <table class="table table-border table-bordered table-hover table-bg table-sort">
     <thead>
       <tr class="text-c">
-        <th width="40">ID</th>
-        <th width="100">姓名</th>
-        <th width="100">账号</th>
-        <th width="100">头像</th>
-        <th width="100">电话</th>
-        <th width="90">状态</th>
-        <th width="60">操作</th>
+        <th width="7%">ID</th>
+        <th width="15%">学校</th>
+        <th width="10%">专业</th>
+        <th width="10%">批次</th>
+        <th width="10%">招生人数</th>
+        <th width="10%">学费</th>
+        <th width="8%">学制</th>
+        <th width="8%">详情</th>
+        <th width="8%">修改</th>
+        <th width="8%">删除</th>
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${list}" var="obj">
       <tr class="text-c">
         <td>${obj.id}</td>
-        <td>${obj.name}</td>
-        <td>${obj.username}</td>
-        <td>${obj.headImg}</td>
-        <td>${obj.phone}</td>
+        <td>${obj.university.name}</td>
+        <td>${obj.major.name}</td>
+        <td>${obj.batch}</td>
+        <td>${obj.number}</td>
+        <td>${obj.tuition}</td>
+        <td>${obj.studyYear}</td>
         <td>
-        	${obj.status}
-		</td>
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改录取数据','/dictionary?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+		 </td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
-       	</td>
+			<a style="text-decoration:none" class="ml-5" onClick="deleltObj()" href="javascript:;" title="删除"><i class="Hui-iconfont">xxx</i></a> 
+        </td>
+        <td>c</td>
       </tr>
       </c:forEach>
     </tbody>

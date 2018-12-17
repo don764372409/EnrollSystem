@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
+import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.dao.sqldao.SqlDAO;
+import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 
@@ -19,13 +21,19 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	}
 	private List<Enroll> query(String perparedSql, Object[] param) {
 		List<Enroll> list = new ArrayList<Enroll>();
+		UniversityDao ud = new UniversityDao();
+		MajorDAO md = new MajorDAO();
 		try {
 			rs = this.execResult(perparedSql, param);
 			while (rs.next()) {
 				Enroll e = new Enroll();
-				e.setId(rs.getInt("id"));
-				e.setuId(rs.getInt("uId"));
-				e.setmId(rs.getInt("mId"));
+				e.setId(rs.getLong("id"));
+				Long uId=rs.getLong("uId");
+				e.setuId(uId);
+				e.setUniversity(ud.selectOneById(uId));
+				Long mId=rs.getLong("mId");
+				e.setmId(mId);
+				e.setMajor(md.selectOneById(mId));
 				e.setBatch(rs.getString("batch"));
 				e.setNumber(rs.getInt("number"));
 				e.setMaxNumber(rs.getInt("maxNumber"));
@@ -64,7 +72,14 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 
 	@Override
 	public int update(Enroll obj) {
-		return 0;
+		return exceuteUpdate("UPDATE t_dictionary SET uId=?,mId=?,batch=?number=?,maxNumber=?,"
+				+ "minNumber=?,avgNumber=?,maxRanking=?,minRanking=?,avgRanking=?,time=?,tuition=?,"
+				+ "studyYear=? WHERE id=?", new Object[] {
+						obj.getuId(),obj.getmId(),obj.getBatch(),obj.getNumber(),obj.getMaxNumber(),
+						obj.getMinNumber(),obj.getAvgNumber(),obj.getMaxRanking(),obj.getMinRanking(),
+						obj.getAvgRanking(),obj.getTime(),obj.getTuition(),obj.getStudyYear(),obj.getId()
+						
+				});
 	}
 
 	@Override
@@ -74,7 +89,8 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 
 	@Override
 	public Enroll selectOneById(Long id) {
-		return query("SELECT * FROM t_enroll WHERE id=?", new Object[]{id}).get(0);
+		List<Enroll> query = query("SELECT * FROM t_enroll WHERE id=?", new Object[]{id});
+		return query==null?null:query.get(0);
 	}
 
 	@Override

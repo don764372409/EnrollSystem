@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加字典','/dictionary?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加字典</a>
+		 	<a href="javascript:;" onclick="obj_add('添加字典类型','/dictionaryType?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加字典</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -44,11 +44,10 @@
   <table class="table table-border table-bordered table-hover table-bg table-sort">
     <thead>
       <tr class="text-c">
-        <th width="20%">ID</th>
+        <th width="30%">ID</th>
         <th width="30%">名称</th>
-        <th width="20%">类型</th>
-        <th width="15%">修改</th>
-        <th width="15%">删除</th>
+        <th width="20%">修改</th>
+        <th width="20%">删除</th>
       </tr>
     </thead>
     <tbody>
@@ -56,12 +55,11 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.dt.name}</td>
         <td>
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典信息','/dictionary?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典类型','/dictionaryType?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		</td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="deleltObj()" href="javascript:;" title="删除"><i class="Hui-iconfont">xxx</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="删除"><i class="Hui-iconfont">xxx</i></a> 
        	</td>
       </tr>
       </c:forEach>

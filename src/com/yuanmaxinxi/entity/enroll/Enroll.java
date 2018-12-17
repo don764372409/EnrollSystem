@@ -7,10 +7,10 @@ import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.university.University;
 
 public class Enroll {
-	private int id;
-	private int uId;
+	private Long id;
+	private Long uId;
 	private University university;
-	private int mId;
+	private Long mId;
 	private Major major;
 	private String batch;
 	private int number;
@@ -23,16 +23,16 @@ public class Enroll {
 	private Date time;
 	private BigDecimal tuition;
 	private BigDecimal studyYear;
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getuId() {
+	public Long getuId() {
 		return uId;
 	}
-	public void setuId(int uId) {
+	public void setuId(Long uId) {
 		this.uId = uId;
 	}
 	public University getUniversity() {
@@ -41,10 +41,10 @@ public class Enroll {
 	public void setUniversity(University university) {
 		this.university = university;
 	}
-	public int getmId() {
+	public Long getmId() {
 		return mId;
 	}
-	public void setmId(int mId) {
+	public void setmId(Long mId) {
 		this.mId = mId;
 	}
 	public Major getMajor() {

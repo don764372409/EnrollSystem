@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -11,117 +12,150 @@
 <link rel="Bookmark" href="/favicon.ico" >
 <link rel="Shortcut Icon" href="/favicon.ico" />
 <!--[if lt IE 9]>
-<script type="text/javascript" src="/H-ui/lib/html5shiv.js"></script>
-<script type="text/javascript" src="/H-ui/lib/respond.min.js"></script>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="/H-ui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/H-ui//static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="/H-ui/static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="/H-ui/lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="/H-ui/static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="/H-ui/static/h-ui.admin/css/style.css" />
-
-<script type="text/javascript" src="/H-ui/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="/H-ui/lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="/H-ui/static/h-ui/js/H-ui.min.js"></script> 
-<script type="text/javascript" src="/H-ui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
-
-<script type="text/javascript" src="/H-ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
-<script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
-<script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-<script type="text/javascript" src="/commons/js/Pinyin.js"></script>
 <!--[if IE 6]>
-<script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
-<title>添加短信用户</title>
-<style type="text/css">
-	.searchBtn{
-		position: absolute;
-		display: inline-block;
-		width: 30px;
-		height:31px;
-		border: 1px solid #ddd;
-		right: 0;
-		top:-1px;
-		background: #f4f4f4;
-		line-height: 30px;
-		text-align: center;
-	}
-</style>
+
+<title>添加录取数据</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
-	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>姓名：</label>
-		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" onkeyup="createUsername(this)" value="" placeholder="请输入管理员姓名" name="name">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>请选择学校：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select class="select" name="uId" size="1">
+					<c:forEach items="${ulist}" var="xxx">
+						<option value="${xxx.id}">${xxx.name}</option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>账号：</label>
-		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="username">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">请选择专业：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select class="select" name="uId" size="1">
+					<c:forEach items="${mlist}" var="xxx">
+						<option value="${xxx.id}">${xxx.name}</option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>电话：</label>
-		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="phone">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>招生人数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入一个数字"  name="address" />
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<div class="col-xs-8 col-sm-10 col-sm-offset-2">
-			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学费：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入一个数字" name="ranking"/>
+			</div>
 		</div>
-	</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学制：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入一个数字" name="ranking"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">最高分：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入一个数字" name="ranking"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">最低分：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入一个数字" name="ranking"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">平均分：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入一个数字" name="ranking"/>
+			</div>
+		</div>
+	
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
 	</form>
 </article>
-<script type="text/javascript">
-function createUsername(ele){
-	var username = codefans_net_CC2PY(ele.value);
-	$("input[name=username]").val(username);
-}
-
+ 
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/H-ui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/H-ui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/H-ui/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/H-ui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+ 
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="/H-ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript"> 
 $(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
 	$("#form-member-add").validate({
 		rules:{
-			name:{
-				required:true
-			},
-			phone:{
-				required:true,
-// 				isMobile:true
-			},
 			username:{
-				required:true
+				required:true,
+				minlength:2,
+				maxlength:16
 			},
+			sex:{
+				required:true,
+			},
+			mobile:{
+				required:true,
+				isMobile:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			uploadfile:{
+				required:true,
+			},
+			
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			$(form).ajaxSubmit({
-				type: 'post',
-				url: "/admin?cmd=add" ,
-				success: function(data){
-					data = JSON.parse(data);
-					if(data.result){
-						layer.msg(data.msg,{icon:1,time:2000},function(){
-							parent.$('.btn-refresh').click();
-							var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);
-						});
-					}else{
-						layer.msg(data.msg,{icon:2,time:2000});
-					}
-				},
-                error: function(XmlHttpRequest, textStatus, errorThrown){
-					layer.msg('网络异常,请刷新重试!',{icon:2,time:1000});
+			$(form).ajaxSubmit();
+				type:'post',
+				url:"/university?cmd=add",
+				success:function(data){
+					data.JSON.parse(data);
+					
 				}
-			});
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
 		}
 	});
 });

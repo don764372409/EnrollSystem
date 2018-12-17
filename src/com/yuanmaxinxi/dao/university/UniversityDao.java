@@ -1,11 +1,9 @@
 package com.yuanmaxinxi.dao.university;
 
-import java.io.FileInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;

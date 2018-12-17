@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -62,16 +61,6 @@
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>类型：</label>
-		<div class="formControls col-sm-9">
-			<select class="select" name="type" size="1">
-					<c:forEach items="${dtlist}" var="dt">
-						<option value="${dt.id}">${dt.name}</option>
-					</c:forEach>
-			</select>
-		</div>
-	</div>
-	<div class="row cl">
 		<div class="col-xs-8 col-sm-10 col-sm-offset-2">
 			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 		</div>
@@ -91,7 +80,8 @@ $(function(){
 				required:true
 			},
 			type:{
-				required:true
+				required:true,
+// 				isMobile:true
 			},
 		},
 		onkeyup:false,
@@ -100,7 +90,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/dictionary?cmd=add" ,
+				url: "/dictionaryType?cmd=add" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){
