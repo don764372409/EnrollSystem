@@ -59,7 +59,15 @@
         <td>${obj.id}</td>
         <td>${obj.name}</td>
         <td>${obj.username}</td>
-        <td>${obj.headImg}</td>
+        <td>
+        	<c:if test="${obj.headImg!=null}">
+	        	<img alt="" src="${obj.headImg}" id="headImg_${obj.id}" style="display: none;width: 500px;">
+        		<img alt="" src="${obj.headImg}" onclick="toBigImg(${obj.id})" style="width: 30px;height: 30px;cursor: pointer;">
+        	</c:if>
+        	<c:if test="${obj.headImg==null}">
+        		无
+        	</c:if>
+        </td>
         <td>${obj.phone}</td>
         <td>
         	${obj.status}
@@ -85,6 +93,17 @@
 <script type="text/javascript" src="/H-ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+function toBigImg(id){
+	layer.open({
+		  type: 1,
+		  title: false,
+		  closeBtn: 0,
+		  area: '516px',
+		  skin: 'layui-layer-nobg', //没有背景色
+		  shadeClose: true,
+		  content: $("#headImg_"+id)
+	});
+}
 window.onload = (function(){
     // optional set
     pageNav.pre="&lt;上一页";

@@ -18,13 +18,14 @@ import com.yuanmaxinxi.util.StringUtil;
 public class AdminDAO implements BaseDAO<Admin>{
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public int insert(Admin obj)throws SQLException {
-		String sql = "insert into t_admin(name,username,password,phone,time)value(?,?,?,?,?)";
+		String sql = "insert into t_admin(name,username,password,phone,time,headImg)value(?,?,?,?,?,?)";
 		PreparedStatement state = DBUtil.getConn().prepareStatement(sql );
 		state.setObject(1, obj.getName());
 		state.setObject(2, obj.getUsername());
 		state.setObject(3, obj.getPassword());
 		state.setObject(4, obj.getPhone());
 		state.setObject(5, new Date());
+		state.setObject(6, obj.getHeadImg());
 		return state.executeUpdate();
 	}
 
