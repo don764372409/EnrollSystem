@@ -53,7 +53,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校所在地：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="username" name="address">
+				<input type="text" class="input-text" value="" placeholder="" id="address" name="address">
 			</div>
 		</div>
 		
@@ -82,7 +82,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">简介：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="remark" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="remark" id="remark" cols="" rows="" class="textarea"  placeholder="请输入院校简介，至少10个字符。。。" ></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -90,14 +90,14 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校排名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="username" name="ranking">
+				<input type="text" class="input-text" value="" placeholder="" id="ranking" name="ranking">
 			</div>
 		</div>
 		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">师资团队：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="teacher" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="teacher" id="teacher" cols="" rows="" class="textarea"  placeholder="请输入院校师资团队，至少10个字符。。。" ></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -116,7 +116,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">学科建设：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="subject" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="subject" id="subject" cols="" rows="" class="textarea"  placeholder="请输入院校学科建设，至少10个字符。。。" ></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -150,41 +150,55 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
-				maxlength:16
+				maxlength:16,
+				isChinese:true
 			},
-			sex:{
+			address:{
 				required:true,
 			},
-			mobile:{
+			ranking:{
 				required:true,
-				isMobile:true,
+				isNumber:true
 			},
-			email:{
+			subject:{
 				required:true,
-				email:true,
+				minlength:10
 			},
-			uploadfile:{
+			teacher:{
 				required:true,
+				minlength:10
 			},
-			
+			remark:{
+				required:true,
+				minlength:10
+			},
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			$(form).ajaxSubmit();
+			$(form).ajaxSubmit({
 				type:'post',
 				url:"/university?cmd=add",
 				success:function(data){
-					data.JSON.parse(data);
-					
+					data = JSON.parse(data);
+					if(data.result){
+						layer.msg(data.msg,{icon:1,time:2000});
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.$('.btn-refresh').click();
+						parent.layer.close(index);
+					}else{
+						/* 这个页面无法显示 */
+						layer.msg(data.msg,{icon:2,time:2000});
+					}
+				},
+				error:function(data){
+					layer.msg("网络异常，请稍后再试。",{icon:2,time:2000});
 				}
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			});
 		}
 	});
 });

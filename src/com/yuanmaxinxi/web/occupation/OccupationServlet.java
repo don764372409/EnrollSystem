@@ -22,7 +22,6 @@ public class OccupationServlet extends BaseServlet{
 	@Override
 	public void init() throws ServletException {
 		ocpService = new OccupationService();
-		super.init();
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,14 +30,14 @@ public class OccupationServlet extends BaseServlet{
 			req.getRequestDispatcher("/WEB-INF/occupation/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
 			String name = req.getParameter("name");
+			Long pId = Long.parseLong(req.getParameter("pId"));
 			String remark = req.getParameter("remark");
-//			Long pId = Long.parseLong(req.getParameter("pId"));
 			String workContent = req.getParameter("workContent");
 			Occupation occupation = new Occupation();
 			occupation.setName(name);
+			occupation.setpId(pId);
 			occupation.setRemark(remark);
-//			occupation.setpId(pId);
-			occupation.setName(workContent);
+			occupation.setWorkContent(workContent);
 			
 			ResultDTO dto;
 			try {
@@ -59,7 +58,26 @@ public class OccupationServlet extends BaseServlet{
 				resp.sendRedirect("/occupation");
 			}
 		}else if("edit".equals(cmd)) {
-			
+			Long id = Long.parseLong(req.getParameter("id"));
+			String name = req.getParameter("name");
+			Long pId = Long.parseLong(req.getParameter("pId"));
+			String remark = req.getParameter("remark");
+			String workContent = req.getParameter("workContent");
+			Occupation occupation = new Occupation();
+			occupation.setId(id);
+			occupation.setName(name);
+			occupation.setpId(pId);
+			occupation.setRemark(remark);
+			occupation.setName(workContent);
+			ResultDTO dto;
+			try {
+				ocpService.update(occupation);
+				dto = ResultDTO.newInstance(true, "修改成功!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
 		}else if("delete".equals(cmd)) {
 			Long id = Long.parseLong(req.getParameter("id"));
 			ResultDTO dto;

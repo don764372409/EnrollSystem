@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.web.university;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
@@ -18,10 +18,8 @@ import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/university")
-
 public class University_Servlet extends BaseServlet{
 	private UniversityService universityService;
-	public static UniversityDao uniDao=new UniversityDao();
 	private static final long serialVersionUID = 1L;
 	private ProvinceService provinceService;
 	@Override
@@ -34,48 +32,55 @@ public class University_Servlet extends BaseServlet{
 		String cmd = req.getParameter("cmd");
 		if("showAdd".equals(cmd)) {
 			try {
+			//
 			List<Dictionary> selectAllByQuality = universityService.selectAllByQuality();
 			List<Dictionary> selectAllByType = universityService.selectAllByType();
 			List<Dictionary> selectAllByRecord = universityService.selectAllByRecord();
-			System.err.println(selectAllByQuality);
 			req.setAttribute("records", selectAllByRecord);
 			req.setAttribute("qualities", selectAllByQuality);
 			req.setAttribute("types", selectAllByType);
-			
 			List<Province> pros = provinceService.selectAll();
 			req.setAttribute("pros", pros);
-			
-			
-			req.getRequestDispatcher("/WEB-INF/university/universityAdd.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/university/add.jsp").forward(req, resp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}else if("add".equals(cmd)) {
 			String name = req.getParameter("name");
+			String pId = req.getParameter("pId");
 			String address = req.getParameter("address");
 			String quality = req.getParameter("quality");
 			String type = req.getParameter("type");
+			//简介
 			String remark = req.getParameter("remark");
 			String ranking = req.getParameter("ranking");
-			String teacher = req.getParameter("teachers");
+			//师资团队
+			String teacher = req.getParameter("teacher");
 			String record = req.getParameter("record");
+			//学科建设
 			String subject = req.getParameter("subject");
 			University university = new University();
-			university.setName(name);
-			university.setAddress(address);
-			university.setQuality(Long.parseLong(quality));
-			university.setType(Long.parseLong(type));
-			university.setRemark(remark);
-			university.setRanking(Integer.parseInt(ranking));
-			university.setTeachers(teacher);
-			university.setRecord(Long.parseLong(record));
-			university.setSubject(subject);
 			ResultDTO dto;
 			try {
+				university.setName(name);
+				//类型转换错误？？？
+				university.setpId(Long.parseLong(pId));
+				university.setAddress(address);
+				//类型转换错误？？
+				university.setQuality(Long.parseLong(quality));
+				university.setType(Long.parseLong(type));
+				university.setRemark(remark);
+				university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
+				university.setTeachers(teacher);
+				university.setRecord(Long.parseLong(record));
+				university.setSubject(subject);
+				//传输信息至客户
 				universityService.insert(university);
 				dto=ResultDTO.newInstance(true, "添加成功");
+				putJson(dto, resp);
 			}catch (Exception e) {
-				ResultDTO.newInstance(false, e.getMessage());
+				dto=ResultDTO.newInstance(false, e.getMessage());
+				putJson(dto,resp);
 			}
 		}else if("showEdit".equals(cmd)) {
 			String idStr = req.getParameter("id");
@@ -96,16 +101,63 @@ public class University_Servlet extends BaseServlet{
 				resp.sendRedirect("/university");
 			}
 		}else if("edit".equals(cmd)) {
-			
-		}else if("edit".equals(cmd)) {
-			
+			String id = req.getParameter("id");
+			String name = req.getParameter("name");
+			String pId = req.getParameter("pId");
+			String address = req.getParameter("address");
+			String quality = req.getParameter("quality");
+			String type = req.getParameter("type");
+			//简介
+			String remark = req.getParameter("remark");
+			String ranking = req.getParameter("ranking");
+			//师资团队
+			String teacher = req.getParameter("teacher");
+			String record = req.getParameter("record");
+			//学科建设
+			String subject = req.getParameter("subject");
+			University university = new University();
+			ResultDTO dto;
+			try {
+				university.setId(Long.parseLong(id));
+				university.setName(name);
+				//类型转换错误？？？
+				university.setpId(Long.parseLong(pId));
+				university.setAddress(address);
+				//类型转换错误？？
+				university.setQuality(Long.parseLong(quality));
+				university.setType(Long.parseLong(type));
+				university.setRemark(remark);
+				university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
+				university.setTeachers(teacher);
+				university.setRecord(Long.parseLong(record));
+				university.setSubject(subject);
+				//传输信息至客户
+				universityService.update(university);
+				dto=ResultDTO.newInstance(true, "添加成功");
+				putJson(dto, resp);
+				resp.sendRedirect("/university");
+			}catch (Exception e) {
+				dto=ResultDTO.newInstance(false, e.getMessage());
+				putJson(dto,resp);
+			}
+		}else if("delete".equals(cmd)) {
+			ResultDTO dto;
+			try {
+				String id = req.getParameter("id");
+				universityService.delete(Long.parseLong(id));
+				dto=ResultDTO.newInstance(true, "删除成功");
+				putJson(dto, resp);
+			}catch (Exception e) {
+				dto=ResultDTO.newInstance(false, e.getMessage());
+				putJson(dto,resp);
+			}
 		}
 		else {
 			//获取所有数据并跳转页面
 			try {
 				List<University> list = universityService.selectAll();
 				req.setAttribute("list", list);
-				req.getRequestDispatcher("/WEB-INF/university/university.jsp").forward(req, resp);
+				req.getRequestDispatcher("/WEB-INF/university/list.jsp").forward(req, resp);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

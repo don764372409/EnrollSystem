@@ -22,10 +22,10 @@
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>管理员管理</title>
+<title>院校信息</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 管理员管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 院校信息管理 <span class="c-gray en">&gt;</span> 院校信息 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
 <!--   <div class="text-c"> 短信发送时间： -->
 <!--     <input type="text" onfocus="WdatePicker()" id="datemin" class="input-text Wdate" style="width:120px;"> -->
@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加管理员','/major?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加专业</a>
+		 	<a href="javascript:;" onclick="obj_add('添加院校信息','/university?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加院校信息</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -45,30 +45,41 @@
     <thead>
       <tr class="text-c">
         <th width="40">ID</th>
-        <th width="100">专业名</th>
-        <th width="100">父级ID专业</th>
-        <th width="100">专业所属学历分类</th>
-        <th width="100">专业简介</th>
-        <th width="100">专业解读</th>
-        <th width="100">专业排名</th>
-        <th width="60">操作</th>
+        <th width="80">院校名称</th>
+        <th width="100">院校所在省份</th>
+        <th width="80">院校地址</th>
+        <th width="80">院校水平</th>
+        <th width="80">院校类型</th>
+        <th width="60">简介</th>
+        <th width="100">院校排名</th>
+        <th width="100">师资团队</th>
+        <th width="100">院校学历</th>
+        <th width="100">学科建设</th>
+        <th width="50">修改</th>
+        <th width="50">删除</th>
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${list}" var="obj">
-      <tr class="text-c">
+      <tr class="text-c">-
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.pId}</td>
-        <td>${obj.type}</td>
+        <td>${obj.pro.name}</td>
+        <td>${obj.address}</td>
+        <td>${obj.qualityDic.name}</td>
+        <td>${obj.typeDic.name}</td>
         <td>${obj.remark}</td>
-        <td>${obj.majorExplain}</td>
         <td>${obj.ranking}</td>
-        
+        <td>${obj.teachers}</td>
+        <td>${obj.recordDic.name}</td>
+        <td>${obj.subject}</td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改专业','/major?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>|
-       		<a style="text-decoration:none" class="ml-5" onClick="deleteObj(this,'${obj.name}','/major?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a>
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
+       	<td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除院校信息','当前这条数据','/university?cmd=delete',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe609;</i></a> 
+       	</td>
+       	
       </tr>
       </c:forEach>
     </tbody>
@@ -101,7 +112,7 @@ $('.table-sort').dataTable({
 	"bFilter": true,//过滤功能
 	"bPaginate": true,//翻页信息
 	"bInfo": false,//数量信息
-	"aaSorting": [[ 0, "desc" ]],//默认第几个排序
+	"aaSorting": [[ 0, "asc" ]],//默认第几个排序
 	"bStateSave": true,//状态保存
 	"aoColumnDefs": [
 	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
@@ -109,14 +120,14 @@ $('.table-sort').dataTable({
 	]
 });
 function obj_add(title,url){
-	layer_show(title,url,550,400);
-// 	var index = layer.open({
-// 		type: 2,
-// 		title: title,
-// 		content: url
-// 	});
+// 	layer_show(title,url,550,300);
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
 // 	打开全屏
-// 	layer.full(index);
+	layer.full(index);
 }
 function edit(title,url,id){
 	var index = layer.open({
@@ -145,7 +156,10 @@ function deleteObj(obj,o,u,id){
 			success: function(data){
 				if(data.result){
 					layer.msg(data.msg,{icon:1,time:2000});
-					$(obj).parents("tr").remove();
+//  					var index = layer.getFrameIndex(window.name);
+					//找到.btn-refresh页面进行刷新
+ 					$('.btn-refresh').click();
+//  					layer.close(index);
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}

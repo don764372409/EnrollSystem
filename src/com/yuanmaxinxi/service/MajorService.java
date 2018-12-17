@@ -10,6 +10,7 @@ public class MajorService {
 	private MajorDAO majorDAO = new MajorDAO();
 	public void insert(Major obj) {
 		majorDAO.insert(obj);
+//		System.err.println("service"+obj);s
 	}
 
 	public void update(Major obj) {
