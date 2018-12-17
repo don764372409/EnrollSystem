@@ -1,12 +1,11 @@
 package com.yuanmaxinxi.dao.university;
 
-import java.io.FileInputStream;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
@@ -14,15 +13,15 @@ import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class UniversityDao implements BaseDAO<University>{
+	private Connection conn= DBUtil.getConn();
 	//插入院校信息
 	@Override
 	public int insert(University obj) {
 		try {
-			String sql="insert into t_university(id,pId,name,address,quality,type,remake,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?,?)";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			state.setObject(1, obj.getId());
-			state.setObject(2, obj.getpId());
-			state.setObject(3, obj.getName());
+			String sql="insert into t_university(pId,name,address,quality,type,remark,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, obj.getpId());
+			state.setObject(2, obj.getName());
 			state.setObject(3, obj.getAddress());
 			state.setObject(4, obj.getQuality());
 			state.setObject(5, obj.getType());
@@ -32,6 +31,7 @@ public class UniversityDao implements BaseDAO<University>{
 			state.setObject(9, obj.getRecord());
 			state.setObject(10, obj.getSubject());
 			int row = state.executeUpdate();
+			state.close();
 			return row;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -43,12 +43,11 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int update(University obj) {
 		try {
-			String sql="update t_university set id=?,pId = ?,name=?,address=?,quality=?,type=?,remake=?,ranking=?,teachers=?,record=?,subject=? where id= ?";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			String sql="update t_university set pId = ?,name=?,address=?,quality=?,type=?,remark=?,ranking=?,teachers=?,record=?,subject=? where id=?";
+			PreparedStatement state = conn.prepareStatement(sql);
 			//???是否更新院校id
-			state.setObject(1, obj.getId());
-			state.setObject(2, obj.getpId());
-			state.setObject(3, obj.getName());
+			state.setObject(1, obj.getpId());
+			state.setObject(2, obj.getName());
 			state.setObject(3, obj.getAddress());
 			state.setObject(4, obj.getQuality());
 			state.setObject(5, obj.getType());
@@ -59,6 +58,7 @@ public class UniversityDao implements BaseDAO<University>{
 			state.setObject(10, obj.getSubject());
 			state.setObject(11, obj.getId());
 			int row = state.executeUpdate();
+			state.close();
 			return row;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -73,6 +73,7 @@ public class UniversityDao implements BaseDAO<University>{
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			state.setObject(1, id);
 			int row = state.executeUpdate();
+			state.close();
 			return row;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +87,7 @@ public class UniversityDao implements BaseDAO<University>{
 		try {
 			University uni = new University();
 			String sql="select * from t_university where id = ?";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, id);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
@@ -99,9 +100,10 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setRemark(result.getString("remark"));
 				uni.setRanking(result.getInt("ranking"));
 				uni.setTeachers(result.getString("teachers"));
-				uni.setRecord(result.getLong("result"));
+				uni.setRecord(result.getLong("record"));
 				uni.setSubject(result.getString("subject"));
 			}
+			state.close();
 			return uni;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,7 +116,7 @@ public class UniversityDao implements BaseDAO<University>{
 		try {
 			List<University> list = new ArrayList<>();
 			String sql="select * from t_university";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			PreparedStatement state = conn.prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			//添加获取数据库的信息
 			while(result.next()) {
@@ -144,7 +146,7 @@ public class UniversityDao implements BaseDAO<University>{
 		try {
 			List<University> provincelist = new ArrayList<>();
 			String sql="select * from t_province";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			PreparedStatement state = conn.prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			//添加获取数据库的信息
 			while(result.next()) {
@@ -153,6 +155,7 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				provincelist.add(uni);
 			}
+			state.close();
 			return provincelist;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -170,7 +173,7 @@ public class UniversityDao implements BaseDAO<University>{
 		try {
 			List<Dictionary> qualitylist = new ArrayList<>();
 			String sql="select d.id , d.name from t_dictionarytype t , t_dictionary d where t.id = d.typeId and t.id=? ";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			PreparedStatement state = conn.prepareStatement(sql);
 			//？？？假设1记录的院校水平
 			state.setObject(1, "1");
 			ResultSet result = state.executeQuery();
@@ -181,6 +184,7 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				qualitylist.add(uni);
 			}
+			state.close();
 			return qualitylist;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -193,7 +197,7 @@ public class UniversityDao implements BaseDAO<University>{
 		try {
 			List<Dictionary> typelist = new ArrayList<>();
 			String sql="select d.id, d.name from t_dictionarytype t, t_dictionary d where t.id = d.typeId and t.id = ?";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			PreparedStatement state = conn.prepareStatement(sql);
 			//假设2记录的院校类型
 			state.setObject(1, "2");
 			ResultSet result = state.executeQuery();
@@ -204,6 +208,7 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				typelist.add(uni);
 			}
+			state.close();
 			return typelist;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -215,8 +220,8 @@ public class UniversityDao implements BaseDAO<University>{
 		ArrayList<Dictionary> recordlist = new ArrayList<>();
 		try {
 			String sql = "select d.id , d.name from t_dictionarytype t,t_dictionary d where t.id = d.typeId and t.id = ?";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-			state.setObject(1, "3");
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, "2");
 			ResultSet result = state.executeQuery();
 			while(result.next()) {
 				Dictionary uni = new Dictionary();
@@ -224,6 +229,7 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				recordlist.add(uni);
 			}
+			state.close();
 			return recordlist;
 		} catch (Exception e) {
 			e.printStackTrace();

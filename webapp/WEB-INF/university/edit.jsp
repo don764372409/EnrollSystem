@@ -26,7 +26,7 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加院校信息 </title>
+<title>编辑院校信息 </title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
@@ -54,7 +54,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校所在地：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="username" name="address">
+				<input type="text" class="input-text" value="${obj.address}" placeholder="" id="username" name="address">
 			</div>
 		</div>
 		
@@ -83,7 +83,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">简介：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="remark" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="remark" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)">${obj.remark}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -91,14 +91,14 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校排名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="username" name="ranking">
+				<input type="text" class="input-text" value="${obj.ranking}" placeholder="" id="username" name="ranking">
 			</div>
 		</div>
 		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">师资团队：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="teacher" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="teacher" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)">${obj.teachers}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -117,7 +117,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">学科建设：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="subject" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="subject" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)">${obj.subject}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -146,8 +146,6 @@ $(function(){
 	//回显
 // 	$("select[name=pId]").val("${obj.pId}");
 // 	$("select[name=pId]").val("5");
-	
-	
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
@@ -183,11 +181,11 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type:'post',
-				url:'/university?cmd=add',
+				url:'/university?cmd=edit',
 				success:function(data){
-					data.JSON.parse(data);
 					var index = parent.layer.getFrameIndex(window.name);
-					//parent.$('.btn-refresh').click();
+					//找到.btn-refresh页面进行刷新
+					parent.$('.btn-refresh').click();
 					parent.layer.close(index);
 				}
 			})

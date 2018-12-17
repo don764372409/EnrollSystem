@@ -55,7 +55,8 @@
         <th width="100">师资团队</th>
         <th width="100">院校学历</th>
         <th width="100">学科建设</th>
-        <th width="50">操作</th>
+        <th width="50">修改</th>
+        <th width="50">删除</th>
       </tr>
     </thead>
     <tbody>
@@ -65,17 +66,18 @@
         <td>${obj.name}</td>
         <td>${obj.pro.name}</td>
         <td>${obj.address}</td>
-        <td>${obj.quality}</td>
-        <td>${obj.type}</td>
+        <td>${obj.qualityDic.name}</td>
+        <td>${obj.typeDic.name}</td>
         <td>${obj.remark}</td>
+        <td>${obj.ranking}</td>
         <td>${obj.teachers}</td>
-        <td>${obj.record}</td>
-        <td>
-        	${obj.subject}
-		</td>
-		<td></td>
+        <td>${obj.recordDic.name}</td>
+        <td>${obj.subject}</td>
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+       	</td>
+       	<td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除院校信息','当前这条数据','/university?cmd=delete',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe609;</i></a> 
        	</td>
        	
       </tr>
@@ -110,7 +112,7 @@ $('.table-sort').dataTable({
 	"bFilter": true,//过滤功能
 	"bPaginate": true,//翻页信息
 	"bInfo": false,//数量信息
-	"aaSorting": [[ 0, "desc" ]],//默认第几个排序
+	"aaSorting": [[ 0, "asc" ]],//默认第几个排序
 	"bStateSave": true,//状态保存
 	"aoColumnDefs": [
 	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
@@ -128,7 +130,6 @@ function obj_add(title,url){
 	layer.full(index);
 }
 function edit(title,url,id){
-	console.log(url);
 	var index = layer.open({
 		type: 2,
 		title: title,
@@ -155,7 +156,10 @@ function deleteObj(obj,o,u,id){
 			success: function(data){
 				if(data.result){
 					layer.msg(data.msg,{icon:1,time:2000});
-					$(obj).parents("tr").remove();
+//  					var index = layer.getFrameIndex(window.name);
+					//找到.btn-refresh页面进行刷新
+ 					$('.btn-refresh').click();
+//  					layer.close(index);
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}

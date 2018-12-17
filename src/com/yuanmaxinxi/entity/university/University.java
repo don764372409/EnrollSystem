@@ -1,5 +1,6 @@
 package com.yuanmaxinxi.entity.university;
 
+import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 
 public class University{
@@ -9,9 +10,12 @@ public class University{
 	private String address;//所在地		
 		
 	private Long quality;//FK 参照字典表的院校水平分类		
+	private Dictionary qualityDic;
 
+	
 	private Long type;//FK 参照字典表的院校类型分类		
-
+	private Dictionary typeDic;
+	
 	private String remark;//简介		
 
 	private int ranking;//院校排名		
@@ -19,10 +23,29 @@ public class University{
 	private String teachers;//	师资团队,百度百科爬取		
 
 	private Long record; //FK 参照字典表的院校学历 
-
-	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)		
-	private Province pro;
+	private Dictionary recordDic;
 	
+	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)		
+	private Province pro;//省份
+	
+	public Dictionary getQualityDic() {
+		return qualityDic;
+	}
+	public void setQualityDic(Dictionary qualityDic) {
+		this.qualityDic = qualityDic;
+	}
+	public Dictionary getTypeDic() {
+		return typeDic;
+	}
+	public void setTypeDic(Dictionary typeDic) {
+		this.typeDic = typeDic;
+	}
+	public Dictionary getRecordDic() {
+		return recordDic;
+	}
+	public void setRecordDic(Dictionary recordDic) {
+		this.recordDic = recordDic;
+	}
 	public Province getPro() {
 		return pro;
 	}
