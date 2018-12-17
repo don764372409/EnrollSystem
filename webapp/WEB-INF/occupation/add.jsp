@@ -61,6 +61,12 @@
 		</div>
 	</div>
 	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>父级id所属专业：</label>
+		<div class="formControls col-sm-9">
+		<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="pId">
+		</div>
+	</div>
+	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>职业简介：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="remark">

@@ -62,8 +62,10 @@
         <td>${obj.workContent}</td>
         
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('/occupation?cmd=showEdit')" href="javascript:;" title="修改"><i class="Hui-iconfont">修改</i></a>|<a>删除</a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改职业','/occupation?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>| 
+       		<a style="text-decoration:none" class="ml-5" onClick="deleteObj(this,'${obj.name}','/occupation?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a>
        	</td>
+       	
       </tr>
       </c:forEach>
     </tbody>
@@ -117,7 +119,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }

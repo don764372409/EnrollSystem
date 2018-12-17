@@ -35,11 +35,11 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 		try {
 			String sql = "update t_occupation set name =?,pId=?, remark=?,workContent=? where id = ?";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-				state.setObject(1, obj.getId());
-				state.setObject(2, obj.getName());
-				state.setObject(3, obj.getpId());
-				state.setObject(4, obj.getRemark());
-				state.setObject(5, obj.getWorkContent());
+				state.setObject(1, obj.getName());
+				state.setObject(2, obj.getpId());
+				state.setObject(3, obj.getRemark());
+				state.setObject(4, obj.getWorkContent());
+				state.setObject(5, obj.getId());
 				return state.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -72,8 +72,8 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 				oc.setId(result.getLong("id"));
 				oc.setName(result.getString("name"));
 				oc.setpId(result.getLong("pId"));
-				oc.setWorkContent(result.getString("workContent"));
 				oc.setRemark(result.getString("remark"));
+				oc.setWorkContent(result.getString("workContent"));
 				return oc;
 			}
 		} catch (Exception e) {
