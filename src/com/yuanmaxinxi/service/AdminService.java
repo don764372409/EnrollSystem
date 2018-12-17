@@ -1,5 +1,6 @@
 package com.yuanmaxinxi.service;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -40,14 +41,27 @@ public class AdminService {
 		
 	}
 
-	public void update(Admin obj) {
+	public int update(Admin obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("账号不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
+			throw new RuntimeException("电话不能为空");
+		}
+		try {
+			return adminDAO.update(obj);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	public void delete(Long id) {
 	}
 
 	public Admin selectOneById(Long id) {
-		return null;
+		return adminDAO.selectOneById(id);
 	}
 
 	public List<Admin> selectAll() {

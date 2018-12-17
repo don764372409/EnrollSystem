@@ -22,6 +22,7 @@ public class AdminServlet extends BaseServlet{
 	
 	
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
 		String cmd = req.getParameter("cmd");
 		if ("showAdd".equals(cmd)) {
 			req.getRequestDispatcher("/WEB-INF/admin/add.jsp").forward(req, resp);
@@ -47,9 +48,26 @@ public class AdminServlet extends BaseServlet{
 			}
 			putJson(dto, resp);
 		}else if("showEdit".equals(cmd)) {
-			
-		}else if("edit".equals(cmd)) {
 			String idStr = req.getParameter("id");
+			Admin admin=adminService.selectOneById(Long.parseLong(idStr));
+			req.setAttribute("obj", admin);
+			req.getRequestDispatcher("/WEB-INF/admin/updata.jsp").forward(req, resp);
+		}else if("edit".equals(cmd)) {
+			String name = req.getParameter("name");
+			System.out.println(name);
+			String phone = req.getParameter("phone");
+			System.out.println(phone);
+			Long id=Long.parseLong(req.getParameter("id"));
+			System.out.println("id");
+			Admin admin = new Admin();
+			int result=adminService.update(admin);
+			ResultDTO dto;
+			if(result==1) {
+				dto=ResultDTO.newInstance(true, "修改成功!");
+			}else {
+				dto=ResultDTO.newInstance(false, "修改失败!");
+			}
+			putJson(dto, resp);
 			
 		}else if("delete".equals(cmd)) {
 			String idStr = req.getParameter("id");
