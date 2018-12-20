@@ -18,20 +18,16 @@ public class ProvinceDao implements BaseDAO<Province>{
 	PreparedStatement sql;
 	@Override
 	public int insert(Province obj) {
-		// TODO Auto-generated method stub
-		Long id = obj.getId();
-		String name = obj.getName();
-		String sql="insert into t_province(id,name) values "+id+""+name;
+		String sql="insert into t_province(name) values(?)";
 		try {
 			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setObject(1, obj.getName());
 			int result = pre.executeUpdate();
 			return result;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
 		}
-		
 	}
 
 	@Override
@@ -71,6 +67,26 @@ public class ProvinceDao implements BaseDAO<Province>{
 		String sql="select * from t_province where id="+id;
 		try {
 			PreparedStatement pre = conn.prepareStatement(sql);
+			ResultSet result = pre.executeQuery();
+			if(result.next()) {
+				Province province = new Province();
+				province.setId(result.getLong("id"));
+				province.setName(result.getString("name"));
+				return province;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		}
+		return null;
+	}
+	/**
+	 * 通过名字获取省份
+	 */
+	public Province selectOneById(String name) {
+		String sql="select * from t_province where name=?";
+		try {
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setObject(1, name);
 			ResultSet result = pre.executeQuery();
 			if(result.next()) {
 				Province province = new Province();

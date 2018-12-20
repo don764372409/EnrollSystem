@@ -142,7 +142,7 @@
 						<li><a data-href="/admin" data-title="管理员管理" href="javascript:void(0)">管理员管理</a></li>
 						<li><a data-href="/dictionaryType" data-title="字典分类管理" href="javascript:void(0)">字典分类管理</a></li>
 						<li><a data-href="/dictionary" data-title="字典项管理" href="javascript:void(0)">字典项管理</a></li>
-						<li><a data-href="/pro" data-title="省份管理" href="javascript:void(0)">省份管理</a></li>
+						<li><a data-href="/province" data-title="省份管理" href="javascript:void(0)">省份管理</a></li>
 					</ul>
 				</dd>
 			</dl>

@@ -41,7 +41,7 @@ public class ProvinceServlet extends BaseServlet{
 				dto=ResultDTO.newInstance(true, "添加成功");
 			} catch (Exception e) {
 				e.printStackTrace();
-				ResultDTO.newInstance(false, "添加失败");
+				dto = ResultDTO.newInstance(false, "添加失败");
 			}
 			
 			putJson(dto, resp);
@@ -52,6 +52,17 @@ public class ProvinceServlet extends BaseServlet{
 		//nihao
 		}else if("delete".equals(cmd)) {
 			
+		}else if("reload".equals(cmd)) {
+			//重新爬取数据，也就是更新数据库
+			ResultDTO dto = null;
+			try {
+				provinceservice.reload();
+				dto=ResultDTO.newInstance(true, "重新爬取成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
 		}else {
 			//获取所有数据并跳转到列表页面123
 			List<Province> list = provinceservice.selectAll();

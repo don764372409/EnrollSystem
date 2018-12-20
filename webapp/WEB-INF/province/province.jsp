@@ -25,7 +25,7 @@
 <title>管理员管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 管理员管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 省份管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
 <!--   <div class="text-c"> 短信发送时间： -->
 <!--     <input type="text" onfocus="WdatePicker()" id="datemin" class="input-text Wdate" style="width:120px;"> -->
@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加管理员','/province?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="reloadProvince('/province?cmd=reload')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe68f;</i>刷新省份(爬虫重新爬取)</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -45,7 +45,7 @@
     <thead>
       <tr class="text-c">
         <th width="40">ID</th>
-        <th width="100">省份</th>
+        <th width="500">省份</th>
 <!--    <th width="100">头像2</th> -->
 <!--    <th width="100">电话</th> -->
 <!--    <th width="90">状态</th> -->
@@ -105,75 +105,31 @@ $('.table-sort').dataTable({
 // 	  {"orderable":false,"aTargets":[0,4,5]}// 制定列不参与排序
 	]
 });
-function obj_add(title,url){
-	layer_show(title,url,550,400);
-// 	var index = layer.open({
-// 		type: 2,
-// 		title: title,
-// 		content: url
-// 	});
-// 	打开全屏
-// 	layer.full(index);
-}
-function edit(title,url,id){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url+"?id="+id
-	});
-	layer.full(index);
-}
-function sendMessage(title,url,id){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url+"?id="+id
-	});
-	layer.full(index);
-}
 
-function deleteObj(obj,o,u,id){
-	layer.confirm("确认要删除"+o+"吗？",function(index){
-		$.ajax({
-			type: 'POST',
-			url: u,
-			data:{"id":id},
-			dataType: 'json',
-			success: function(data){
-				if(data.result){
-					layer.msg(data.msg,{icon:1,time:2000});
-					$(obj).parents("tr").remove();
-				}else{
-					layer.msg(data.msg,{icon:2,time:2000});
-				}
-
-			},
-			error:function(data) {
-				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
-			},
-		});		
+function reloadProvince(u){
+	//显示loading动画
+	var index = layer.load(1, {
+		  shade: [0.1,'#fff'] //0.1透明度的白色背景
 	});
-}
-function resetPassword(obj,o,u,id){
-	layer.confirm("确认要重置"+o+"的密码吗？",function(index){
-		$.ajax({
-			type: 'POST',
-			url: u,
-			data:{"id":id},
-			dataType: 'json',
-			success: function(data){
-				if(data.result){
-					layer.msg(data.msg,{icon:1,time:2000});
-				}else{
-					layer.msg(data.msg,{icon:2,time:2000});
-				}
+	$.ajax({
+		type: 'POST',
+		url: u,
+		dataType: 'json',
+		success: function(data){
+			layer.close(index);
+			if(data.result){
+				layer.msg(data.msg,{icon:1,time:2000},function(){
+					$('.btn-refresh').click();
+				});
+			}else{
+				layer.msg(data.msg,{icon:2,time:2000});
+			}
 
-			},
-			error:function(data) {
-				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
-			},
-		});		
-	});
+		},
+		error:function(data) {
+			layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
+		},
+	});		
 }
 </script>
 </body>
