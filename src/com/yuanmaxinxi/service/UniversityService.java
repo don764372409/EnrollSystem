@@ -46,6 +46,10 @@ public class UniversityService {
 		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
 			throw new RuntimeException("院校学科建设不能空");
 		}
+		University selectOneByName = universityDAO.selectOneByName(obj.getName());
+		if(selectOneByName.getName().equals(obj.getName())) {
+			throw new RuntimeException("添加院校名称重复");
+		}
 		try {
 			int i = universityDAO.insert(obj);
 			if (i!=1) {
@@ -54,6 +58,7 @@ public class UniversityService {
 		} catch (Exception e) {
 			throw new RuntimeException("添加失败,请稍后重试.");
 		}
+		
 	}
 
 
@@ -105,7 +110,7 @@ public class UniversityService {
 	public University selectOneById(Long id) {
 		University selectOneById = universityDAO.selectOneById(id);
 		if(selectOneById==null) {
-			throw new RuntimeException("查询院校信息不能为空");
+			throw new RuntimeException("查询院校信息为空");
 		}
 		return selectOneById;
 	}

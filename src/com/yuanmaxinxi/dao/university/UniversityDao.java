@@ -110,6 +110,35 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return null;
 	}
+	
+	public University selectOneByName(String Str) {
+		try {
+			University uni = new University();
+			String sql="select * from t_university where name = ?";
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, Str);
+			ResultSet result = state.executeQuery();
+			if(result.next()) {
+				uni.setId(result.getLong("id"));
+				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
+				uni.setAddress(result.getString("address"));
+				uni.setQuality(result.getLong("quality"));
+				uni.setType(result.getLong("type"));
+				uni.setRemark(result.getString("remark"));
+				uni.setRanking(result.getInt("ranking"));
+				uni.setTeachers(result.getString("teachers"));
+				uni.setRecord(result.getLong("record"));
+				uni.setSubject(result.getString("subject"));
+			}
+			state.close();
+			return uni;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	//查询全部院校信息
 	@Override
 	public  List<University> selectAll() {
@@ -168,7 +197,7 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 
-	//查询所有的院校水平
+	//通过院校水平查询所有
 	public List<Dictionary> selectAllByQuality() {
 		try {
 			List<Dictionary> qualitylist = new ArrayList<>();
@@ -192,7 +221,7 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 	
-	//查询院校类型
+	//通过院校类型查询所有
 	public List<Dictionary> selectAllByType() {
 		try {
 			List<Dictionary> typelist = new ArrayList<>();
@@ -216,6 +245,7 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 	
+	//通过院校学历查询所有信息
 	public List<Dictionary> selecetAllByRecord() {
 		ArrayList<Dictionary> recordlist = new ArrayList<>();
 		try {

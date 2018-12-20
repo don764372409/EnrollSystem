@@ -25,8 +25,6 @@ public class EnrollServlet extends BaseServlet{
 		us = new UniversityService();
 		ms = new MajorService();
 	}
-	
-	
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
 		System.err.println(cmd);
@@ -39,7 +37,6 @@ public class EnrollServlet extends BaseServlet{
 			Enroll enroll = new Enroll();
 			ResultDTO dto;
 			try {
-				
 				es.insert(enroll);
 				dto = ResultDTO.newInstance(true, "添加成功!");
 			} catch (Exception e) {
