@@ -28,7 +28,6 @@ public class EnrollServlet extends BaseServlet{
 		us = new UniversityService();
 		ms = new MajorService();
 	}
-	
 	private Enroll getEnroll(HttpServletRequest req) throws NumberFormatException {
 		Enroll e = new Enroll();
 		

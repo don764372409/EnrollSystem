@@ -44,19 +44,19 @@
   <table class="table table-border table-bordered table-hover table-bg table-sort">
     <thead>
       <tr class="text-c">
-        <th width="40">ID</th>
+        <th width="30">ID</th>
         <th width="80">院校名称</th>
-        <th width="100">院校所在省份</th>
+        <th width="120">院校所在省份</th>
         <th width="80">院校地址</th>
         <th width="80">院校水平</th>
         <th width="80">院校类型</th>
-        <th width="60">简介</th>
-        <th width="100">院校排名</th>
-        <th width="100">师资团队</th>
-        <th width="100">院校学历</th>
-        <th width="100">学科建设</th>
-        <th width="50">修改</th>
-        <th width="50">删除</th>
+        <th width="40">简介</th>
+        <th width="80">院校排名</th>
+        <th width="80">师资团队</th>
+        <th width="80">院校学历</th>
+        <th width="80">学科建设</th>
+        <th width="40">修改</th>
+        <th width="40">删除</th>
       </tr>
     </thead>
     <tbody>
@@ -77,7 +77,7 @@
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
        	<td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除院校信息','当前这条数据','/university?cmd=delete',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe609;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除院校信息','当前这条数据','/university?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
        	</td>
        	
       </tr>
@@ -163,7 +163,6 @@ function deleteObj(obj,o,u,id){
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}
-
 			},
 			error:function(data) {
 				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});

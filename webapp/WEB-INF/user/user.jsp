@@ -184,7 +184,6 @@ function resetPassword(obj,o,u,id){
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}
-
 			},
 			error:function(data) {
 				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});

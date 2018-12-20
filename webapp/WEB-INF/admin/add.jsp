@@ -19,6 +19,8 @@
 <link rel="stylesheet" type="text/css" href="/H-ui/lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="/H-ui/static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="/H-ui/static/h-ui.admin/css/style.css" />
+<link href="/H-ui/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+
 
 <script type="text/javascript" src="/H-ui/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/layer/2.4/layer.js"></script>
@@ -29,6 +31,8 @@
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/H-ui/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+
 <script type="text/javascript" src="/commons/js/Pinyin.js"></script>
 <!--[if IE 6]>
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
@@ -67,6 +71,17 @@
 		</div>
 	</div>
 	<div class="row cl">
+		<label class="form-label col-sm-3">头像：</label>
+			<div class="formControls col-sm-9">
+				<div class="uploader-thum-container">
+					<div id="filePicker">
+						<input type="hidden" name="headImg">
+						<img id="headImg" src="/commons/img/headImg.png" style="cursor: pointer;" width="100px" height="100px"/>
+					</div>
+				</div>
+			</div>
+	</div>
+	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>电话：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="phone">
@@ -93,7 +108,7 @@ $(function(){
 			},
 			phone:{
 				required:true,
-// 				isMobile:true
+				isMobile:true
 			},
 			username:{
 				required:true
@@ -125,6 +140,51 @@ $(function(){
 		}
 	});
 });
+var uploader = WebUploader.create({
+	auto: true,
+	swf: '/H-ui/lib/webuploader/0.1.5/Uploader.swf',
+
+	// 文件接收服务端。
+	server: '/upload',
+
+	// 选择文件的按钮。可选。
+	// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+	pick: {
+		id:'#filePicker',
+		multiple:false
+	},
+
+	// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+	resize: false,
+	// 只允许选择图片文件。
+	accept: {
+		title: 'Images',
+		extensions: 'gif,jpg,jpeg,bmp,png',
+		mimeTypes: 'image/*'
+	}
+});
+// 文件上传过程中创建进度条实时显示。
+uploader.on( 'uploadProgress', function( file, percentage ) {
+	var $li = $( '#'+file.id ),
+		$percent = $li.find('.progress-box .sr-only');
+
+	// 避免重复创建
+	if ( !$percent.length ) {
+		$percent = $('<div class="progress-box"><span class="progress-bar radius"><span class="sr-only" style="width:0%"></span></span></div>').appendTo( $li ).find('.sr-only');
+	}
+	$li.find(".state").text("上传中");
+	$percent.css( 'width', percentage * 100 + '%' );
+});
+uploader.on('uploadAccept',function(obj,data){
+	$( '#'+obj.id ).find('.progress-box').fadeOut();
+	uploader.reset();
+	if (data.result) {
+		$("#headImg")[0].src=data.msg;
+		$("input[name=headImg]").val(data.msg);
+	}else{
+		layer.msg(data.msg,{icon:2,time:2000});
+	}
+})
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

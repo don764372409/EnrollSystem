@@ -49,7 +49,7 @@
         <th width="100">账号</th>
         <th width="100">头像</th>
         <th width="100">电话</th>
-<!--    <th width="90">状态</th> -->
+        <th width="90">状态</th>
         <th width="60">操作</th>
       </tr>
     </thead>
@@ -59,10 +59,21 @@
         <td>${obj.id}</td>
         <td>${obj.name}</td>
         <td>${obj.username}</td>
-        <td>${obj.headImg}</td>
+        <td>
+        	<c:if test="${obj.headImg!=null}">
+	        	<img alt="" src="${obj.headImg}" id="headImg_${obj.id}" style="display: none;width: 500px;">
+        		<img alt="" src="${obj.headImg}" onclick="toBigImg(${obj.id})" style="width: 30px;height: 30px;cursor: pointer;">
+        	</c:if>
+        	<c:if test="${obj.headImg==null}">
+        		无
+        	</c:if>
+        </td>
         <td>${obj.phone}</td>
+        <td>
+        	${obj.status}
+		</td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/admin?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
        	</td>
       </tr>
       </c:forEach>
@@ -82,6 +93,17 @@
 <script type="text/javascript" src="/H-ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+function toBigImg(id){
+	layer.open({
+		  type: 1,
+		  title: false,
+		  closeBtn: 0,
+		  area: '516px',
+		  skin: 'layui-layer-nobg', //没有背景色
+		  shadeClose: true,
+		  content: $("#headImg_"+id)
+	});
+}
 window.onload = (function(){
     // optional set
     pageNav.pre="&lt;上一页";
@@ -114,11 +136,10 @@ function obj_add(title,url){
 // 	layer.full(index);
 }
 function edit(title,url,id){
-	console.log(url);
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"&id="+id
+		content: url+"?id="+id
 	});
 	layer.full(index);
 }

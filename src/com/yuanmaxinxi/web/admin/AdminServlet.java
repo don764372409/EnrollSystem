@@ -30,12 +30,14 @@ public class AdminServlet extends BaseServlet{
 			String name = req.getParameter("name");
 			String username = req.getParameter("username");
 			String phone = req.getParameter("phone");
+			String headImg = req.getParameter("headImg");
 			//封装
 			Admin admin = new Admin();
 			admin.setName(name);
 			admin.setUsername(username);
 			admin.setPhone(phone);
 			admin.setPassword("88888888");
+			admin.setHeadImg(headImg);
 			//调方法添加
 			ResultDTO dto;
 			try {

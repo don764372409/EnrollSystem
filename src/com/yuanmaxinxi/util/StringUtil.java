@@ -5,6 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StringUtil {
+	public static String getEndWidth(String str) {
+		int i = str.lastIndexOf(".");
+		return str.substring(i, str.length());
+	}
 	public static boolean isNotNullAndEmpty(String str) {
 		return str!=null&&!"".equals(str.trim());
 	}
