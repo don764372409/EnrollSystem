@@ -56,8 +56,26 @@ public class AdminService {
 			return 0;
 		}
 	}
+	
+	public int edit(Admin obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("账号不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
+			throw new RuntimeException("电话不能为空");
+		}
+		try {
+			return adminDAO.edit(obj);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
-	public void delete(Long id) {
+	
+	public int delete(Long id) {
+		return adminDAO.delete(id);
 	}
 
 	public Admin selectOneById(Long id) {
@@ -125,4 +143,6 @@ public class AdminService {
 		}
 		return sysAdmin;
 	}
+
+
 }

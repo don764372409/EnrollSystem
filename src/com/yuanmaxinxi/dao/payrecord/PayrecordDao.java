@@ -30,7 +30,17 @@ public class PayrecordDao implements BaseDAO<PayRecord>{
 	@Override
 	public int delete(Long id) {
 		// TODO Auto-generated method stub
-		return 0;
+		String sql="delete from where id="+id;
+		PreparedStatement pre;
+		try {
+			pre = conn.prepareStatement(sql);
+			return pre.executeUpdate();
+		} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			return 0;
+			
 	}
 
 	@Override
@@ -60,12 +70,13 @@ public class PayrecordDao implements BaseDAO<PayRecord>{
 		// TODO Auto-generated method stub
 		ArrayList<PayRecord> list = new ArrayList<>();
 		PayRecord payrecord = new PayRecord();
-		String sql="select * from t_province";
+		String sql="select * from t_payment";
 		try {
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet result = pre.executeQuery();
 			while(result.next()) {
 				payrecord.setId(result.getInt("id"));
+				System.out.println(result.getInt("uId"));
 				payrecord.setuId(result.getInt("uId"));
 				payrecord.setMoney(result.getBigDecimal("money"));
 				payrecord.setRemark(result.getString("remark"));

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.payrecord.PayRecord;
 import com.yuanmaxinxi.service.PayRecordService;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -25,7 +26,17 @@ public class PayRecordServlet extends BaseServlet{
 		// TODO Auto-generated method stub
 		String cmd = req.getParameter("cmd");
 		if("showEdit".equals("cmd")) {
-		
+		}
+		if("delete".equals(cmd)) {
+			Long id = Long.parseLong(req.getParameter("id"));
+			int del=payrecordservice.delete(id);
+			ResultDTO dto;
+			if(del==1) {
+				dto=ResultDTO.newInstance(true, "删除成功!");
+			}else {
+				dto=ResultDTO.newInstance(false, "删除失败!");
+			}
+			putJson(dto, resp);
 		}else{
 		
 		List<PayRecord>  list= payrecordservice.selectAll();

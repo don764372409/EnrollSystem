@@ -29,17 +29,35 @@ public class AdminDAO implements BaseDAO<Admin>{
 	}
 
 	public int update(Admin obj) throws SQLException {
-		PreparedStatement state = DBUtil.getConn().prepareStatement("update t_admin set name = ?,phone=? where id = ?");
+		PreparedStatement state = DBUtil.getConn().prepareStatement("update t_admin set name = ?,phone=?,ip=?,time=? where id = ?");
 		state.setObject(1, obj.getName());
 		state.setObject(2, obj.getPhone());
 		state.setObject(3, obj.getIp());
+		state.setObject(4, obj.getTime());
+		state.setObject(5, obj.getId());
+		return state.executeUpdate();
+	}
+	public int edit(Admin obj) throws SQLException {
+		PreparedStatement state = DBUtil.getConn().prepareStatement("update t_admin set name = ?,phone=? where id = ?");
+		state.setObject(1, obj.getName());
+		state.setObject(2, obj.getPhone());
+		state.setObject(3, obj.getId());
 		return state.executeUpdate();
 	}
 
 	@Override
 	public int delete(Long id) {
 		// TODO Auto-generated method stub
+		PreparedStatement state;
+		try {
+			state = DBUtil.getConn().prepareStatement("delete from t_admin where id="+id);
+			return state.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return 0;
+	    
 	}
 
 	@Override
@@ -52,6 +70,7 @@ public class AdminDAO implements BaseDAO<Admin>{
 			ResultSet result = pre.executeQuery();
 			while(result.next()) {
 				admin = new Admin();
+				admin.setId(id);
 				admin.setName(result.getString("name"));
 				admin.setUsername(result.getString("username"));
 				admin.setHeadImg(result.getString("headImg"));

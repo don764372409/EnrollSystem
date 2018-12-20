@@ -18,7 +18,8 @@ public class PayRecordService {
 	public void update(PayRecord obj) {
 	}
 
-	public void delete(Long id) {
+	public int delete(Long id) {
+		return payrecorddao.delete(id);
 	}
 
 	public Admin selectOneById(Long id) {

@@ -49,7 +49,7 @@
         <th width="100">账号</th>
         <th width="100">头像</th>
         <th width="100">电话</th>
-        <th width="90">状态</th>
+        <th width="90">删除</th>
         <th width="60">操作</th>
       </tr>
     </thead>
@@ -69,11 +69,11 @@
         	</c:if>
         </td>
         <td>${obj.phone}</td>
-        <td>
-        	${obj.status}
-		</td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/admin?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+		</td>
+        	<td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/admin?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
       </tr>
       </c:forEach>
@@ -136,10 +136,11 @@ function obj_add(title,url){
 // 	layer.full(index);
 }
 function edit(title,url,id){
+	console.log(url);
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"?id="+id
+		content: url+"&id="+id
 	});
 	layer.full(index);
 }
@@ -152,8 +153,8 @@ function sendMessage(title,url,id){
 	layer.full(index);
 }
 
-function deleteObj(obj,o,u,id){
-	layer.confirm("确认要删除"+o+"吗？",function(index){
+function deleteObj(u,id){
+	layer.confirm("确认要删除？",function(index){
 		$.ajax({
 			type: 'POST',
 			url: u,
@@ -162,7 +163,8 @@ function deleteObj(obj,o,u,id){
 			success: function(data){
 				if(data.result){
 					layer.msg(data.msg,{icon:1,time:2000});
-					$(obj).parents("tr").remove();
+					 window.location.reload();
+// 					$('.btn-refresh').click();
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}
@@ -170,7 +172,7 @@ function deleteObj(obj,o,u,id){
 			},
 			error:function(data) {
 				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
-			},
+			}
 		});		
 	});
 }
@@ -187,7 +189,7 @@ function resetPassword(obj,o,u,id){
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}
-
+					
 			},
 			error:function(data) {
 				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});

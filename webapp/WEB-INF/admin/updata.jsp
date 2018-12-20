@@ -57,7 +57,7 @@
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">
 		<div class="formControls col-sm-9">
-			<input type="hidden" class="input-text" onkeyup="createUsername(this)" value="${obj.id}" placeholder="请输入管理员姓名" name="name">
+			<input type="hidden" class="input-text" onkeyup="createUsername(this)" value="${obj.id}" placeholder="请输入管理员姓名" name="id">
 		</div>
 	</div>
 	<div class="row cl">

@@ -54,13 +54,13 @@ public class AdminServlet extends BaseServlet{
 			req.getRequestDispatcher("/WEB-INF/admin/updata.jsp").forward(req, resp);
 		}else if("edit".equals(cmd)) {
 			String name = req.getParameter("name");
-			System.out.println(name);
 			String phone = req.getParameter("phone");
-			System.out.println(phone);
 			Long id=Long.parseLong(req.getParameter("id"));
-			System.out.println("id");
 			Admin admin = new Admin();
-			int result=adminService.update(admin);
+			admin.setId(id);
+			admin.setName(name);
+			admin.setPhone(phone);
+			int result=adminService.edit(admin);
 			ResultDTO dto;
 			if(result==1) {
 				dto=ResultDTO.newInstance(true, "修改成功!");
@@ -70,7 +70,16 @@ public class AdminServlet extends BaseServlet{
 			putJson(dto, resp);
 			
 		}else if("delete".equals(cmd)) {
+			
 			String idStr = req.getParameter("id");
+			int del=adminService.delete(Long.parseLong(idStr));
+			ResultDTO dto;
+			if(del==1) {
+				dto=ResultDTO.newInstance(true, "删除成功!");
+			}else {
+				dto=ResultDTO.newInstance(false, "删除失败!");
+			}
+			putJson(dto, resp);
 		}else {
 			//获取所有数据并跳转到列表页面
 			List<Admin> list = adminService.selectAll();

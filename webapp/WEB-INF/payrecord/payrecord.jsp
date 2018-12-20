@@ -49,7 +49,7 @@
 		<th width="100">time</th>
 		<th width="100">money</th>
 		<th width="90">remark</th>
-<!--    <th width="60">操作</th> -->
+		<th width="60">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -65,9 +65,9 @@
 <!--         <td> -->
 <%--         	${obj.status} --%>
 <!-- 		</td> -->
-<!--         <td class="f-14 user-manage"> -->
-<!-- 			<a style="text-decoration:none" class="ml-5" onClick="xxx" href="javascript:;" title="修改"><i class="Hui-iconfont">xxx</i></a>  -->
-<!--        	</td> -->
+        <td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/payrecord?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+		</td>
        	
       </tr>
       </c:forEach>
@@ -134,9 +134,8 @@ function sendMessage(title,url,id){
 	});
 	layer.full(index);
 }
-
-function deleteObj(obj,o,u,id){
-	layer.confirm("确认要删除"+o+"吗？",function(index){
+function deleteObj(u,id){
+	layer.confirm("确认要删除？",function(index){
 		$.ajax({
 			type: 'POST',
 			url: u,
@@ -145,7 +144,8 @@ function deleteObj(obj,o,u,id){
 			success: function(data){
 				if(data.result){
 					layer.msg(data.msg,{icon:1,time:2000});
-					$(obj).parents("tr").remove();
+					 window.location.reload();
+// 					$('.btn-refresh').click();
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}
@@ -153,7 +153,7 @@ function deleteObj(obj,o,u,id){
 			},
 			error:function(data) {
 				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
-			},
+			}
 		});		
 	});
 }
