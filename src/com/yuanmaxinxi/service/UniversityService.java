@@ -1,7 +1,10 @@
 package com.yuanmaxinxi.service;
 
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
@@ -9,7 +12,7 @@ import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
-import com.yuanmaxinxi.util.MD5Util;
+import com.yuanmaxinxi.util.CrawUniversityUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
 
@@ -174,5 +177,22 @@ public class UniversityService {
 			throw new RuntimeException("院校学历信息不存在");
 		}
 		return selecetAllByRecord;
+	}
+	
+
+	public void craw() {
+		//查到所有的省
+		List<Province> pros = provinceDao.selectAll();
+		try {
+			for (Province pro : pros) {
+				//将省名称进行URL编码
+				String proName = URLEncoder.encode(pro.getName(), "utf-8");
+				//默认将第一页的URL放进队列中
+				CrawUniversityUtil.que.put("https://gkcx.eol.cn/soudaxue/queryschool.html?&page="+1+"&province="+proName);
+			}
+			CrawUniversityUtil.startCraw();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

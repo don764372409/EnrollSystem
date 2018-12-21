@@ -151,8 +151,9 @@ public class University_Servlet extends BaseServlet{
 				dto=ResultDTO.newInstance(false, e.getMessage());
 				putJson(dto,resp);
 			}
-		}
-		else {
+		}else if("craw".equals(cmd)) {
+			universityService.craw();
+		}else {
 			//获取所有数据并跳转页面
 			try {
 				List<University> list = universityService.selectAll();
