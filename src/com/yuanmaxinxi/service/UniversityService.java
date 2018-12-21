@@ -1,7 +1,6 @@
 package com.yuanmaxinxi.service;
 
 import java.util.List;
-
 import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;

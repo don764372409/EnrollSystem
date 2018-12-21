@@ -15,6 +15,7 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.service.UniversityService;
+import com.yuanmaxinxi.util.CrawlUniversityOfNameDataUtil;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/university")
@@ -152,6 +153,8 @@ public class University_Servlet extends BaseServlet{
 				dto=ResultDTO.newInstance(false, e.getMessage());
 				putJson(dto,resp);
 			}
+		}else if("crawl".equals(cmd)) {
+			CrawlUniversityOfNameDataUtil.crawl();
 		}
 		else {
 			//获取所有数据并跳转页面
