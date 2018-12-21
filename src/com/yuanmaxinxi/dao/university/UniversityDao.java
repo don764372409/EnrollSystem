@@ -31,7 +31,6 @@ public class UniversityDao implements BaseDAO<University>{
 			state.setObject(9, obj.getRecord());
 			state.setObject(10, obj.getSubject());
 			int row = state.executeUpdate();
-			state.close();
 			return row;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -58,7 +57,6 @@ public class UniversityDao implements BaseDAO<University>{
 			state.setObject(10, obj.getSubject());
 			state.setObject(11, obj.getId());
 			int row = state.executeUpdate();
-			state.close();
 			return row;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -70,10 +68,9 @@ public class UniversityDao implements BaseDAO<University>{
 	public int delete(Long id) {
 		try {
 			String sql="delete from t_university where id=?";
-			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, id);
 			int row = state.executeUpdate();
-			state.close();
 			return row;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -103,7 +100,6 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setRecord(result.getLong("record"));
 				uni.setSubject(result.getString("subject"));
 			}
-			state.close();
 			return uni;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,12 +109,13 @@ public class UniversityDao implements BaseDAO<University>{
 	
 	public University selectOneByName(String Str) {
 		try {
-			University uni = new University();
+			University uni =null;
 			String sql="select * from t_university where name = ?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, Str);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
+				uni = new University();
 				uni.setId(result.getLong("id"));
 				uni.setpId(result.getLong("pId"));
 				uni.setName(result.getString("name"));
@@ -131,7 +128,6 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setRecord(result.getLong("record"));
 				uni.setSubject(result.getString("subject"));
 			}
-			state.close();
 			return uni;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -184,7 +180,6 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				provincelist.add(uni);
 			}
-			state.close();
 			return provincelist;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -213,7 +208,6 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				qualitylist.add(uni);
 			}
-			state.close();
 			return qualitylist;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -237,7 +231,6 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				typelist.add(uni);
 			}
-			state.close();
 			return typelist;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -259,7 +252,6 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setName(result.getString("name"));
 				recordlist.add(uni);
 			}
-			state.close();
 			return recordlist;
 		} catch (Exception e) {
 			e.printStackTrace();
