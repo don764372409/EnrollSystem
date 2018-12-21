@@ -15,6 +15,7 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.service.UniversityService;
+import com.yuanmaxinxi.util.CrawlUniversityOfNameDataUtil;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/university")
@@ -46,6 +47,7 @@ public class University_Servlet extends BaseServlet{
 				e.printStackTrace();
 			}
 		}else if("add".equals(cmd)) {
+			System.out.println("+++++++++");
 			String name = req.getParameter("name");
 			String pId = req.getParameter("pId");
 			String address = req.getParameter("address");
@@ -60,21 +62,21 @@ public class University_Servlet extends BaseServlet{
 			//学科建设
 			String subject = req.getParameter("subject");
 			University university = new University();
+			university.setName(name);
+			//类型转换错误？？？
+			university.setpId(Long.parseLong(pId));
+			university.setAddress(address);
+			//类型转换错误？？
+			university.setQuality(Long.parseLong(quality));
+			university.setType(Long.parseLong(type));
+			university.setRemark(remark);
+			university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
+			university.setTeachers(teacher);
+			university.setRecord(Long.parseLong(record));
+			university.setSubject(subject);
 			ResultDTO dto;
+			//传输信息至客户
 			try {
-				university.setName(name);
-				//类型转换错误？？？
-				university.setpId(Long.parseLong(pId));
-				university.setAddress(address);
-				//类型转换错误？？
-				university.setQuality(Long.parseLong(quality));
-				university.setType(Long.parseLong(type));
-				university.setRemark(remark);
-				university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
-				university.setTeachers(teacher);
-				university.setRecord(Long.parseLong(record));
-				university.setSubject(subject);
-				//传输信息至客户
 				universityService.insert(university);
 				dto=ResultDTO.newInstance(true, "添加成功");
 				putJson(dto, resp);
@@ -153,7 +155,10 @@ public class University_Servlet extends BaseServlet{
 			}
 		}else if("craw".equals(cmd)) {
 			universityService.craw();
-		}else {
+		}else if("crawl".equals(cmd)) {
+			CrawlUniversityOfNameDataUtil.crawl();
+		}
+		else {
 			//获取所有数据并跳转页面
 			try {
 				List<University> list = universityService.selectAll();

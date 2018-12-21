@@ -1,10 +1,8 @@
 package com.yuanmaxinxi.service;
 
 import java.net.URLEncoder;
-import java.util.Date;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONArray;
 import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
@@ -37,7 +35,7 @@ public class UniversityService {
 		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
 			throw new RuntimeException("院校简介不能空");
 		}
-		if(obj.getRanking()==0) {
+		if(obj.getRanking()==0||obj.getType()==null) {
 			throw new RuntimeException("院校排名不能空");
 		}
 		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
@@ -50,15 +48,16 @@ public class UniversityService {
 			throw new RuntimeException("院校学科建设不能空");
 		}
 		University selectOneByName = universityDAO.selectOneByName(obj.getName());
-		if(selectOneByName.getName().equals(obj.getName())) {
+		if(selectOneByName!=null) {
 			throw new RuntimeException("添加院校名称重复");
 		}
 		try {
 			int i = universityDAO.insert(obj);
 			if (i!=1) {
-				throw new RuntimeException("");
+				throw new RuntimeException("请重新添加");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new RuntimeException("添加失败,请稍后重试.");
 		}
 		

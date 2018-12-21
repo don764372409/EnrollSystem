@@ -185,13 +185,16 @@ $(function(){
 				url:"/university?cmd=add",
 				success:function(data){
 					data = JSON.parse(data);
+					console.log(data.result);
 					if(data.result){
+						console.log("1111111111");
 						layer.msg(data.msg,{icon:1,time:2000});
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.$('.btn-refresh').click();
 						parent.layer.close(index);
 					}else{
 						/* 这个页面无法显示 */
+						console.log("2222");
 						layer.msg(data.msg,{icon:2,time:2000});
 					}
 				},
