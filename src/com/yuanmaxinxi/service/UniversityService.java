@@ -4,9 +4,10 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
+import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
@@ -24,33 +25,24 @@ public class UniversityService {
 	public static LinkedBlockingQueue<String> urls = new LinkedBlockingQueue<>();
 	//验证服务器中的数据是否为空
 	public void insert(University obj) {
-		if(StringUtil.isNullOrEmpty(obj.getName())) {
-			throw new RuntimeException("院校名称不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getAddress())) {
-			throw new RuntimeException("院校所在地不能空");
-		}
-		if(obj.getQuality()==0||obj.getQuality()==null) {
-			throw new RuntimeException("院校水平不能空");
-		}
-		if(obj.getType()==0||obj.getType()==null) {
-			throw new RuntimeException("院校类型不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
-			throw new RuntimeException("院校简介不能空");
-		}
-		if(obj.getRanking()==0||obj.getType()==null) {
-			throw new RuntimeException("院校排名不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
-			throw new RuntimeException("院校师资团队不能空");
-		}
-		if(obj.getRecord()==0||obj.getRecord()==null) {
-			throw new RuntimeException("院校学历不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
-			throw new RuntimeException("院校学科建设不能空");
-		}
+//		if(StringUtil.isNullOrEmpty(obj.getName())) {
+//			throw new RuntimeException("院校名称不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getAddress())) {
+//			throw new RuntimeException("院校所在地不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
+//			throw new RuntimeException("院校简介不能空");
+//		}
+//		if(obj.getRanking()==0||obj.getType()==null) {
+//			throw new RuntimeException("院校排名不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
+//			throw new RuntimeException("院校师资团队不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
+//			throw new RuntimeException("院校学科建设不能空");
+//		}
 		University selectOneByName = universityDAO.selectOneByName(obj.getName());
 		if(selectOneByName!=null) {
 			throw new RuntimeException("添加院校名称重复");
@@ -112,33 +104,24 @@ public class UniversityService {
 	
 
 	public void update(University obj) {
-		if(StringUtil.isNullOrEmpty(obj.getName())) {
-			throw new RuntimeException("院校名称不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getAddress())) {
-			throw new RuntimeException("院校所在地不能空");
-		}
-		if(obj.getQuality()==0||obj.getQuality()==null) {
-			throw new RuntimeException("院校水平不能空");
-		}
-		if(obj.getType()==0||obj.getType()==null) {
-			throw new RuntimeException("院校类型不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
-			throw new RuntimeException("院校简介不能空");
-		}
-		if(obj.getRanking()==0) {
-			throw new RuntimeException("院校排名不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
-			throw new RuntimeException("院校师资团队不能空");
-		}
-		if(obj.getRecord()==0||obj.getRecord()==null) {
-			throw new RuntimeException("院校学历不能空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
-			throw new RuntimeException("院校学科建设不能空");
-		}
+//		if(StringUtil.isNullOrEmpty(obj.getName())) {
+//			throw new RuntimeException("院校名称不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getAddress())) {
+//			throw new RuntimeException("院校所在地不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
+//			throw new RuntimeException("院校简介不能空");
+//		}
+//		if(obj.getRanking()==0) {
+//			throw new RuntimeException("院校排名不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
+//			throw new RuntimeException("院校师资团队不能空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
+//			throw new RuntimeException("院校学科建设不能空");
+//		}
 		try {
 			int i = universityDAO.update(obj);
 			if (i!=1) {
@@ -166,26 +149,26 @@ public class UniversityService {
 
 	//查询所有的院校信息
 	public List<University> selectAll() {
-		DictionaryDAO dao=DictionaryDAO.getDictionaryDao();
+//		DictionaryDAO dao=DictionaryDAO.getDictionaryDao();
 		List<University> list = universityDAO.selectAll();
-		//再后台进行省份确定
-		for (University obj : list) {
-			//做回显处理
-			Province pro = provinceDao.selectOneById(obj.getpId());
-			obj.setPro(pro);
-			//院校水平，有问题？？？
-			Dictionary quality = dao.selectOneById(obj.getQuality());
-			obj.setQualityDic(quality);
-			//院校类型
-			Dictionary type = dao.selectOneById(obj.getType());
-			obj.setTypeDic(type);
-			//学历
-			Dictionary record = dao.selectOneById(obj.getRecord());
-			obj.setRecordDic(record);
-		}
-		if (list==null) {
-			throw new RuntimeException("院校信息不存在.");
-		}
+//		//再后台进行省份确定
+//		for (University obj : list) {
+//			//做回显处理
+//			Province pro = provinceDao.selectOneById(obj.getpId());
+//			obj.setPro(pro);
+//			//院校水平，有问题？？？
+//			Dictionary quality = dao.selectOneById(obj.getQuality());
+//			obj.setQualityDic(quality);
+//			//院校类型
+//			Dictionary type = dao.selectOneById(obj.getType());
+//			obj.setTypeDic(type);
+//			//学历
+//			Dictionary record = dao.selectOneById(obj.getRecord());
+//			obj.setRecordDic(record);
+//		}
+//		if (list==null) {
+//			throw new RuntimeException("院校信息不存在.");
+//		}
 		return list;
 	}
 	//查询所有省份表
@@ -254,5 +237,81 @@ public class UniversityService {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void updateCrawSchool(){
+		CrawUniversityAllUtil.isDAO = false;
+		Set<JSONObject> schools = CrawUniversityAllUtil.schools;
+		LinkedBlockingQueue<String> msgs = CrawUniversityAllUtil.msgs;
+		for (JSONObject jo : schools) {
+			/**
+				{"f211":"0",
+				"f985":"0",
+				"guanwang":"http://www.jhun.edu.cn",
+				"membership":"湖北省教育厅",  部门
+				"jianjie":, 简介
+				"province":"湖北",
+				"schoolnature":"公办", 公办 民办
+				"level":"本科",  学历
+				"schoolname":"江汉大学", 学校名称
+				"schoolproperty":"综合类",
+				"schooltype":"普通本科", 院校水平
+			}
+			 */
+			System.err.println(jo);
+			University uni = universityDAO.selectOneByName(jo.getString("schoolname"));
+			if (uni!=null) {
+				//更新
+				try {
+					uni.setName(jo.getString("schoolname"));
+					uni.setF211(jo.getIntValue("f211"));
+					uni.setF985(jo.getIntValue("f985"));
+					uni.setGuanwang(jo.getString("guanwang"));
+					uni.setProperty(jo.getString("schoolproperty"));
+					uni.setType(jo.getString("schooltype"));
+					uni.setRemark(jo.getString("jianjie"));
+					uni.setNature(jo.getString("schoolnature"));
+					uni.setRecord(jo.getString("level"));
+					uni.setDept(jo.getString("membership"));
+					Province pro = provinceDao.selectOneById(jo.getString("province"));
+					uni.setpId(pro.getId());
+					update(uni);
+					msgs.put("更新["+uni.getName()+"]成功!");
+				} catch (Exception e) {
+					try {
+						msgs.put("更新["+uni.getName()+"]失败!");
+					} catch (Exception e2) {
+						System.err.println("将消息放入队列失败.");
+					}
+				}
+			}else {
+				//添加
+				try {
+					uni = new University();
+					uni.setName(jo.getString("schoolname"));
+					uni.setF211(jo.getIntValue("f211"));
+					uni.setF985(jo.getIntValue("f985"));
+					uni.setGuanwang(jo.getString("guanwang"));
+					uni.setProperty(jo.getString("schoolproperty"));
+					uni.setType(jo.getString("schooltype"));
+					uni.setRemark(jo.getString("jianjie"));
+					uni.setNature(jo.getString("schoolnature"));
+					uni.setRecord(jo.getString("level"));
+					uni.setDept(jo.getString("membership"));
+					Province pro = provinceDao.selectOneById(jo.getString("province"));
+					uni.setpId(pro.getId());
+					insert(uni);
+					msgs.put("添加["+jo.getString("schoolname")+"]成功!");
+				} catch (Exception e) {
+					e.printStackTrace();
+					try {
+						msgs.put("添加["+jo.getString("schoolname")+"]失败!");
+					} catch (Exception e2) {
+						System.err.println("将消息放入队列失败.");
+					}
+				}
+			}
+		}
+		CrawUniversityAllUtil.flag = true;
 	}
 }

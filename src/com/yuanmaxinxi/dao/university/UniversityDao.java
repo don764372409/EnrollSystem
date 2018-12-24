@@ -4,10 +4,8 @@ package com.yuanmaxinxi.dao.university;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
@@ -21,18 +19,19 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int insert(University obj) {
 		try {
-			String sql="insert into t_university(pId,name,address,quality,type,remark,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?,?)";
+			String sql="insert into t_university(pId,name,property,type,remark,record,dept,nature,f211,f985,guanwang) values (?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, obj.getpId());
 			state.setObject(2, obj.getName());
-			state.setObject(3, obj.getAddress());
-			state.setObject(4, obj.getQuality());
-			state.setObject(5, obj.getType());
-			state.setObject(6, obj.getRemark());
-			state.setObject(7, obj.getRanking());
-			state.setObject(8, obj.getTeachers());
-			state.setObject(9, obj.getRecord());
-			state.setObject(10, obj.getSubject());
+			state.setObject(3, obj.getProperty());
+			state.setObject(4, obj.getType());
+			state.setObject(5, obj.getRemark());
+			state.setObject(6, obj.getRecord());
+			state.setObject(7, obj.getDept());
+			state.setObject(8, obj.getNature());
+			state.setObject(9, obj.getF211());
+			state.setObject(10, obj.getF985());
+			state.setObject(11, obj.getGuanwang());
 			int row = state.executeUpdate();
 			return row;
 		}catch (Exception e) {
@@ -77,20 +76,21 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public int update(University obj) {
 		try {
-			String sql="update t_university set pId = ?,name=?,address=?,quality=?,type=?,remark=?,ranking=?,teachers=?,record=?,subject=? where id=?";
+			String sql="update t_university set pId = ?,name=?,property=?,type=?,remark=?,record=?,dept=?,nature=?,f211=?,f958=?,guanwang=? where id=?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			//???是否更新院校id
 			state.setObject(1, obj.getpId());
 			state.setObject(2, obj.getName());
-			state.setObject(3, obj.getAddress());
-			state.setObject(4, obj.getQuality());
-			state.setObject(5, obj.getType());
-			state.setObject(6, obj.getRemark());
-			state.setObject(7, obj.getRanking());
-			state.setObject(8, obj.getTeachers());
-			state.setObject(9, obj.getRecord());
-			state.setObject(10, obj.getSubject());
-			state.setObject(11, obj.getId());
+			state.setObject(3, obj.getProperty());
+			state.setObject(4, obj.getType());
+			state.setObject(5, obj.getRemark());
+			state.setObject(6, obj.getRecord());
+			state.setObject(7, obj.getDept());
+			state.setObject(8, obj.getNature());
+			state.setObject(9, obj.getF211());
+			state.setObject(10, obj.getF985());
+			state.setObject(11, obj.getGuanwang());
+			state.setObject(12, obj.getId());
 			int row = state.executeUpdate();
 			return row;
 		}catch (Exception e) {
@@ -123,17 +123,17 @@ public class UniversityDao implements BaseDAO<University>{
 			state.setObject(1, id);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
-				uni.setId(result.getLong("id"));
-				uni.setpId(result.getLong("pId"));
-				uni.setName(result.getString("name"));
-				uni.setAddress(result.getString("address"));
-				uni.setQuality(result.getLong("quality"));
-				uni.setType(result.getLong("type"));
-				uni.setRemark(result.getString("remark"));
-				uni.setRanking(result.getInt("ranking"));
-				uni.setTeachers(result.getString("teachers"));
-				uni.setRecord(result.getLong("record"));
-				uni.setSubject(result.getString("subject"));
+//				uni.setId(result.getLong("id"));
+//				uni.setpId(result.getLong("pId"));
+//				uni.setName(result.getString("name"));
+//				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
+//				uni.setType(result.getLong("type"));
+//				uni.setRemark(result.getString("remark"));
+//				uni.setRanking(result.getInt("ranking"));
+//				uni.setTeachers(result.getString("teachers"));
+//				uni.setRecord(result.getLong("record"));
+//				uni.setSubject(result.getString("subject"));
 			}
 			return uni;
 		} catch (Exception e) {
@@ -144,26 +144,15 @@ public class UniversityDao implements BaseDAO<University>{
 	
 	public University selectOneByName(String Str) {
 		try {
-			University uni =null;
 			String sql="select * from t_university where name = ?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, Str);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
-				uni = new University();
+				University uni = new University();
 				uni.setId(result.getLong("id"));
-				uni.setpId(result.getLong("pId"));
-				uni.setName(result.getString("name"));
-				uni.setAddress(result.getString("address"));
-				uni.setQuality(result.getLong("quality"));
-				uni.setType(result.getLong("type"));
-				uni.setRemark(result.getString("remark"));
-				uni.setRanking(result.getInt("ranking"));
-				uni.setTeachers(result.getString("teachers"));
-				uni.setRecord(result.getLong("record"));
-				uni.setSubject(result.getString("subject"));
+				return uni;
 			}
-			return uni;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,14 +173,15 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setId(result.getLong("id"));
 				uni.setpId(result.getLong("pId"));
 				uni.setName(result.getString("name"));
-				uni.setAddress(result.getString("address"));
-				uni.setQuality(result.getLong("quality"));
-				uni.setType(result.getLong("type"));
+//				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
+				uni.setType(result.getString("type"));
 				uni.setRemark(result.getString("remark"));
-				uni.setRanking(result.getInt("ranking"));
-				uni.setTeachers(result.getString("teachers"));
-				uni.setRecord(result.getLong("record"));
-				uni.setSubject(result.getString("subject"));
+//				uni.setRanking(result.getInt("ranking"));
+//				uni.setTeachers(result.getString("teachers"));
+				uni.setRecord(result.getString("record"));
+//				uni.setSubject(result.getString("subject"));
+				uni.setGuanwang(result.getString("guanwang"));
 				list.add(uni);
 			}
 			return list;

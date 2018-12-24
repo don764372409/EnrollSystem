@@ -1,7 +1,6 @@
 package com.yuanmaxinxi.util;
 
 import java.net.URLEncoder;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -21,6 +20,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import net.sourceforge.htmlunit.corejs.javascript.Undefined;
 
 public class CrawUniversityAllUtil extends Thread{
+	public static boolean flag  = false;//爬虫+持久化 都完成才为true
+	public static boolean isDAO  = true;
 	public static LinkedBlockingQueue<String> urls = new LinkedBlockingQueue<>();
 	public static LinkedBlockingQueue<String> msgs = new LinkedBlockingQueue<>();
 	public static Set<JSONObject> schools = new HashSet<>();//不能重复
@@ -44,7 +45,7 @@ public class CrawUniversityAllUtil extends Thread{
 		System.err.println(Thread.currentThread().getName()+"爬取完毕");
 	}
 	public static void startCraw() {
-		//开启20条线程
+		//开启34条线程
 		for (int i = 1; i <= 34; i++) {
 			new CrawUniversityAllUtil().start();
 		}

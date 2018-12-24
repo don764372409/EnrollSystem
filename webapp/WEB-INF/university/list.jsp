@@ -50,7 +50,7 @@
 	<div style="position:absolute;;top:-0px;left: 0;width: 10%;text-align: left;">
 		<span id="text" style="height:20px;font-size: 12px;text-align: center;">0%</span>
 	</div>
-	<div style="position:absolute;;top:-0px;right: 0;width: 40%;text-align: left;">
+	<div style="position:absolute;;top:-0px;right: 0;width: 50%;text-align: left;">
 		<span id="content" style="font-size: 12px;">开始爬取学校信息...</span>
 	</div>
   </div>
@@ -59,18 +59,10 @@
     <thead>
       <tr class="text-c">
         <th width="30">ID</th>
-        <th width="80">院校名称</th>
-        <th width="120">院校所在省份</th>
-        <th width="80">院校地址</th>
-        <th width="80">院校水平</th>
-        <th width="80">院校类型</th>
-        <th width="40">简介</th>
-        <th width="80">院校排名</th>
-        <th width="80">师资团队</th>
-        <th width="80">院校学历</th>
-        <th width="80">学科建设</th>
-        <th width="40">修改</th>
-        <th width="40">删除</th>
+        <th width="200">院校名称</th>
+        <th>官网</th>
+        <th width="500">简介</th>
+        <th width="40">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -78,19 +70,10 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.pro.name}</td>
-        <td>${obj.address}</td>
-        <td>${obj.qualityDic.name}</td>
-        <td>${obj.typeDic.name}</td>
+        <td>${obj.guanwang}</td>
         <td>${obj.remark}</td>
-        <td>${obj.ranking}</td>
-        <td>${obj.teachers}</td>
-        <td>${obj.recordDic.name}</td>
-        <td>${obj.subject}</td>
-        <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
-       	</td>
        	<td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除院校信息','当前这条数据','/university?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
        	</td>
        	
@@ -174,9 +157,6 @@ function getMsg(){
 	$.post("/university?cmd=crawMsg",function(data){
 		data = JSON.parse(data);
 		if(data.result){
-			sr.css("width","100%");
-			text.html("100%");
-			content.html("爬虫爬取完毕,开始将爬虫数据与数据库数据进行同步.");
 			clearInterval(timer);
 		}else{
 			var msg = data.msg;

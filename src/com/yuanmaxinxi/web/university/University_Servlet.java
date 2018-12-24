@@ -75,12 +75,12 @@ public class University_Servlet extends BaseServlet{
 			university.setpId(Long.parseLong(pId));
 			university.setAddress(address);
 			//类型转换错误？？
-			university.setQuality(Long.parseLong(quality));
-			university.setType(Long.parseLong(type));
-			university.setRemark(remark);
-			university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
-			university.setTeachers(teacher);
-			university.setRecord(Long.parseLong(record));
+//			university.setQuality(Long.parseLong(quality));
+//			university.setType(Long.parseLong(type));
+//			university.setRemark(remark);
+//			university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
+//			university.setTeachers(teacher);
+//			university.setRecord(Long.parseLong(record));
 			university.setSubject(subject);
 			ResultDTO dto;
 			//传输信息至客户
@@ -134,13 +134,13 @@ public class University_Servlet extends BaseServlet{
 				university.setpId(Long.parseLong(pId));
 				university.setAddress(address);
 				//类型转换错误？？
-				university.setQuality(Long.parseLong(quality));
-				university.setType(Long.parseLong(type));
-				university.setRemark(remark);
-				university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
-				university.setTeachers(teacher);
-				university.setRecord(Long.parseLong(record));
-				university.setSubject(subject);
+//				university.setQuality(Long.parseLong(quality));
+//				university.setType(Long.parseLong(type));
+//				university.setRemark(remark);
+//				university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
+//				university.setTeachers(teacher);
+//				university.setRecord(Long.parseLong(record));
+//				university.setSubject(subject);
 				//传输信息至客户
 				universityService.update(university);
 				dto=ResultDTO.newInstance(true, "添加成功");
@@ -171,8 +171,11 @@ public class University_Servlet extends BaseServlet{
 			LinkedBlockingQueue<String> msgs = CrawUniversityAllUtil.msgs;
 			int size = CrawUniversityAllUtil.schools.size();
 			//集合长度等于2843  说明爬虫执行完毕
-			if (size==2843) {
-				dto=ResultDTO.newInstance(true,"爬虫爬取完毕");
+			if(CrawUniversityAllUtil.flag) {
+				dto=ResultDTO.newInstance(true,"持久化完毕");
+			}else if (size==2843&&CrawUniversityAllUtil.isDAO) {
+				dto=ResultDTO.newInstance(false,"爬虫爬取完毕,开始将爬取到的数据与数据库同步");
+				universityService.updateCrawSchool();
 			}else {
 				dto=ResultDTO.newInstance(false, msgs.poll()+"size:"+size);
 			}
