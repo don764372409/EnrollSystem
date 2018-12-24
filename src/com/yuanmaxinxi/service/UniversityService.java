@@ -1,11 +1,11 @@
 package com.yuanmaxinxi.service;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
+
 import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
@@ -14,7 +14,6 @@ import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
-import com.yuanmaxinxi.util.CrawUniversityUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
 
@@ -226,27 +225,10 @@ public class UniversityService {
 		return selecetAllByRecord;
 	}
 	
-
-	public void craw() {
-		//查到所有的省
-		List<Province> pros = provinceDao.selectAll();
-		try {
-			for (Province pro : pros) {
-				//将省名称进行URL编码
-				String proName = URLEncoder.encode(pro.getName(), "utf-8");
-				//默认将第一页的URL放进队列中
-				CrawUniversityUtil.que.put("https://gkcx.eol.cn/soudaxue/queryschool.html?&page="+1+"&province="+proName);
-			}
-			CrawUniversityUtil.startCraw();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * 爬取学校
 	 */
-	public void craw1() {
+	public void craw() {
 		//查到所有的省
 				List<Province> pros = provinceDao.selectAll();
 				try {

@@ -2,6 +2,7 @@ package com.yuanmaxinxi.web.university;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -162,15 +163,21 @@ public class University_Servlet extends BaseServlet{
 			}
 		}else if("craw".equals(cmd)) {
 			universityService.craw();
-		}else if("craw1".equals(cmd)) {
-			universityService.craw1();
-		}else if("time".equals(cmd)) {
-			System.err.println("总共花费:"+CrawUniversityAllUtil.time/1000+"秒");
-		}else if("crawl".equals(cmd)) {
-			UniversityService.crawl();
-			CrawlUniversityDataUtil.startup();
-		}
-		else {
+			ResultDTO dto=ResultDTO.newInstance(true, "开始爬取");
+			putJson(dto,resp);
+		}else if("crawMsg".equals(cmd)) {
+			//获取爬虫的消息
+			ResultDTO dto;
+			LinkedBlockingQueue<String> msgs = CrawUniversityAllUtil.msgs;
+			int size = CrawUniversityAllUtil.schools.size();
+			//集合长度等于2843  说明爬虫执行完毕
+			if (size==2843) {
+				dto=ResultDTO.newInstance(true,"爬虫爬取完毕");
+			}else {
+				dto=ResultDTO.newInstance(false, msgs.poll()+"size:"+size);
+			}
+			putJson(dto, resp);
+		}else {
 			//获取所有数据并跳转页面
 			try {
 				List<University> list = universityService.selectAll();

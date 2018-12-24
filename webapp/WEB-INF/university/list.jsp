@@ -37,8 +37,22 @@
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
 		 	<a href="javascript:;" onclick="obj_add('添加院校信息','/university?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加院校信息</a>
+		 	<a href="javascript:;" onclick="craw('确认启动爬虫更新学校数据吗?','/university?cmd=craw')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>爬取院校信息</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
+  </div>
+  <div id="crawMsgBox" class="cl pd-5 bg-1 bk-gray mt-20" style="position:relative;display: none;">
+  	<div class="progress radius" style="width: 50%;">
+		<div class="progress-bar">
+			<span class="sr-only" id="sr" style="width:0%"></span>
+		</div>
+	</div>
+	<div style="position:absolute;;top:-0px;left: 0;width: 10%;text-align: left;">
+		<span id="text" style="height:20px;font-size: 12px;text-align: center;">0%</span>
+	</div>
+	<div style="position:absolute;;top:-0px;right: 0;width: 40%;text-align: left;">
+		<span id="content" style="font-size: 12px;">开始爬取学校信息...</span>
+	</div>
   </div>
   <div class="mt-20"></div>
   <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -61,7 +75,7 @@
     </thead>
     <tbody>
     <c:forEach items="${list}" var="obj">
-      <tr class="text-c">-
+      <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
         <td>${obj.pro.name}</td>
@@ -145,8 +159,62 @@ function sendMessage(title,url,id){
 	});
 	layer.full(index);
 }
+var crawMsgBox = $("#crawMsgBox");
+var sr = $("#sr");//进度条
+var text = $("#text");//进度显示内容
+var content = $("#content");//当前的爬取信息
+var timer;//定时器
+function resetMsgBox(){
+	sr.css("width","0%");
+	text.html("0%");
+	content.html("开始爬取学校信息...");
+}
+//获取爬虫消息
+function getMsg(){
+	$.post("/university?cmd=crawMsg",function(data){
+		data = JSON.parse(data);
+		if(data.result){
+			sr.css("width","100%");
+			text.html("100%");
+			content.html("爬虫爬取完毕,开始将爬虫数据与数据库数据进行同步.");
+			clearInterval(timer);
+		}else{
+			var msg = data.msg;
+			//开始爬取url:https://gkcx.eol.cn/soudaxue/queryschool.html?&page=1&province=%E9%BB%91%E9%BE%99%E6%B1%9Fsize:0
+			var index = msg.indexOf("size:");		
+			var newMsg = msg.substring(0,index);
+			var size = msg.substring(index+5);
+			if (!!newMsg&&newMsg!='null') {
+				content.html(newMsg);
+			}
+			size = parseInt(size);
+			size = ((size/2843)*100).toFixed(2);
+			sr.css("width",size+"%");
+			text.html(size+"%");
+		}
+	});
+}
 
-function deleteObj(obj,o,u,id){
+function craw(o,u){
+	layer.confirm(o,function(index){
+		$.ajax({
+			type: 'POST',
+			url: u,
+			dataType: 'json',
+			success: function(data){
+				resetMsgBox();
+				crawMsgBox.show();
+				layer.close(index);
+				//调用定时器  每隔300毫秒  访问一次getMsg方法
+				timer = setInterval(getMsg,300);
+			},
+			error:function(data) {
+				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
+			},
+		});
+	});
+}
+function deleteObj(o,u,id){
 	layer.confirm("确认要删除"+o+"吗？",function(index){
 		$.ajax({
 			type: 'POST',

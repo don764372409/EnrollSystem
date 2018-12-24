@@ -18,32 +18,34 @@ import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import net.sourceforge.htmlunit.corejs.javascript.Undefined;
+
 public class CrawUniversityAllUtil extends Thread{
 	public static LinkedBlockingQueue<String> urls = new LinkedBlockingQueue<>();
+	public static LinkedBlockingQueue<String> msgs = new LinkedBlockingQueue<>();
 	public static Set<JSONObject> schools = new HashSet<>();//不能重复
 	private static Object liser = new Object(); 
-	public static long time = 0;
 	public void run() {
 		//只要队列中还有url就要去爬取
 		while(urls.size()>0) {
-			long time1 = new Date().getTime();
 			//从队列中取出url
 			String url = urls.poll();
 			if (StringUtil.isNotNullAndEmpty(url)) {
 				System.err.println(Thread.currentThread().getName()+":开始爬取url:"+url);
+				try {
+					msgs.put("开始爬取url:"+url);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				//爬取
 				craw(url);
 			}
-			long time2 = new Date().getTime();
-			time+=(time2-time1);
-			System.err.println("耗费时间:"+(time2-time1));
-			System.err.println("一共查询到:"+schools.size()+"所大学");
 		}
 		System.err.println(Thread.currentThread().getName()+"爬取完毕");
 	}
 	public static void startCraw() {
 		//开启20条线程
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 34; i++) {
 			new CrawUniversityAllUtil().start();
 		}
 	}
@@ -97,15 +99,21 @@ public class CrawUniversityAllUtil extends Thread{
 	    			"          	getResult();";
 	    	ScriptResult result = page.executeJavaScript(js);
 	    	synchronized (liser) {
-	    		String json = (String)result.getJavaScriptResult();
+	    		Object obj  = result.getJavaScriptResult();
+	    		String json = "";
+	    		if (obj instanceof Undefined) {
+	    			//将已经爬取过的URL再放回集合中  让线程重新进行爬取
+					urls.put(url);
+					webClient.close();
+					return;
+				}else {
+					json = (String)obj;
+				}
 	    		if(StringUtil.isNotNullAndEmpty(json)) {
 	    			JSONObject jo = JSON.parseObject(json);
 	    			int currentPage = jo.getIntValue("page");
 	    			String province = jo.getString("province");
 	    			int row = jo.getJSONObject("totalRecord").getIntValue("num");
-	    			System.err.println("当前页码:"+currentPage);
-	    			System.err.println("当前城市:"+province);
-	    			System.err.println("总记录数:"+row);
 	    			//判断
 	    			if (currentPage==1) {
 	    				//计算总页码
@@ -118,12 +126,14 @@ public class CrawUniversityAllUtil extends Thread{
 	    			}
 	    			JSONArray array = jo.getJSONArray("school");
 	    			System.err.println("学校:"+JSON.toJSONString(array));
+	    			msgs.put("爬取:"+province+"的第"+currentPage+"页数据");
 	    			if (array!=null) {
 	    				for (Object object : array) {
 	    					JSONObject school = (JSONObject)object;
 	    					schools.add(school);
 	    				}
 					}
+	    			msgs.put("目前爬取到"+schools.size()+"所大学");
 	    		}
 			}
     		webClient.close();
