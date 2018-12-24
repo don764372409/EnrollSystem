@@ -10,6 +10,7 @@ import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.util.CrawUniversityAllUtil;
 import com.yuanmaxinxi.util.CrawUniversityUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
@@ -193,5 +194,24 @@ public class UniversityService {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 爬取学校
+	 */
+	public void craw1() {
+		//查到所有的省
+				List<Province> pros = provinceDao.selectAll();
+				try {
+					for (Province pro : pros) {
+						//将省名称进行URL编码
+						String proName = URLEncoder.encode(pro.getName(), "utf-8");
+						//默认将第一页的URL放进队列中
+						CrawUniversityAllUtil.urls.put("https://gkcx.eol.cn/soudaxue/queryschool.html?&page="+1+"&province="+proName);
+					}
+					CrawUniversityAllUtil.startCraw();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
 	}
 }

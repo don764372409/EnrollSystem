@@ -15,6 +15,7 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.service.UniversityService;
+import com.yuanmaxinxi.util.CrawUniversityAllUtil;
 import com.yuanmaxinxi.util.CrawlUniversityOfNameDataUtil;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -155,6 +156,10 @@ public class University_Servlet extends BaseServlet{
 			}
 		}else if("craw".equals(cmd)) {
 			universityService.craw();
+		}else if("craw1".equals(cmd)) {
+			universityService.craw1();
+		}else if("time".equals(cmd)) {
+			System.err.println("总共花费:"+CrawUniversityAllUtil.time/1000+"秒");
 		}else if("crawl".equals(cmd)) {
 			CrawlUniversityOfNameDataUtil.crawl();
 		}
