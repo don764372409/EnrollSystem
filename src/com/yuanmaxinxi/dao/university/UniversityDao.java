@@ -4,8 +4,11 @@ package com.yuanmaxinxi.dao.university;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
@@ -37,6 +40,38 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return 0;
 	}
+	
+//	////?????
+//	public int insert(Map obj) {
+//		try {
+////			String sql="select * from t_university";
+////			PreparedStatement state = conn.prepareStatement(sql);
+////			ResultSet result = state.executeQuery();
+////			ResultSetMetaData data = result.getMetaData();
+////			for(int i = 1; i <= data.getColumnCount(); i++) {
+////				//获得列名
+////				String columnName = data.getColumnName(i);
+////				
+////			}
+//			String sql="insert into t_university(pId,name,address,quality,type,remark,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?,?)";
+//			PreparedStatement state = conn.prepareStatement(sql);
+//			state.setObject(1, obj.getpId());
+//			state.setObject(2, obj.getName());
+//			state.setObject(3, obj.getAddress());
+//			state.setObject(4, obj.getQuality());
+//			state.setObject(5, obj.getType());
+//			state.setObject(6, obj.getRemark());
+//			state.setObject(7, obj.getRanking());
+//			state.setObject(8, obj.getTeachers());
+//			state.setObject(9, obj.getRecord());
+//			state.setObject(10, obj.getSubject());
+//			int row = state.executeUpdate();
+//			return row;
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return 0;
+//	}
 	
 	//更新院校信息
 	@Override

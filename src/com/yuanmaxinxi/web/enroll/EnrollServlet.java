@@ -28,6 +28,10 @@ public class EnrollServlet extends BaseServlet{
 		us = new UniversityService();
 		ms = new MajorService();
 	}
+	
+	/*
+	 * 从页面获取值并封装为Enroll对象
+	 */
 	private Enroll getEnroll(HttpServletRequest req) throws NumberFormatException {
 		Enroll e = new Enroll();
 		

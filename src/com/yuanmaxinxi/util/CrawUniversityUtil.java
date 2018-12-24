@@ -33,8 +33,8 @@ public class CrawUniversityUtil extends Thread{
 //		    		JSONObject jo = (JSONObject)obj;
 //		    		try {
 //		    			if (jo!=null) {
-//		    				objs.put(jo);
 //						}
+//		    				objs.put(jo);
 //					} catch (InterruptedException e) {
 //						e.printStackTrace();
 //					}
