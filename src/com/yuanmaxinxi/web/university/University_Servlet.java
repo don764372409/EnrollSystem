@@ -1,8 +1,12 @@
 package com.yuanmaxinxi.web.university;
 
 import java.io.IOException;
+
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +19,7 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.service.UniversityService;
-import com.yuanmaxinxi.util.CrawlUniversityOfNameDataUtil;
+import com.yuanmaxinxi.util.CrawlUniversityDataUtil;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/university")
@@ -47,7 +51,14 @@ public class University_Servlet extends BaseServlet{
 				e.printStackTrace();
 			}
 		}else if("add".equals(cmd)) {
-			System.out.println("+++++++++");
+//			Map<String,String> hashMap = new HashMap();
+//			//获取前段发送的所有参数名和值
+//			Enumeration<String> c = req.getParameterNames();
+//			for (Enumeration<String> e=c;e.hasMoreElements();) {
+//				String key = e.nextElement().toString();
+//				String value = req.getParameter(key);
+//				hashMap.put(key, value);//无序的
+//			}
 			String name = req.getParameter("name");
 			String pId = req.getParameter("pId");
 			String address = req.getParameter("address");
@@ -156,7 +167,8 @@ public class University_Servlet extends BaseServlet{
 		}else if("craw".equals(cmd)) {
 			universityService.craw();
 		}else if("crawl".equals(cmd)) {
-			CrawlUniversityOfNameDataUtil.crawl();
+			UniversityService.crawl();
+			CrawlUniversityDataUtil.startup();
 		}
 		else {
 			//获取所有数据并跳转页面
