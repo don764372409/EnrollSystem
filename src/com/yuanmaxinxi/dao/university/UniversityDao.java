@@ -214,6 +214,32 @@ public class UniversityDao implements BaseDAO<University>{
 	
 	@Override
 	public List<University> queryPage(BaseQueryPageDTO dto) {
+		try {
+			List<University> list = new ArrayList<>();
+			String sql="select * from t_university limit 0,10";
+			PreparedStatement state = conn.prepareStatement(sql);
+			ResultSet result = state.executeQuery();
+			//添加获取数据库的信息
+			while(result.next()) {
+				University uni = new University();
+				uni.setId(result.getLong("id"));
+				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
+//				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
+				uni.setType(result.getString("type"));
+				uni.setRemark(result.getString("remark"));
+//				uni.setRanking(result.getInt("ranking"));
+//				uni.setTeachers(result.getString("teachers"));
+				uni.setRecord(result.getString("record"));
+//				uni.setSubject(result.getString("subject"));
+				uni.setGuanwang(result.getString("guanwang"));
+				list.add(uni);
+			}
+			return list;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

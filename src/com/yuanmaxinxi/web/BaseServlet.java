@@ -21,6 +21,7 @@ public class BaseServlet extends HttpServlet{
 	public void putJson(Object obj,HttpServletResponse resp) throws IOException{
 		resp.setContentType("text/html;charset=utf-8");
 		String json = JSON.toJSONString(obj,SerializerFeature.DisableCircularReferenceDetect);
+		System.err.println(json);
 		PrintWriter out = resp.getWriter();
 		out.write(json);
 		out.flush();

@@ -181,7 +181,7 @@ public class UniversityService {
 	}
 	
 	public List<University> queryPage(BaseQueryPageDTO dto) {
-		return null;
+		return universityDAO.queryPage(dto);
 	}
 
 	public List<Dictionary> selectAllByQuality() {
