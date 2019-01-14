@@ -180,6 +180,17 @@ public class University_Servlet extends BaseServlet{
 				dto=ResultDTO.newInstance(false, msgs.poll()+"size:"+size);
 			}
 			putJson(dto, resp);
+		}else if("downReload".equals(cmd)){
+			//重新爬取数据，也就是更新数据库
+			ResultDTO dto = null;
+			try {
+				universityService.downReload();
+				dto=ResultDTO.newInstance(true, "重新爬取成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
 		}else {
 			//获取所有数据并跳转页面
 			try {

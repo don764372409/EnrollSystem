@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.service;
 
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
+import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
+import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
 
@@ -183,6 +186,9 @@ public class UniversityService {
 	public List<University> queryPage(BaseQueryPageDTO dto) {
 		return universityDAO.queryPage(dto);
 	}
+	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
+		return universityDAO.queryPageRangking(dto);
+	}
 
 	public List<Dictionary> selectAllByQuality() {
 		List<Dictionary> selectAllByQuality = universityDAO.selectAllByQuality();
@@ -313,5 +319,29 @@ public class UniversityService {
 			}
 		}
 		CrawUniversityAllUtil.flag = true;
+	}
+	/**
+	 * 爬取院校排名
+	 */
+	public void downReload() {
+		List<University> craw = CrawUniversityRankingUtil.craw();
+		try {
+			DBUtil.getConn().setAutoCommit(false);
+			for (University uni : craw) {
+				universityDAO.updateRanking(uni);
+				
+			}
+			//提交数据
+			DBUtil.getConn().commit();
+			//将自动提交设置为true  不影响其他操作
+			DBUtil.getConn().setAutoCommit(true);
+		} catch (SQLException e) {
+			try {
+				DBUtil.getConn().rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
 	}
 }
