@@ -11,6 +11,7 @@ import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.dto.DeptQueryPageDTO;
 import com.yuanmaxinxi.entity.payrecord.PayRecord;
+import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.util.DBUtil;
 
@@ -99,6 +100,12 @@ public class UserDao implements BaseDAO<User>{
 
 	@Override
 	public User selectOneById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
 		// TODO Auto-generated method stub
 		return null;
 	}

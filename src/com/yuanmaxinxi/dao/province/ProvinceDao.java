@@ -10,6 +10,7 @@ import java.util.List;
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
 
@@ -123,6 +124,12 @@ public class ProvinceDao implements BaseDAO<Province>{
 
 	@Override
 	public List<Province> queryPage(BaseQueryPageDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
 		// TODO Auto-generated method stub
 		return null;
 	}

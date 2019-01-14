@@ -1,13 +1,10 @@
 package com.yuanmaxinxi.util;
-
 import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
-
 import org.apache.commons.logging.LogFactory;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -16,7 +13,6 @@ import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
 import net.sourceforge.htmlunit.corejs.javascript.Undefined;
 
 public class CrawUniversityAllUtil extends Thread{
@@ -50,7 +46,7 @@ public class CrawUniversityAllUtil extends Thread{
 			new CrawUniversityAllUtil().start();
 		}
 	}
-	private void craw(String url) {
+private void craw(String url) {
 		LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 		 java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
 		 java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);

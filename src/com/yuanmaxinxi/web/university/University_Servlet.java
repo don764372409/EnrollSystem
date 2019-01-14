@@ -48,14 +48,6 @@ public class University_Servlet extends BaseServlet{
 				e.printStackTrace();
 			}
 		}else if("add".equals(cmd)) {
-//			Map<String,String> hashMap = new HashMap();
-//			//获取前段发送的所有参数名和值
-//			Enumeration<String> c = req.getParameterNames();
-//			for (Enumeration<String> e=c;e.hasMoreElements();) {
-//				String key = e.nextElement().toString();
-//				String value = req.getParameter(key);
-//				hashMap.put(key, value);//无序的
-//			}
 			String name = req.getParameter("name");
 			String pId = req.getParameter("pId");
 			String address = req.getParameter("address");
@@ -75,12 +67,6 @@ public class University_Servlet extends BaseServlet{
 			university.setpId(Long.parseLong(pId));
 			university.setAddress(address);
 			//类型转换错误？？
-//			university.setQuality(Long.parseLong(quality));
-//			university.setType(Long.parseLong(type));
-//			university.setRemark(remark);
-//			university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
-//			university.setTeachers(teacher);
-//			university.setRecord(Long.parseLong(record));
 			university.setSubject(subject);
 			ResultDTO dto;
 			//传输信息至客户
@@ -133,14 +119,6 @@ public class University_Servlet extends BaseServlet{
 				//类型转换错误？？？
 				university.setpId(Long.parseLong(pId));
 				university.setAddress(address);
-				//类型转换错误？？
-//				university.setQuality(Long.parseLong(quality));
-//				university.setType(Long.parseLong(type));
-//				university.setRemark(remark);
-//				university.setRanking(ranking==null||"".equals(ranking)?0:Integer.parseInt(ranking));
-//				university.setTeachers(teacher);
-//				university.setRecord(Long.parseLong(record));
-//				university.setSubject(subject);
 				//传输信息至客户
 				universityService.update(university);
 				dto=ResultDTO.newInstance(true, "添加成功");

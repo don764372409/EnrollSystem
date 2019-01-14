@@ -1,28 +1,34 @@
 package com.yuanmaxinxi.service;
 
+
+
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
+import com.yuanmaxinxi.dao.university.updateImgesrc.UniversityUpdateImgesrcDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
-import com.yuanmaxinxi.util.StringUtil;
 
-
-//主要进行非空验证
 public class UniversityService {
 	private UniversityDao universityDAO = new UniversityDao();
 	private static ProvinceDao provinceDao = new ProvinceDao();
 	public static LinkedBlockingQueue<String> urls = new LinkedBlockingQueue<>();
+	public static LinkedBlockingQueue<String> jianzhangUrls1 = new LinkedBlockingQueue<>();
+	//baidu学校校徽的urls
+	public static LinkedBlockingQueue<String> baiduUrls= new LinkedBlockingQueue<>();
+	//学校师资力量的urls
+	public static LinkedBlockingQueue<String> jianzhangUrals = new LinkedBlockingQueue<>();
+	private static Object msgUrls;
 	//验证服务器中的数据是否为空
 	public void insert(University obj) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {
@@ -149,26 +155,7 @@ public class UniversityService {
 
 	//查询所有的院校信息
 	public List<University> selectAll() {
-//		DictionaryDAO dao=DictionaryDAO.getDictionaryDao();
 		List<University> list = universityDAO.selectAll();
-//		//再后台进行省份确定
-//		for (University obj : list) {
-//			//做回显处理
-//			Province pro = provinceDao.selectOneById(obj.getpId());
-//			obj.setPro(pro);
-//			//院校水平，有问题？？？
-//			Dictionary quality = dao.selectOneById(obj.getQuality());
-//			obj.setQualityDic(quality);
-//			//院校类型
-//			Dictionary type = dao.selectOneById(obj.getType());
-//			obj.setTypeDic(type);
-//			//学历
-//			Dictionary record = dao.selectOneById(obj.getRecord());
-//			obj.setRecordDic(record);
-//		}
-//		if (list==null) {
-//			throw new RuntimeException("院校信息不存在.");
-//		}
 		return list;
 	}
 	//查询所有省份表
@@ -180,8 +167,8 @@ public class UniversityService {
 		return selectAllByProvince;
 	}
 	
-	public List<University> queryPage(BaseQueryPageDTO dto) {
-		return universityDAO.queryPage(dto);
+	public List<University> queryPage(BaseQueryPageDTO dto,int str1,int str2) {
+		return universityDAO.queryPage(dto,str1,str2);
 	}
 
 	public List<Dictionary> selectAllByQuality() {
@@ -213,19 +200,48 @@ public class UniversityService {
 	 */
 	public void craw() {
 		//查到所有的省
-				List<Province> pros = provinceDao.selectAll();
-				try {
-					for (Province pro : pros) {
-						//将省名称进行URL编码
-						String proName = URLEncoder.encode(pro.getName(), "utf-8");
-						//默认将第一页的URL放进队列中
-						CrawUniversityAllUtil.urls.put("https://gkcx.eol.cn/soudaxue/queryschool.html?&page="+1+"&province="+proName);
-					}
-					CrawUniversityAllUtil.startCraw();
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
+		List<Province> pros = provinceDao.selectAll();
+		try {
+			for (Province pro : pros) {
+				//将省名称进行URL编码
+				String proName = URLEncoder.encode(pro.getName(), "utf-8");
+				//默认将第一页的URL放进队列中
+				CrawUniversityAllUtil.urls.put("https://gkcx.eol.cn/soudaxue/queryschool.html?&page="+1+"&province="+proName);
+			}
+			CrawUniversityAllUtil.startCraw();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	//讲需要爬去百度网页学校校徽的连接放入队列中imgurls
+	public LinkedBlockingQueue getBaiduUrls() {
+		List<UniversityImgSrc> lists = UniversityUpdateImgesrcDAO.getInstance().getUniversityName();
+		for (UniversityImgSrc list : lists) {
+			try {
+				String uniName = URLEncoder.encode(list.getName(), "utf-8");
+				baiduUrls.put("https://baike.baidu.com/item/"+uniName);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return baiduUrls;
+	}
+	
+	public LinkedBlockingQueue getZhiYuanWang() {
+		//https://gkcx.eol.cn/schoolhtm/schoolInfo/307/10071/list_1.htm
+		for (int i = 30; i <= 2700; i++) {
+			try {
+				String url = "https://gkcx.eol.cn/schoolhtm/schoolInfo/"+i+"/10071/list_1.htm";
+				jianzhangUrals.put(url);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		return jianzhangUrals;
+	}
+	
+	
 	public static void crawl() {
 		List<Province> pros = provinceDao.selectAll();
 		Iterator<Province> iterator = pros.iterator();

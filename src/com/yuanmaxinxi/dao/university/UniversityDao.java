@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
@@ -213,27 +212,28 @@ public class UniversityDao implements BaseDAO<University>{
 	}
 	
 	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto) {
+	public List<University> queryPage(BaseQueryPageDTO dto,int pageNum,int pageSize) {
 		try {
 			List<University> list = new ArrayList<>();
-			String sql="select * from t_university limit 0,10";
+			String sql="select * from (select * from t_university where ranking is not null) AS T_TABLE order by ranking asc limit ?,?";
 			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, ((pageNum-1)*10));
+			System.out.println((pageNum-1)*10);
+			state.setObject(2, pageSize);
 			ResultSet result = state.executeQuery();
 			//添加获取数据库的信息
 			while(result.next()) {
-				University uni = new University();
-				uni.setId(result.getLong("id"));
-				uni.setpId(result.getLong("pId"));
-				uni.setName(result.getString("name"));
-//				uni.setAddress(result.getString("address"));
-//				uni.setQuality(result.getLong("quality"));
-				uni.setType(result.getString("type"));
-				uni.setRemark(result.getString("remark"));
-//				uni.setRanking(result.getInt("ranking"));
-//				uni.setTeachers(result.getString("teachers"));
-				uni.setRecord(result.getString("record"));
-//				uni.setSubject(result.getString("subject"));
-				uni.setGuanwang(result.getString("guanwang"));
+				University uni = new University();//数据：名字，nature，
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setType(result.getString("nature"));//性质，公办民办
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				uni.setGuanwang(result.getString("guanwang"));//官网
 				list.add(uni);
 			}
 			return list;
@@ -307,6 +307,12 @@ public class UniversityDao implements BaseDAO<University>{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public List<University> queryPage(BaseQueryPageDTO dto) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

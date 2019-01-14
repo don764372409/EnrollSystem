@@ -17,7 +17,6 @@ import org.jsoup.select.Elements;
 public class CrawlProvinceDataUtil {
 	/**
 	 * 爬取省
-	 * 
 	 */
 	public static List<String> craw() {
 		String url = "https://baike.baidu.com/item/省";
@@ -43,6 +42,6 @@ public class CrawlProvinceDataUtil {
 		return list;
 	}
 	public static void main(String[] args) {
-		craw();
+		craw();	
 	}
 }

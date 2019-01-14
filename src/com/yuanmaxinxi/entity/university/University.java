@@ -21,6 +21,13 @@ public class University{
 	private String dept;//部门 
 	private String teachers;//	师资团队,百度百科爬取
 	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)
+	private String imgSrc;
+	public String getImgSrc() {
+		return imgSrc;
+	}
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
+	}
 	public Long getId() {
 		return id;
 	}
