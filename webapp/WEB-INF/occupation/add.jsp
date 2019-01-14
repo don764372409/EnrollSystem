@@ -55,13 +55,13 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>职业名名：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>职业名：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text"  value="" placeholder="请输入管理员姓名" name="name">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>父级id所属专业：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>父级id所属职业：</label>
 		<div class="formControls col-sm-9">
 		<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="pId">
 		</div>

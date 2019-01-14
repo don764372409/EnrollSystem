@@ -62,7 +62,7 @@ public class MajorDAO implements BaseDAO<Major>{
 		try {
 			String sql = "delete from t_major where id =?";
 				PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
-				state.setObject(1, "id");
+				state.setObject(1,id);
 				return state.executeUpdate();
 				
 			} catch (SQLException e) {

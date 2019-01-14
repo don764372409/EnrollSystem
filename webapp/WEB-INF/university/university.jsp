@@ -38,6 +38,7 @@
 	     <span class="l">
 		 	<a href="javascript:;" onclick="obj_add('添加院校信息','/university?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加院校信息</a>
     	</span>
+    	 
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
   <div class="mt-20"></div>
@@ -188,6 +189,7 @@ function resetPassword(obj,o,u,id){
 		});		
 	});
 }
+
 </script>
 </body>
 </html>

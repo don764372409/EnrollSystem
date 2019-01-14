@@ -28,6 +28,7 @@ public class UploadServlet extends BaseServlet{
 		ResultDTO dto;
 		//1.获取磁盘工厂
 		DiskFileItemFactory factory = new DiskFileItemFactory();
+		
 		//2.创建ServletFileUpload对象
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		

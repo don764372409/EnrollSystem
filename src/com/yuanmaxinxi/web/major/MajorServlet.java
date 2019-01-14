@@ -108,11 +108,13 @@ public class MajorServlet extends BaseServlet {
 			}	
 			putJson(dto, resp);
 //			resp.sendRedirect("major");
-		} else {
+		} else if ("reload".equals(cmd)) {
+		}else {
 			// 获取所有数据并跳转到列表页面
 			List<Major> list = majorService.selectAll();
 			req.setAttribute("list", list);
 			req.getRequestDispatcher("/WEB-INF/major/list.jsp").forward(req, resp);
+			
 		}
 
 	}

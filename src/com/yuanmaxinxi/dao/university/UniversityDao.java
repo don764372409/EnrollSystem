@@ -4,6 +4,7 @@ package com.yuanmaxinxi.dao.university;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.yuanmaxinxi.dao.BaseDAO;
@@ -223,6 +224,7 @@ public class UniversityDao implements BaseDAO<University>{
 			ResultSet result = state.executeQuery();
 			//添加获取数据库的信息
 			while(result.next()) {
+<<<<<<< HEAD
 				University uni = new University();//数据：名字，nature，
 				uni.setName(result.getString("name"));//名字
 				uni.setImgSrc(result.getString("imgsrc"));//校徽
@@ -234,6 +236,21 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setF985(result.getInt("f985"));//是否985
 				uni.setRecord(result.getString("record"));//专科，本科
 				uni.setGuanwang(result.getString("guanwang"));//官网
+=======
+				University uni = new University();
+				uni.setId(result.getLong("id"));
+				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
+				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
+				uni.setType(result.getString("type"));
+				uni.setRemark(result.getString("remark"));
+				uni.setRanking(result.getInt("ranking"));
+				uni.setTeachers(result.getString("teachers"));
+				uni.setRecord(result.getString("record"));
+				uni.setSubject(result.getString("subject"));
+				uni.setGuanwang(result.getString("guanwang"));
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 				list.add(uni);
 			}
 			return list;
@@ -310,9 +327,55 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List<University> queryPage(BaseQueryPageDTO dto) {
 		// TODO Auto-generated method stub
+=======
+	public int updateRanking(University uni) {
+		String sql = "update t_university set ranking = ? where name = ?";
+		try {
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, uni.getRanking());
+			state.setObject(2, uni.getName());
+			int update = state.executeUpdate();
+			return update;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
+		try {
+			List<University> list = new ArrayList<>();
+			String sql="select id,name,ranking from t_university order by ranking is null,ranking asc";
+			PreparedStatement state = conn.prepareStatement(sql);
+			ResultSet result = state.executeQuery();
+			//添加获取数据库的信息
+			while(result.next()) {
+				
+				University uni = new University();
+				uni.setId(result.getLong("id"));
+//				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
+//				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
+//				uni.setType(result.getString("type"));
+//				uni.setRemark(result.getString("remark"));
+				uni.setRanking(result.getInt("ranking"));
+//				uni.setTeachers(result.getString("teachers"));
+//				uni.setRecord(result.getString("record"));
+//				uni.setSubject(result.getString("subject"));
+//				uni.setGuanwang(result.getString("guanwang"));
+				
+				list.add(uni);
+			}
+			return list;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+>>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 		return null;
 	}
 }
