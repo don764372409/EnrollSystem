@@ -24,7 +24,7 @@ public class UniversityServlet extends BaseServlet{
 	}
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
-		
+		System.err.println("1111111");
 		if ("search".equals(cmd)) {
 			
 		}else if("login".equals(cmd)){
@@ -35,6 +35,7 @@ public class UniversityServlet extends BaseServlet{
 				universityService.selectOneByName(name);
 			}
 		}else {
+			System.err.println("院校信息");
 			//接受请求参数
 			//处理数据
 			//响应
