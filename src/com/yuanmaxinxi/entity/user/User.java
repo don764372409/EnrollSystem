@@ -51,6 +51,7 @@ public class User {
 	public void setVip(int vip) {
 		this.vip = vip;
 	}
+	
 
 
 }

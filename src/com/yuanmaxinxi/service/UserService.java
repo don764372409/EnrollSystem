@@ -1,19 +1,15 @@
 package com.yuanmaxinxi.service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.user.UserDAO;
 import com.yuanmaxinxi.dto.DeptQueryPageDTO;
 import com.yuanmaxinxi.entity.user.User;
-import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
 public class UserService {
-	UserDAO userDAO=new UserDAO();
+	private UserDAO userDAO=new UserDAO();
 	public List<User> selectOneById(DeptQueryPageDTO deptQuery) {
-	
 		try {
 			return userDAO.selectOneById(deptQuery);
 		} catch (Exception e) {

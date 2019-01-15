@@ -219,7 +219,6 @@ public class UniversityDao implements BaseDAO<University>{
 			String sql="select * from (select * from t_university where ranking is not null) AS T_TABLE order by ranking asc limit ?,?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, ((pageNum-1)*10));
-			System.out.println((pageNum-1)*10);
 			state.setObject(2, pageSize);
 			ResultSet result = state.executeQuery();
 			//添加获取数据库的信息

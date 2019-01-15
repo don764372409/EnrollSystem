@@ -3,6 +3,7 @@ package com.yuanmaxinxi.service;
 
 
 import java.net.URLEncoder;
+
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,7 @@ import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
 import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
 import com.yuanmaxinxi.util.DBUtil;
-
+import com.yuanmaxinxi.util.StringUtil;
 public class UniversityService {
 	private UniversityDao universityDAO = new UniversityDao();
 	private static ProvinceDao provinceDao = new ProvinceDao();
@@ -201,7 +202,9 @@ public class UniversityService {
 		}
 		return selecetAllByRecord;
 	}
-	
+	public void selectOneByName(String name) {
+		
+	}
 	/**
 	 * 爬取学校
 	 */
@@ -361,4 +364,6 @@ public class UniversityService {
 			e.printStackTrace();
 		}
 	}
+
+	
 }
