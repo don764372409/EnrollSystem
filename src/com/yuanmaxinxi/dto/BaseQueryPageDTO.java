@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yuanmaxinxi.dao.user.UserDao;
+import com.yuanmaxinxi.dao.user.UserDAO;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class BaseQueryPageDTO<T> {

@@ -3,8 +3,10 @@ package com.yuanmaxinxi.util;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class StringUtil {
+	private static String[] nums = {"0","1","2","3","4","5","6","7","8","9"};
 	public static String getEndWidth(String str) {
 		int i = str.lastIndexOf(".");
 		return str.substring(i, str.length());
@@ -50,5 +52,18 @@ public class StringUtil {
 	     String str = format.format(date);
 	     return str;
 	 }
-	 
+	 /**
+	  * 指定长度的随机数
+	  * @param length
+	  * @return
+	  */
+	 public static String getRandomStrByLength(int length) {
+		String str = "";
+		Random rd = new Random();
+		for (int i = 0; i < length; i++) {
+			int index = rd.nextInt(nums.length);
+			str+=nums[index];
+		}
+		return str;
+	 }
 }

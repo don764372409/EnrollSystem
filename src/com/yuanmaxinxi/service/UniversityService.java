@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
@@ -19,12 +20,8 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
-<<<<<<< HEAD
-=======
 import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
 import com.yuanmaxinxi.util.DBUtil;
-import com.yuanmaxinxi.util.StringUtil;
->>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 
 public class UniversityService {
 	private UniversityDao universityDAO = new UniversityDao();

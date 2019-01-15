@@ -6,7 +6,7 @@ public class DBUtil {
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn=DriverManager.getConnection("jdbc:mysql://localhost/enroll?useUnicode=true&characterEncoding=UTF-8","root","admin");
+			conn=DriverManager.getConnection("jdbc:mysql://47.244.51.227/enroll?useUnicode=true&characterEncoding=UTF-8","root","admin");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

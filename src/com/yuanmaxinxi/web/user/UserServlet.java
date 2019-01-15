@@ -29,8 +29,8 @@ public class UserServlet extends BaseServlet{
 			String name = req.getParameter("name");
 			int vip = Integer.parseInt(req.getParameter("vip"));
 			User user = new User();
-			user.setId(id);
-			user.setUsername(name);
+//			user.setId(id);
+//			user.setUsername(name);
 			user.setVip(vip);
 			DeptQueryPageDTO deptQuery=new DeptQueryPageDTO("t_user");
 			deptQuery.setId(id);
