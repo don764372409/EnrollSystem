@@ -38,6 +38,7 @@ public class UniversityServlet extends BaseServlet{
 			//接受请求参数
 			//处理数据
 			//响应
+			System.out.println("进入后台请求");
 			String str1 = req.getParameter("pageNum");
 			int pageNum = Integer.parseInt(str1);
 			String str2 = req.getParameter("pageSize");

@@ -203,7 +203,7 @@ public class UniversityService {
 		return selecetAllByRecord;
 	}
 	public void selectOneByName(String name) {
-		
+		universityDAO.selectOneByName(name);
 	}
 	/**
 	 * 爬取学校
