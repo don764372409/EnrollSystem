@@ -7,20 +7,23 @@ import com.yuanmaxinxi.dto.DeptQueryPageDTO;
 import com.yuanmaxinxi.entity.user.User;
 
 public class UserService {
-	UserDao userdao=new UserDao();
+	UserDao userDAO=new UserDao();
 	public List<User> selectOneById(DeptQueryPageDTO deptQuery) {
-	
 		try {
-			return userdao.selectOneById(deptQuery);
+			return userDAO.selectOneById(deptQuery);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 		
 	}
 	public List<User> selectAll() {
-		List<User> list = userdao.selectAll();
+		List<User> list = userDAO.selectAll();
 		return list;
 	}
+	public User selectOneByOpenid(String openid) {
+		userDAO.selectOneByOpenid(openid);
+		return null;
+	}
+	
 }

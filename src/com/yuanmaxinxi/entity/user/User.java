@@ -1,9 +1,22 @@
 package com.yuanmaxinxi.entity.user;
 
 public class User {
-	private int id;
-	private String username;
-	private String password;
+	private int id;//id
+	private String username;//用户昵称
+	private String url;//头像url
+	private String openid;//opendid
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getOpenid() {
+		return openid;
+	}
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
 	private int vip;
 	public int getId() {
 		return id;
@@ -17,18 +30,13 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public int getVip() {
 		return vip;
 	}
 	public void setVip(int vip) {
 		this.vip = vip;
 	}
+	
 
 
 }

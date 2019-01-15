@@ -60,7 +60,6 @@ public class UserDao implements BaseDAO<User>{
 			User user = new User();
 			user.setId(result.getInt("id"));
 			user.setUsername(result.getString("username"));
-			user.setPassword(result.getString("password"));
 			user.setVip(result.getInt("vip"));
 			list.add(user);
 		}
@@ -81,12 +80,10 @@ public class UserDao implements BaseDAO<User>{
 			while(result.next()) {
 				user.setId(result.getInt("id"));
 				user.setUsername(result.getString("username"));
-				user.setPassword(result.getString("password"));
 				user.setVip(result.getInt("vip"));
 				list.add(user);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();	
 		}
 		return list;
@@ -94,20 +91,26 @@ public class UserDao implements BaseDAO<User>{
 
 	@Override
 	public List<User> queryPage(BaseQueryPageDTO dto) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public User selectOneById(Long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void selectOneByOpenid(String openid) {
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_user where openid ="+openid);
+			ResultSet executeQuery = state.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
