@@ -98,15 +98,9 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	public List<Enroll> selectAll() {
 		return this.query("SELECT * FROM t_enroll", null);
 	}
-
 	@Override
-	public List<Enroll> queryPage(BaseQueryPageDTO dto) {
-		return null;
-	}
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
+	public void queryPage(BaseQueryPageDTO<Enroll> dto) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
-
 }

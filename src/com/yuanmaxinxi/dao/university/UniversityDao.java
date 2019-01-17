@@ -323,11 +323,45 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto) {
+	public void queryPage(BaseQueryPageDTO<University> dto) {
+ 		try {
+			List<University> list = new ArrayList<>();
+				sql="";
+			//先查询总记录数
+			PreparedStatement state = DBUtil.getConn().prepareStatement(dto.getCountSql());
+			for (int i = 0; i < dto.getParams().size(); i++) {
+				state.setObject(i+1, dto.getParams().get(i));
+ 			}
+			//再去高级查询加分页
+			//设置排序SQL
+			dto.setOrderBySql(" order by ranking is null,ranking ");
+			state = DBUtil.getConn().prepareStatement(dto.getSql());
+			//设置高级查询参数   select * from t_university where instr(name,?) and xx = ? limit ?,?
+			for (int i = 0; i < dto.getParams().size(); i++) {
+				state.setObject(i+1, dto.getParams().get(i));
+			}
+			state.setObject(dto.getParams().size()+1, (dto.getCurrentPage()-1)*dto.getPageSize());
+			state.setObject(dto.getParams().size()+2, dto.getPageSize());
+ 			ResultSet result = state.executeQuery();
+			//装结果集的集合
+			List<University> list = new ArrayList<>();
+ 			//添加获取数据库的信息
+ 			while(result.next()) {
+ 				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+ 				uni.setName(result.getString("name"));//名字
+ 				uni.setImgSrc(result.getString("imgsrc"));//校徽
+ 				uni.setProperty(result.getString("property"));
+ 				uni.setGuanwang(result.getString("guanwang"));//官网
+ 				list.add(uni);
+ 			}
+			return list;
+			dto.setRows(list);
+ 		}catch (Exception e) {
+ 			e.printStackTrace();
+ 		}
 		return null;
-		
-	}
+ 	}
 	public int updateRanking(University uni) {
 		String sql = "update t_university set ranking = ? where name = ?";
 		try {

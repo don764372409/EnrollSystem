@@ -80,15 +80,9 @@ public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 	public List<Dictionary> selectAll() {
 		return query("SELECT * FROM t_dictionary", null); 
 	}
-
 	@Override
-	public List<Dictionary> queryPage(BaseQueryPageDTO dto) {
-		return null;
-	}
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+	public void queryPage(BaseQueryPageDTO<Dictionary> dto) {
+		
 	}
 
 }

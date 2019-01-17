@@ -10,7 +10,6 @@ import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.major.Major2;
-import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class MajorDAO implements BaseDAO<Major>{
@@ -151,17 +150,10 @@ public class MajorDAO implements BaseDAO<Major>{
 		}
 		return list;
 	}
-
 	@Override
-	public List<Major> queryPage(BaseQueryPageDTO dto) {
-		
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
+	public void queryPage(BaseQueryPageDTO<Major> dto) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

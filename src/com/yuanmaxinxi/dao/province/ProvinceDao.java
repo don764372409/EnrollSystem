@@ -123,15 +123,9 @@ public class ProvinceDao implements BaseDAO<Province>{
 	}
 
 	@Override
-	public List<Province> queryPage(BaseQueryPageDTO dto) {
+	public void queryPage(BaseQueryPageDTO<Province> dto) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -91,15 +91,9 @@ public class PayrecordDao implements BaseDAO<PayRecord>{
 	}
 
 	@Override
-	public List<PayRecord> queryPage(BaseQueryPageDTO dto) {
+	public void queryPage(BaseQueryPageDTO<PayRecord> dto) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }
