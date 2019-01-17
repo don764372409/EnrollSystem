@@ -54,8 +54,8 @@ public class UniversityService {
 //		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
 //			throw new RuntimeException("院校学科建设不能空");
 //		}
-		University selectOneByName = universityDAO.selectOneByName(obj.getName());
-		if(selectOneByName!=null) {
+		List list = universityDAO.selectOneByName1(obj.getName());
+		if(list.size()>0) {
 			throw new RuntimeException("添加院校名称重复");
 		}
 		try {
@@ -172,8 +172,8 @@ public class UniversityService {
 		return selectAllByProvince;
 	}
 	
-	public List<University> queryPage(BaseQueryPageDTO dto,int str1,int str2) {
-		return universityDAO.queryPage(dto,str1,str2);
+	public List<University> queryPage(String str,int str1,int str2) {
+		return universityDAO.queryPage(str,str1,str2);
 	}
 	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
 		return universityDAO.queryPageRangking(dto);
@@ -202,8 +202,18 @@ public class UniversityService {
 		}
 		return selecetAllByRecord;
 	}
-	public void selectOneByName(String name) {
-		universityDAO.selectOneByName(name);
+	//根据名字获取学校信息
+	public List selectOneByName(String name) {
+		try {
+			List list = universityDAO.selectOneByName1(name);
+			if(list==null) {
+				throw new RuntimeException("没有相关的数据");
+			}
+			return list;
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("没有相关的数据");
+		}
 	}
 	/**
 	 * 爬取学校

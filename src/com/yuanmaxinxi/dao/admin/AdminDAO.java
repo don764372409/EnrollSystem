@@ -168,9 +168,14 @@ public class AdminDAO implements BaseDAO<Admin>{
 		}
 		return null;
 	}
+	@Override
+	public List<University> queryPage(String wheresql, int pageNum, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
+	public List<University> queryPage(int pageNum, int pageSize) {
 		// TODO Auto-generated method stub
 		return null;
 	}

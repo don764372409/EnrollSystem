@@ -106,12 +106,6 @@ public class UserDAO implements BaseDAO<User>{
 		return null;
 	}
 
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public User selectOneByOpenid(String openid) {
 		try {
 			String sql = "select * from t_user where openid=?";
@@ -188,5 +182,17 @@ public class UserDAO implements BaseDAO<User>{
 			e.printStackTrace();
 			throw new RuntimeException("绑定失败,请稍后再试");
 		}
+	}
+
+	@Override
+	public List<University> queryPage(String wheresql, int pageNum, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<University> queryPage(int pageNum, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

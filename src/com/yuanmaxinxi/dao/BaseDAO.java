@@ -18,5 +18,6 @@ public interface BaseDAO<T> {
 	 * @param str2
 	 * @return
 	 */
-	List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize);
+	List<University> queryPage(String wheresql, int pageNum, int pageSize);
+	List<University> queryPage(int pageNum, int pageSize);
 }
