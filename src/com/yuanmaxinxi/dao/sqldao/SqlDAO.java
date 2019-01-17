@@ -65,6 +65,6 @@ public class SqlDAO {
 	 * @return 查询结果集
 	 */
 	protected ResultSet execResult(String perparedSql, Object[] param, int page, int count) {
-		return execResult(perparedSql+"limit "+page+" "+count, param);
+		return execResult(perparedSql+"limit "+page+","+count, param);
 	}
 }
