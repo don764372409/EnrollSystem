@@ -9,7 +9,6 @@ import java.util.List;
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.occupation.Occupation;
-import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class OccupationDAO implements BaseDAO<Occupation>{
@@ -106,21 +105,6 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 	}
 
 	@Override
-	public List<Occupation> queryPage(BaseQueryPageDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public void queryPage(BaseQueryPageDTO<Occupation> dto) {
 	}
-
-	@Override
-	public List<University> queryPage(String wheresql, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

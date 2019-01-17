@@ -172,8 +172,8 @@ public class UniversityService {
 		return selectAllByProvince;
 	}
 	
-	public List<University> queryPage(String str,int str1,int str2) {
-		return universityDAO.queryPage(str,str1,str2);
+	public void queryPage(BaseQueryPageDTO<University> dto) {
+		universityDAO.queryPage(dto);
 	}
 	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
 		return universityDAO.queryPageRangking(dto);

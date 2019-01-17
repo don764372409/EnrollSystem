@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
-import com.yuanmaxinxi.util.StringUtil;
 
 public class UniversityDao implements BaseDAO<University>{
 	private Connection conn= DBUtil.getConn();
@@ -213,20 +213,35 @@ public class UniversityDao implements BaseDAO<University>{
 	}
 	
 	@Override
-	public List<University> queryPage(String wheresql,int pageNum,int pageSize) {
+	public void queryPage(BaseQueryPageDTO<University> dto) {
 		try {
-			List<University> list = new ArrayList<>();
-			String sql="select * from (select * from t_university where ranking is not null) AS T_TABLE order by ranking asc limit ?,?";
-			if(StringUtil.isNotNullAndEmpty(wheresql)) {
-				sql="";
+			//先查询总记录数
+			PreparedStatement state = DBUtil.getConn().prepareStatement(dto.getCountSql());
+			for (int i = 0; i < dto.getParams().size(); i++) {
+				state.setObject(i+1, dto.getParams().get(i));
 			}
-			PreparedStatement state = conn.prepareStatement(sql);
-			state.setObject(1, ((pageNum-1)*10));
-			state.setObject(2, pageSize);
+			ResultSet query = state.executeQuery();
+			if (query.next()) {
+				dto.setCount(query.getInt("count"));
+			}
+			
+			//再去高级查询加分页
+			//设置排序SQL
+			dto.setOrderBySql(" order by ranking is null,ranking ");
+			state = DBUtil.getConn().prepareStatement(dto.getSql());
+			//设置高级查询参数   select * from t_university where instr(name,?) and xx = ? limit ?,?
+			for (int i = 0; i < dto.getParams().size(); i++) {
+				state.setObject(i+1, dto.getParams().get(i));
+			}
+			state.setObject(dto.getParams().size()+1, (dto.getCurrentPage()-1)*dto.getPageSize());
+			state.setObject(dto.getParams().size()+2, dto.getPageSize());
 			ResultSet result = state.executeQuery();
+			//装结果集的集合
+			List<University> list = new ArrayList<>();
 			//添加获取数据库的信息
 			while(result.next()) {
 				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
 				uni.setName(result.getString("name"));//名字
 				uni.setImgSrc(result.getString("imgsrc"));//校徽
 				uni.setProperty(result.getString("property"));
@@ -239,11 +254,10 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setGuanwang(result.getString("guanwang"));//官网
 				list.add(uni);
 			}
-			return list;
+			dto.setRows(list);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	//通过院校水平查询所有
@@ -312,12 +326,6 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return null;
 	}
-
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto) {
-		return null;
-		
-	}
 		// TODO Auto-generated method stub
 	public int updateRanking(University uni) {
 		String sql = "update t_university set ranking = ? where name = ?";
@@ -361,12 +369,6 @@ public class UniversityDao implements BaseDAO<University>{
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

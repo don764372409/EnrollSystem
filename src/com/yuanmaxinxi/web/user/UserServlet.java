@@ -32,13 +32,13 @@ public class UserServlet extends BaseServlet{
 //			user.setId(id);
 //			user.setUsername(name);
 			user.setVip(vip);
-			DeptQueryPageDTO deptQuery=new DeptQueryPageDTO("t_user");
-			deptQuery.setId(id);
-			deptQuery.setName(name);
-			deptQuery.setVip(vip);
-			List<User> list=userservice.selectOneById(deptQuery);
-			req.setAttribute("list", list);
-			req.getRequestDispatcher("/WEB-INF/user/user.jsp").forward(req, resp);
+//			DeptQueryPageDTO deptQuery=new DeptQueryPageDTO("t_user");
+//			deptQuery.setId(id);
+//			deptQuery.setName(name);
+//			deptQuery.setVip(vip);
+//			List<User> list=userservice.selectOneById(deptQuery);
+//			req.setAttribute("list", list);
+//			req.getRequestDispatcher("/WEB-INF/user/user.jsp").forward(req, resp);
 			
 		}else {
 			List<User> list = userservice.selectAll();

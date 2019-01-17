@@ -1,16 +1,14 @@
 package com.yuanmaxinxi.smallsoft.university;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
-import com.yuanmaxinxi.entity.university.University;
-import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.service.UserService;
 import com.yuanmaxinxi.util.StringUtil;
@@ -47,15 +45,67 @@ public class UniversityServlet extends BaseServlet{
 			
 		}else {
 			//接受请求参数
-			//处理数据
-			//响应
-			System.out.println("进入后台请求，院校信息");
-			String str1 = req.getParameter("pageNum");
-			int pageNum = Integer.parseInt(str1);
+			UniversityQueryPageDTO dto = new UniversityQueryPageDTO();
+			//分页参数
+			String str1 = req.getParameter("currentPage");
+			int currentPage = Integer.parseInt(str1);
 			String str2 = req.getParameter("pageSize");
 			int pageSize = Integer.parseInt(str2);
-			List<University> list = universityService.queryPage(wheresql,pageNum,pageSize);//0-10条数据
-			putJson(list, resp);
+			dto.setCurrentPage(currentPage);
+			dto.setPageSize(pageSize);
+			//高级查询参数
+			String name = req.getParameter("name");
+			dto.setName(name);
+			String record = req.getParameter("record");
+			dto.setRecord(record);
+			String property = req.getParameter("property");
+			dto.setProperty(property);
+			
+			String pIdStr = req.getParameter("pId");
+			Long pId = 0L;
+			try {
+				pId = Long.parseLong(pIdStr);
+			} catch (Exception e) {
+				System.err.println("转换省外键失败");
+			}
+			dto.setpId(pId);
+			String f211Str = req.getParameter("f211");
+			int f211 = -1;
+			try {
+				f211 = Integer.parseInt(f211Str);
+			} catch (Exception e) {
+				System.err.println("转换学校类型失败");
+			}
+			dto.setF211(f211);
+			String f985Str = req.getParameter("f985");
+			int f985 = -1;
+			try {
+				f985 = Integer.parseInt(f985Str);
+			} catch (Exception e) {
+				System.err.println("转换学校类型失败");
+			}
+			dto.setF985(f985);
+			String ranking1Str = req.getParameter("ranking1");
+			int ranking1 = -1;
+			try {
+				ranking1 = Integer.parseInt(ranking1Str);
+			} catch (Exception e) {
+				System.err.println("转换排名失败");
+			}
+			dto.setRanking1(ranking1);
+			String ranking2Str = req.getParameter("ranking2");
+			int ranking2 = -1;
+			try {
+				ranking2 = Integer.parseInt(ranking2Str);
+			} catch (Exception e) {
+				System.err.println("转换排名失败");
+			}
+			dto.setRanking2(ranking2);
+			//调用方法处理请求
+			//queryPage
+			//响应
+			universityService.queryPage(dto);//0-10条数据
+			putJson(dto, resp);
 		}
 	}
 }

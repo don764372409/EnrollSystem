@@ -4,6 +4,9 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class StringUtil {
 	private static String[] nums = {"0","1","2","3","4","5","6","7","8","9"};
@@ -12,7 +15,7 @@ public class StringUtil {
 		return str.substring(i, str.length());
 	}
 	public static boolean isNotNullAndEmpty(String str) {
-		return str!=null&&!"".equals(str.trim());
+		return str!=null&&!"".equals(str.trim())&&!"undefined".equals(str);
 	}
 	public static boolean isNullOrEmpty(String str) {
 		return str==null||"".equals(str.trim());
@@ -29,8 +32,26 @@ public class StringUtil {
 	    Date strtodate = formatter.parse(strDate, pos);
 	    return strtodate;
 	 }
+	 public static String majorDataContentFilter(String str) throws PatternSyntaxException { 
+		 int i = str.indexOf("data-content");
+		 int j = str.indexOf("href=");
+		 
+		 return str.substring(i+14, j-1);
+	 } 
+	 public static String majorNameFilter(String str) throws PatternSyntaxException { 
+			String regEx="\\([0-9]*\\)|\\（[0-9]*\\）|\\([0-9]*）"; 
+			Pattern p = Pattern.compile(regEx); 
+			Matcher m = p.matcher(str);
+			return m.replaceAll("").trim();
+	} 
+	 public static String majorNoFilter(String str) throws PatternSyntaxException { 
+		 String regEx="[^x00-xff]"; 
+		 Pattern p = Pattern.compile(regEx); 
+		 Matcher m = p.matcher(str);
+		 return m.replaceAll("").trim();
+	 } 
 	 public static void main(String[] args) {
-		System.err.println("\u914d\u7f6e\u6587\u4ef6\u521d\u59cb\u5316\u5931\u8d25");
+		System.err.println(majorNameFilter("哲学(011)"));
 	}
 	 /*判断是否是数字*/
 	 public static boolean isNumeric(String str){

@@ -12,7 +12,6 @@ import java.util.List;
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
-import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
@@ -124,9 +123,7 @@ public class AdminDAO implements BaseDAO<Admin>{
 	}
 
 	@Override
-	public List<Admin> queryPage(BaseQueryPageDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public void queryPage(BaseQueryPageDTO<Admin> dto) {
 	}
 	/**
 	 * 根据账号
@@ -168,16 +165,4 @@ public class AdminDAO implements BaseDAO<Admin>{
 		}
 		return null;
 	}
-	@Override
-	public List<University> queryPage(String wheresql, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

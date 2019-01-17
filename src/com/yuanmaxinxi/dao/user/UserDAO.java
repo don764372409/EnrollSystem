@@ -95,14 +95,11 @@ public class UserDAO implements BaseDAO<User>{
 	}
 
 	@Override
-	public List<User> queryPage(BaseQueryPageDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public void queryPage(BaseQueryPageDTO dto) {
 	}
 
 	@Override
 	public User selectOneById(Long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -182,17 +179,5 @@ public class UserDAO implements BaseDAO<User>{
 			e.printStackTrace();
 			throw new RuntimeException("绑定失败,请稍后再试");
 		}
-	}
-
-	@Override
-	public List<University> queryPage(String wheresql, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
