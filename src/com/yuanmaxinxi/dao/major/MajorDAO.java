@@ -9,6 +9,7 @@ import java.util.List;
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major;
+import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class MajorDAO implements BaseDAO<Major>{
@@ -32,6 +33,36 @@ public class MajorDAO implements BaseDAO<Major>{
 			e.printStackTrace();
 		}
 		
+		return -1;
+	}
+	public int insert(Major2 obj) {
+		try {
+			String sql = "select id from t_major2 where no = ?";
+			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
+			state.setObject(1, obj.getNo());
+			ResultSet set = state.executeQuery();
+			if (set.next()) {
+				Long id = set.getLong("id");
+				if (id!=null||id>0) {
+					return 0;
+				}
+			}
+			//获取sql语句
+			sql = "insert into t_major2(name,no,type,jianjie,layer,content,url,pNo)values"
+					+ "(?,?,?,?,?,?,?,?)";
+			state = DBUtil.getConn().prepareStatement(sql);
+			state.setObject(1, obj.getName());
+			state.setObject(2, obj.getNo());
+			state.setObject(3, obj.getType());
+			state.setObject(4, obj.getJianjie());
+			state.setObject(5, obj.getLayer());
+			state.setObject(6, obj.getContent());
+			state.setObject(7, obj.getUrl());
+			state.setObject(8, obj.getpNo());
+			return state.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return -1;
 	}
 
