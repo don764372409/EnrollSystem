@@ -3,14 +3,12 @@ package com.yuanmaxinxi.service;
 
 
 import java.net.URLEncoder;
-
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
@@ -24,6 +22,8 @@ import com.yuanmaxinxi.util.CrawUniversityAllUtil;
 import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
 import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
+
+
 public class UniversityService {
 	private UniversityDao universityDAO = new UniversityDao();
 	private static ProvinceDao provinceDao = new ProvinceDao();
@@ -54,8 +54,8 @@ public class UniversityService {
 //		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
 //			throw new RuntimeException("院校学科建设不能空");
 //		}
-		List list = universityDAO.selectOneByName1(obj.getName());
-		if(list.size()>0) {
+		University selectOneByName = universityDAO.selectOneByName(obj.getName());
+		if(selectOneByName!=null) {
 			throw new RuntimeException("添加院校名称重复");
 		}
 		try {
@@ -172,8 +172,8 @@ public class UniversityService {
 		return selectAllByProvince;
 	}
 	
-	public void queryPage(BaseQueryPageDTO<University> dto) {
-		universityDAO.queryPage(dto);
+	public List<University> queryPage(BaseQueryPageDTO dto,int str1,int str2) {
+		return universityDAO.queryPage(dto,str1,str2);
 	}
 	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
 		return universityDAO.queryPageRangking(dto);
@@ -202,19 +202,7 @@ public class UniversityService {
 		}
 		return selecetAllByRecord;
 	}
-	//根据名字获取学校信息
-	public List selectOneByName(String name) {
-		try {
-			List list = universityDAO.selectOneByName1(name);
-			if(list==null) {
-				throw new RuntimeException("没有相关的数据");
-			}
-			return list;
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("没有相关的数据");
-		}
-	}
+	
 	/**
 	 * 爬取学校
 	 */
@@ -374,6 +362,4 @@ public class UniversityService {
 			e.printStackTrace();
 		}
 	}
-
-	
 }

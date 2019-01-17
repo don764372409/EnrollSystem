@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
@@ -40,6 +39,38 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return 0;
 	}
+	
+//	////?????
+//	public int insert(Map obj) {
+//		try {
+////			String sql="select * from t_university";
+////			PreparedStatement state = conn.prepareStatement(sql);
+////			ResultSet result = state.executeQuery();
+////			ResultSetMetaData data = result.getMetaData();
+////			for(int i = 1; i <= data.getColumnCount(); i++) {
+////				//获得列名
+////				String columnName = data.getColumnName(i);
+////				
+////			}
+//			String sql="insert into t_university(pId,name,address,quality,type,remark,ranking,teachers,record,subject) values (?,?,?,?,?,?,?,?,?,?)";
+//			PreparedStatement state = conn.prepareStatement(sql);
+//			state.setObject(1, obj.getpId());
+//			state.setObject(2, obj.getName());
+//			state.setObject(3, obj.getAddress());
+//			state.setObject(4, obj.getQuality());
+//			state.setObject(5, obj.getType());
+//			state.setObject(6, obj.getRemark());
+//			state.setObject(7, obj.getRanking());
+//			state.setObject(8, obj.getTeachers());
+//			state.setObject(9, obj.getRecord());
+//			state.setObject(10, obj.getSubject());
+//			int row = state.executeUpdate();
+//			return row;
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return 0;
+//	}
 	
 	//更新院校信息
 	@Override
@@ -111,52 +142,15 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 	
-	public List selectOneByName1(String Str) {
-		try {
-			String sql="select * from t_university where instr(name,?)";
-			PreparedStatement state = conn.prepareStatement(sql);
-			state.setObject(1, Str);
-			ResultSet result = state.executeQuery();
-			List<University> list = new ArrayList<>();
-			while(result.next()) {
-				University uni = new University();//数据：名字，nature，
-				uni.setName(result.getString("name"));//名字
-				uni.setImgSrc(result.getString("imgsrc"));//校徽
-				uni.setProperty(result.getString("property"));
-				uni.setDept(result.getString("dept"));//隶属教育部
-				uni.setType(result.getString("nature"));//性质，公办民办
-				uni.setRanking(result.getInt("ranking"));//排名
-				uni.setF211(result.getInt("f211"));//是否211
-				uni.setF985(result.getInt("f985"));//是否985
-				uni.setRecord(result.getString("record"));//专科，本科
-				uni.setGuanwang(result.getString("guanwang"));//官网
-				list.add(uni);
-			}
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	public University selectOneByName(String Str) {
 		try {
 			String sql="select * from t_university where name = ?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, Str);
 			ResultSet result = state.executeQuery();
-			List<University> list = new ArrayList<>();
-			while(result.next()) {
-				University uni = new University();//数据：名字，nature，
-				uni.setName(result.getString("name"));//名字
-				uni.setImgSrc(result.getString("imgsrc"));//校徽
-				uni.setProperty(result.getString("property"));
-				uni.setDept(result.getString("dept"));//隶属教育部
-				uni.setType(result.getString("nature"));//性质，公办民办
-				uni.setRanking(result.getInt("ranking"));//排名
-				uni.setF211(result.getInt("f211"));//是否211
-				uni.setF985(result.getInt("f985"));//是否985
-				uni.setRecord(result.getString("record"));//专科，本科
-				uni.setGuanwang(result.getString("guanwang"));//官网
+			if(result.next()) {
+				University uni = new University();
+				uni.setId(result.getLong("id"));
 				return uni;
 			}
 		} catch (Exception e) {
@@ -164,6 +158,7 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return null;
 	}
+	
 	//查询全部院校信息
 	@Override
 	public  List<University> selectAll() {
@@ -178,9 +173,14 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setId(result.getLong("id"));
 				uni.setpId(result.getLong("pId"));
 				uni.setName(result.getString("name"));
+//				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
 				uni.setType(result.getString("type"));
 				uni.setRemark(result.getString("remark"));
+//				uni.setRanking(result.getInt("ranking"));
+//				uni.setTeachers(result.getString("teachers"));
 				uni.setRecord(result.getString("record"));
+//				uni.setSubject(result.getString("subject"));
 				uni.setGuanwang(result.getString("guanwang"));
 				list.add(uni);
 			}
@@ -213,35 +213,18 @@ public class UniversityDao implements BaseDAO<University>{
 	}
 	
 	@Override
-	public void queryPage(BaseQueryPageDTO<University> dto) {
+	public List<University> queryPage(BaseQueryPageDTO dto,int pageNum,int pageSize) {
 		try {
-			//先查询总记录数
-			PreparedStatement state = DBUtil.getConn().prepareStatement(dto.getCountSql());
-			for (int i = 0; i < dto.getParams().size(); i++) {
-				state.setObject(i+1, dto.getParams().get(i));
-			}
-			ResultSet query = state.executeQuery();
-			if (query.next()) {
-				dto.setCount(query.getInt("count"));
-			}
-			
-			//再去高级查询加分页
-			//设置排序SQL
-			dto.setOrderBySql(" order by ranking is null,ranking ");
-			state = DBUtil.getConn().prepareStatement(dto.getSql());
-			//设置高级查询参数   select * from t_university where instr(name,?) and xx = ? limit ?,?
-			for (int i = 0; i < dto.getParams().size(); i++) {
-				state.setObject(i+1, dto.getParams().get(i));
-			}
-			state.setObject(dto.getParams().size()+1, (dto.getCurrentPage()-1)*dto.getPageSize());
-			state.setObject(dto.getParams().size()+2, dto.getPageSize());
-			ResultSet result = state.executeQuery();
-			//装结果集的集合
 			List<University> list = new ArrayList<>();
+			String sql="select * from (select * from t_university where ranking is not null) AS T_TABLE order by ranking asc limit ?,?";
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, ((pageNum-1)*10));
+			System.out.println((pageNum-1)*10);
+			state.setObject(2, pageSize);
+			ResultSet result = state.executeQuery();
 			//添加获取数据库的信息
 			while(result.next()) {
 				University uni = new University();//数据：名字，nature，
-				uni.setId(result.getLong("id"));
 				uni.setName(result.getString("name"));//名字
 				uni.setImgSrc(result.getString("imgsrc"));//校徽
 				uni.setProperty(result.getString("property"));
@@ -252,12 +235,25 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setF985(result.getInt("f985"));//是否985
 				uni.setRecord(result.getString("record"));//专科，本科
 				uni.setGuanwang(result.getString("guanwang"));//官网
+				uni.setId(result.getLong("id"));
+				uni.setpId(result.getLong("pId"));
+				uni.setName(result.getString("name"));
+				uni.setAddress(result.getString("address"));
+//				uni.setQuality(result.getLong("quality"));
+				uni.setType(result.getString("type"));
+				uni.setRemark(result.getString("remark"));
+				uni.setRanking(result.getInt("ranking"));
+				uni.setTeachers(result.getString("teachers"));
+				uni.setRecord(result.getString("record"));
+				uni.setSubject(result.getString("subject"));
+				uni.setGuanwang(result.getString("guanwang"));
 				list.add(uni);
 			}
-			dto.setRows(list);
+			return list;
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	//通过院校水平查询所有
@@ -326,7 +322,12 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return null;
 	}
-		// TODO Auto-generated method stub
+
+	@Override
+	public List<University> queryPage(BaseQueryPageDTO dto) {
+		return null;
+		
+	}
 	public int updateRanking(University uni) {
 		String sql = "update t_university set ranking = ? where name = ?";
 		try {
@@ -363,6 +364,7 @@ public class UniversityDao implements BaseDAO<University>{
 //				uni.setRecord(result.getString("record"));
 //				uni.setSubject(result.getString("subject"));
 //				uni.setGuanwang(result.getString("guanwang"));
+				
 				list.add(uni);
 			}
 			return list;

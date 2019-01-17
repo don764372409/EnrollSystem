@@ -22,7 +22,6 @@ public class CharsetFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest)req;
 		request.setCharacterEncoding("utf-8");
-		System.err.println("进编码过滤器");
 		chain.doFilter(req, resp);
 	}
 
