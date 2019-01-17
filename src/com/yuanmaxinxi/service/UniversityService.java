@@ -19,12 +19,10 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
-<<<<<<< HEAD
-=======
 import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
 import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
->>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
+
 
 public class UniversityService {
 	private UniversityDao universityDAO = new UniversityDao();
