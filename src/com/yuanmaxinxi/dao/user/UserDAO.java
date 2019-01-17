@@ -95,20 +95,11 @@ public class UserDAO implements BaseDAO<User>{
 	}
 
 	@Override
-	public List<User> queryPage(BaseQueryPageDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public void queryPage(BaseQueryPageDTO dto) {
 	}
 
 	@Override
 	public User selectOneById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

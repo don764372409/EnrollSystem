@@ -72,15 +72,11 @@ public class BatchDAO extends SqlDAO implements BaseDAO<Batch> {
 	public List<Batch> selectAll() {
 		return query("SELECT * FROM t_batch", null); 
 	}
-
 	@Override
-	public List<Batch> queryPage(BaseQueryPageDTO dto) {
-		return null;
-	}
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
+	public void queryPage(BaseQueryPageDTO<Batch> dto) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
 
 }

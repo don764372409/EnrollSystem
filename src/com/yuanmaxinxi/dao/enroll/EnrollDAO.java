@@ -12,8 +12,6 @@ import com.yuanmaxinxi.dao.sqldao.SqlDAO;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.major.Major;
-import com.yuanmaxinxi.entity.university.University;
 
 
 public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
@@ -107,13 +105,6 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	}
 
 	@Override
-	public List<Enroll> queryPage(BaseQueryPageDTO dto) {
-		return null;
+	public void queryPage(BaseQueryPageDTO<Enroll> dto) {
 	}
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

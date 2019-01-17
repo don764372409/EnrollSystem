@@ -1,31 +1,27 @@
 package com.yuanmaxinxi.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.yuanmaxinxi.entity.user.User;
 
 public class DeptQueryPageDTO extends BaseQueryPageDTO<User>{
 	private String name;
 	private int id;
 	private int vip;
-	public DeptQueryPageDTO(String tableName) {
-		super(tableName);
+	public DeptQueryPageDTO() {
+		super("t_dept");
 		
-		// TODO Auto-generated constructor stub
 	}
 	public void coverSqls() {
 		if(name!=null&&!"".equals(name)) {
-			sqls.add(" username=? ");
-			params.add(name);
+			getSqls().add("username=?");
+			getParams().add(name);
 		}
 		if(id!=0&&id>0) {
-			sqls.add(" id=? ");	
-			params.add(id);
+			getSqls().add("id=?");	
+			getParams().add(id);
 		}
 		if(vip>=0&&vip<=1) {
-			sqls.add(" vip=? ");
-			params.add(vip);
+			getSqls().add("vip=?");
+			getParams().add(vip);
 		}
 	}
 	public String getName() {
