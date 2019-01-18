@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.web.major;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,8 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.major.Major;
+import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.service.MajorService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -108,7 +111,25 @@ public class MajorServlet extends BaseServlet {
 			}	
 			putJson(dto, resp);
 //			resp.sendRedirect("major");
-		} else if ("reload".equals(cmd)) {
+		} else if ("firstmajor2".equals(cmd)) {
+			resp.setContentType("text/json;charset=UTF-8");
+			resp.setCharacterEncoding("UTF-8");
+			List<Major2> list = majorService.selectMajor2();
+			String json = JSON.toJSONString(list);
+			System.out.println(json);
+			PrintWriter out = resp.getWriter();
+			out.write(json);
+		}else if("major2list".equals(cmd)){
+			resp.setContentType("text/json;charset=UTF-8");
+			resp.setCharacterEncoding("UTF-8");
+			String no = req.getParameter("no");
+			String name=req.getParameter("name");
+			List<Major2> list = majorService.selectMajor2Lis(name, no);
+			String json = JSON.toJSONString(list);
+			PrintWriter out = resp.getWriter();
+			System.out.println(json);
+			out.write(json);
+			
 		}else {
 			// 获取所有数据并跳转到列表页面
 			List<Major> list = majorService.selectAll();
