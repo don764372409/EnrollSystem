@@ -2,6 +2,8 @@ package com.yuanmaxinxi.entity.enroll;
 
 import java.util.ArrayList;
 
+import com.yuanmaxinxi.entity.major.Major2;
+
 public class ChildernList {
 	ArrayList<Object> chilList;
 
@@ -9,7 +11,7 @@ public class ChildernList {
 		return chilList;
 	}
 
-	public void setChilList(ArrayList<Object> chilList) {
-		this.chilList = chilList;
+	public void setChilList(ArrayList<Object> list) {
+		this.chilList = list;
 	}
 }

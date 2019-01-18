@@ -170,33 +170,18 @@ public class MajorDAO implements BaseDAO<Major>{
 				major2.setName(result.getString("name"));
 				major2.setNo(result.getString("no"));
 				list.add(major2);
-				
+				childernList.setChilList(list);
+				fatherList.add(childernList);
 			}
-			childernList.setChilList(list);
-			fatherList.add(childernList);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i=0;i<list.size();i++) {
-			try {
-				String fatherSql="select * from t_major2 where pNo=";
-				PreparedStatement state = DBUtil.getConn().prepareStatement(fatherSql);
-				ResultSet result = state.executeQuery();
-				while(result.next()) {
-					Major2 major2 = new Major2();
-					major2.setName(result.getString("name"));
-					major2.setNo(result.getString("no"));
-					list.add(major2);
-					
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return list;
+		return null;
+		
 	}
+		
 	public ArrayList<Major2> selectMajor2List(String name,String no){
 		ArrayList<Major2> list = new ArrayList<>();
 		String sql="select * from t_major2 where pNo="+no;
