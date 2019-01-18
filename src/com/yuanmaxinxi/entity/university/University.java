@@ -1,6 +1,9 @@
 package com.yuanmaxinxi.entity.university;
 
+import java.util.List;
+
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 
 public class University{
 	private Long id;
@@ -22,6 +25,13 @@ public class University{
 	private String teachers;//	师资团队,百度百科爬取
 	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)
 	private String imgSrc;
+	private List<Jianzhang> list;
+	public List<Jianzhang> getList() {
+		return list;
+	}
+	public void setList(List<Jianzhang> list) {
+		this.list = list;
+	}
 	public String getImgSrc() {
 		return imgSrc;
 	}

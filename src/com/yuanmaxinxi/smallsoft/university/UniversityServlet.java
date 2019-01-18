@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.smallsoft.university;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,7 +47,20 @@ public class UniversityServlet extends BaseServlet{
 			try {
 				String idStr = req.getParameter("id");
 				long id = Long.parseLong(idStr);
-				University uni = universityService.selectOneById(id);
+				University uni = universityService.selectOneById(id);//查询t_university表
+				List jianzhangs = universityService.selectOneByuId(id);
+				uni.setList(jianzhangs);
+				//院校简介数据处理
+				String remark = uni.getRemark();
+				String replace = remark.replace(" 　　", "\n&emsp;&emsp;");
+				uni.setRemark(replace);
+				//院校师资力量数据处理
+				String teachers = uni.getTeachers();
+				if(teachers.contains("下面")) {
+					int indexOf = teachers.indexOf("下面");
+					teachers=teachers.substring(0, indexOf);
+					uni.setTeachers(teachers);
+				}
 				putJson(uni, resp);
 			} catch (Exception e) {
 				e.printStackTrace();

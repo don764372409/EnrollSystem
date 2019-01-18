@@ -38,6 +38,7 @@ public class UniversityService {
 	public static LinkedBlockingQueue<String> baiduUrls= new LinkedBlockingQueue<>();
 	//学校师资力量的urls
 	public static LinkedBlockingQueue<String> jianzhangUrals = new LinkedBlockingQueue<>();
+	public static LinkedBlockingQueue<String> jianjieUrals = new LinkedBlockingQueue<>();
 	private static Object msgUrls;
 	//验证服务器中的数据是否为空
 	public void insert(University obj) {
@@ -154,7 +155,7 @@ public class UniversityService {
 			throw new RuntimeException("删除院校信息失败");
 		}
 	}
-
+	//根据id查询t_university所有的院校信息
 	public University selectOneById(Long id) {
 		University selectOneById = universityDAO.selectOneById(id);
 		if(selectOneById==null) {
@@ -162,7 +163,14 @@ public class UniversityService {
 		}
 		return selectOneById;
 	}
-
+	//根据id查询t_jianzhang所有的院校信息
+	public List selectOneByuId(long id) {
+		List selectOneByuId = universityDAO.selectOneByuId(id);
+		if(selectOneByuId==null) {
+			throw new RuntimeException("查询院校信息为空");
+		}
+		return selectOneByuId;
+	}
 	//查询所有的院校信息
 	public List<University> selectAll() {
 		List<University> list = universityDAO.selectAll();
@@ -251,6 +259,17 @@ public class UniversityService {
 			}
 		}
 		return baiduUrls;
+	}
+	//讲需要爬去http://college.gaokao.com/schlist/的url中放入对列中
+	public LinkedBlockingQueue getJianJieUrls() {
+		for (int i = 1; i < 2668; i++) {
+			try {
+				jianjieUrals.put("http://college.gaokao.com/school/tinfo/"+i+"/intro/");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return jianjieUrals;
 	}
 	
 	public LinkedBlockingQueue getZhiYuanWang() {
@@ -364,7 +383,6 @@ public class UniversityService {
 			DBUtil.getConn().setAutoCommit(false);
 			for (University uni : craw) {
 				universityDAO.updateRanking(uni);
-				
 			}
 			//提交数据
 			DBUtil.getConn().commit();
@@ -379,6 +397,4 @@ public class UniversityService {
 			e.printStackTrace();
 		}
 	}
-
-	
 }

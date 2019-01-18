@@ -21,7 +21,7 @@ public class UniversityUpdateJianZhang {
 		int row = 0;
 		for (Jianzhang jiezhang : lists) {
 			try {
-				String sql = "INSERT INTO t_jianzhang(uID,jianzhang,jianzhangtext) VALUES ((select id from t_university where name = ?),?,?);  ";
+				String sql = "INSERT INTO t_jianzhang(uID,jianzhang,jianzhangtext) VALUES ((select id from t_university where name = ?),?,?);";
 				PreparedStatement state = conn.prepareStatement(sql);
 				state.setObject(1, jiezhang.getName());
 				state.setObject(2, jiezhang.getZhangshengName());

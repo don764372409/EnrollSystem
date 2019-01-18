@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class UniversityDao implements BaseDAO<University>{
@@ -103,6 +103,7 @@ public class UniversityDao implements BaseDAO<University>{
 				uni.setRecord(result.getString("record"));//专科，本科
 				uni.setGuanwang(result.getString("guanwang"));//官网
 				uni.setRemark(result.getString("remark"));//学校简介
+				uni.setTeachers(result.getString("teachers"));//学校师资
 				return uni;
 			}
 		} catch (Exception e) {
@@ -110,7 +111,26 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return null;
 	}
-	
+	//通过id查询院校单条信息t_university
+	public List selectOneByuId(long id) {
+		try {
+			String sql="select * from t_jianzhang where uId = ?";
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setObject(1, id);
+			ResultSet result = state.executeQuery();
+			List<Jianzhang> list = new ArrayList<>();
+			while(result.next()) {
+				Jianzhang jianzhang = new Jianzhang();
+				jianzhang.setZhangshengName(result.getString("jianzhang"));//数据：名字，nature，
+				jianzhang.setText(result.getString("jianzhangtext"));//数据：名字，nature，
+				list.add(jianzhang);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public List selectOneByName1(String Str) {
 		try {
 			String sql="select * from t_university where instr(name,?)";
@@ -411,4 +431,6 @@ public class UniversityDao implements BaseDAO<University>{
 		}
 		return null;
 	}
+
+	
 }
