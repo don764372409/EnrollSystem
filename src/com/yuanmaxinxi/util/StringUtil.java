@@ -49,7 +49,7 @@ public class StringUtil {
 		 Pattern p = Pattern.compile(regEx); 
 		 Matcher m = p.matcher(str);
 		 return m.replaceAll("").trim();
-	 } 
+	 }
 	 public static void main(String[] args) {
 		System.err.println(majorNameFilter("哲学(011)"));
 	}

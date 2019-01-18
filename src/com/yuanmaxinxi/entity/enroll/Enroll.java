@@ -1,18 +1,22 @@
 package com.yuanmaxinxi.entity.enroll;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
+import com.yuanmaxinxi.entity.batch.Batch;
 import com.yuanmaxinxi.entity.major.Major;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 
 public class Enroll {
 	private Long id;
 	private Long uId;
 	private University university;
+	private Long pId;
+	private Province province;
 	private Long mId;
 	private Major major;
-	private String batch;
+	private Long bId;
+	private Batch batch;
 	private int number;
 	private int maxNumber;
 	private int minNumber;
@@ -20,7 +24,7 @@ public class Enroll {
 	private int maxRanking;
 	private int minRanking;
 	private int avgRanking;
-	private Date time;
+	private int time;
 	private BigDecimal tuition;
 	private BigDecimal studyYear;
 	public Long getId() {
@@ -41,6 +45,18 @@ public class Enroll {
 	public void setUniversity(University university) {
 		this.university = university;
 	}
+	public Long getpId() {
+		return pId;
+	}
+	public void setpId(Long pId) {
+		this.pId = pId;
+	}
+	public Province getProvince() {
+		return province;
+	}
+	public void setProvince(Province province) {
+		this.province = province;
+	}
 	public Long getmId() {
 		return mId;
 	}
@@ -53,10 +69,16 @@ public class Enroll {
 	public void setMajor(Major major) {
 		this.major = major;
 	}
-	public String getBatch() {
+	public Long getbId() {
+		return bId;
+	}
+	public void setbId(Long bId) {
+		this.bId = bId;
+	}
+	public Batch getBatch() {
 		return batch;
 	}
-	public void setBatch(String batch) {
+	public void setBatch(Batch batch) {
 		this.batch = batch;
 	}
 	public int getNumber() {
@@ -101,10 +123,10 @@ public class Enroll {
 	public void setAvgRanking(int avgRanking) {
 		this.avgRanking = avgRanking;
 	}
-	public Date getTime() {
+	public int getTime() {
 		return time;
 	}
-	public void setTime(Date time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 	public BigDecimal getTuition() {

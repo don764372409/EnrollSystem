@@ -5,9 +5,11 @@ import java.util.List;
 import com.yuanmaxinxi.dao.payrecord.PayrecordDao;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
+import com.yuanmaxinxi.dto.PayRecordDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.entity.payrecord.PayRecord;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.StringUtil;
 
 public class PayRecordService {
@@ -32,5 +34,9 @@ public class PayRecordService {
 
 	public List<Admin> queryPage(BaseQueryPageDTO dto) {
 		return null;
+	}
+
+	public List<PayRecord> queryPageName(PayRecordDTO dto) {
+		return payrecorddao.queryPageName(dto);
 	}
 }

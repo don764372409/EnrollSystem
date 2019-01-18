@@ -93,12 +93,6 @@ public class UserDAO implements BaseDAO<User>{
 		}
 		return list;
 	}
-
-	@Override
-	public void queryPage(BaseQueryPageDTO dto) {
-	}
-
-	@Override
 	public User selectOneById(Long id) {
 		return null;
 	}
@@ -180,4 +174,11 @@ public class UserDAO implements BaseDAO<User>{
 			throw new RuntimeException("绑定失败,请稍后再试");
 		}
 	}
+
+	@Override
+	public void queryPage(BaseQueryPageDTO<User> dto) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

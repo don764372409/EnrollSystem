@@ -62,7 +62,6 @@ public class AdminDAO implements BaseDAO<Admin>{
 
 	@Override
 	public Admin selectOneById(Long id) {
-		// TODO Auto-generated method stub
 		Admin admin;
 		Connection conn = DBUtil.getConn();
 		try {
@@ -165,4 +164,5 @@ public class AdminDAO implements BaseDAO<Admin>{
 		}
 		return null;
 	}
+	
 }

@@ -37,19 +37,34 @@
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
 		 	<a href="javascript:;" onclick="obj_add('添加录取数据','/enroll?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加录取数据</a>
+		 	<a href="javascript:;" onclick="obj_import('添加录取数据','/enroll?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>导入录取数据</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
+  </div>
+  <div id="importMsgBox" class="cl pd-5 bg-1 bk-gray mt-20" style="position:relative;display: none;">
+  	<div class="progress radius" style="width: 50%;">
+		<div class="progress-bar">
+			<span class="sr-only" id="sr" style="width:0%"></span>
+		</div>
+	</div>
+	<div style="position:absolute;;top:-0px;left: 0;width: 10%;text-align: left;">
+		<span id="text" style="height:20px;font-size: 12px;text-align: center;">0%</span>
+	</div>
+	<div style="position:absolute;;top:-0px;right: 0;width: 50%;text-align: left;">
+		<span id="content" style="font-size: 12px;">开始导入学校信息...</span>
+	</div>
   </div>
   <div class="mt-20"></div>
   <table class="table table-border table-bordered table-hover table-bg table-sort">
     <thead>
       <tr class="text-c">
         <th width="7%">ID</th>
-        <th width="15%">学校</th>
+        <th width="10%">学校</th>
+        <th width="10%">省份</th>
         <th width="10%">专业</th>
         <th width="10%">批次</th>
-        <th width="10%">招生人数</th>
-        <th width="10%">学费</th>
+        <th width="8%">招生人数</th>
+        <th width="7%">学费</th>
         <th width="8%">学制</th>
         <th width="8%">详情</th>
         <th width="8%">修改</th>
@@ -61,8 +76,9 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.university.name}</td>
+        <td>${obj.province.name}</td>
         <td>${obj.major.name}</td>
-        <td>${obj.batch}</td>
+        <td>${obj.batch	.name}</td>
         <td>${obj.number}</td>
         <td>${obj.tuition}</td>
         <td>${obj.studyYear}</td>
@@ -169,6 +185,47 @@ function deleteObj(obj,o,u,id){
 				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
 			},
 		});		
+	});
+}
+function getMsg(){
+	$.post("/enroll?cmd=importMsg",function(data){
+		data = JSON.parse(data);
+		if(data.result){
+			clearInterval(timer);
+		}else{
+			var msg = data.msg;
+			//j开始爬取url:https://gkcx.eol.cn/soudaxue/queryschool.html?&page=1&province=%E9%BB%91%E9%BE%99%E6%B1%9Fsize:0
+			var index = msg.indexOf("size:");		
+			var newMsg = msg.substring(0,index);
+			var size = msg.substring(index+5);
+			if (!!newMsg&&newMsg!='null') {
+				content.html(newMsg);
+			}
+			size = parseInt(size);
+			size = ((size/2843)*100).toFixed(2);
+			sr.css("width",size+"%");
+			text.html(size+"%");
+		}
+	});
+}
+
+function import(o,u){
+	layer.confirm(o,function(index){
+		$.ajax({
+			type: 'POST',
+			url: u,
+			dataType: 'json',
+			success: function(data){
+				resetMsgBox();
+				importMsgBox.show();
+				layer.close(index);
+				//调用定时器  每隔300毫秒  访问一次getMsg方法
+				timer = setInterval(getMsg,300);
+			},
+			error:function(data) {
+				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
+			},
+		});
 	});
 }
 function resetPassword(obj,o,u,id){
