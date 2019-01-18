@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.util.StringUtil;
 
@@ -40,7 +41,10 @@ public class CrawMajorUtil extends Thread{
 			case "2":
 				break;
 			case "3":
-				
+				MajorDAO dao = new MajorDAO();
+				for (int i = 0; i < majors.size(); i++) {
+					dao.insert(majors.poll());
+				}
 				break;
 			case "pb":
 				for (Major2 mj : majors) {
@@ -108,12 +112,11 @@ public class CrawMajorUtil extends Thread{
 					major3.setType(type);
 					major3.setLayer(3);
 					major3.setUrl(url2);
-					
+					major3.setContent(zhiye);
+					major3.setpNo(major2.getNo());
+					majors.put(major3);
 				}
 			}
-			
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

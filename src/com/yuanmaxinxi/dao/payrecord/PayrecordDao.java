@@ -112,6 +112,8 @@ public class PayrecordDao implements BaseDAO<PayRecord>{
 			e.printStackTrace();	
 		}
 		return list;
+		// TODO Auto-generated method stub
+		
 	}
 
 }

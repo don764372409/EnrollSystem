@@ -106,5 +106,7 @@ public class OccupationDAO implements BaseDAO<Occupation>{
 
 	@Override
 	public void queryPage(BaseQueryPageDTO<Occupation> dto) {
+		
 	}
+
 }

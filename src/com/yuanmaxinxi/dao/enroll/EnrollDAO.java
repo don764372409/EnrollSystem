@@ -103,7 +103,6 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	public List<Enroll> selectAll() {
 		return this.query("SELECT * FROM t_enroll limit 1,10", null);
 	}
-
 	@Override
 	public void queryPage(BaseQueryPageDTO<Enroll> dto) {
 	}

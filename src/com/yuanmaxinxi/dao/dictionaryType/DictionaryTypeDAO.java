@@ -71,8 +71,9 @@ public class DictionaryTypeDAO extends SqlDAO implements BaseDAO<DictionaryType>
 	public List<DictionaryType> selectAll() {
 		return query("SELECT * FROM t_dictionarytype", null); 
 	}
-
 	@Override
 	public void queryPage(BaseQueryPageDTO<DictionaryType> dto) {
 	}
+		
+
 }

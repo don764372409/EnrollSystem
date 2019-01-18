@@ -123,5 +123,7 @@ public class ProvinceDao implements BaseDAO<Province>{
 
 	@Override
 	public void queryPage(BaseQueryPageDTO<Province> dto) {
+		
 	}
+
 }
