@@ -86,25 +86,25 @@ public class UniversityDao implements BaseDAO<University>{
 	@Override
 	public University selectOneById(Long id) {
 		try {
-			University uni = new University();
 			String sql="select * from t_university where id = ?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setObject(1, id);
 			ResultSet result = state.executeQuery();
 			if(result.next()) {
-//				uni.setId(result.getLong("id"));
-//				uni.setpId(result.getLong("pId"));
-//				uni.setName(result.getString("name"));
-//				uni.setAddress(result.getString("address"));
-//				uni.setQuality(result.getLong("quality"));
-//				uni.setType(result.getLong("type"));
-//				uni.setRemark(result.getString("remark"));
-//				uni.setRanking(result.getInt("ranking"));
-//				uni.setTeachers(result.getString("teachers"));
-//				uni.setRecord(result.getLong("record"));
-//				uni.setSubject(result.getString("subject"));
+				University uni = new University();//数据：名字，nature，
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));//学校类型  理工类  综合类 师范类 农业类
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setType(result.getString("nature"));//性质，公办民办
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				uni.setGuanwang(result.getString("guanwang"));//官网
+				uni.setRemark(result.getString("remark"));//学校简介
+				return uni;
 			}
-			return uni;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

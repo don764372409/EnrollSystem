@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
+import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.service.UserService;
 import com.yuanmaxinxi.util.StringUtil;
@@ -41,8 +42,15 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("login".equals(cmd)){
-			
+		}else if("details1".equals(cmd)){
+			try {
+				String idStr = req.getParameter("id");
+				long id = Long.parseLong(idStr);
+				University uni = universityService.selectOneById(id);
+				putJson(uni, resp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}else {
 			//接受请求参数
 			UniversityQueryPageDTO dto = new UniversityQueryPageDTO();
@@ -60,7 +68,6 @@ public class UniversityServlet extends BaseServlet{
 			dto.setRecord(record);
 			String property = req.getParameter("property");
 			dto.setProperty(property);
-			
 			String pIdStr = req.getParameter("pId");
 			Long pId = 0L;
 			try {

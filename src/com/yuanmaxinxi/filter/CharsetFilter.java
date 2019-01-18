@@ -17,7 +17,6 @@ public class CharsetFilter implements Filter{
 	public void destroy() {
 		
 	}
-
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest)req;
@@ -25,7 +24,6 @@ public class CharsetFilter implements Filter{
 		System.err.println("进编码过滤器");
 		chain.doFilter(req, resp);
 	}
-
 	public void init(FilterConfig arg0) throws ServletException {
 		
 	}

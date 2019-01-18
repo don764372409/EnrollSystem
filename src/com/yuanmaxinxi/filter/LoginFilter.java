@@ -25,7 +25,6 @@ public class LoginFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest)req;
-		
 		//获取当前请求的资源
 		String uri = request.getRequestURI();
 		//如果是静态资源,放行
