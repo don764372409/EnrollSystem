@@ -9,9 +9,6 @@ import com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO;
 import com.yuanmaxinxi.dao.sqldao.SqlDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
-import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
-import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.university.University;
 
 public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 	private static DictionaryDAO dd;
@@ -82,13 +79,6 @@ public class DictionaryDAO extends SqlDAO implements BaseDAO<Dictionary> {
 	}
 
 	@Override
-	public List<Dictionary> queryPage(BaseQueryPageDTO dto) {
-		return null;
+	public void queryPage(BaseQueryPageDTO<Dictionary> dto) {
 	}
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

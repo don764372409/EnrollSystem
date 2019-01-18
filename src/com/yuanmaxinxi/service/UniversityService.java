@@ -3,12 +3,14 @@ package com.yuanmaxinxi.service;
 
 
 import java.net.URLEncoder;
+
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
@@ -18,6 +20,9 @@ import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
+
+import com.yuanmaxinxi.util.CrawUniversityAllUtil;
+
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
 import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
 import com.yuanmaxinxi.util.DBUtil;
@@ -54,8 +59,8 @@ public class UniversityService {
 //		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
 //			throw new RuntimeException("院校学科建设不能空");
 //		}
-		University selectOneByName = universityDAO.selectOneByName(obj.getName());
-		if(selectOneByName!=null) {
+		List list = universityDAO.selectOneByName1(obj.getName());
+		if(list.size()>0) {
 			throw new RuntimeException("添加院校名称重复");
 		}
 		try {
@@ -172,8 +177,8 @@ public class UniversityService {
 		return selectAllByProvince;
 	}
 	
-	public List<University> queryPage(BaseQueryPageDTO dto,int str1,int str2) {
-		return universityDAO.queryPage(dto,str1,str2);
+	public void queryPage(BaseQueryPageDTO<University> dto) {
+		universityDAO.queryPage(dto);
 	}
 	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
 		return universityDAO.queryPageRangking(dto);
@@ -202,7 +207,19 @@ public class UniversityService {
 		}
 		return selecetAllByRecord;
 	}
-	
+	//根据名字获取学校信息
+	public List selectOneByName(String name) {
+		try {
+			List list = universityDAO.selectOneByName1(name);
+			if(list==null) {
+				throw new RuntimeException("没有相关的数据");
+			}
+			return list;
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("没有相关的数据");
+		}
+	}
 	/**
 	 * 爬取学校
 	 */
@@ -362,4 +379,6 @@ public class UniversityService {
 			e.printStackTrace();
 		}
 	}
+
+	
 }

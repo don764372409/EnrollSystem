@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
+import com.yuanmaxinxi.dao.batch.BatchDAO;
 import com.yuanmaxinxi.dao.major.MajorDAO;
+import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.sqldao.SqlDAO;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.university.University;
 
 
 public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
@@ -22,8 +23,7 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	}
 	private List<Enroll> query(String perparedSql, Object[] param) {
 		List<Enroll> list = new ArrayList<Enroll>();
-		UniversityDao ud = new UniversityDao();
-		MajorDAO md = new MajorDAO();
+		
 		try {
 			rs = this.execResult(perparedSql, param);
 			while (rs.next()) {
@@ -31,18 +31,23 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 				e.setId(rs.getLong("id"));
 				Long uId=rs.getLong("uId");
 				e.setuId(uId);
-				e.setUniversity(ud.selectOneById(uId));
+				e.setUniversity(new UniversityDao().selectOneById(uId));
+				Long pId=rs.getLong("pId");
+				e.setpId(pId);
+				e.setProvince(new ProvinceDao().selectOneById(pId));
 				Long mId=rs.getLong("mId");
 				e.setmId(mId);
-				e.setMajor(md.selectOneById(mId));
-				e.setBatch(rs.getString("batch"));
+				e.setMajor(new MajorDAO().selectOneById(mId));
+				Long bId=rs.getLong("bId");
+				e.setbId(bId);
+				e.setBatch(BatchDAO.getBatchDao().selectOneById(bId));
 				e.setNumber(rs.getInt("number"));
 				e.setMaxNumber(rs.getInt("maxNumber"));
 				e.setMinNumber(rs.getInt("minNumber"));
 				e.setMaxRanking(rs.getInt("maxRanking"));
 				e.setMinRanking(rs.getInt("minRanking"));
 				e.setAvgRanking(rs.getInt("avgRanking"));
-				e.setTime(null);
+				e.setTime(rs.getInt("time"));
 				e.setTuition(rs.getBigDecimal("tuition"));
 				e.setStudyYear(rs.getBigDecimal("studyYear"));
 				list.add(e);
@@ -62,10 +67,10 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 	}
 	@Override
 	public int insert(Enroll obj) {
-		return exceuteUpdate("INSERT INTO t_enroll(uId,mId,batch,number,maxNumber,"
+		return exceuteUpdate("INSERT INTO t_enroll(uId,pId,mId,bId,number,maxNumber,"
 				+ "minNumber,avgNumber,maxRanking,minRanking,avgRanking,time,tuition,studyYear)"
 				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", new Object[] {
-						obj.getuId(),obj.getmId(),obj.getBatch(),obj.getNumber(),obj.getMaxNumber(),
+						obj.getuId(),obj.getpId(),obj.getmId(),obj.getbId(),obj.getNumber(),obj.getMaxNumber(),
 						obj.getMinNumber(),obj.getAvgNumber(),obj.getMaxRanking(),obj.getMinRanking(),
 						obj.getAvgRanking(),obj.getTime(),obj.getTuition(),obj.getStudyYear()
 		});
@@ -73,10 +78,10 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 
 	@Override
 	public int update(Enroll obj) {
-		return exceuteUpdate("UPDATE t_enroll SET uId=?,mId=?,batch=?number=?,maxNumber=?,"
+		return exceuteUpdate("UPDATE t_enroll SET uId=?,pId=?,mId=?,bId=?,number=?,maxNumber=?,"
 				+ "minNumber=?,avgNumber=?,maxRanking=?,minRanking=?,avgRanking=?,time=?,tuition=?,"
 				+ "studyYear=? WHERE id=?", new Object[] {
-						obj.getuId(),obj.getmId(),obj.getBatch(),obj.getNumber(),obj.getMaxNumber(),
+						obj.getuId(),obj.getpId(),obj.getmId(),obj.getbId(),obj.getNumber(),obj.getMaxNumber(),
 						obj.getMinNumber(),obj.getAvgNumber(),obj.getMaxRanking(),obj.getMinRanking(),
 						obj.getAvgRanking(),obj.getTime(),obj.getTuition(),obj.getStudyYear(),obj.getId()
 						
@@ -96,17 +101,10 @@ public class EnrollDAO extends SqlDAO implements BaseDAO<Enroll>{
 
 	@Override
 	public List<Enroll> selectAll() {
-		return this.query("SELECT * FROM t_enroll", null);
+		return this.query("SELECT * FROM t_enroll limit 1,10", null);
 	}
 
 	@Override
-	public List<Enroll> queryPage(BaseQueryPageDTO dto) {
-		return null;
+	public void queryPage(BaseQueryPageDTO<Enroll> dto) {
 	}
-	@Override
-	public List<University> queryPage(BaseQueryPageDTO dto, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -14,6 +14,7 @@ import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.service.EnrollService;
 import com.yuanmaxinxi.service.MajorService;
+import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -23,10 +24,12 @@ public class EnrollServlet extends BaseServlet{
 	private EnrollService es;
 	private UniversityService us;
 	private MajorService ms;
+	private ProvinceService ps;
 	public void init() throws ServletException {
 		es = EnrollService.getDictionaryService();
 		us = new UniversityService();
 		ms = new MajorService();
+		ps = new ProvinceService();
 	}
 	
 	/*
@@ -41,7 +44,7 @@ public class EnrollServlet extends BaseServlet{
 		}
 		e.setuId(Long.parseLong(req.getParameter("uId")));
 		e.setmId(Long.parseLong(req.getParameter("mId")));
-		e.setBatch(req.getParameter("batch"));
+		//e.setBatch(req.getParameter("batch"));
 		
 		e.setNumber(Integer.parseInt(req.getParameter("number")));
 		String minNumber=req.getParameter("minNumber");
@@ -56,7 +59,7 @@ public class EnrollServlet extends BaseServlet{
 		e.setMaxRanking(StringUtil.isNullOrEmpty(maxRanking)?0:Integer.parseInt(maxRanking));
 		String avgRanking=req.getParameter("avgRanking");
 		e.setAvgRanking(StringUtil.isNullOrEmpty(avgRanking)?0:Integer.parseInt(avgRanking));
-		e.setTime(new Date());
+		e.setTime(0);
 		e.setTuition(new BigDecimal(req.getParameter("tuition")));
 		e.setStudyYear(new BigDecimal(req.getParameter("studyYear")));
 		return e;
@@ -68,6 +71,7 @@ public class EnrollServlet extends BaseServlet{
 		if ("showAdd".equals(cmd)) {
 			req.setAttribute("ulist", us.selectAll());
 			req.setAttribute("mlist", ms.selectAll());
+			req.setAttribute("pList", ps.selectAll());
 			req.getRequestDispatcher("/WEB-INF/enroll/add.jsp").forward(req, resp);
 		}else if("add".equals(cmd)) {
 			ResultDTO dto;
@@ -85,6 +89,7 @@ public class EnrollServlet extends BaseServlet{
 				req.setAttribute("obj", es.selectOneById(Long.parseLong(idStr)));
 				req.setAttribute("ulist", us.selectAll());
 				req.setAttribute("mlist", ms.selectAll());
+				req.setAttribute("pList", ps.selectAll());
 				req.getRequestDispatcher("/WEB-INF/enroll/edit.jsp").forward(req, resp);
 			}else {
 				resp.sendRedirect("/enroll");
