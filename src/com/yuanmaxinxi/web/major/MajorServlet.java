@@ -111,25 +111,6 @@ public class MajorServlet extends BaseServlet {
 			}	
 			putJson(dto, resp);
 //			resp.sendRedirect("major");
-		} else if ("firstmajor2".equals(cmd)) {
-			resp.setContentType("text/json;charset=UTF-8");
-			resp.setCharacterEncoding("UTF-8");
-			List<Major2> list = majorService.selectMajor2();
-			String json = JSON.toJSONString(list);
-			System.out.println(json);
-			PrintWriter out = resp.getWriter();
-			out.write(json);
-		}else if("major2list".equals(cmd)){
-			resp.setContentType("text/json;charset=UTF-8");
-			resp.setCharacterEncoding("UTF-8");
-			String no = req.getParameter("no");
-			String name=req.getParameter("name");
-			List<Major2> list = majorService.selectMajor2Lis(name, no);
-			String json = JSON.toJSONString(list);
-			PrintWriter out = resp.getWriter();
-			System.out.println(json);
-			out.write(json);
-			
 		}else {
 			// 获取所有数据并跳转到列表页面
 			List<Major> list = majorService.selectAll();

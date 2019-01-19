@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
-import com.yuanmaxinxi.entity.enroll.ChildernList;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.util.DBUtil;
@@ -156,12 +155,9 @@ public class MajorDAO implements BaseDAO<Major>{
 	public void queryPage(BaseQueryPageDTO<Major> dto) {
 	}
 	
-	public ArrayList<Major2> selectFirstMajor() {
-		// TODO Auto-generated method stub
-		ArrayList<Object> fatherList = new ArrayList<>();
-		ChildernList childernList = new ChildernList();
-		ArrayList<Object> list = new ArrayList<>();
-		String sql="select * from t_major2 where layer=1";
+	public List<Major2> selectFirstMajor(int type) {
+		List<Major2> list = new ArrayList<>();
+		String sql="select * from t_major2 where layer=1 and type="+type;
 		try {
 			PreparedStatement state = DBUtil.getConn().prepareStatement(sql);
 			ResultSet result = state.executeQuery();
@@ -169,23 +165,23 @@ public class MajorDAO implements BaseDAO<Major>{
 				Major2 major2 = new Major2();
 				major2.setName(result.getString("name"));
 				major2.setNo(result.getString("no"));
+				major2.setId(result.getLong("id"));
 				list.add(major2);
-				childernList.setChilList(list);
-				fatherList.add(childernList);
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-		
+		return list;
 	}
-		
-	public ArrayList<Major2> selectMajor2List(String name,String no){
+	/**
+	 * 根据父级专业代码获取儿子们
+	 * @param no
+	 * @return
+	 */
+	public List<Major2> selectChildrenByPNo(String no) {
 		ArrayList<Major2> list = new ArrayList<>();
 		String sql="select * from t_major2 where pNo="+no;
-		System.out.println(sql);
 		PreparedStatement state;
 		try {
 			state = DBUtil.getConn().prepareStatement(sql);
@@ -194,16 +190,35 @@ public class MajorDAO implements BaseDAO<Major>{
 				Major2 major2 = new Major2();
 				major2.setName(result.getString("name"));
 				major2.setNo(result.getString("no"));
+				major2.setId(result.getLong("id"));
+				list.add(major2);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public List<Major2> selectJianjieById(long id){
+		ArrayList<Major2> list = new ArrayList<>();
+		String sql="select * from t_major2 where id="+id;
+		PreparedStatement state;
+		 try {
+			state = DBUtil.getConn().prepareStatement(sql);
+			ResultSet result = state.executeQuery();
+			while(result.next()) {
+				Major2 major2 = new Major2();
+				
+				major2.setJianjie(result.getString("jianjie"));
 				list.add(major2);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return list;
 		
 	}
-
 
 }

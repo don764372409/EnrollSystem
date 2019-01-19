@@ -1,5 +1,8 @@
 package com.yuanmaxinxi.entity.major;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Major2 {
 	private Long id;
 	private String name;//专业名称
@@ -16,7 +19,14 @@ public class Major2 {
 	private String content;//职业相关
 	private int type;//0-本科专业 1-专科专业
 	private int layer;//1- 1级专业  2-2级专业 3-3级专业
+	private List<Major2> children = new ArrayList<>();
 	
+	public List<Major2> getChildren() {
+		return children;
+	}
+	public void setChildren(List<Major2> children) {
+		this.children = children;
+	}
 	public int getLayer() {
 		return layer;
 	}
