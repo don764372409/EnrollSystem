@@ -470,4 +470,12 @@ public class UniversityService {
 	public List<University> getSelectUnis(String[] ids) {
 		return universityDAO.getSelectUnis(ids);
 	}
+	/**
+	 * 获取对比的两所学校基本信息
+	 * @param ids
+	 * @return
+	 */
+	public List<University> selectUnisByIds(String ids) {
+		return universityDAO.selectUnisByIds(ids);
+	}
 }

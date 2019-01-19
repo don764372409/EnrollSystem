@@ -16,7 +16,6 @@ public class University{
 	private int ranking;//院校排名		
 	private String nature;//公办 民办
 	private String record; //FK 参照字典表的院校学历  
-	private Province pro;//省份
 	private int f211;//是否是211学院  0-不是  1-是
 	private int f985;//是否是985学院  0-不是  1-是
 	private String guanwang;//官网
@@ -26,6 +25,9 @@ public class University{
 	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)
 	private String imgSrc;
 	private List<Jianzhang> list;
+	
+	private Province pro;//省份
+	
 	public List<Jianzhang> getList() {
 		return list;
 	}

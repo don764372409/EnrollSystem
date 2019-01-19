@@ -47,7 +47,12 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("getSelectUnis".equals(cmd)) {
+		}else if("selectUnisByIds".equals(cmd)) {
+			String ids = req.getParameter("ids");
+			List<University> list = universityService.selectUnisByIds(ids);
+			putJson(list, resp);
+		}
+		else if("getSelectUnis".equals(cmd)) {
 			String[] ids = req.getParameterValues("ids");
 			List<University> list = universityService.getSelectUnis(ids);
 			putJson(list, resp);

@@ -11,15 +11,19 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuanmaxinxi.dao.BaseDAO;
+import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 import com.yuanmaxinxi.util.DBUtil;
+import com.yuanmaxinxi.util.StringUtil;
 
 public class UniversityDao implements BaseDAO<University>{
 	private Connection conn= DBUtil.getConn();
+	private ProvinceDao provinceDao = new ProvinceDao();
 	//插入院校信息
 	@Override
 	public int insert(University obj) {
@@ -352,45 +356,6 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 
-//	public void queryPage(BaseQueryPageDTO<University> dto) {
-// 		try {
-//			List<University> list = new ArrayList<>();
-//				sql="";
-//			//先查询总记录数
-//			PreparedStatement state = DBUtil.getConn().prepareStatement(dto.getCountSql());
-//			for (int i = 0; i < dto.getParams().size(); i++) {
-//				state.setObject(i+1, dto.getParams().get(i));
-// 			}
-//			//再去高级查询加分页
-//			//设置排序SQL
-//			dto.setOrderBySql(" order by ranking is null,ranking ");
-//			state = DBUtil.getConn().prepareStatement(dto.getSql());
-//			//设置高级查询参数   select * from t_university where instr(name,?) and xx = ? limit ?,?
-//			for (int i = 0; i < dto.getParams().size(); i++) {
-//				state.setObject(i+1, dto.getParams().get(i));
-//			}
-//			state.setObject(dto.getParams().size()+1, (dto.getCurrentPage()-1)*dto.getPageSize());
-//			state.setObject(dto.getParams().size()+2, dto.getPageSize());
-// 			ResultSet result = state.executeQuery();
-//			//装结果集的集合
-//			List<University> list = new ArrayList<>();
-// 			//添加获取数据库的信息
-// 			while(result.next()) {
-// 				University uni = new University();//数据：名字，nature，
-//				uni.setId(result.getLong("id"));
-// 				uni.setName(result.getString("name"));//名字
-// 				uni.setImgSrc(result.getString("imgsrc"));//校徽
-// 				uni.setProperty(result.getString("property"));
-// 				uni.setGuanwang(result.getString("guanwang"));//官网
-// 				list.add(uni);
-// 			}
-//			return list;
-//			dto.setRows(list);
-// 		}catch (Exception e) {
-// 			e.printStackTrace();
-// 		}
-//		return null;
-// 	}
 	public int updateRanking(University uni) {
 		String sql = "update t_university set ranking = ? where name = ?";
 		try {
@@ -561,20 +526,7 @@ public class UniversityDao implements BaseDAO<University>{
 			state.setObject(1, uId);
 			state.setObject(2,id);
 			ResultSet result = state.executeQuery();
-			if(result.next()) {
-				University uni = new University();//数据：名字，nature，
-				uni.setId(result.getLong("id"));
-				uni.setName(result.getString("name"));//名字
-				uni.setImgSrc(result.getString("imgsrc"));//校徽
-				uni.setProperty(result.getString("property"));
-				uni.setDept(result.getString("dept"));//隶属教育部
-				uni.setType(result.getString("nature"));//性质，公办民办
-				uni.setRanking(result.getInt("ranking"));//排名
-				uni.setF211(result.getInt("f211"));//是否211
-				uni.setF985(result.getInt("f985"));//是否985
-				uni.setRecord(result.getString("record"));//专科，本科
-				return uni;
-			}
+			return getOne(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -607,20 +559,7 @@ public class UniversityDao implements BaseDAO<University>{
 			PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id in (select uniId from t_shoucang where uId = ?)");
 			state.setObject(1, uId);
 			ResultSet result = state.executeQuery();
-			while(result.next()) {
-				University uni = new University();//数据：名字，nature，
-				uni.setId(result.getLong("id"));
-				uni.setName(result.getString("name"));//名字
-				uni.setImgSrc(result.getString("imgsrc"));//校徽
-				uni.setProperty(result.getString("property"));
-				uni.setDept(result.getString("dept"));//隶属教育部
-				uni.setType(result.getString("nature"));//性质，公办民办
-				uni.setRanking(result.getInt("ranking"));//排名
-				uni.setF211(result.getInt("f211"));//是否211
-				uni.setF985(result.getInt("f985"));//是否985
-				uni.setRecord(result.getString("record"));//专科，本科
-				list.add(uni);
-			}
+			getAll(result, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -645,20 +584,33 @@ public class UniversityDao implements BaseDAO<University>{
 					state.setObject(i+1, idArrs[i]);
 				}
 				ResultSet result = state.executeQuery();
-				while(result.next()) {
-					University uni = new University();//数据：名字，nature，
-					uni.setId(result.getLong("id"));
-					uni.setName(result.getString("name"));//名字
-					uni.setImgSrc(result.getString("imgsrc"));//校徽
-					uni.setProperty(result.getString("property"));
-					uni.setDept(result.getString("dept"));//隶属教育部
-					uni.setType(result.getString("nature"));//性质，公办民办
-					uni.setRanking(result.getInt("ranking"));//排名
-					uni.setF211(result.getInt("f211"));//是否211
-					uni.setF985(result.getInt("f985"));//是否985
-					uni.setRecord(result.getString("record"));//专科，本科
-					list.add(uni);
+				getAll(result, list);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<University> selectUnisByIds(String ids) {
+		List<University> list = new ArrayList<>();
+		try {
+			if (StringUtil.isNotNullAndEmpty(ids)) {
+				String[] uIds = ids.split(",");
+				String wenhao = "";
+				for (int i = 0; i < uIds.length; i++) {
+					if (i==uIds.length-1) {
+						wenhao += "?";
+					}else {
+						wenhao += "?,";
+					}
 				}
+				PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id in ("+wenhao+")");
+				for (int i = 0; i < uIds.length; i++) {
+					state.setObject(i+1, uIds[i]);
+				}
+				ResultSet query = state.executeQuery();
+				getAll(query, list);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -666,5 +618,57 @@ public class UniversityDao implements BaseDAO<University>{
 		return list;
 	}
 
-	
+	private void getAll(ResultSet result,List<University> list){
+		try {
+			Map<Long,Province> cash = new HashMap<>();
+			while(result.next()) {
+				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setNature(result.getString("nature"));//性质，公办民办
+				uni.setType(result.getString("type"));
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				Long pId = result.getLong("pId");
+				Province pro = cash.get(pId);
+				if (pro==null) {
+					pro = provinceDao.selectOneById(pId);
+					cash.put(pId, pro);
+				}
+				uni.setPro(pro);
+				list.add(uni);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private University getOne(ResultSet result){
+		try {
+			while(result.next()) {
+				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setNature(result.getString("nature"));//性质，公办民办
+				uni.setType(result.getString("type"));
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				return uni;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
