@@ -17,6 +17,7 @@ import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dao.university.updateImgesrc.UniversityUpdateImgesrcDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
+import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
@@ -396,5 +397,22 @@ public class UniversityService {
 			}
 			e.printStackTrace();
 		}
+	}
+	/**
+	 * 根据学校ID查询学校的录取专业
+	 * @param id
+	 * @param activBatch 批次代号 1->10,11  2->8,9  3->14-15  4,5->12,13 
+	 * @return
+	 */
+	public List<Major2> selectMajorsById(String id, String activBatch) {
+		return universityDAO.selectMajorsById(id,activBatch);
+	}
+	/**
+	 * 根据学校ID获取录取数据 指定批次指定专业最新的五个年份
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String,Object>> selectYearByMajorAndBidAndId(String id,String activBatch,String mId) {
+		return universityDAO.selectYearByMajorAndBidAndId(id,activBatch,mId);
 	}
 }

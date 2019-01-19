@@ -2,6 +2,7 @@ package com.yuanmaxinxi.smallsoft.university;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
+import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.service.UserService;
@@ -43,7 +45,19 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("details1".equals(cmd)){
+		}else if("luquYear".equals(cmd)) {
+			String id = req.getParameter("id");
+			String mId = req.getParameter("mId");
+			String activBatch = req.getParameter("activBatch");
+			List<Map<String,Object>> majors = universityService.selectYearByMajorAndBidAndId(id,activBatch,mId);
+			putJson(majors, resp);
+		}else if("luquMajors".equals(cmd)) {
+			String id = req.getParameter("id");
+			String activBatch = req.getParameter("activBatch");
+			List<Major2> majors = universityService.selectMajorsById(id,activBatch);
+			putJson(majors, resp);
+		}
+		else if("details1".equals(cmd)){
 			try {
 				String idStr = req.getParameter("id");
 				long id = Long.parseLong(idStr);
