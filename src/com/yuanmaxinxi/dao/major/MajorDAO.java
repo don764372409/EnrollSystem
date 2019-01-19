@@ -221,4 +221,50 @@ public class MajorDAO implements BaseDAO<Major>{
 		
 	}
 
+	/**
+	 * 得到专业  详细信息页面的 url
+	 * @return
+	 */
+	public List<Major2> selectAllMajor2() {
+		List<Major2> urls = new ArrayList<>();
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select url,id from t_major2 where layer = 3");
+			ResultSet query = state.executeQuery();
+			while (query.next()) {
+				Major2 mj = new Major2();
+				String url = query.getString("url");
+				Long id = query.getLong("id");
+				mj.setUrl(url);
+				mj.setId(id);
+				urls.add(mj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return urls;
+	}
+	public void updateInfo(Major2 mj) {
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("update t_major2 set jianjie=?,mubiao=?,yaoqiu=?,minren=?,kecheng=?,xueke=?,zhishi=? where id =?");
+			state.setObject(1, mj.getJianjie());
+			state.setObject(2, mj.getMubiao());
+			state.setObject(3, mj.getYaoqiu());
+			state.setObject(4, mj.getMinren());
+			state.setObject(5, mj.getKecheng());
+			state.setObject(6, mj.getXueke());
+			state.setObject(7, mj.getZhishi());
+			state.setObject(8, mj.getId());
+			System.err.println(mj);
+			int i = state.executeUpdate();
+			if (i==1) {
+				System.err.println("修改成功");
+			}else {
+				System.err.println("修改失败");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 }

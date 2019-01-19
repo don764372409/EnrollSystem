@@ -2,14 +2,18 @@ package com.yuanmaxinxi.smallsoft.university;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.tribes.util.Arrays;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
+import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.service.UserService;
@@ -43,7 +47,54 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("details1".equals(cmd)){
+		}else if("getSelectUnis".equals(cmd)) {
+			String[] ids = req.getParameterValues("ids");
+			List<University> list = universityService.getSelectUnis(ids);
+			putJson(list, resp);
+		}
+		else if("addShoucang".equals(cmd)) {
+			try {
+				String id = req.getParameter("id");
+				String uId = req.getParameter("uId");
+				universityService.addShoucang(uId,id);
+				dto = ResultDTO.newInstance(true, "收藏成功!");
+			} catch (Exception e) {
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
+		}else if("selectShoucangUnis".equals(cmd)) {
+			String uId = req.getParameter("uId");
+			List<University> unis = universityService.selectShoucangUnis(uId);
+			putJson(unis, resp);
+		}
+		else if("unShoucang".equals(cmd)) {
+			try {
+				String id = req.getParameter("id");
+				String uId = req.getParameter("uId");
+				universityService.unShoucang(uId,id);
+				dto = ResultDTO.newInstance(true, "取消收藏成功!");
+			} catch (Exception e) {
+				dto = ResultDTO.newInstance(true, "取消收藏失败!"+e.getMessage());
+			}
+			putJson(dto, resp);
+		}else if("shoucang".equals(cmd)) {
+			String id = req.getParameter("id");
+			String uId = req.getParameter("uId");
+			University uni = universityService.selectOneShoucang(uId,id);
+			putJson(uni, resp);
+		}else if("luquYear".equals(cmd)) {
+			String id = req.getParameter("id");
+			String mId = req.getParameter("mId");
+			String activBatch = req.getParameter("activBatch");
+			List<Map<String,Object>> majors = universityService.selectYearByMajorAndBidAndId(id,activBatch,mId);
+			putJson(majors, resp);
+		}else if("luquMajors".equals(cmd)) {
+			String id = req.getParameter("id");
+			String activBatch = req.getParameter("activBatch");
+			List<Major2> majors = universityService.selectMajorsById(id,activBatch);
+			putJson(majors, resp);
+		}
+		else if("details1".equals(cmd)){
 			try {
 				String idStr = req.getParameter("id");
 				long id = Long.parseLong(idStr);

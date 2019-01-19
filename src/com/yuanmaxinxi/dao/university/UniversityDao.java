@@ -6,10 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
+import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 import com.yuanmaxinxi.util.DBUtil;
@@ -430,6 +434,236 @@ public class UniversityDao implements BaseDAO<University>{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	/**
+	 * 根据学校ID查询学校的录取专业
+	 * @param id
+	 * @param activBatch 
+	 * @return
+	 */
+	public List<Major2> selectMajorsById(String id, String activBatch) {
+		List<Major2> list = new ArrayList<>();
+		try {
+			//默认提前批
+			String bId1 = "6" ;
+			String bId2 = "7" ;
+			switch (activBatch) {
+			case "0":
+				bId1 = "6" ;
+				bId2 = "7" ;
+				break;
+			case "1":
+				bId1 = "10" ;
+				bId2 = "11" ;
+				break;
+			case "2":
+				bId1 = "8" ;
+				bId2 = "9" ;
+				break;
+			case "3":
+				bId1 = "14" ;
+				bId2 = "15" ;
+				break;
+			case "4":
+			case "5":
+				bId1 = "12" ;
+				bId2 = "13" ;
+				break;
+
+			default:
+				break;
+			}
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select id ,name from t_major where id in ("
+					+ "select mId from t_enroll where uId = ? and bId = ? union "
+					+ "select mId from t_enroll where uId = ? and bId = ?"
+					+ ")");
+			state.setObject(1, id);
+			state.setObject(2, bId1);
+			state.setObject(3, id);
+			state.setObject(4, bId2);
+			ResultSet query = state.executeQuery();
+			while(query.next()) {
+				Major2 mj = new Major2();
+				mj.setId(query.getLong("id"));
+				mj.setName(query.getString("name"));
+				list.add(mj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 根据学校ID获取录取数据 指定专业最新的五个年份
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String,Object>> selectYearByMajorAndBidAndId(String id,String activBatch,String mId) {
+		List<Map<String,Object>> list = new ArrayList<>();
+		try {
+			//默认提前批
+			String bId1 = "6" ;
+			String bId2 = "7" ;
+			switch (activBatch) {
+			case "0":
+				bId1 = "6" ;
+				bId2 = "7" ;
+				break;
+			case "1":
+				bId1 = "10" ;
+				bId2 = "11" ;
+				break;
+			case "2":
+				bId1 = "8" ;
+				bId2 = "9" ;
+				break;
+			case "3":
+				bId1 = "14" ;
+				bId2 = "15" ;
+				break;
+			case "4":
+			case "5":
+				bId1 = "12" ;
+				bId2 = "13" ;
+				break;
+
+			default:
+				break;
+			}
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select DISTINCT * from t_enroll where uId = ? and (bId = ? or bId=?) and mId = ?");
+			System.err.println("学校ID："+id+",专业ID："+mId+",批次ID:"+bId1+","+bId2);
+			state.setObject(1, id);
+			state.setObject(2, bId1);
+			state.setObject(3, bId2);
+			state.setObject(4, mId);
+			ResultSet query = state.executeQuery();
+			while(query.next()) {
+				Map<String,Object> map = new HashMap<>();
+				map.put("year", query.getString("time"));
+				map.put("number", query.getInt("number"));
+				map.put("maxNumber", query.getInt("maxNumber"));
+				map.put("minNumber", query.getInt("minNumber"));
+				map.put("avgNumber", query.getInt("avgNumber"));
+				map.put("maxRanking", query.getInt("maxRanking"));
+				map.put("minRanking", query.getInt("minRanking"));
+				map.put("avgRanking", query.getInt("avgRanking"));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public University selectOneShoucang(String uId, String id) {
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id = (select uniId from t_shoucang where uId = ? and uniId = ?)");
+			state.setObject(1, uId);
+			state.setObject(2,id);
+			ResultSet result = state.executeQuery();
+			if(result.next()) {
+				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setType(result.getString("nature"));//性质，公办民办
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				return uni;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 添加收藏
+	 * @param uId
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public int addShoucang(String uId, String id)throws SQLException {
+		PreparedStatement state = DBUtil.getConn().prepareStatement("insert into t_shoucang(uId,uniId)values(?,?)");
+		state.setObject(1, uId);
+		state.setObject(2, id);
+		return state.executeUpdate();
+	}
+
+	public int unShoucang(String uId, String id)throws SQLException {
+		PreparedStatement state = DBUtil.getConn().prepareStatement("delete from t_shoucang where uId = ? and uniId = ?");
+		state.setObject(1, uId);
+		state.setObject(2, id);
+		return state.executeUpdate();
+	}
+
+	public List<University> selectShoucangUnis(String uId) {
+		List<University> list = new ArrayList<>();
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id in (select uniId from t_shoucang where uId = ?)");
+			state.setObject(1, uId);
+			ResultSet result = state.executeQuery();
+			while(result.next()) {
+				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setType(result.getString("nature"));//性质，公办民办
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				list.add(uni);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<University> getSelectUnis(String[] ids) {
+		List<University> list = new ArrayList<>();
+		try {
+			if (ids.length>0) {
+				String[] idArrs = ids[0].split(",");
+				String idStrs = "";
+				for (int i = 0; i < idArrs.length; i++) {
+					if (i==idArrs.length-1) {
+						idStrs += "?";
+					}else {
+						idStrs += "?,";
+					}
+				}
+				PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id in ("+idStrs+")");
+				for (int i = 0; i < idArrs.length; i++) {
+					state.setObject(i+1, idArrs[i]);
+				}
+				ResultSet result = state.executeQuery();
+				while(result.next()) {
+					University uni = new University();//数据：名字，nature，
+					uni.setId(result.getLong("id"));
+					uni.setName(result.getString("name"));//名字
+					uni.setImgSrc(result.getString("imgsrc"));//校徽
+					uni.setProperty(result.getString("property"));
+					uni.setDept(result.getString("dept"));//隶属教育部
+					uni.setType(result.getString("nature"));//性质，公办民办
+					uni.setRanking(result.getInt("ranking"));//排名
+					uni.setF211(result.getInt("f211"));//是否211
+					uni.setF985(result.getInt("f985"));//是否985
+					uni.setRecord(result.getString("record"));//专科，本科
+					list.add(uni);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	
