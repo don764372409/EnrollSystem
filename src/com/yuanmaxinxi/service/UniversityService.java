@@ -3,7 +3,6 @@ package com.yuanmaxinxi.service;
 
 
 import java.net.URLEncoder;
-
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -21,13 +20,9 @@ import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.ImgSrc.UniversityImgSrc;
-
-import com.yuanmaxinxi.util.CrawUniversityAllUtil;
-
 import com.yuanmaxinxi.util.CrawUniversityAllUtil;
 import com.yuanmaxinxi.util.CrawUniversityRankingUtil;
 import com.yuanmaxinxi.util.DBUtil;
-import com.yuanmaxinxi.util.StringUtil;
 
 
 public class UniversityService {
@@ -414,5 +409,65 @@ public class UniversityService {
 	 */
 	public List<Map<String,Object>> selectYearByMajorAndBidAndId(String id,String activBatch,String mId) {
 		return universityDAO.selectYearByMajorAndBidAndId(id,activBatch,mId);
+	}
+	/**
+	 * 根据用户ID和学校ID获取收藏的学校
+	 * @param uId
+	 * @param id
+	 * @return
+	 */
+	public University selectOneShoucang(String uId, String id) {
+		return universityDAO.selectOneShoucang(uId,id);
+	}
+
+	public void addShoucang(String uId, String id) {
+		University uni = selectOneShoucang(uId,id);
+		if (uni!=null) {
+			//已经收藏成功
+			return;
+		}
+		try {
+			int i = universityDAO.addShoucang(uId,id);
+			if (i!=1) {
+				throw new RuntimeException("添加收藏失败!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("添加收藏失败!");
+		}
+	}
+
+	public void unShoucang(String uId, String id) {
+		University uni = selectOneShoucang(uId,id);
+		if (uni==null) {
+			//已经取消收藏成功
+			return;
+		}
+		try {
+			int i = universityDAO.unShoucang(uId,id);
+			if (i!=1) {
+				throw new RuntimeException("取消收藏失败!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("取消收藏失败!");
+		}
+	}
+	/**
+	 * 获取当前用户的收藏院校
+	 * @param uId
+	 * @return
+	 */
+	public List<University> selectShoucangUnis(String uId) {
+		
+		return universityDAO.selectShoucangUnis(uId);
+	}
+	/**
+	 * 获取已选择的学校
+	 * @param ids
+	 * @return
+	 */
+	public List<University> getSelectUnis(String[] ids) {
+		return universityDAO.getSelectUnis(ids);
 	}
 }

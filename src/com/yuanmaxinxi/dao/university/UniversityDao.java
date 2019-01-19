@@ -13,7 +13,6 @@ import java.util.Map;
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
-import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
@@ -549,6 +548,117 @@ public class UniversityDao implements BaseDAO<University>{
 				map.put("minRanking", query.getInt("minRanking"));
 				map.put("avgRanking", query.getInt("avgRanking"));
 				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public University selectOneShoucang(String uId, String id) {
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id = (select uniId from t_shoucang where uId = ? and uniId = ?)");
+			state.setObject(1, uId);
+			state.setObject(2,id);
+			ResultSet result = state.executeQuery();
+			if(result.next()) {
+				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setType(result.getString("nature"));//性质，公办民办
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				return uni;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 添加收藏
+	 * @param uId
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public int addShoucang(String uId, String id)throws SQLException {
+		PreparedStatement state = DBUtil.getConn().prepareStatement("insert into t_shoucang(uId,uniId)values(?,?)");
+		state.setObject(1, uId);
+		state.setObject(2, id);
+		return state.executeUpdate();
+	}
+
+	public int unShoucang(String uId, String id)throws SQLException {
+		PreparedStatement state = DBUtil.getConn().prepareStatement("delete from t_shoucang where uId = ? and uniId = ?");
+		state.setObject(1, uId);
+		state.setObject(2, id);
+		return state.executeUpdate();
+	}
+
+	public List<University> selectShoucangUnis(String uId) {
+		List<University> list = new ArrayList<>();
+		try {
+			PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id in (select uniId from t_shoucang where uId = ?)");
+			state.setObject(1, uId);
+			ResultSet result = state.executeQuery();
+			while(result.next()) {
+				University uni = new University();//数据：名字，nature，
+				uni.setId(result.getLong("id"));
+				uni.setName(result.getString("name"));//名字
+				uni.setImgSrc(result.getString("imgsrc"));//校徽
+				uni.setProperty(result.getString("property"));
+				uni.setDept(result.getString("dept"));//隶属教育部
+				uni.setType(result.getString("nature"));//性质，公办民办
+				uni.setRanking(result.getInt("ranking"));//排名
+				uni.setF211(result.getInt("f211"));//是否211
+				uni.setF985(result.getInt("f985"));//是否985
+				uni.setRecord(result.getString("record"));//专科，本科
+				list.add(uni);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<University> getSelectUnis(String[] ids) {
+		List<University> list = new ArrayList<>();
+		try {
+			if (ids.length>0) {
+				String[] idArrs = ids[0].split(",");
+				String idStrs = "";
+				for (int i = 0; i < idArrs.length; i++) {
+					if (i==idArrs.length-1) {
+						idStrs += "?";
+					}else {
+						idStrs += "?,";
+					}
+				}
+				PreparedStatement state = DBUtil.getConn().prepareStatement("select * from t_university where id in ("+idStrs+")");
+				for (int i = 0; i < idArrs.length; i++) {
+					state.setObject(i+1, idArrs[i]);
+				}
+				ResultSet result = state.executeQuery();
+				while(result.next()) {
+					University uni = new University();//数据：名字，nature，
+					uni.setId(result.getLong("id"));
+					uni.setName(result.getString("name"));//名字
+					uni.setImgSrc(result.getString("imgsrc"));//校徽
+					uni.setProperty(result.getString("property"));
+					uni.setDept(result.getString("dept"));//隶属教育部
+					uni.setType(result.getString("nature"));//性质，公办民办
+					uni.setRanking(result.getInt("ranking"));//排名
+					uni.setF211(result.getInt("f211"));//是否211
+					uni.setF985(result.getInt("f985"));//是否985
+					uni.setRecord(result.getString("record"));//专科，本科
+					list.add(uni);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

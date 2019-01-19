@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.tribes.util.Arrays;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major2;
@@ -45,6 +47,41 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
+		}else if("getSelectUnis".equals(cmd)) {
+			String[] ids = req.getParameterValues("ids");
+			List<University> list = universityService.getSelectUnis(ids);
+			putJson(list, resp);
+		}
+		else if("addShoucang".equals(cmd)) {
+			try {
+				String id = req.getParameter("id");
+				String uId = req.getParameter("uId");
+				universityService.addShoucang(uId,id);
+				dto = ResultDTO.newInstance(true, "收藏成功!");
+			} catch (Exception e) {
+				dto = ResultDTO.newInstance(false, e.getMessage());
+			}
+			putJson(dto, resp);
+		}else if("selectShoucangUnis".equals(cmd)) {
+			String uId = req.getParameter("uId");
+			List<University> unis = universityService.selectShoucangUnis(uId);
+			putJson(unis, resp);
+		}
+		else if("unShoucang".equals(cmd)) {
+			try {
+				String id = req.getParameter("id");
+				String uId = req.getParameter("uId");
+				universityService.unShoucang(uId,id);
+				dto = ResultDTO.newInstance(true, "取消收藏成功!");
+			} catch (Exception e) {
+				dto = ResultDTO.newInstance(true, "取消收藏失败!"+e.getMessage());
+			}
+			putJson(dto, resp);
+		}else if("shoucang".equals(cmd)) {
+			String id = req.getParameter("id");
+			String uId = req.getParameter("uId");
+			University uni = universityService.selectOneShoucang(uId,id);
+			putJson(uni, resp);
 		}else if("luquYear".equals(cmd)) {
 			String id = req.getParameter("id");
 			String mId = req.getParameter("mId");
