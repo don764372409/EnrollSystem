@@ -5,7 +5,7 @@
        <setting name="logImpl" value="STDOUT_LOGGING" />  
   	</settings>
   	<typeAliases>
-  	    <package name="com.yuanmaxinxi.dao" />
+  	    <package name="com.yuanmaxinxi.entity" />
   	</typeAliases>
 	<!-- 环境配置 -->
 	<environments default="default">
@@ -15,7 +15,7 @@
 	 			<property name="driver" value="com.mysql.jdbc.Driver"/>
 	 			<property name="url" value="jdbc:mysql://122.114.0.52/enroll"/>
 	 			<property name="username" value="root"/>
-	 			<property name="password" value="admin"/>
+	 			<property name="password" value="100-99=yi.0"/>
 	 		</dataSource>
 	 	</environment>
 	</environments>

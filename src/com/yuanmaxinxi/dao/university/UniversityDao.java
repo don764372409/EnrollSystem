@@ -505,6 +505,7 @@ public class UniversityDao implements BaseDAO<University>{
 			while(query.next()) {
 				Map<String,Object> map = new HashMap<>();
 				map.put("year", query.getString("time"));
+				System.err.println(map);
 				map.put("number", query.getInt("number"));
 				map.put("maxNumber", query.getInt("maxNumber"));
 				map.put("minNumber", query.getInt("minNumber"));

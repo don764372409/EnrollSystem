@@ -19,8 +19,6 @@ public class AdminServlet extends BaseServlet{
 	public void init() throws ServletException {
 		adminService = new AdminService();
 	}
-	
-	
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		String cmd = req.getParameter("cmd");
