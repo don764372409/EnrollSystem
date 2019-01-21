@@ -67,7 +67,7 @@ public class AdminService {
 		}
 	}
 	
-	public int edit(Admin obj) {
+	public void edit(Admin obj) {
 		if(StringUtil.isNullOrEmpty(obj.getName())) {
 			throw new RuntimeException("账号不能为空");
 		}
@@ -75,17 +75,29 @@ public class AdminService {
 			throw new RuntimeException("电话不能为空");
 		}
 		try {
-			return adminDAO.edit(obj);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			int i = adminDAO.edit(obj);
+			if (i!=1) {
+				throw new RuntimeException("修改失败,请稍后再试");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			e.printStackTrace();
+			throw new RuntimeException("修改失败,请稍后再试");
 		}
 	}
 
 	
-	public int delete(Long id) {
-		return adminDAO.delete(id);
+	public void delete(Long id) {
+		try {
+			int i = adminDAO.delete(id);
+			if (i!=1) {
+				
+				throw new RuntimeException("删除失败,请稍后再试");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("删除失败,请稍后再试");
+		}
 	}
 
 	public Admin selectOneById(Long id) {

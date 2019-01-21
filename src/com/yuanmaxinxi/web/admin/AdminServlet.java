@@ -60,24 +60,24 @@ public class AdminServlet extends BaseServlet{
 			admin.setId(id);
 			admin.setName(name);
 			admin.setPhone(phone);
-			int result=adminService.edit(admin);
 			ResultDTO dto;
-			if(result==1) {
+			try {
+				adminService.edit(admin);
 				dto=ResultDTO.newInstance(true, "修改成功!");
-			}else {
-				dto=ResultDTO.newInstance(false, "修改失败!");
+				
+			} catch (Exception e) {
+				dto=ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
 			
 		}else if("delete".equals(cmd)) {
-			
 			String idStr = req.getParameter("id");
-			int del=adminService.delete(Long.parseLong(idStr));
 			ResultDTO dto;
-			if(del==1) {
-				dto=ResultDTO.newInstance(true, "删除成功!");
-			}else {
-				dto=ResultDTO.newInstance(false, "删除失败!");
+			try {
+				adminService.delete(Long.parseLong(idStr));
+				dto=ResultDTO.newInstance(true, "修改成功!");
+			} catch (Exception e) {
+				dto=ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
 		}else {
