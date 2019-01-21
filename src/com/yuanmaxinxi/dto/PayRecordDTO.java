@@ -7,7 +7,7 @@ public class PayRecordDTO extends BaseQueryPageDTO<PayRecord>{
 	private String name;//学校名称
 
 	public PayRecordDTO() {
-		super("t_payrecod");
+		super("t_payment");
 	}
 
 	@Override
