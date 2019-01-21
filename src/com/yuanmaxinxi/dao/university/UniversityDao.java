@@ -648,9 +648,14 @@ public class UniversityDao implements BaseDAO<University>{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 处理结果集
+	 * @param result
+	 * @return
+	 */
 	private University getOne(ResultSet result){
 		try {
-			while(result.next()) {
+			if(result.next()) {
 				University uni = new University();//数据：名字，nature，
 				uni.setId(result.getLong("id"));
 				uni.setName(result.getString("name"));//名字
