@@ -1,18 +1,24 @@
 package com.yuanmaxinxi.util;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 public class DBUtil {
-	private static Connection conn;
+	private static SqlSessionFactory factory;
+	private static SqlSession session;
 	static {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn=DriverManager.getConnection("jdbc:mysql://122.114.0.52/enroll?useUnicode=true&characterEncoding=UTF-8","root","admin");
-		}catch(Exception e) {
-			e.printStackTrace();
+		while(factory==null) {
+			try {
+				factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream("mybatis-config.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	public static Connection getConn() {
-		System.err.println("链接对象:"+conn);
-		return conn;
+	public static SqlSession openSession() {
+		if (session==null) {
+			session = factory.openSession();
+		}
+		return session;
 	}
 }

@@ -4,14 +4,24 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.yuanmaxinxi.dao.admin.AdminDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
+import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.MD5Util;
 import com.yuanmaxinxi.util.StringUtil;
 
 public class AdminService {
-	private AdminDAO adminDAO = new AdminDAO();
+	private AdminDAO adminDAO;
+	private void init() {
+		SqlSession session = DBUtil.openSession();
+		adminDAO = session.getMapper(AdminDAO.class);
+	}
+	public AdminService() {
+		init();
+	}
 	public void insert(Admin obj) {
 		if (StringUtil.isNullOrEmpty(obj.getName())) {
 			throw new RuntimeException("姓名不能为空.");
