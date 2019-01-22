@@ -17,20 +17,21 @@ public class UniversityUpdateJianZhang {
 		return instance;
 	}
 	public static int updateJiezhang(List<Jianzhang> lists) {
-		Connection conn = DBUtil.getConn();
-		int row = 0;
-		for (Jianzhang jiezhang : lists) {
-			try {
-				String sql = "INSERT INTO t_jianzhang(uID,jianzhang,jianzhangtext) VALUES ((select id from t_university where name = ?),?,?);";
-				PreparedStatement state = conn.prepareStatement(sql);
-				state.setObject(1, jiezhang.getName());
-				state.setObject(2, jiezhang.getZhangshengName());
-				state.setObject(3, jiezhang.getText());
-				row += state.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return row;
+//		Connection conn = DBUtil.getConn();
+//		int row = 0;
+//		for (Jianzhang jiezhang : lists) {
+//			try {
+//				String sql = "INSERT INTO t_jianzhang(uID,jianzhang,jianzhangtext) VALUES ((select id from t_university where name = ?),?,?);";
+//				PreparedStatement state = conn.prepareStatement(sql);
+//				state.setObject(1, jiezhang.getName());
+//				state.setObject(2, jiezhang.getZhangshengName());
+//				state.setObject(3, jiezhang.getText());
+//				row += state.executeUpdate();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return row;
+		return 0;
 	}
 }

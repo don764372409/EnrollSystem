@@ -5,11 +5,14 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 
 public interface UniversityDao extends BaseDAO<University>{
 	University selectOneByName(String name);
@@ -57,5 +60,9 @@ public interface UniversityDao extends BaseDAO<University>{
 	public List<University> selectShoucangUnis(String uId);
 
 	
-	public List<University> selectUnisByIds(String[] ids);
+	public List<University> selectUnisByIds(@Param("ids")String[] ids);
+
+	List<Jianzhang> selectAllJianZhangById(Long uId);
+
+	List<University> selectPropertys();
 }

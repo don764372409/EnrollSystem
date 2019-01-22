@@ -16,4 +16,7 @@
     <update id="bingNumber" parameterType="User">
         update t_user set number = #{number} where openid =#{openid}
     </update>
+    <select id="selectShoucangNumbers" parameterType="long" resultType="int">
+        select count(uId) from t_shoucang where uId = #{id}
+    </select>
 </mapper>

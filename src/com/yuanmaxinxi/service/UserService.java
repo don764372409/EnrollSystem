@@ -89,4 +89,7 @@ public class UserService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+	public int selectShoucangNumbers(String id) {
+		return userDAO.selectShoucangNumbers(id);
+	}
 }

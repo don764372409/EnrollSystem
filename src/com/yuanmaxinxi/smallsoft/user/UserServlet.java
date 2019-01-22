@@ -77,6 +77,11 @@ public class UserServlet extends BaseServlet{
 				}
 			}
 			putJson(dto, resp);
+		}else if("shoucangs".equals(cmd)) {
+			String id = req.getParameter("id");
+			//获取收藏院校数量
+			int numbers = userService.selectShoucangNumbers(id);
+			putJson(numbers, resp);
 		}
 	}
 }

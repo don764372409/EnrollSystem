@@ -48,12 +48,11 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("selectUnisByIds".equals(cmd)) {
-			String ids = req.getParameter("ids");
-			List<University> list = universityService.selectUnisByIds(ids);
-			putJson(list, resp);
+		}else if("selectPropertys".equals(cmd)) {
+			List<University> propertys = universityService.selectPropertys();
+			putJson(propertys, resp);
 		}
-		else if("getSelectUnis".equals(cmd)) {
+		else if("selectUnisByIds".equals(cmd)) {
 			String ids = req.getParameter("ids");
 			List<University> list = universityService.selectUnisByIds(ids);
 			putJson(list, resp);
@@ -105,8 +104,6 @@ public class UniversityServlet extends BaseServlet{
 				String idStr = req.getParameter("id");
 				long id = Long.parseLong(idStr);
 				University uni = universityService.selectOneById(id);//查询t_university表
-//				List jianzhangs = universityService.selectOneByuId(id);
-//				uni.setList(jianzhangs);
 				//院校简介数据处理
 				String remark = uni.getRemark();
 				String replace = remark.replace(" 　　", "\n&emsp;&emsp;");

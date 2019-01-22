@@ -3,6 +3,7 @@ package com.yuanmaxinxi.service;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,9 @@ import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 import com.yuanmaxinxi.util.DBUtil;
+import com.yuanmaxinxi.util.StringUtil;
 
 
 public class UniversityService {
@@ -126,11 +129,15 @@ public class UniversityService {
 	}
 	//根据id查询t_university所有的院校信息
 	public University selectOneById(Long id) {
-		University selectOneById = universityDAO.selectOneById(id);
-		if(selectOneById==null) {
+		University uni = universityDAO.selectOneById(id);
+		if(uni==null) {
 			throw new RuntimeException("查询院校信息为空");
 		}
-		return selectOneById;
+		//获取简章数据
+		List<Jianzhang> jianzhangs = universityDAO.selectAllJianZhangById(id);
+		uni.setList(jianzhangs);
+		System.err.println(jianzhangs);
+		return uni;
 	}
 	//查询所有的院校信息
 	public List<University> selectAll() {
@@ -376,6 +383,7 @@ public class UniversityService {
 		}
 		map.put("bId1", bId1);
 		map.put("bId2", bId2);
+		System.err.println(map);
 		return universityDAO.selectMajorsById(map);
 	}
 	/**
@@ -487,7 +495,21 @@ public class UniversityService {
 	 * @return
 	 */
 	public List<University> selectUnisByIds(String ids) {
-		String[] uIds = ids.split(",");
-		return universityDAO.selectUnisByIds(uIds);
+		try {
+			if (StringUtil.isNotNullAndEmpty(ids)) {
+				String[] uIds = ids.split(",");
+				return universityDAO.selectUnisByIds(uIds);
+			}
+		} catch (Exception e) {
+			System.err.println("没有查到对比院校");
+		}
+		return new ArrayList<>();
+	}
+	/**
+	 * 获取所有学校类型
+	 * @return
+	 */
+	public List<University> selectPropertys() {
+		return universityDAO.selectPropertys();
 	}
 }

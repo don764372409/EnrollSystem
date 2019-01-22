@@ -26,24 +26,24 @@
     </update>
     <select id="selectMajorsById" parameterType="map" resultType="Major2">
         select id ,name from t_major where id in (
-			select mId from t_enroll where uId = #{uId} and bId = #{bId} 
+			select mId from t_enroll where uId = #{id} and bId = #{bId1} 
 			union
-			select mId from t_enroll where uId = #{uId} and bId = #{bId}
+			select mId from t_enroll where uId = #{id} and bId = #{bId2}
 		)
     </select>
     <select id="selectYearByMajorAndBidAndId" parameterType="map" resultType="Enroll">
-        select DISTINCT * from t_enroll where uId = #{uId} and (bId = #{bId} or bId=#{bId}) and mId = #{mId}
+        select DISTINCT * from t_enroll where uId = #{id} and (bId = #{bId1} or bId=#{bId2}) and mId = #{mId}
     </select>
     <select id="selectOneShoucang" parameterType="map" resultType="University">
         select * from t_university where id = (
-        	select uniId from t_shoucang where uId = #{uId} and uniId = #{uniId}
+        	select uniId from t_shoucang where uId = #{uId} and uniId = #{id}
         )
     </select>
     <insert id="addShoucang" parameterType="map">
-        insert into t_shoucang(uId,uniId)values(#{uId},#{uniId})
+        insert into t_shoucang(uId,uniId)values(#{uId},#{id})
     </insert>
     <delete id="unShoucang" parameterType="map">
-        delete from t_shoucang where uId = #{uId} and uniId = #{uniId}
+        delete from t_shoucang where uId = #{uId} and uniId = #{id}
     </delete>
     <select id="selectShoucangUnis" parameterType="string" resultType="University">
         select * from t_university where id in (select uniId from t_shoucang where uId = #{uId})
@@ -51,7 +51,7 @@
     <select id="selectUnisByIds" resultType="University">
         select * from t_university <where> 
         	id in 
-        	<foreach collection="ids" open=")" close=")" separator="," item="id">
+        	<foreach collection="ids" open="(" close=")" separator="," item="id">
         	    #{id}
         	</foreach>
 		</where>
@@ -64,6 +64,34 @@
         select * from t_university <include refid="whereSql"></include> 
         	order by ranking is null,ranking limit #{beginIndex},#{pageSize}
     </select>
+    <select id="selectAllJianZhangById" parameterType="long" resultType="Jianzhang">
+        select jianzhang as zhangshengName,jianzhangtext as text from t_jianzhang where uid = #{uId}
+    </select>
+    <select id="selectPropertys" resultType="University">
+        select DISTINCT property from t_university where property is not null
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <sql id="whereSql">
         <where>
 			 <if test="name!=null and name != ''">
