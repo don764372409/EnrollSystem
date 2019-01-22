@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.major.MajorDAO">
+	<insert id="insert" parameterType="Major">
+		insert into t_major(name,pId,type,remark,majorExplain,ranking)values(#{name},#{pId},#{type},#{remark},#{majorExplain},#{ranking})
+	</insert>
+	<update id="update" parameterType="Major">
+		update t_major set name = #{name},pId=#{pId},type=#{type},remark=#{remark},majorExplain=#{majorExplain},ranking=#{ranking} where id =#{id}
+	</update>
+	<delete id="delete" parameterType="long">
+		delete from t_major where id =#{id}
+	</delete>
+	<select id="selectOneById" parameterType="long" resultType="Major">
+		select * from t_major where id = #{id}
+	</select>
+	<select id="selectAll" resultType="Major">
+		select * from t_major
+	</select>
+</mapper>

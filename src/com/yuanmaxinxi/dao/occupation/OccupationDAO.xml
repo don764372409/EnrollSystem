@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.occupation.OccupationDAO">
+	<insert id="insert" parameterType="Occupation">
+		insert into t_occupation(name,pId,remark,workContent)values (#{name},#{pId},#{remark},#{workContent})
+	</insert>
+	<update id="update" parameterType="Occupation">
+		update t_occupation set name =#{name},pId=#{pId}, remark=#{remark},workContent=#{workContent} where id = #{id}
+	</update>
+	<delete id="delete" parameterType="long">
+		delete from t_occupation where id =#{id}
+	</delete>
+	<select id="selectOneById" parameterType="long" resultType="Occupation">
+		select * from t_occupation where id =#{id}
+	</select>
+	<select id="selectAll" resultType="Occupation">
+		select * from t_occupation
+	</select>
+</mapper>
