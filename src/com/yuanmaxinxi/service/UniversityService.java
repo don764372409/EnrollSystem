@@ -10,11 +10,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
+import com.yuanmaxinxi.dao.university.DemoDAO;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dao.university.updateImgesrc.UniversityUpdateImgesrcDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
+import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.province.Province;
@@ -36,6 +40,15 @@ public class UniversityService {
 	public static LinkedBlockingQueue<String> jianzhangUrals = new LinkedBlockingQueue<>();
 	public static LinkedBlockingQueue<String> jianjieUrals = new LinkedBlockingQueue<>();
 	private static Object msgUrls;
+	private SqlSession session;
+	private DemoDAO demoDAO;
+	private void init() {
+		session = DBUtil.openSession();
+		demoDAO = session.getMapper(DemoDAO.class);
+	}
+	public UniversityService() {
+		init();
+	}
 	//验证服务器中的数据是否为空
 	public void insert(University obj) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {
@@ -181,8 +194,8 @@ public class UniversityService {
 		return selectAllByProvince;
 	}
 	
-	public void queryPage(BaseQueryPageDTO<University> dto) {
-		universityDAO.queryPage(dto);
+	public void queryPage(MyBatisQueryPageDTO<University> dto) {
+		demoDAO.query(dto);
 	}
 	public List<University> queryPageRangking(BaseQueryPageDTO dto) {
 		return universityDAO.queryPageRangking(dto);

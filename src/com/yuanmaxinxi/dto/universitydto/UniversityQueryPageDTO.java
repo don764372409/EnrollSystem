@@ -1,10 +1,9 @@
 package com.yuanmaxinxi.dto.universitydto;
 
-import com.yuanmaxinxi.dto.BaseQueryPageDTO;
+import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.university.University;
-import com.yuanmaxinxi.util.StringUtil;
 
-public class UniversityQueryPageDTO extends BaseQueryPageDTO<University>{
+public class UniversityQueryPageDTO extends MyBatisQueryPageDTO<University>{
 	private String name;//学校名称
 	private String record;//学校学历
 	private String property;//类型
@@ -13,44 +12,6 @@ public class UniversityQueryPageDTO extends BaseQueryPageDTO<University>{
 	private int f985 = -1;
 	private int ranking1;//开始排名
 	private int ranking2;//结束排名
-	public UniversityQueryPageDTO() {
-		super("t_university");
-	}
-
-	protected void coverSqls() {
-		if (StringUtil.isNotNullAndEmpty(name)) {
-			getSqls().add("instr(name,?)");
-			getParams().add(name);
-		}
-		if (StringUtil.isNotNullAndEmpty(record)) {
-			getSqls().add("record=?");
-			getParams().add(record);
-		}
-		if (StringUtil.isNotNullAndEmpty(property)) {
-			getSqls().add("property=?");
-			getParams().add(property);
-		}
-		if (pId!=null&&pId>0) {
-			getSqls().add("pId=?");
-			getParams().add(pId);
-		}
-		if (f211!=-1) {
-			getSqls().add("f211=?");
-			getParams().add(f211);
-		}
-		if (f985!=-1) {
-			getSqls().add("f985=?");
-			getParams().add(f985);
-		}
-		if (ranking1>0) {
-			getSqls().add("ranking>=?");
-			getParams().add(ranking1);
-		}
-		if (ranking2>0) {
-			getSqls().add("ranking<=?");
-			getParams().add(ranking2);
-		}
-	}
 
 	public String getName() {
 		return name;

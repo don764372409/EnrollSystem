@@ -240,7 +240,6 @@ public class UniversityDao implements BaseDAO<University>{
 		return null;
 	}
 	
-	@Override
 	public void queryPage(BaseQueryPageDTO<University> dto) {
 		try {
 			//先查询总记录数

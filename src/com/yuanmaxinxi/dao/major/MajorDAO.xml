@@ -16,4 +16,24 @@
 	<select id="selectAll" resultType="Major">
 		select * from t_major
 	</select>
+	<update id="updateInfo" parameterType="Major2">
+	    update t_major2 set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}
+	    ,kecheng=#{kecheng},xueke=#{xueke},zhishi=#{zhishi} where id =#{id}
+	</update>
+	<select id="selectAllMajor2" resultType="Major2">
+	    select url,id from t_major2 where layer = 3
+	</select>
+	<select id="selectJianjieById" parameterType="long" resultType="Major2">
+	    select * from t_major2 where id=#{id}
+	</select>
+	<select id="selectChildrenByPNo" parameterType="string" resultType="Major2">
+	    select * from t_major2 where pNo=#{no}
+	</select>
+	<select id="selectFirstMajor" parameterType="int" resultType="Major2">
+	    select * from t_major2 where layer=1 and type=#{type}
+	</select>
+	<insert id="save" parameterType="Major2">
+	    insert into t_major2(name,no,type,jianjie,layer,content,url,pNo)values
+					(#{name},#{no},#{type},#{jianjie},#{layer},#{content},#{url},#{pNo})
+	</insert>
 </mapper>

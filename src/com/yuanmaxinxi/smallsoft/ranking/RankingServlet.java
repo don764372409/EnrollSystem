@@ -26,8 +26,8 @@ public class RankingServlet extends BaseServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UniversityQueryPageDTO dto = new UniversityQueryPageDTO();
-		List<University> list = universityService.queryPageRangking(dto);
-		putJson(list, resp);
+//		List<University> list = universityService.queryPageRangking(dto);
+//		putJson(list, resp);
 	}
 	
 }

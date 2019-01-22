@@ -1,26 +1,48 @@
 package com.yuanmaxinxi.service;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 
 import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.util.DBUtil;
 
 public class MajorService {
-	private MajorDAO majorDAO = new MajorDAO();
+	private MajorDAO majorDAO;
+	private SqlSession session;
+	private void init() {
+		session = DBUtil.openSession();
+		session.getMapper(MajorDAO.class);
+	}
+	public MajorService() {
+		init();
+	}
 	public void insert(Major obj) {
-		majorDAO.insert(obj);
-//		System.err.println("service"+obj);s
+		try {
+			majorDAO.insert(obj);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void update(Major obj) {
-		majorDAO.update(obj);
+		try {
+			majorDAO.update(obj);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void delete(Long id) {
-		majorDAO.delete(id);
+		try {
+			majorDAO.delete(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Major selectOneById(Long id) {

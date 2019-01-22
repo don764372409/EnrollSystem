@@ -2,21 +2,23 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.yuanmaxinxi.dao.user.UserDAO;
 import com.yuanmaxinxi.dto.DeptQueryPageDTO;
 import com.yuanmaxinxi.entity.user.User;
+import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
 public class UserService {
-	private UserDAO userDAO=new UserDAO();
-	public List<User> selectOneById(DeptQueryPageDTO deptQuery) {
-		try {
-			return userDAO.selectOneById(deptQuery);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		
+	private UserDAO userDAO;
+	private SqlSession session;
+	private void init() {
+		session = DBUtil.openSession();
+		userDAO = session.getMapper(UserDAO.class);
+	}
+	public UserService() {
+		init();
 	}
 	public List<User> selectAll() {
 		List<User> list = userDAO.selectAll();
@@ -75,7 +77,10 @@ public class UserService {
 			if (user.getOpenid().equals(openid)) {
 				throw new RuntimeException("不能自己邀请自己.");
 			}
-			int i = userDAO.bingNumber(openid,code);
+			User user2 = new User();
+			user2.setOpenid(openid);
+			user2.setCode(code);
+			int i = userDAO.bingNumber(user2);
 			if (i!=1) {
 				throw new RuntimeException("绑定失败,请稍后再次尝试.");
 			}

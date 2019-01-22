@@ -126,9 +126,9 @@ public class UniversityServlet extends BaseServlet{
 			UniversityQueryPageDTO dto = new UniversityQueryPageDTO();
 			//分页参数
 			String str1 = req.getParameter("currentPage");
-			int currentPage = Integer.parseInt(str1);
+			int currentPage = Integer.parseInt(StringUtil.isNotNullAndEmpty(str1)?str1:"1");
 			String str2 = req.getParameter("pageSize");
-			int pageSize = Integer.parseInt(str2);
+			int pageSize = Integer.parseInt(StringUtil.isNotNullAndEmpty(str2)?str2:"10");
 			dto.setCurrentPage(currentPage);
 			dto.setPageSize(pageSize);
 			//高级查询参数
