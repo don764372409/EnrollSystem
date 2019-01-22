@@ -24,7 +24,7 @@ public class PayRecordServlet extends BaseServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PayRecordDTO dto = new PayRecordDTO();
-		List<PayRecord> list = payrecordservice.queryPageName(dto);
-		putJson(list, resp);
+//		List<PayRecord> list = payrecordservice.queryPageName(dto);
+//		putJson(list, resp);
 	}
 }

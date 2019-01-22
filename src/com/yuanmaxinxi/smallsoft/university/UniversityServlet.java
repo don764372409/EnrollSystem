@@ -13,6 +13,7 @@ import org.apache.catalina.tribes.util.Arrays;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
+import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
@@ -53,8 +54,8 @@ public class UniversityServlet extends BaseServlet{
 			putJson(list, resp);
 		}
 		else if("getSelectUnis".equals(cmd)) {
-			String[] ids = req.getParameterValues("ids");
-			List<University> list = universityService.getSelectUnis(ids);
+			String ids = req.getParameter("ids");
+			List<University> list = universityService.selectUnisByIds(ids);
 			putJson(list, resp);
 		}
 		else if("addShoucang".equals(cmd)) {
@@ -91,7 +92,7 @@ public class UniversityServlet extends BaseServlet{
 			String id = req.getParameter("id");
 			String mId = req.getParameter("mId");
 			String activBatch = req.getParameter("activBatch");
-			List<Map<String,Object>> majors = universityService.selectYearByMajorAndBidAndId(id,activBatch,mId);
+			List<Enroll> majors = universityService.selectYearByMajorAndBidAndId(id,activBatch,mId);
 			putJson(majors, resp);
 		}else if("luquMajors".equals(cmd)) {
 			String id = req.getParameter("id");
@@ -104,8 +105,8 @@ public class UniversityServlet extends BaseServlet{
 				String idStr = req.getParameter("id");
 				long id = Long.parseLong(idStr);
 				University uni = universityService.selectOneById(id);//查询t_university表
-				List jianzhangs = universityService.selectOneByuId(id);
-				uni.setList(jianzhangs);
+//				List jianzhangs = universityService.selectOneByuId(id);
+//				uni.setList(jianzhangs);
 				//院校简介数据处理
 				String remark = uni.getRemark();
 				String replace = remark.replace(" 　　", "\n&emsp;&emsp;");

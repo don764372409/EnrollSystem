@@ -10,46 +10,46 @@ import com.yuanmaxinxi.util.StringUtil;
 
 
 public class DictionaryService {
-	private static DictionaryService ds;
-	private DictionaryDAO dd;
-	private DictionaryService() {
-		dd = DictionaryDAO.getDictionaryDao();
-	}
-	public static DictionaryService getDictionaryService() {
-		return ds == null ? ds = new DictionaryService() : ds;
-	}
-	
-	public void insert(Dictionary obj) throws Exception {
-		if (StringUtil.isNullOrEmpty(obj.getName())) {
-			throw new RuntimeException("名称不能为空.");
-		}
-		//通过账号去数据库找,是否存在
-		if (dd.selectOneByName(obj.getName())!=null) {
-			throw new RuntimeException("名称存在,不能重复,请修改后再次添加.");
-		}
-		//添加
-		try {
-			if (dd.insert(obj)!=1) {
-				throw new RuntimeException("");
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("添加失败,请稍后重试.");
-		}
-	}
-
-	public void update(Dictionary obj) throws Exception{
-		dd.update(obj);
-	}
-
-	public void delete(Long id) throws Exception{
-		dd.delete(id);
-	}
-
-	public Dictionary selectOneById(Long id) {
-		return dd.selectOneById(id);
-	}
-
-	public List<Dictionary> selectAll() {
-		return dd.selectAll();
-	}
+//	private static DictionaryService ds;
+//	private DictionaryDAO dd;
+//	private DictionaryService() {
+//		dd = DictionaryDAO.getDictionaryDao();
+//	}
+//	public static DictionaryService getDictionaryService() {
+//		return ds == null ? ds = new DictionaryService() : ds;
+//	}
+//	
+//	public void insert(Dictionary obj) throws Exception {
+//		if (StringUtil.isNullOrEmpty(obj.getName())) {
+//			throw new RuntimeException("名称不能为空.");
+//		}
+//		//通过账号去数据库找,是否存在
+//		if (dd.selectOneByName(obj.getName())!=null) {
+//			throw new RuntimeException("名称存在,不能重复,请修改后再次添加.");
+//		}
+//		//添加
+//		try {
+//			if (dd.insert(obj)!=1) {
+//				throw new RuntimeException("");
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException("添加失败,请稍后重试.");
+//		}
+//	}
+//
+//	public void update(Dictionary obj) throws Exception{
+//		dd.update(obj);
+//	}
+//
+//	public void delete(Long id) throws Exception{
+//		dd.delete(id);
+//	}
+//
+//	public Dictionary selectOneById(Long id) {
+//		return dd.selectOneById(id);
+//	}
+//
+//	public List<Dictionary> selectAll() {
+//		return dd.selectAll();
+//	}
 }

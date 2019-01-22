@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.enroll.EnrollDAO">
+<!--     <insert id="insert" parameterType="Admin"> -->
+<!--         insert into t_admin(name,username,password,phone,time)value(#{name},#{username},#{password},#{phone},#{time}) -->
+<!--     </insert> -->
+<!--     <update id="update" parameterType="Admin"> -->
+<!-- 		update t_admin set name = #{name},phone=#{phone},ip=#{ip},time=#{time} where id = #{id}         -->
+<!--     </update> -->
+<!--     <update id="edit" parameterType="Admin"> -->
+<!-- 		update t_admin set name = #{name},phone=phone=#{phone} where id = #{ip}  -->
+<!--     </update> -->
+<!--     <delete id="delete" parameterType="Long"> -->
+<!--         delete from t_admin where id=#{id} -->
+<!--     </delete> -->
+<!--     <select id="selectOneById" parameterType="Long" resultType="Admin"> -->
+<!--         select * from t_admin where id=#{id} -->
+<!--     </select> -->
+<!--     <select id="selectAll" resultType="Admin"> -->
+<!--         select * from t_admin -->
+<!--     </select> -->
+<!--     <select id="selectOneByUsername" resultType="Admin"> -->
+<!--         select * from t_admin where username = #{username} -->
+<!--     </select> -->
+</mapper>
