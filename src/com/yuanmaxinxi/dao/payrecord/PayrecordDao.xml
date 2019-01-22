@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.payrecord.PayrecordDao">
+    <delete id="delete" parameterType="Long">
+        delete from t_payment where id=#{id}
+    </delete>
+    <select id="selectOneById" parameterType="Long" resultType="PayRecord">
+        select from t_payment where id=#{id}
+    </select>
+    <select id="selectAll" resultType="PayRecord">
+        select * from t_payment
+    </select>
+
+</mapper>

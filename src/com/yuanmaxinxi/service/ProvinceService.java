@@ -3,6 +3,9 @@ package com.yuanmaxinxi.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.yuanmaxinxi.dao.admin.AdminDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
@@ -11,7 +14,14 @@ import com.yuanmaxinxi.util.CrawlProvinceDataUtil;
 import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 public class ProvinceService {
-	ProvinceDao provincedao=new ProvinceDao();
+	private ProvinceDao provincedao;
+	private void init() {
+		SqlSession session = DBUtil.openSession();
+		provincedao = session.getMapper(ProvinceDao.class);
+	}
+	public ProvinceService() {
+		init();
+	}
 	public void insert(Province obj) {
 	}
 
