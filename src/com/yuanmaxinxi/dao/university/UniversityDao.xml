@@ -67,7 +67,7 @@
     <select id="selectAllJianZhangById" parameterType="long" resultType="Jianzhang">
         select jianzhang as zhangshengName,jianzhangtext as text from t_jianzhang where uid = #{uId}
     </select>
-    <select id="selectPropertys" resultType="University">
+    <select id="selectPropertys" resultType="String">
         select DISTINCT property from t_university where property is not null
     </select>
     

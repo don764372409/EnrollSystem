@@ -509,7 +509,7 @@ public class UniversityService {
 	 * 获取所有学校类型
 	 * @return
 	 */
-	public List<University> selectPropertys() {
+	public List<String> selectPropertys() {
 		return universityDAO.selectPropertys();
 	}
 }

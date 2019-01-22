@@ -49,7 +49,7 @@ public class UniversityServlet extends BaseServlet{
 			}
 			putJson(dto, resp);
 		}else if("selectPropertys".equals(cmd)) {
-			List<University> propertys = universityService.selectPropertys();
+			List<String> propertys = universityService.selectPropertys();
 			putJson(propertys, resp);
 		}
 		else if("selectUnisByIds".equals(cmd)) {
