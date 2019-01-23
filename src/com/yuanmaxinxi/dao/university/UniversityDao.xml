@@ -70,7 +70,9 @@
     <select id="selectPropertys" resultType="String">
         select DISTINCT property from t_university where property is not null
     </select>
-    
+    <select id="selectProvince" resultType="Province">
+        select * from t_province
+    </select>
     
     
     

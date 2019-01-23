@@ -11,6 +11,7 @@ import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 
@@ -65,4 +66,6 @@ public interface UniversityDao extends BaseDAO<University>{
 	List<Jianzhang> selectAllJianZhangById(Long uId);
 
 	List<String> selectPropertys();
+
+	List<Province> selectProvince();
 }

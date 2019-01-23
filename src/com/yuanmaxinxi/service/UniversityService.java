@@ -16,6 +16,7 @@ import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 import com.yuanmaxinxi.util.DBUtil;
@@ -510,6 +511,20 @@ public class UniversityService {
 	 * @return
 	 */
 	public List<String> selectPropertys() {
-		return universityDAO.selectPropertys();
+		List<String> list = universityDAO.selectPropertys();
+		list.set(0, "不限类型");
+		return list;
+	}
+	/**
+	 * 查所有省  插入一个不限省份
+	 * @return
+	 */
+	public List<Province> selectProvince() {
+		List<Province> list = universityDAO.selectProvince();
+		Province province = new Province();
+		province.setId(0L);
+		province.setName("不限省份");
+		list.set(0, province);
+		return list;
 	}
 }

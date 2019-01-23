@@ -16,7 +16,7 @@ public class MajorService {
 	private SqlSession session;
 	private void init() {
 		session = DBUtil.openSession();
-		session.getMapper(MajorDAO.class);
+		majorDAO = session.getMapper(MajorDAO.class);
 	}
 	public MajorService() {
 		init();

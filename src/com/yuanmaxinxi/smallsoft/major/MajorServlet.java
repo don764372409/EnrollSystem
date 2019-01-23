@@ -32,11 +32,7 @@ public class MajorServlet extends BaseServlet{
 			String type = req.getParameter("type");
 			System.out.println(type);
 			List<Major2> list = majorService.selectAllByLayer(Integer.parseInt(type));
-			String json = JSON.toJSONString(list);
-			System.out.println(json);
-			System.out.println("我运行了");
-			PrintWriter out = resp.getWriter();
-			out.write(json);
+			putJson(list, resp);
 		}else if("jianjie".equals(cmd)) {
 			String id = req.getParameter("id");
 			List<Major2> list = majorService.selectJianjie(Long.parseLong(id));

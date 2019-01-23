@@ -27,10 +27,10 @@
 	    select * from t_major2 where id=#{id}
 	</select>
 	<select id="selectChildrenByPNo" parameterType="string" resultType="Major2">
-	    select * from t_major2 where pNo=#{no}
+	    select id,name,no from t_major2 where pNo=#{no}
 	</select>
 	<select id="selectFirstMajor" parameterType="int" resultType="Major2">
-	    select * from t_major2 where layer=1 and type=#{type}
+	    select id,name,no from t_major2 where layer=1 and type=#{type}
 	</select>
 	<insert id="save" parameterType="Major2">
 	    insert into t_major2(name,no,type,jianjie,layer,content,url,pNo)values

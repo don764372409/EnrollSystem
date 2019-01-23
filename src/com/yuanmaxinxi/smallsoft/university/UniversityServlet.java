@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.tribes.util.Arrays;
+import org.apache.xalan.templates.ElemAttributeSet;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
 import com.yuanmaxinxi.service.UserService;
@@ -48,7 +50,11 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("selectPropertys".equals(cmd)) {
+		}else if("selectProvince".equals(cmd)) {
+			List<Province> provinces = universityService.selectProvince();
+			putJson(provinces, resp);
+		}
+		else if("selectPropertys".equals(cmd)) {
 			List<String> propertys = universityService.selectPropertys();
 			putJson(propertys, resp);
 		}
