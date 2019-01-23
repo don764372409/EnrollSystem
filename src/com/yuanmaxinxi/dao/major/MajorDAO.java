@@ -3,9 +3,8 @@ package com.yuanmaxinxi.dao.major;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
-import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.major.Major2;
-public interface MajorDAO extends BaseDAO<Major>{
+public interface MajorDAO extends BaseDAO<Major2>{
 	/**
 	 * 爬虫爬数据的时候  需要先验证是否存在
 	 * @param obj
@@ -26,6 +25,7 @@ public interface MajorDAO extends BaseDAO<Major>{
 	 */
 	public List<Major2> selectAllMajor2();
 	public void updateInfo(Major2 mj);
+	public Major2 selectOneByOn(String on);
 
 
 }

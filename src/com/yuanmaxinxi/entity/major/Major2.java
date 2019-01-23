@@ -20,7 +20,20 @@ public class Major2 {
 	private int type;//0-本科专业 1-专科专业
 	private int layer;//1- 1级专业  2-2级专业 3-3级专业
 	private List<Major2> children = new ArrayList<>();
-	
+	private String name1;//1级父亲专业
+	private String name2;//2级父亲专业
+	public String getName1() {
+		return name1;
+	}
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+	public String getName2() {
+		return name2;
+	}
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
 	public List<Major2> getChildren() {
 		return children;
 	}

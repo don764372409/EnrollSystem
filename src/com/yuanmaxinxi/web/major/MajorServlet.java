@@ -52,7 +52,7 @@ public class MajorServlet extends BaseServlet {
 			// 调用方法
 			ResultDTO dto;
 			try {
-				majorService.insert(major);
+//				majorService.insert(major);
 				dto = ResultDTO.newInstance(true, "添加成功!");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -64,8 +64,8 @@ public class MajorServlet extends BaseServlet {
 		} else if ("showEdit".equals(cmd)) {
 			String id = req.getParameter("id");
 			if (StringUtil.isNotNullAndEmpty(id)) {
-				Major major = majorService.selectOneById(Long.parseLong(id));
-				 req.setAttribute("major", major);
+//				Major major = majorService.selectOneById(Long.parseLong(id));
+//				 req.setAttribute("major", major);
 //				 System.err.println("servlet"+major);
 				req.getRequestDispatcher("/WEB-INF/major/update.jsp").forward(req, resp);
 			}else {
@@ -90,7 +90,7 @@ public class MajorServlet extends BaseServlet {
 			major.setRanking(Integer.parseInt(ranking));
 			ResultDTO dto;
 			try {
-				majorService.update(major);
+//				majorService.update(major);
 				dto = ResultDTO.newInstance(true, "修改成功!");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -113,8 +113,8 @@ public class MajorServlet extends BaseServlet {
 //			resp.sendRedirect("major");
 		}else {
 			// 获取所有数据并跳转到列表页面
-			List<Major> list = majorService.selectAll();
-			req.setAttribute("list", list);
+//			List<Major> list = majorService.selectAll();
+//			req.setAttribute("list", list);
 			req.getRequestDispatcher("/WEB-INF/major/list.jsp").forward(req, resp);
 			
 		}

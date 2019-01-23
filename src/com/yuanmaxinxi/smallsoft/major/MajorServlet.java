@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
+import com.yuanmaxinxi.dto.MajorQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.service.MajorService;
+import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 @WebServlet("/soft/major")
 public class MajorServlet extends BaseServlet{
@@ -33,12 +35,21 @@ public class MajorServlet extends BaseServlet{
 			System.out.println(type);
 			List<Major2> list = majorService.selectAllByLayer(Integer.parseInt(type));
 			putJson(list, resp);
-		}else if("jianjie".equals(cmd)) {
+		}else if("selectOneById".equals(cmd)) {
 			String id = req.getParameter("id");
-			List<Major2> list = majorService.selectJianjie(Long.parseLong(id));
-			String json = JSON.toJSONString(list);
-			PrintWriter out = resp.getWriter();
-			out.write(json);
+			Major2 mj = majorService.selectOneById(Long.parseLong(id));
+			putJson(mj, resp);
+		}else if("query".equals(cmd)) {
+			MajorQueryPageDTO dto = new MajorQueryPageDTO();
+			String str1 = req.getParameter("currentPage");
+			int currentPage = Integer.parseInt(StringUtil.isNotNullAndEmpty(str1)?str1:"1");
+			String str2 = req.getParameter("pageSize");
+			int pageSize = Integer.parseInt(StringUtil.isNotNullAndEmpty(str2)?str2:"10");
+			dto.setCurrentPage(currentPage);
+			dto.setPageSize(pageSize);
+			dto.setName(req.getParameter("name"));
+			majorService.queryPage(dto);
+			putJson(dto, resp);
 		}
 	}
 }

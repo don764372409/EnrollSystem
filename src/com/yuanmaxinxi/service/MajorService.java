@@ -6,8 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.yuanmaxinxi.dao.major.MajorDAO;
-import com.yuanmaxinxi.dto.BaseQueryPageDTO;
-import com.yuanmaxinxi.entity.major.Major;
+import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major2;
 import com.yuanmaxinxi.util.DBUtil;
 
@@ -21,7 +20,7 @@ public class MajorService {
 	public MajorService() {
 		init();
 	}
-	public void insert(Major obj) {
+	public void insert(Major2 obj) {
 		try {
 			majorDAO.insert(obj);
 		} catch (SQLException e) {
@@ -29,7 +28,7 @@ public class MajorService {
 		}
 	}
 
-	public void update(Major obj) {
+	public void update(Major2 obj) {
 		try {
 			majorDAO.update(obj);
 		} catch (SQLException e) {
@@ -45,16 +44,49 @@ public class MajorService {
 		}
 	}
 
-	public Major selectOneById(Long id) {
-		return majorDAO.selectOneById(id);
+	public Major2 selectOneById(Long id) {
+		Major2 mj = majorDAO.selectOneById(id);
+		Major2 major2 = selectOneByOn(mj.getpNo());
+		if (major2!=null) {
+			//查父亲的父亲
+			Major2 major1 = selectOneByOn(major2.getpNo());
+			if (major1!=null) {
+				mj.setName1(major1.getName());
+			}
+			mj.setName2(major2.getName());
+		}
+		return mj;
 	}
 
-	public List<Major> selectAll() {
+	public List<Major2> selectAll() {
 		return majorDAO.selectAll();
 	}
 
-	public List<Major> queryPage(BaseQueryPageDTO dto) {
-		return null;
+	public void queryPage(MyBatisQueryPageDTO<Major2> dto) {
+		int count = majorDAO.selectCount(dto);
+		dto.setCount(count);
+		List<Major2> list = majorDAO.queryPage(dto);
+		//查父亲
+		for (Major2 mj : list) {
+			Major2 major2 = selectOneByOn(mj.getpNo());
+			if (major2!=null) {
+				//查父亲的父亲
+				Major2 major1 = selectOneByOn(major2.getpNo());
+				if (major1!=null) {
+					mj.setName1(major1.getName());
+				}
+				mj.setName2(major2.getName());
+			}
+		}
+		dto.setRows(list);
+	}
+	/**
+	 * 根据专业代码查专业
+	 * @param on
+	 * @return
+	 */
+	private Major2 selectOneByOn(String on) {
+		return majorDAO.selectOneByOn(on);
 	}
 	/**
 	 * 获取具有层次关系的专业
@@ -72,10 +104,4 @@ public class MajorService {
 		}
 		return list;
 	}
-	public List<Major2> selectJianjie(long id){
-		List<Major2> list = majorDAO.selectJianjieById(id);
-		return list;
-		
-	}
-
 }

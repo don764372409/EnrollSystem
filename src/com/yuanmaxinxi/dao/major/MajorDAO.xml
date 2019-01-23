@@ -10,8 +10,8 @@
 	<delete id="delete" parameterType="long">
 		delete from t_major where id =#{id}
 	</delete>
-	<select id="selectOneById" parameterType="long" resultType="Major">
-		select * from t_major where id = #{id}
+	<select id="selectOneById" parameterType="long" resultType="Major2">
+		select * from t_major2 where id = #{id}
 	</select>
 	<select id="selectAll" resultType="Major">
 		select * from t_major
@@ -23,11 +23,11 @@
 	<select id="selectAllMajor2" resultType="Major2">
 	    select url,id from t_major2 where layer = 3
 	</select>
-	<select id="selectJianjieById" parameterType="long" resultType="Major2">
-	    select * from t_major2 where id=#{id}
-	</select>
 	<select id="selectChildrenByPNo" parameterType="string" resultType="Major2">
 	    select id,name,no from t_major2 where pNo=#{no}
+	</select>
+	<select id="selectOneByOn" parameterType="string" resultType="Major2">
+	    select * from t_major2 where no=#{no}
 	</select>
 	<select id="selectFirstMajor" parameterType="int" resultType="Major2">
 	    select id,name,no from t_major2 where layer=1 and type=#{type}
@@ -36,4 +36,20 @@
 	    insert into t_major2(name,no,type,jianjie,layer,content,url,pNo)values
 					(#{name},#{no},#{type},#{jianjie},#{layer},#{content},#{url},#{pNo})
 	</insert>
+	
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="int">
+        select count(id) from t_major2
+        <include refid="whereSql"></include>
+    </select>
+    <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Major2">
+        select id,name,no,pNo,type from t_major2 <include refid="whereSql"></include> 
+        order by type limit #{beginIndex},#{pageSize}
+    </select>
+	<sql id="whereSql">
+        <where>
+			 <if test="name!=null and name != ''">
+			     and instr(name,#{name}) and layer = 3
+			 </if> 
+        </where>
+    </sql>
 </mapper>
