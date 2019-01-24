@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.major.MajorDAO">
-	<insert id="insert" parameterType="Major">
-		insert into t_major(name,pId,type,remark,majorExplain,ranking)values(#{name},#{pId},#{type},#{remark},#{majorExplain},#{ranking})
+	<insert id="insert" parameterType="Major2">
+		insert into t_major2(name,no,pNo,type,layer)values(#{name},#{no},#{pNo},#{type},#{layer})
 	</insert>
 	<update id="update" parameterType="Major">
 		update t_major set name = #{name},pId=#{pId},type=#{type},remark=#{remark},majorExplain=#{majorExplain},ranking=#{ranking} where id =#{id}

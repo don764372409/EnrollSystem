@@ -22,7 +22,13 @@ public class MajorService {
 	}
 	public void insert(Major2 obj) {
 		try {
+			Major2 mj = majorDAO.selectOneByOn(obj.getNo());
+			if (mj!=null) {
+				return;
+			}
+			System.err.println("添加专业:"+obj.getName());
 			majorDAO.insert(obj);
+			session.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
