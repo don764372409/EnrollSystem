@@ -24,7 +24,7 @@
     <update id="updateRanking" parameterType="University">
         update t_university set ranking = #{ranking} where name = #{name}
     </update>
-    <select id="selectMajorsById" parameterType="map" resultType="Major2">
+    <select id="selectMajorsById" parameterType="map" resultType="Major">
         select id ,name from t_major where id in (
 			select mId from t_enroll where uId = #{id} and bId = #{bId1} 
 			union
