@@ -1,50 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.major.MajorDAO">
-	<insert id="insert" parameterType="Major2">
-		insert into t_major2(name,no,pNo,type,layer)values(#{name},#{no},#{pNo},#{type},#{layer})
+	<insert id="insert" parameterType="Major">
+		insert into t_major(name,no,pNo,type,layer,url)values
+		(#{name},#{no},#{pNo},#{type},#{layer},#{url})
 	</insert>
 	<update id="update" parameterType="Major">
-		update t_major set name = #{name},pId=#{pId},type=#{type},remark=#{remark},majorExplain=#{majorExplain},ranking=#{ranking} where id =#{id}
+		update t_major set no = #{no},content=#{content} where id =#{id}
 	</update>
 	<delete id="delete" parameterType="long">
 		delete from t_major where id =#{id}
 	</delete>
-	<select id="selectOneById" parameterType="long" resultType="Major2">
-		select * from t_major2 where id = #{id}
+	<select id="selectOneById" parameterType="long" resultType="Major">
+		select * from t_major where id = #{id}
 	</select>
 	<select id="selectAll" resultType="Major">
-		select * from t_major
+		select * from t_major 
 	</select>
-	<update id="updateInfo" parameterType="Major2">
-	    update t_major2 set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}
+	<update id="updateInfo" parameterType="Major">
+	    update t_major set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}
 	    ,kecheng=#{kecheng},xueke=#{xueke},zhishi=#{zhishi} where id =#{id}
 	</update>
-	<select id="selectAllMajor2" resultType="Major2">
-	    select url,id from t_major2 where layer = 3
+	<select id="selectAllMajor" resultType="Major">
+	    select url,id,no from t_major where layer = 3 and url is not null
 	</select>
-	<select id="selectChildrenByPNo" parameterType="string" resultType="Major2">
-	    select id,name,no from t_major2 where pNo=#{no}
+	<select id="selectChildrenByPNo" parameterType="string" resultType="Major">
+	    select id,name,no from t_major where pNo=#{no}
 	</select>
-	<select id="selectOneByOn" parameterType="string" resultType="Major2">
-	    select * from t_major2 where no=#{no}
+	<select id="selectOneByOn" parameterType="string" resultType="Major">
+	    select * from t_major where no=#{no}
 	</select>
-	<select id="selectFirstMajor" parameterType="int" resultType="Major2">
-	    select id,name,no from t_major2 where layer=1 and type=#{type}
+	<select id="selectFirstMajor" parameterType="int" resultType="Major">
+	    select id,name,no from t_major where layer=1 and type=#{type}
 	</select>
-	<insert id="save" parameterType="Major2">
-	    insert into t_major2(name,no,type,jianjie,layer,content,url,pNo)values
+	<insert id="save" parameterType="Major">
+	    insert into t_major(name,no,type,jianjie,layer,content,url,pNo)values
 					(#{name},#{no},#{type},#{jianjie},#{layer},#{content},#{url},#{pNo})
 	</insert>
 	
 	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="int">
-        select count(id) from t_major2
+        select count(id) from t_major
         <include refid="whereSql"></include>
     </select>
-    <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Major2">
-        select id,name,no,pNo,type from t_major2 <include refid="whereSql"></include> 
+    <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Major">
+        select id,name,no,pNo,type from t_major <include refid="whereSql"></include> 
         order by type limit #{beginIndex},#{pageSize}
     </select>
+    
+    <select id="selectLikeMajor" parameterType="com.yuanmaxinxi.dto.LikeMajor" resultType="com.yuanmaxinxi.dto.LikeMajor">
+        	select * from t_major_like where no1 = #{no1} and no2 = #{no2}
+        	union 
+        	select * from t_major_like where no2 = #{no1} and no1 = #{no2}
+    </select>
+    <insert id="insertLikeMajor" parameterType="com.yuanmaxinxi.dto.LikeMajor">
+        insert into t_major_like values(#{no1},#{no2})
+    </insert>
 	<sql id="whereSql">
         <where>
 			 <if test="name!=null and name != ''">

@@ -15,7 +15,7 @@ import com.yuanmaxinxi.dao.university.DemoDAO;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
@@ -350,7 +350,7 @@ public class UniversityService {
 	 * @param activBatch 批次代号 1->10,11  2->8,9  3->14-15  4,5->12,13 
 	 * @return
 	 */
-	public List<Major2> selectMajorsById(String id, String activBatch) {
+	public List<Major> selectMajorsById(String id, String activBatch) {
 		Map<String,String> map = new HashMap<>();
 		map.put("id", id);
 		//默认提前批

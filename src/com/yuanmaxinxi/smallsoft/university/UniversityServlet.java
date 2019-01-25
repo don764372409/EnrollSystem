@@ -15,7 +15,7 @@ import org.apache.xalan.templates.ElemAttributeSet;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.dto.universitydto.UniversityQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.UniversityService;
@@ -102,7 +102,7 @@ public class UniversityServlet extends BaseServlet{
 		}else if("luquMajors".equals(cmd)) {
 			String id = req.getParameter("id");
 			String activBatch = req.getParameter("activBatch");
-			List<Major2> majors = universityService.selectMajorsById(id,activBatch);
+			List<Major> majors = universityService.selectMajorsById(id,activBatch);
 			putJson(majors, resp);
 		}
 		else if("details1".equals(cmd)){

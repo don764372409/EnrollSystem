@@ -1,13 +1,15 @@
 package com.yuanmaxinxi.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
-import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.util.DBUtil;
 
 public class MajorService {
@@ -20,23 +22,21 @@ public class MajorService {
 	public MajorService() {
 		init();
 	}
-	public void insert(Major2 obj) {
+	public void insert(Major mj) {
 		try {
-			Major2 mj = majorDAO.selectOneByOn(obj.getNo());
-			if (mj!=null) {
-				return;
-			}
-			System.err.println("添加专业:"+obj.getName());
-			majorDAO.insert(obj);
+			majorDAO.insert(mj);
 			session.commit();
 		} catch (SQLException e) {
+			//报错之后  回滚事务 将内存中的数据恢复提交之前的状态
+			session.rollback();
 			e.printStackTrace();
 		}
 	}
 
-	public void update(Major2 obj) {
+	public void update(Major mj) {
 		try {
-			majorDAO.update(obj);
+			majorDAO.update(mj);
+			session.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -50,12 +50,12 @@ public class MajorService {
 		}
 	}
 
-	public Major2 selectOneById(Long id) {
-		Major2 mj = majorDAO.selectOneById(id);
-		Major2 major2 = selectOneByOn(mj.getpNo());
+	public Major selectOneById(Long id) {
+		Major mj = majorDAO.selectOneById(id);
+		Major major2 = selectOneByOn(mj.getpNo());
 		if (major2!=null) {
 			//查父亲的父亲
-			Major2 major1 = selectOneByOn(major2.getpNo());
+			Major major1 = selectOneByOn(major2.getpNo());
 			if (major1!=null) {
 				mj.setName1(major1.getName());
 			}
@@ -64,20 +64,20 @@ public class MajorService {
 		return mj;
 	}
 
-	public List<Major2> selectAll() {
+	public List<Major> selectAll() {
 		return majorDAO.selectAll();
 	}
 
-	public void queryPage(MyBatisQueryPageDTO<Major2> dto) {
+	public void queryPage(MyBatisQueryPageDTO<Major> dto) {
 		int count = majorDAO.selectCount(dto);
 		dto.setCount(count);
-		List<Major2> list = majorDAO.queryPage(dto);
+		List<Major> list = majorDAO.queryPage(dto);
 		//查父亲
-		for (Major2 mj : list) {
-			Major2 major2 = selectOneByOn(mj.getpNo());
+		for (Major mj : list) {
+			Major major2 = selectOneByOn(mj.getpNo());
 			if (major2!=null) {
 				//查父亲的父亲
-				Major2 major1 = selectOneByOn(major2.getpNo());
+				Major major1 = selectOneByOn(major2.getpNo());
 				if (major1!=null) {
 					mj.setName1(major1.getName());
 				}
@@ -91,20 +91,20 @@ public class MajorService {
 	 * @param on
 	 * @return
 	 */
-	private Major2 selectOneByOn(String on) {
+	public Major selectOneByOn(String on) {
 		return majorDAO.selectOneByOn(on);
 	}
 	/**
 	 * 获取具有层次关系的专业
 	 * @return
 	 */
-	public List<Major2> selectAllByLayer(int type) {
-		List<Major2> list = majorDAO.selectFirstMajor(type);
-		for (Major2 mj : list) {
-			List<Major2> children = majorDAO.selectChildrenByPNo(mj.getNo());
+	public List<Major> selectAllByLayer(int type) {
+		List<Major> list = majorDAO.selectFirstMajor(type);
+		for (Major mj : list) {
+			List<Major> children = majorDAO.selectChildrenByPNo(mj.getNo());
 			mj.setChildren(children);
-			for (Major2 mj2 : children) {
-				List<Major2> children2 = majorDAO.selectChildrenByPNo(mj2.getNo());
+			for (Major mj2 : children) {
+				List<Major> children2 = majorDAO.selectChildrenByPNo(mj2.getNo());
 				mj2.setChildren(children2);
 			}
 		}

@@ -6,7 +6,7 @@ import java.util.List;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 
 public interface BaseDAO<T> {
-	int insert(T obj) throws SQLException;
+	int insert(T t) throws SQLException;
 	int update(T obj) throws SQLException;
 	int delete(Long id) throws SQLException;
 	T selectOneById(Long id);

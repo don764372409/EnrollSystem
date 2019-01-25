@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
@@ -26,7 +26,7 @@ public interface UniversityDao extends BaseDAO<University>{
 	 * @param activBatch 
 	 * @return
 	 */
-	public List<Major2> selectMajorsById(Map<String,String> map);
+	public List<Major> selectMajorsById(Map<String,String> map);
 	/**
 	 * 根据学校ID获取录取数据 指定专业最新的五个年份
 	 * @param String id,String activBatch,String mId

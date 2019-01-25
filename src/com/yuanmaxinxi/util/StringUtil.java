@@ -44,6 +44,12 @@ public class StringUtil {
 			Matcher m = p.matcher(str);
 			return m.replaceAll("").trim();
 	} 
+	 public static String majorNo2Filter(String str) throws PatternSyntaxException { 
+		 String regEx="[^x00-xff]|\\?|[a-zA-Z]|=*"; 
+		 Pattern p = Pattern.compile(regEx); 
+		 Matcher m = p.matcher(str);
+		 return m.replaceAll("").trim();
+	 } 
 	 public static String majorNoFilter(String str) throws PatternSyntaxException { 
 		 String regEx="[^x00-xff]"; 
 		 Pattern p = Pattern.compile(regEx); 

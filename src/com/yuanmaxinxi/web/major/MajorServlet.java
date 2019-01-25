@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSON;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.major.Major;
-import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.service.MajorService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -41,13 +41,13 @@ public class MajorServlet extends BaseServlet {
 			String explain = req.getParameter("majorExplain");
 			String ranking =req.getParameter("ranking");
 			// 封装
-			Major major = new Major();
-			major.setName(name);
-			 major.setpId(pId);
-			 major.setType(type);
-			major.setRemark(remark);
-			major.setMajorExplain(explain);
-			major.setRanking(Integer.parseInt(ranking));
+//			Major major = new Major();
+//			major.setName(name);
+//			 major.setpId(pId);
+//			 major.setType(type);
+//			major.setRemark(remark);
+//			major.setMajorExplain(explain);
+//			major.setRanking(Integer.parseInt(ranking));
 			// req.getRequestDispatcher("/major").forward(req, resp);
 			// 调用方法
 			ResultDTO dto;
@@ -81,13 +81,13 @@ public class MajorServlet extends BaseServlet {
 			String ranking =req.getParameter("ranking");
 			// 封装
 			Major major = new Major();
-			major.setId(id);
-			major.setName(name);
-			major.setpId(pId);
-			major.setType(type);
-			major.setRemark(remark);
-			major.setMajorExplain(explain);
-			major.setRanking(Integer.parseInt(ranking));
+//			major.setId(id);
+//			major.setName(name);
+//			major.setpId(pId);
+//			major.setType(type);
+//			major.setRemark(remark);
+//			major.setMajorExplain(explain);
+//			major.setRanking(Integer.parseInt(ranking));
 			ResultDTO dto;
 			try {
 //				majorService.update(major);

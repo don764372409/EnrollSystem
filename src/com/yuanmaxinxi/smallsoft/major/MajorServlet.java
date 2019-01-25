@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.yuanmaxinxi.dto.MajorQueryPageDTO;
-import com.yuanmaxinxi.entity.major.Major2;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.service.MajorService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
@@ -29,15 +29,15 @@ public class MajorServlet extends BaseServlet{
 		String cmd = req.getParameter("cmd");
 		if ("list".equals(cmd)) {
 			//专业信息
-			List<Major2> majors = majorService.selectAllByLayer(0);
+			List<Major> majors = majorService.selectAllByLayer(0);
 		} else if ("firstmajor2".equals(cmd)) {
 			String type = req.getParameter("type");
 			System.out.println(type);
-			List<Major2> list = majorService.selectAllByLayer(Integer.parseInt(type));
+			List<Major> list = majorService.selectAllByLayer(Integer.parseInt(type));
 			putJson(list, resp);
 		}else if("selectOneById".equals(cmd)) {
 			String id = req.getParameter("id");
-			Major2 mj = majorService.selectOneById(Long.parseLong(id));
+			Major mj = majorService.selectOneById(Long.parseLong(id));
 			putJson(mj, resp);
 		}else if("query".equals(cmd)) {
 			MajorQueryPageDTO dto = new MajorQueryPageDTO();

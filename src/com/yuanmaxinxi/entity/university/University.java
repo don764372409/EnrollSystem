@@ -25,7 +25,6 @@ public class University{
 	private String subject;	//	学科建设(需不需要存到字典中,暂定不存)
 	private String imgSrc;
 	private List<Jianzhang> list;
-	
 	private Province pro;//省份
 	
 	public List<Jianzhang> getList() {
