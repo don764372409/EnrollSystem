@@ -50,7 +50,14 @@ public class UniversityServlet extends BaseServlet{
 				dto = ResultDTO.newInstance(false, e.getMessage());
 			}
 			putJson(dto, resp);
-		}else if("selectProvince".equals(cmd)) {
+		}else if("selectEnrollByTwoUni".equals(cmd)) {
+			String batch = req.getParameter("batch");
+			String mId = req.getParameter("mId");
+			String uIds = req.getParameter("uIds");
+			List<Enroll> ens = universityService.selectEnrollByTwoUni(batch,mId,uIds);
+			putJson(ens, resp);
+		}
+		else if("selectProvince".equals(cmd)) {
 			List<Province> provinces = universityService.selectProvince();
 			putJson(provinces, resp);
 		}
@@ -62,7 +69,11 @@ public class UniversityServlet extends BaseServlet{
 			String ids = req.getParameter("ids");
 			List<University> list = universityService.selectUnisByIds(ids);
 			putJson(list, resp);
-		}
+		}else if("selectMajor".equals(cmd)) {
+			String ids = req.getParameter("ids");
+			List<Major> majors = universityService.selectMajor(ids);
+			putJson(majors, resp);
+		} 
 		else if("addShoucang".equals(cmd)) {
 			try {
 				String id = req.getParameter("id");

@@ -11,7 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.yuanmaxinxi.dao.university.DemoDAO;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
@@ -497,6 +496,7 @@ public class UniversityService {
 	 */
 	public List<University> selectUnisByIds(String ids) {
 		try {
+			//"2409,333"
 			if (StringUtil.isNotNullAndEmpty(ids)) {
 				String[] uIds = ids.split(",");
 				return universityDAO.selectUnisByIds(uIds);
@@ -526,5 +526,75 @@ public class UniversityService {
 		province.setName("不限省份");
 		list.set(0, province);
 		return list;
+	}
+	/**
+	 * 根据两个学校ID 去录取数据中查询相同的专业
+	 * @param ids
+	 */
+	public List<Major> selectMajor(String ids) {
+		try {
+			//"2409,333"
+			if (StringUtil.isNotNullAndEmpty(ids)) {
+				String[] uIds = ids.split(",");
+				Map<String,String> map = new HashMap<>();
+				map.put("id1", uIds[0]);
+				map.put("id2", uIds[1]);
+				return universityDAO.selectMajor(map);
+			}
+		} catch (Exception e) {
+			System.err.println("没有查到相同专业");
+		}
+		return new ArrayList<>();
+	}
+	/**
+	 * 批次代号 0-6,7  1->10,11  2->8,9  3->14-15  4,5->12,13 
+	 * @param batch
+	 * @param numberActive
+	 * @param mId
+	 * @param uIds 
+	 * @return
+	 */
+	public List<Enroll> selectEnrollByTwoUni(String batch,String mId, String ids) {
+		Map<String,String> map = new HashMap<>();
+		//默认提前批
+		String bId1 = "6" ;
+		String bId2 = "7" ;
+		switch (batch) {
+		case "0":
+			bId1 = "6" ;
+			bId2 = "7" ;
+			break;
+		case "1":
+			bId1 = "10" ;
+			bId2 = "11" ;
+			break;
+		case "2":
+			bId1 = "8" ;
+			bId2 = "9" ;
+			break;
+		case "3":
+			bId1 = "14" ;
+			bId2 = "15" ;
+			break;
+		case "4":
+		case "5":
+			bId1 = "12" ;
+			bId2 = "13" ;
+			break;
+
+		default:
+			break;
+		}
+		map.put("bId1", bId1);
+		map.put("bId2", bId2);
+		map.put("mId", mId);
+		
+		if (StringUtil.isNotNullAndEmpty(ids)) {
+			String[] uIds = ids.split(",");
+			map.put("id1", uIds[0]);
+			map.put("id2", uIds[1]);
+		}
+		
+		return universityDAO.selectEnrollByTwoUni(map);
 	}
 }

@@ -68,4 +68,8 @@ public interface UniversityDao extends BaseDAO<University>{
 	List<String> selectPropertys();
 
 	List<Province> selectProvince();
+
+	List<Major> selectMajor(Map<String,String> map);
+
+	List<Enroll> selectEnrollByTwoUni(Map<String, String> map);
 }
