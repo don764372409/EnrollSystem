@@ -18,7 +18,7 @@
     <select id="selectAll"  resultType="Province">
         select * from t_province
     </select>
-    <select id="selectOneById2" parameterType="String" resultType="Province">
+    <select id="selectOneByName" parameterType="String" resultType="Province">
         select * from t_province where name=#{name}
     </select>
 </mapper>

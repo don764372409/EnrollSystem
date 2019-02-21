@@ -18,5 +18,5 @@ public interface UserDAO extends BaseDAO<User>{
 	 * @return
 	 */
 	public int bingNumber(User user) ;
-	int selectShoucangNumbers(String id);
+	int selectShoucangNumbers(Long id);
 }

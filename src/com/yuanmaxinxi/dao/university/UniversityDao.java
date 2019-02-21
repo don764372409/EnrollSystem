@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yuanmaxinxi.dao.BaseDAO;
-import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.enroll.EnrollDAO">
-<!--     <insert id="insert" parameterType="Admin"> -->
-<!--         insert into t_admin(name,username,password,phone,time)value(#{name},#{username},#{password},#{phone},#{time}) -->
-<!--     </insert> -->
+    <insert id="insert" parameterType="Enroll">
+        insert into t_enroll(uId,pId,mId,bId,number,maxNumber,avgNumber,minNumber,minRanking,time)value(#{uId},#{pId},#{mId},#{bId},#{number},#{maxNumber},#{avgNumber},#{minNumber},#{minRanking},#{time})
+    </insert>
 <!--     <update id="update" parameterType="Admin"> -->
 <!-- 		update t_admin set name = #{name},phone=#{phone},ip=#{ip},time=#{time} where id = #{id}         -->
 <!--     </update> -->
@@ -16,10 +16,25 @@
 <!--     <select id="selectOneById" parameterType="Long" resultType="Admin"> -->
 <!--         select * from t_admin where id=#{id} -->
 <!--     </select> -->
-<!--     <select id="selectAll" resultType="Admin"> -->
-<!--         select * from t_admin -->
-<!--     </select> -->
+    <select id="selectAll" resultType="Enroll">
+        select * from t_enroll
+    </select>
 <!--     <select id="selectOneByUsername" resultType="Admin"> -->
 <!--         select * from t_admin where username = #{username} -->
 <!--     </select> -->
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="int">
+        select count(id) from t_enroll
+        <include refid="whereSql"></include>
+    </select>
+    <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Enroll">
+        select * from t_enroll <include refid="whereSql"></include> 
+        limit #{beginIndex},#{pageSize}
+    </select>
+    <sql id="whereSql">
+        <where>
+            <if test="name!=null and name != ''">
+                and instr(name,#{name})
+            </if>
+        </where>
+    </sql>
 </mapper>

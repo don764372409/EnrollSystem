@@ -13,10 +13,4 @@ public interface BaseDAO<T> {
 	List<T> selectAll();
 	List<T> queryPage(MyBatisQueryPageDTO<T> dto);
 	int selectCount(MyBatisQueryPageDTO<T> dto);
-	default void query(MyBatisQueryPageDTO<T> dto) {
-		int count = selectCount(dto);
-		dto.setCount(count);
-		List<T> list = queryPage(dto);
-		dto.setRows(list);
-	}
 }

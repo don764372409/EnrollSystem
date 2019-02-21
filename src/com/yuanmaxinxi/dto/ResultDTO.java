@@ -12,6 +12,10 @@ public class ResultDTO {
 		dto.msg = msg;
 		return dto;
 	}
+	public static ResultDTO newInstance(Object obj) {
+		dto.obj = obj;
+		return dto;
+	}
 	
 	public Object getObj() {
 		return obj;

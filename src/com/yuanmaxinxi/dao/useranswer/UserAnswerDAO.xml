@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.useranswer.UserAnswerDAO">
+    <select id="selectOneAir" parameterType="UserAnswer" resultType="UserAnswer">
+        select * from t_useranswer where uId = #{uId} and type=#{type} and result is null
+    </select>
+    <insert id="insert" parameterType="UserAnswer" useGeneratedKeys="true" keyProperty="id">
+        insert into t_useranswer(uId,time,result,type)values(#{uId},#{time},#{result},#{type})
+    </insert>
+    <insert id="insertUserAnswerItem" parameterType="UserAnswerItem">
+        insert into t_useransweritem(mbtiId,answerId,type,uaId)values(#{mbtiId},#{answerId},#{type},#{uaId})
+    </insert>
+    <select id="selectOneUserAnswerItemByObj" parameterType="UserAnswerItem" resultType="UserAnswerItem">
+        select * from t_useransweritem where mbtiId = #{mbtiId} and uaId=#{uaId}
+    </select>
+    <update id="updateUserAnswerItem" parameterType="UserAnswerItem">
+        update t_useransweritem set answerId = #{answerId},type=#{type} where id = #{id}
+    </update>
+    <select id="getMaXItem" parameterType="long" resultType="int">
+        select max(mbtiId) from t_useransweritem where uaId = #{uaId} 
+    </select>
+    <select id="selectAllUserAnswerItemByUaId" parameterType="long" resultType="UserAnswerItem">
+         select * from t_useransweritem where uaId=#{uaId}
+    </select>
+    <update id="updateUserAnswerResult" parameterType="UserAnswer">
+        update t_useranswer set result = #{result} where id = #{id}
+    </update>
+</mapper>

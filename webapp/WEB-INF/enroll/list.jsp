@@ -22,6 +22,12 @@
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
+<style type="text/css">
+	#btn-star input{
+		width: 100%;
+		display: none;
+	}
+</style>
 <title>录取数据管理</title>
 </head>
 <body>
@@ -37,9 +43,9 @@
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
 		 	<a href="javascript:;" onclick="obj_add('添加录取数据','/enroll?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加录取数据</a>
-		 	<a href="javascript:;" onclick="obj_import('添加录取数据','/enroll?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>导入录取数据</a>
+		 	<a href="javascript:;" id="btn-star" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>导入录取数据</a>
     	</span>
-    <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
+    <span class="r">共有数据：<strong>${dto.count}</strong> 条</span>
   </div>
   <div id="importMsgBox" class="cl pd-5 bg-1 bk-gray mt-20" style="position:relative;display: none;">
   	<div class="progress radius" style="width: 50%;">
@@ -47,11 +53,11 @@
 			<span class="sr-only" id="sr" style="width:0%"></span>
 		</div>
 	</div>
-	<div style="position:absolute;;top:-0px;left: 0;width: 10%;text-align: left;">
+	<div style="position:absolute;;top:-0px;left: 0;width: 50%;text-align: center;">
 		<span id="text" style="height:20px;font-size: 12px;text-align: center;">0%</span>
 	</div>
 	<div style="position:absolute;;top:-0px;right: 0;width: 50%;text-align: left;">
-		<span id="content" style="font-size: 12px;">开始导入学校信息...</span>
+		<span id="content" style="font-size: 12px;">文件上传中...</span>
 	</div>
   </div>
   <div class="mt-20"></div>
@@ -72,7 +78,7 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${list}" var="obj">
+    <c:forEach items="${dto.rows}" var="obj">
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.university.name}</td>
@@ -108,6 +114,8 @@
 <script type="text/javascript" src="/H-ui/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="/H-ui/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/H-ui/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+
 <script type="text/javascript">
 window.onload = (function(){
     // optional set
@@ -187,68 +195,74 @@ function deleteObj(obj,o,u,id){
 		});		
 	});
 }
+
+var uploader = WebUploader.create({
+	auto: true,
+	swf: '/H-ui/lib/webuploader/0.1.5/Uploader.swf',
+	// 文件接收服务端。
+	server: '/enroll/importEnroll',
+	// 选择文件的按钮。可选。
+	// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+	pick: {
+		id:'#btn-star',
+		multiple:false
+	},
+	// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+	resize: false,
+	// 只允许选择图片文件。
+	accept: {
+		title: '工作表',
+		extensions: 'xls,xlsx',
+		mimeTypes: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+	},
+	auto:true
+});
+var timer;
+var content = $("#content");
+var sr = $("#sr");
+var text = $("#text");
 function getMsg(){
-	$.post("/enroll?cmd=importMsg",function(data){
+	$.post("/enroll/getImortMsg",function(data){
 		data = JSON.parse(data);
-		if(data.result){
-			clearInterval(timer);
-		}else{
-			var msg = data.msg;
-			//j开始爬取url:https://gkcx.eol.cn/soudaxue/queryschool.html?&page=1&province=%E9%BB%91%E9%BE%99%E6%B1%9Fsize:0
-			var index = msg.indexOf("size:");		
-			var newMsg = msg.substring(0,index);
-			var size = msg.substring(index+5);
-			if (!!newMsg&&newMsg!='null') {
-				content.html(newMsg);
-			}
-			size = parseInt(size);
-			size = ((size/2843)*100).toFixed(2);
-			sr.css("width",size+"%");
-			text.html(size+"%");
+		data = data.obj;
+		var msg = data.msg;
+		var rownum = data.rownum;
+		var currentNumber = data.currentNumber;
+		var readNumber = data.readNumber;
+		var status = data.status;
+		content.html(msg);
+		if (status==1) {
+			sr.css("width",(currentNumber/rownum*100)+"%");
+			text.html((currentNumber/rownum*100)+"%");
+		}
+		if (status==2) {
+			$("#importMsgBox").hide();
 		}
 	});
 }
-
-function import(o,u){
-	layer.confirm(o,function(index){
-		$.ajax({
-			type: 'POST',
-			url: u,
-			dataType: 'json',
-			success: function(data){
-				resetMsgBox();
-				importMsgBox.show();
-				layer.close(index);
-				//调用定时器  每隔300毫秒  访问一次getMsg方法
-				timer = setInterval(getMsg,300);
-			},
-			error:function(data) {
-				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
-			},
-		});
+uploader.on( 'startUpload', function( file, percentage ) {
+	layer.msg('文件上传中', {
+	  icon: 16
+	  ,shade: 0.01
 	});
-}
-function resetPassword(obj,o,u,id){
-	layer.confirm("确认要重置"+o+"的密码吗？",function(index){
-		$.ajax({
-			type: 'POST',
-			url: u,
-			data:{"id":id},
-			dataType: 'json',
-			success: function(data){
-				if(data.result){
-					layer.msg(data.msg,{icon:1,time:2000});
-				}else{
-					layer.msg(data.msg,{icon:2,time:2000});
-				}
-
-			},
-			error:function(data) {
-				layer.msg("网络异常,请稍后再试.",{icon:2,time:2000});
-			},
-		});		
-	});
-}
+	$("#importMsgBox").show();
+	//没秒访问一次后台信息记录
+	timer = setInterval(() => {
+		getMsg();
+	}, 1000);
+});
+// 完成上传完了，成功或者失败，先删除进度条。
+uploader.on( 'uploadSuccess', function( file,data ) {
+	if (data.result) {
+		layer.msg(data.msg,{icon:1,time:2000});
+	}else{
+		layer.msg("上传失败!",{icon:2,time:2000});
+	}
+	clearInterval(timer);
+});
+uploader.on( 'uploadError', function( file,code ) {
+	layer.msg("上传失败!",{icon:2,time:2000});
+});
 </script>
 </body>
 </html>

@@ -1,11 +1,4 @@
 package com.yuanmaxinxi.util;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -22,7 +15,6 @@ public class DBUtil {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	public static SqlSession openSession() {
 		if (session==null) {

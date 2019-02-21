@@ -1,18 +1,9 @@
 package com.yuanmaxinxi.dao.enroll;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
-import com.yuanmaxinxi.dao.batch.BatchDAO;
-import com.yuanmaxinxi.dao.major.MajorDAO;
-import com.yuanmaxinxi.dao.province.ProvinceDao;
-import com.yuanmaxinxi.dao.sqldao.SqlDAO;
-import com.yuanmaxinxi.dao.university.UniversityDao;
-import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-
 
 public interface EnrollDAO extends BaseDAO<Enroll>{
 	
@@ -94,10 +85,7 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 //		return query==null?null:query.get(0);
 //	}
 //
-//	@Override
-//	public List<Enroll> selectAll() {
-//		return this.query("SELECT * FROM t_enroll limit 1,10", null);
-//	}
+	public List<Enroll> selectAll();
 //	@Override
 //	public void queryPage(BaseQueryPageDTO<Enroll> dto) {
 //	}

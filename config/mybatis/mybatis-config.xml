@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>  
+        <setting name="lazyLoadingEnabled" value="true"/>  
+        <setting name="aggressiveLazyLoading" value="false"/>  
+        <setting name="logImpl" value="STDOUT_LOGGING" />  
+    </settings>
+	<!-- 设置扫描指定包下的实体类建立别名 -->
+	<typeAliases>
+		<package name="com.yuanmaxinxi.entity" />
+	</typeAliases>	
+	<!-- 设置扫描SQL映射XML文件所在的包 -->
+	<mappers>
+		<package name="com.yuanmaxinxi.dao" />
+	</mappers>
+</configuration>

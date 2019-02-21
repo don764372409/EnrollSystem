@@ -1,22 +1,11 @@
 package com.yuanmaxinxi.dao.batch;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.yuanmaxinxi.dao.BaseDAO;
-import com.yuanmaxinxi.dao.sqldao.SqlDAO;
-import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.batch.Batch;
-import com.yuanmaxinxi.entity.university.University;
 
 public interface BatchDAO extends  BaseDAO<Batch> {
-//	private static BatchDAO dtd;
-//	private BatchDAO() {}
-//	public static BatchDAO getBatchDao() {
-//		return dtd == null ? dtd = new BatchDAO() : dtd;
-//	}
-//	
+
+	Batch selectOneByName(String name);
 //	private List<Batch> query(String perparedSql, Object[] param) {
 //		List<Batch> list = new ArrayList<Batch>();
 //		try {

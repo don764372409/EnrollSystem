@@ -2,24 +2,18 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.user.UserDAO;
-import com.yuanmaxinxi.dto.DeptQueryPageDTO;
 import com.yuanmaxinxi.entity.user.User;
-import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
-
+@Service
+@Transactional
 public class UserService {
+	@Autowired
 	private UserDAO userDAO;
-	private SqlSession session;
-	private void init() {
-		session = DBUtil.openSession();
-		userDAO = session.getMapper(UserDAO.class);
-	}
-	public UserService() {
-		init();
-	}
 	public List<User> selectAll() {
 		List<User> list = userDAO.selectAll();
 		return list;
@@ -89,7 +83,7 @@ public class UserService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-	public int selectShoucangNumbers(String id) {
+	public int selectShoucangNumbers(Long id) {
 		return userDAO.selectShoucangNumbers(id);
 	}
 }

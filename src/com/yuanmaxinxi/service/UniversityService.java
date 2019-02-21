@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
@@ -18,11 +20,12 @@ import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
-import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
-
+@Service
+@Transactional
 public class UniversityService {
+	@Autowired
 	private UniversityDao universityDAO;
 //	private static ProvinceDao provinceDao = new ProvinceDao();
 	public static LinkedBlockingQueue<String> urls = new LinkedBlockingQueue<>();
@@ -33,14 +36,6 @@ public class UniversityService {
 	public static LinkedBlockingQueue<String> jianzhangUrals = new LinkedBlockingQueue<>();
 	public static LinkedBlockingQueue<String> jianjieUrals = new LinkedBlockingQueue<>();
 	private static Object msgUrls;
-	private SqlSession session;
-	private void init() {
-		session = DBUtil.openSession();
-		universityDAO = session.getMapper(UniversityDao.class);
-	}
-	public UniversityService() {
-		init();
-	}
 
 	public void insert(Map uu) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {

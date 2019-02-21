@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.major.MajorDAO">
-	<insert id="insert" parameterType="Major">
+    <select id="selectUnis" parameterType="long" resultType="University">
+        select id,name,imgsrc from t_university where id in (
+        	select uId from t_university_major where no = (
+        		select no from t_major where id = #{id}
+        	)
+        )
+    </select>
+    <select id="selectLikeMajorsById" parameterType="long" resultType="Major">
+        select id,name,no from t_major where no in(
+        	select no2 from t_major_like where no1 = (
+        		select no from t_major where id = #{id}
+        	)
+        	union
+        	select no1 from t_major_like where no2 = (
+        		select no from t_major where id = #{id}
+        	)
+        )
+    </select>
+    <insert id="insertMajorAndUniversity" parameterType="map">
+        insert into t_university_major(no,uId) values(#{no},#{uId})
+    </insert>
+    <insert id="insertXXX" parameterType="string">
+        insert int t_errorContent(content) values(#{content})
+    </insert>
+    <select id="selectxxx" parameterType="map" resultType="string">
+        select no from t_university_major where no=#{no} and uId=#{uId}
+    </select>
+	<insert id="insert" parameterType="Major" useGeneratedKeys="true" keyProperty="id">
 		insert into t_major(name,no,pNo,type,layer,url)values
 		(#{name},#{no},#{pNo},#{type},#{layer},#{url})
 	</insert>

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.admin.AdminDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;

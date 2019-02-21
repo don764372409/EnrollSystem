@@ -58,7 +58,7 @@
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3">
           <input class="input-text size-L" type="text" placeholder="验证码"  name="code" style="width:150px;">
-          <img src="/login?cmd=showCode" id="code" onclick="changeImg()" style="cursor: pointer;"> <a onclick="changeImg()" href="javascript:;">看不清，换一张</a> </div>
+          <img src="/login/showCode" id="code" onclick="changeImg()" style="cursor: pointer;"> <a onclick="changeImg()" href="javascript:;">看不清，换一张</a> </div>
       </div>
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3">
@@ -88,7 +88,7 @@
 			//获取验证码
 			var code = $("input[name=code]").val().trim();
 			
-			$.post("/login?cmd=login",{"username":username,"password":password,"code":code},function(data){
+			$.post("/login/login",{"username":username,"password":password,"code":code},function(data){
 				layer.close(index);
 				data = JSON.parse(data);
 				if(data.result){
@@ -100,7 +100,7 @@
 			});
 		}
 		function changeImg(){
-			$("#code")[0].src="/login?cmd=showCode&"+new Date().getTime();
+			$("#code")[0].src="/login/showCode&"+new Date().getTime();
 		}
 		$(function(){
 			$(window).keypress(function(event){

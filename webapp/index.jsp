@@ -104,7 +104,7 @@
 				<dd>
 					<ul>
 						<li><a data-href="/university" data-title="学校信息管理" href="javascript:void(0)">学校信息管理</a></li>
-						<li><a data-href="/enroll" data-title="录取数据管理" href="javascript:void(0)">录取数据管理</a></li>
+						<li><a data-href="/enroll/list" data-title="录取数据管理" href="javascript:void(0)">录取数据管理</a></li>
 						<li><a data-href="/vedio" data-title="学校相关视频管理" href="javascript:void(0)">学校相关视频管理</a></li>
 					</ul>
 				</dd>

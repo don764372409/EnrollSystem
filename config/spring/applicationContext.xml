@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/tx
+	     http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop
+	     http://www.springframework.org/schema/aop/spring-aop.xsd
+	     http://www.springframework.org/schema/task  
+		 http://www.springframework.org/schema/task/spring-task.xsd">
+	 <!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	<!-- 设置扫描注解容器管理对象的基础包 -->
+	<context:component-scan base-package="com.yuanmaxinxi.service" />
+	<!-- 设置自动创建切面代理 -->
+	<aop:aspectj-autoproxy />
+<!-- 	开启注解方式的调度 -->
+	 <task:annotation-driven/>
+	<!-- 数据库连接池 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${alibaba.url}" />
+		<property name="username" value="${alibaba.username}" />
+		<property name="password" value="${alibaba.password}" />
+		<property name="initialSize" value="${alibaba.pool.initialSize}" />
+		<property name="minIdle" value="${alibaba.pool.minIdle}" />
+		<property name="maxActive" value="${alibaba.pool.maxActive}" />
+		<property name="defaultAutoCommit" value="${jdalibaba.pool.defaultAutoCommit}" />
+	</bean>
+
+	<!-- SqlSession工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+	</bean>
+
+	<!-- 事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="nestedTransactionAllowed" value="true" />
+	</bean>
+	<!-- 事务控制驱动器 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />  
+
+	<!-- 自动扫描MyBatis的DAO接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yuanmaxinxi.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+<!-- 文件上传	 -->
+ <!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/> --> 
+</beans>
