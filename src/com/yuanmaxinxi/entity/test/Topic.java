@@ -3,16 +3,16 @@ package com.yuanmaxinxi.entity.test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MBTITopic {
+public class Topic {
 	private Long id;
 	private String content;
 	private int type;
-	private List<MBTIAnswer> answers = new ArrayList<>();
+	private List<Answer> answers = new ArrayList<>();
 	
-	public List<MBTIAnswer> getAnswers() {
+	public List<Answer> getAnswers() {
 		return answers;
 	}
-	public void setAnswers(List<MBTIAnswer> answers) {
+	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
 	public Long getId() {

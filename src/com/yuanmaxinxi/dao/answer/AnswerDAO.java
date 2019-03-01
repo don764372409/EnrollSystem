@@ -3,9 +3,9 @@ package com.yuanmaxinxi.dao.answer;
 import java.util.List;
 
 import com.yuanmaxinxi.dao.BaseDAO;
-import com.yuanmaxinxi.entity.test.MBTIAnswer;
+import com.yuanmaxinxi.entity.test.Answer;
 
-public interface AnswerDAO extends BaseDAO<MBTIAnswer>{
+public interface AnswerDAO extends BaseDAO<Answer>{
 
-	List<MBTIAnswer> selectAllByMbtiId(Long mbtiId);
+	List<Answer> selectAllBytopicId(Long topicId);
 }

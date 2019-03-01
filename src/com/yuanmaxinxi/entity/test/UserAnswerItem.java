@@ -2,7 +2,7 @@ package com.yuanmaxinxi.entity.test;
 
 public class UserAnswerItem {
 	private Long id;
-	private Long mbtiId;
+	private Long topicId;
 	private Long answerId;
 	private String type;
 	private Long uaId;
@@ -12,11 +12,11 @@ public class UserAnswerItem {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getMbtiId() {
-		return mbtiId;
+	public Long getTopicId() {
+		return topicId;
 	}
-	public void setMbtiId(Long mbtiId) {
-		this.mbtiId = mbtiId;
+	public void setTopicId(Long topicId) {
+		this.topicId = topicId;
 	}
 	public Long getAnswerId() {
 		return answerId;

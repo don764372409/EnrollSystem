@@ -27,6 +27,7 @@ public class Enroll {
 	private int time;
 	private BigDecimal tuition;
 	private BigDecimal studyYear;
+	
 	public Long getId() {
 		return id;
 	}

@@ -1,7 +1,11 @@
 package com.yuanmaxinxi.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +40,22 @@ public class EnrollService {
 	private MajorDAO majorDAO;
 	@Autowired
 	private ErrorContentDAO errorContentDAO;
+	
+	public void xxxx() {
+		try {
+			List<Enroll> ens = enrollDAO.selectAll();
+			for (Enroll en : ens) {
+				if (en.getAvgRanking()==0&&en.getMaxRanking()>0&&en.getMinRanking()>0) {
+					en.setAvgRanking((en.getMaxRanking()+en.getMinRanking()));
+					enrollDAO.update(en);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("报错了");
+		}
+	}
+	
 	public void insert(Enroll obj) throws Exception{
 		enrollDAO.insert(obj);
 	}
@@ -141,5 +161,79 @@ public class EnrollService {
 			EnrollController.rownum = 0;
 			throw new RuntimeException("导入失败.");
 		}
+	}
+
+	public List<Province> selectEnrollProvince() {
+		return enrollDAO.selectEnrollProvince();
+	}
+	/**
+	 * select en from ( 
+	 * 		select * from t_enroll where pId = ? and minRanking>=(?-range) and maxRanking >=(?-range) and bId = ?
+	 * )en where en.minNumber >=? and en.maxNumber >= ?
+	 * @param map
+	 * @return
+	 */
+	public Map<String,Map<String,List<Enroll>>> serch(Map<String, Object> map) {
+		Batch batch = batchDAO.selectOneByName(map.get("bath")+" "+map.get("type"));
+		map.put("bId", batch.getId());
+		List<Enroll> list = enrollDAO.serch(map);
+		//学校缓存
+		Map<Long,University> uniCache = new HashMap<>();
+		//专业缓存
+		Map<Long,Major> marjorCache = new HashMap<>();
+		//批次缓存
+		Map<Long,Batch> batchCache = new HashMap<>();
+		//省份缓存
+		Map<Long,Province> proviceCache = new HashMap<>();
+		Map<String,Map<String,List<Enroll>>> result = new HashMap<>();
+		for (Enroll er : list) {
+			String year = er.getTime()+"";
+			//判断年份是否已经存在  不存在就放进去  存在就获取集合
+			Map<String, List<Enroll>> res = result.get(year);
+			if (res==null) {
+				res = new HashMap<>();
+				result.put(year, res);
+			}
+			//获取学校名称
+			Long uId = er.getuId();
+			University uni = uniCache.get(uId);
+			if (uni==null) {
+				uni = universityDao.selectOneById(uId);
+				uniCache.put(uId, uni);
+			}
+			er.setUniversity(uni);
+			//先从集合中根据学校名称获取集合  不存在就创建集合并加入map
+			List<Enroll> ens = res.get(uni.getName());
+			if (ens==null) {
+				ens = new ArrayList<>();
+				res.put(uni.getName(), ens);
+			}
+			//获取专业名称
+			Long mId = er.getmId();
+			Major major = marjorCache.get(mId);
+			if (major==null) {
+				major = majorDAO.selectOneById(mId);
+				marjorCache.put(mId, major);
+			}
+			er.setMajor(major);
+			//获取批次
+			Long bId = er.getbId();
+			Batch bt = batchCache.get(bId);
+			if (bt==null) {
+				bt = batchDAO.selectOneById(bId);
+				batchCache.put(bId, bt);
+			}
+			er.setBatch(bt);
+			//获取省份
+			Long pId = er.getpId();
+			Province province = proviceCache.get(pId);
+			if (province==null) {
+				province = provinceDao.selectOneById(pId);
+				proviceCache.put(pId, province);
+			}
+			er.setProvince(province);
+			ens.add(er);
+		}
+		return result;
 	}
 }

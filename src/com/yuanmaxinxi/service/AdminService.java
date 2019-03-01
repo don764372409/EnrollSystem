@@ -56,10 +56,9 @@ public class AdminService {
 		}
 		try {
 			return adminDAO.update(obj);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			throw new RuntimeException("修改失败,请稍后重试.");
 		}
 	}
 	

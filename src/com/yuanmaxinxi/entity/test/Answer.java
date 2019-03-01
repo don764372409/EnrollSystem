@@ -1,10 +1,10 @@
 package com.yuanmaxinxi.entity.test;
 
-public class MBTIAnswer {
+public class Answer {
 	private Long id;
 	private String content;
 	private String option;
-	private Long mbtiId;
+	private Long topicId;
 	private String type;
 	public Long getId() {
 		return id;
@@ -24,11 +24,11 @@ public class MBTIAnswer {
 	public void setOption(String option) {
 		this.option = option;
 	}
-	public Long getMbtiId() {
-		return mbtiId;
+	public Long getTopicId() {
+		return topicId;
 	}
-	public void setMbtiId(Long mbtiId) {
-		this.mbtiId = mbtiId;
+	public void setTopicId(Long topicId) {
+		this.topicId = topicId;
 	}
 	public String getType() {
 		return type;

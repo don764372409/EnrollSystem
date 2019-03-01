@@ -4,9 +4,9 @@
     <insert id="insert" parameterType="Enroll">
         insert into t_enroll(uId,pId,mId,bId,number,maxNumber,avgNumber,minNumber,minRanking,time)value(#{uId},#{pId},#{mId},#{bId},#{number},#{maxNumber},#{avgNumber},#{minNumber},#{minRanking},#{time})
     </insert>
-<!--     <update id="update" parameterType="Admin"> -->
-<!-- 		update t_admin set name = #{name},phone=#{phone},ip=#{ip},time=#{time} where id = #{id}         -->
-<!--     </update> -->
+    <update id="update" parameterType="Enroll">
+		update t_enroll set avgRanking=#{avgRanking} where id = #{id}        
+    </update>
 <!--     <update id="edit" parameterType="Admin"> -->
 <!-- 		update t_admin set name = #{name},phone=phone=#{phone} where id = #{ip}  -->
 <!--     </update> -->
@@ -37,4 +37,16 @@
             </if>
         </where>
     </sql>
+    <select id="selectEnrollProvince" resultType="Province">
+        select id,name from t_province where id in (
+        	select distinct pId from t_enroll
+        )
+    </select>
+    <select id="serch" parameterType="map" resultType="Enroll">
+        select en.* from ( 
+	  		select * from t_enroll 
+	  		where #{pId} = 20 and minRanking>=(${ranking}-#{range}) and (${ranking}+#{range}) >= maxRanking
+	  		and bId = #{bId}
+	   )en where en.minNumber >=#{number} and en.maxNumber >= #{number} and en.time>2000 order by time desc
+    </select>
 </mapper>

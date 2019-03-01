@@ -16,7 +16,7 @@ public interface UserAnswerDAO extends BaseDAO<UserAnswer>{
 	int insertUserAnswerItem(UserAnswerItem uai);
 	UserAnswerItem selectOneUserAnswerItemByObj(UserAnswerItem uai);
 	int updateUserAnswerItem(UserAnswerItem uai);
-	int getMaXItem(Long uaId);
+	Integer getCountItem(Long uaId);
 	List<UserAnswerItem> selectAllUserAnswerItemByUaId(Long uaId);
 	int updateUserAnswerResult(UserAnswer ua);
 }

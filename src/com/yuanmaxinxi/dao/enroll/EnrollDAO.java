@@ -1,9 +1,11 @@
 package com.yuanmaxinxi.dao.enroll;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
+import com.yuanmaxinxi.entity.province.Province;
 
 public interface EnrollDAO extends BaseDAO<Enroll>{
 	
@@ -89,4 +91,8 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 //	@Override
 //	public void queryPage(BaseQueryPageDTO<Enroll> dto) {
 //	}
+
+	public List<Province> selectEnrollProvince();
+
+	public List<Enroll> serch(Map<String, Object> map);
 }

@@ -16,37 +16,37 @@ import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
 public class PayRecordService {
-	private PayrecordDao payrecorddao;
-	private void init() {
-		SqlSession session = DBUtil.openSession();
-		payrecorddao = session.getMapper(PayrecordDao.class);
-	}
-	public PayRecordService() {
-		init();
-	}
-	public void insert(PayRecord obj) {		
-	}
-
-	public void update(PayRecord obj) {
-	}
-
-	public int delete(Long id) {
-		return payrecorddao.delete(id);
-	}
-
-	public Admin selectOneById(Long id) {
-		return null;
-	}
-
-	public List<PayRecord> selectAll() {
-		return payrecorddao.selectAll();
-	}
-
-	public List<Admin> queryPage(BaseQueryPageDTO dto) {
-		return null;
-	}
-
-//	public List<PayRecord> queryPageName(PayRecordDTO dto) {
-//		return payrecorddao.queryPageName(dto);
+//	private PayrecordDao payrecorddao;
+//	private void init() {
+//		SqlSession session = DBUtil.openSession();
+//		payrecorddao = session.getMapper(PayrecordDao.class);
 //	}
+//	public PayRecordService() {
+//		init();
+//	}
+//	public void insert(PayRecord obj) {		
+//	}
+//
+//	public void update(PayRecord obj) {
+//	}
+//
+//	public int delete(Long id) {
+//		return payrecorddao.delete(id);
+//	}
+//
+//	public Admin selectOneById(Long id) {
+//		return null;
+//	}
+//
+//	public List<PayRecord> selectAll() {
+//		return payrecorddao.selectAll();
+//	}
+//
+//	public List<Admin> queryPage(BaseQueryPageDTO dto) {
+//		return null;
+//	}
+//
+////	public List<PayRecord> queryPageName(PayRecordDTO dto) {
+////		return payrecorddao.queryPageName(dto);
+////	}
 }

@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +14,6 @@ import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.university.University;
-import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 @Service
 @Transactional
@@ -38,7 +34,7 @@ public class MajorService {
 	public void update(Major mj) {
 		try {
 			majorDAO.update(mj);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

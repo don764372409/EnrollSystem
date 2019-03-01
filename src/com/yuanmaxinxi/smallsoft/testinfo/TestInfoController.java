@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
-import com.yuanmaxinxi.entity.test.MBTITopic;
+import com.yuanmaxinxi.entity.test.Topic;
 import com.yuanmaxinxi.entity.test.TestInfo;
 import com.yuanmaxinxi.entity.test.TestResult;
 import com.yuanmaxinxi.entity.test.UserAnswer;
 import com.yuanmaxinxi.entity.test.UserAnswerItem;
-import com.yuanmaxinxi.service.MBTITopicService;
+import com.yuanmaxinxi.service.TopicService;
 import com.yuanmaxinxi.service.TestInfoService;
 import com.yuanmaxinxi.service.TestResultService;
 import com.yuanmaxinxi.service.UserAnswerService;
@@ -24,7 +24,7 @@ public class TestInfoController {
 	@Autowired
 	private TestInfoService testInfoService;
 	@Autowired
-	private MBTITopicService mbtiTopicService;
+	private TopicService topicService;
 	@Autowired
 	private UserAnswerService userAnswerService;
 	@Autowired
@@ -35,10 +35,10 @@ public class TestInfoController {
 		TestInfo obj = testInfoService.selectOneByType(type);
 		return obj;
 	}
-	@RequestMapping("/selectAllMBTITopic")
+	@RequestMapping("/selectAllTopic")
 	@ResponseBody
-	public List<MBTITopic> selectAllMBTITopic() {
-		List<MBTITopic> list= mbtiTopicService.selectAllMBTITopic();
+	public List<Topic> selectAllTopic(int type) {
+		List<Topic> list= topicService.selectAllTopic(type);
 		return list;
 	}
 	/**
@@ -74,14 +74,34 @@ public class TestInfoController {
 		return dto;
 	}
 	/**
-	 * 获取最大题号
+	 * 解析测试答案
 	 * @param ua
 	 * @return
 	 */
-	@RequestMapping("/getMaXItem")
+	@RequestMapping("/parseHLDResult")
 	@ResponseBody
-	public int getMaXItem(Long uaId) {
-		return userAnswerService.getMaXItem(uaId);
+	public ResultDTO parseHLDResult(Long uaId) {
+		ResultDTO dto;
+		try {
+			//解析得到结果
+			String result = userAnswerService.parseHLDResult(uaId);
+			//根据结果去获取解析详情
+			dto = ResultDTO.newInstance(true, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			dto = ResultDTO.newInstance(false, e.getMessage());
+		}
+		return dto;
+	}
+	/**
+	 * 获取答题数目  以索引形式
+	 * @param ua
+	 * @return
+	 */
+	@RequestMapping("/getCountItem")
+	@ResponseBody
+	public int getCountItem(Long uaId) {
+		return userAnswerService.getCountItem(uaId);
 	}
 	/**
 	 * 获取已经存在的

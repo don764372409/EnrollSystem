@@ -1,5 +1,6 @@
 package com.yuanmaxinxi.service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.answer.AnswerDAO;
 import com.yuanmaxinxi.dao.useranswer.UserAnswerDAO;
-import com.yuanmaxinxi.entity.test.MBTIAnswer;
+import com.yuanmaxinxi.entity.test.Answer;
 import com.yuanmaxinxi.entity.test.UserAnswer;
 import com.yuanmaxinxi.entity.test.UserAnswerItem;
 
@@ -43,7 +44,7 @@ public class UserAnswerService {
 	 */
 	public void userAnswer(UserAnswerItem uai) {
 		//先查询答案中的type
-		MBTIAnswer answer = answerDAO.selectOneById(uai.getAnswerId());
+		Answer answer = answerDAO.selectOneById(uai.getAnswerId());
 		if (answer==null) {
 			throw new RuntimeException("添加答案记录失败.");
 		}
@@ -86,9 +87,20 @@ public class UserAnswerService {
 		}
 		return sysUa;
 	}
-
-	public int getMaXItem(Long uaId) {
-		return userAnswerDAO.getMaXItem(uaId);
+	/**
+	 * 获取已测试的题目数量  以索引形式
+	 * @param uaId
+	 * @return
+	 */
+	public int getCountItem(Long uaId) {
+		Integer max = userAnswerDAO.getCountItem(uaId);
+		if (max==null) {
+			return 0;
+		}
+		if (max>0) {
+			return max-1;
+		}
+		return max;
 	}
 	/**
 	 * 解析测试答案
@@ -159,6 +171,89 @@ public class UserAnswerService {
 			}else {
 				result+="J";
 			}
+			//修改当前测试的结果
+			UserAnswer ua = new UserAnswer();
+			ua.setId(uaId);
+			ua.setResult(result);
+			int i = userAnswerDAO.updateUserAnswerResult(ua);
+			if (i!=1) {
+				throw new RuntimeException("解析失败,请稍后重试.");
+			}
+			return result;
+		} catch (Exception e2) {
+			e2.printStackTrace();
+			throw new RuntimeException("解析失败,请稍后重试.");
+		}
+	}
+	/**
+	 * 解析测试答案
+	 * @param uaId
+	 */
+	public String parseHLDResult(Long uaId) {
+		try {
+			List<UserAnswerItem> items = userAnswerDAO.selectAllUserAnswerItemByUaId(uaId);
+			int S = 0;
+			int E = 0;
+			int C = 0;
+			int R = 0;
+			int I = 0;
+			int A = 0;
+			for (UserAnswerItem uai : items) {
+				switch (uai.getType()) {
+				case "S":
+					S++;
+					break;
+				case "E":
+					E++;
+					break;
+				case "C":
+					C++;
+					break;
+				case "R":
+					R++;
+					break;
+				case "I":
+					I++;
+					break;
+				case "A":
+					A++;
+					break;
+				default:
+					break;
+				}
+			}
+			int[] numbers ={S,E,C,R,I,A};
+			Arrays.sort(numbers);
+			String result = "";
+			int s0 = 0;
+			int e0 = 0;
+			int c0 = 0;
+			int r0 = 0;
+			int i0 = 0;
+			int a0 = 0;
+			for (int j = 0; j < numbers.length; j++) {
+				int number = numbers[j];
+				if (number==S&&s0==0) {
+					result = "S:"+S+","+result;
+					s0++;
+				}else if (number==E&&e0==0) {
+					result = "E:"+E+","+result;
+					e0++;
+				}else if (number==C&&c0==0) {
+					result = "C:"+C+","+result;
+					c0++;
+				}else if (number==R&&r0==0) {
+					result = "R:"+R+","+result;
+					r0++;
+				}else if (number==I&&i0==0) {
+					result = "I:"+I+","+result;
+					i0++;
+				}else if (number==A&&a0==0) {
+					result = "A:"+A+","+result;
+					a0++;
+				}
+			}
+			
 			//修改当前测试的结果
 			UserAnswer ua = new UserAnswer();
 			ua.setId(uaId);

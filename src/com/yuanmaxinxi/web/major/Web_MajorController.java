@@ -1,32 +1,16 @@
 package com.yuanmaxinxi.web.major;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSON;
-import com.yuanmaxinxi.dto.ResultDTO;
-import com.yuanmaxinxi.entity.major.Major;
-import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.service.MajorService;
-import com.yuanmaxinxi.util.StringUtil;
-import com.yuanmaxinxi.web.BaseServlet;
 
-@WebServlet("/major")
-public class MajorController{
-
-	private static final long serialVersionUID = 1L;
+@RequestMapping("/major")
+@Controller
+public class Web_MajorController{
+	@Autowired
 	private MajorService majorService;
-
-	public void init() throws ServletException {
-		majorService = new MajorService();
-
-	}
 
 //	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		String cmd = req.getParameter("cmd");

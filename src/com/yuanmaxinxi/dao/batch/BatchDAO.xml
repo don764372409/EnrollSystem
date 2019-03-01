@@ -4,4 +4,7 @@
     <select id="selectOneByName" parameterType="String" resultType="Batch">
         select * from t_batch where name=#{name}
     </select>
+    <select id="selectOneById" parameterType="long" resultType="Batch">
+        select * from t_batch where id=#{id}
+    </select>
 </mapper>
