@@ -3,10 +3,15 @@ package com.yuanmaxinxi.dao.major;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.LikeMajor;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.university.University;
+@Repository
+@Mapper
 public interface MajorDAO extends BaseDAO<Major>{
 	/**
 	 * 爬虫爬数据的时候  需要先验证是否存在
@@ -37,5 +42,10 @@ public interface MajorDAO extends BaseDAO<Major>{
 	public void insertXXX(String content);
 	public List<Major> selectLikeMajorsById(Long id);
 	public List<University> selectUnis(Long id);
-
+	
+	
+	public Major selectOneByNameXXX(String name);
+	public Major selectOneByNameYYY(String name);
+	public Major selectOneByNameZZZ(String name);
+	public List<Major> selectAllCCC(Major major2);
 }

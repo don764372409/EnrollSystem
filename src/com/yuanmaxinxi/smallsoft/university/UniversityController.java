@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
@@ -78,6 +80,11 @@ public class UniversityController{
 			dto = ResultDTO.newInstance(true, "取消收藏失败!"+e.getMessage());
 		}
 		return dto;
+	}
+	@RequestMapping("/selectOneByName")
+	@ResponseBody
+	public University selectOneByName(@RequestBody University uni){
+		return universityService.selectOneByName(uni.getName());
 	}
 	@RequestMapping("/shoucang")
 	@ResponseBody

@@ -27,7 +27,21 @@ public class Enroll {
 	private int time;
 	private BigDecimal tuition;
 	private BigDecimal studyYear;
+	private int uniNumber;//同一个学校的出现次数
+	private int uniAndMajorNumber;//同一个学校 同一个专业的出现次数
 	
+	public int getUniNumber() {
+		return uniNumber;
+	}
+	public void setUniNumber(int uniNumber) {
+		this.uniNumber = uniNumber;
+	}
+	public int getUniAndMajorNumber() {
+		return uniAndMajorNumber;
+	}
+	public void setUniAndMajorNumber(int uniAndMajorNumber) {
+		this.uniAndMajorNumber = uniAndMajorNumber;
+	}
 	public Long getId() {
 		return id;
 	}

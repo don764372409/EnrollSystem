@@ -89,7 +89,7 @@ public class AdminService {
 				
 				throw new RuntimeException("删除失败,请稍后再试");
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("删除失败,请稍后再试");
 		}

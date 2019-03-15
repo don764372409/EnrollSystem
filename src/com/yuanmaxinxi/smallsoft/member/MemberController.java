@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yuanmaxinxi.dto.UniAndMajorDTO;
+import com.yuanmaxinxi.dto.UniNumberDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.service.EnrollService;
@@ -24,7 +26,7 @@ import com.yuanmaxinxi.service.UniversityService;
  *
  */
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/soft/member")
 @CrossOrigin
 public class MemberController {
 	@Autowired
@@ -47,6 +49,29 @@ public class MemberController {
 	}
 	
 	/**
+	 * 录取学校和专业
+	 * @return
+	 */
+	@RequestMapping("/serch2")
+	@ResponseBody
+	public List<UniNumberDTO> serch2(Long pId,String bath,String type,int ranking,int number,int range){
+		Map<String,Object> map = new HashMap<>();
+		map.put("pId", pId);
+		map.put("bath", bath);
+		map.put("type", type);
+		map.put("ranking", ranking);
+		map.put("number", number);
+		map.put("range", range);
+		List<UniNumberDTO> list = enrollService.serch2(map);
+//		for (UniNumberDTO uniNumberDTO : list) {
+//			System.err.println(uniNumberDTO.getName());
+//			for (UniAndMajorDTO uam : uniNumberDTO.getUams()) {
+//				System.err.println("\t"+uam.getName());
+//			}
+//		}
+		return list;
+	}
+	/**
 	 * 历年录取匹配查询
 	 * @return
 	 */
@@ -61,6 +86,22 @@ public class MemberController {
 		map.put("number", number);
 		map.put("range", range);
 		return enrollService.serch(map);
+	}
+	/**
+	 * 历年录取匹配查询
+	 * @return
+	 */
+	@RequestMapping("/enrollBigUni")
+	@ResponseBody
+	public List<Enroll> enrollBigUni(Long pId,String bath,String type,int ranking,int number,int range){
+		Map<String,Object> map = new HashMap<>();
+		map.put("pId", pId);
+		map.put("bath", bath);
+		map.put("type", type);
+		map.put("ranking", ranking);
+		map.put("number", number);
+		map.put("range", range);
+		return enrollService.enrollBigUni(map);
 	}
 	
 }

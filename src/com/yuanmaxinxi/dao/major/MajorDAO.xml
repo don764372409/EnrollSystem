@@ -42,7 +42,7 @@
 		select * from t_major where id = #{id}
 	</select>
 	<select id="selectAll" resultType="Major">
-		select * from t_major 
+		select * from t_major where id >1609
 	</select>
 	<update id="updateInfo" parameterType="Major">
 	    update t_major set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}
@@ -89,4 +89,20 @@
 			 </if> 
         </where>
     </sql>
+    <select id="selectOneByNameXXX" parameterType="string" resultType="Major">
+        select * from t_major where name=#{name} and id >711 and id &lt;=1845
+    </select>
+    <select id="selectOneByNameYYY" parameterType="string" resultType="Major">
+        select * from t_major where name=#{name} and id &lt;=711
+    </select>
+    <select id="selectOneByNameZZZ" parameterType="string" resultType="Major">
+        select min(mId) as id from t_enroll where mId in(
+			select id from t_major where name = #{name}
+		)
+    </select>
+    <select id="selectAllCCC" parameterType="Major" resultType="Major">
+        select id from t_major where id in(
+			select id from t_major where name = #{name}
+		) and id > #{id} and id >1845
+    </select>
 </mapper>

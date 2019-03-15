@@ -12,6 +12,17 @@
 	<typeAliases>
 		<package name="com.yuanmaxinxi.entity" />
 	</typeAliases>	
+	<environments default="database">
+        <environment id="database">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql:///enroll"/>
+                <property name="username" value="root"/>
+                <property name="password" value="admin"/>
+            </dataSource>
+        </environment>
+    </environments>
 	<!-- 设置扫描SQL映射XML文件所在的包 -->
 	<mappers>
 		<package name="com.yuanmaxinxi.dao" />

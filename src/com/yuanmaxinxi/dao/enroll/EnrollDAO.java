@@ -3,10 +3,14 @@ package com.yuanmaxinxi.dao.enroll;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.province.Province;
-
+@Repository
+@Mapper
 public interface EnrollDAO extends BaseDAO<Enroll>{
 	
 //	private List<Enroll> query(String perparedSql, Object[] param) {
@@ -95,4 +99,10 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 	public List<Province> selectEnrollProvince();
 
 	public List<Enroll> serch(Map<String, Object> map);
+
+	public List<Enroll> enrollBigUni(Map<String, Object> map);
+
+	public void xxx(String content);
+
+	public List<Enroll> selectAllByMajorName(String majorName);
 }

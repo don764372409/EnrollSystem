@@ -117,7 +117,7 @@ public class UniversityService {
 			if(row==0) {
 				throw new RuntimeException("删除院校信息失败");
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("删除院校信息失败");
 		}
@@ -591,5 +591,8 @@ public class UniversityService {
 		}
 		
 		return universityDAO.selectEnrollByTwoUni(map);
+	}
+	public University selectOneByName(String name) {
+		return universityDAO.selectOneByName(name);
 	}
 }

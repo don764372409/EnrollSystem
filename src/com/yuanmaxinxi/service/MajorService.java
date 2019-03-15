@@ -42,7 +42,7 @@ public class MajorService {
 	public void delete(Long id) {
 		try {
 			majorDAO.delete(id);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

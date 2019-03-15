@@ -17,6 +17,8 @@ import com.yuanmaxinxi.dao.error.ErrorContentDAO;
 import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
+import com.yuanmaxinxi.dto.UniAndMajorDTO;
+import com.yuanmaxinxi.dto.UniNumberDTO;
 import com.yuanmaxinxi.dto.enroll.EnrollQueryPageDTO;
 import com.yuanmaxinxi.entity.batch.Batch;
 import com.yuanmaxinxi.entity.enroll.Enroll;
@@ -40,20 +42,9 @@ public class EnrollService {
 	private MajorDAO majorDAO;
 	@Autowired
 	private ErrorContentDAO errorContentDAO;
-	
 	public void xxxx() {
-		try {
-			List<Enroll> ens = enrollDAO.selectAll();
-			for (Enroll en : ens) {
-				if (en.getAvgRanking()==0&&en.getMaxRanking()>0&&en.getMinRanking()>0) {
-					en.setAvgRanking((en.getMaxRanking()+en.getMinRanking()));
-					enrollDAO.update(en);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("报错了");
-		}
+		
+		
 	}
 	
 	public void insert(Enroll obj) throws Exception{
@@ -166,6 +157,119 @@ public class EnrollService {
 	public List<Province> selectEnrollProvince() {
 		return enrollDAO.selectEnrollProvince();
 	}
+	public List<UniNumberDTO> serch2(Map<String, Object> map) {
+		Batch batch = batchDAO.selectOneByName(map.get("bath")+" "+map.get("type"));
+		map.put("bId", batch.getId());
+		List<Enroll> list = enrollDAO.serch(map);
+		//学校缓存
+		Map<Long,University> uniCache = new HashMap<>();
+		//专业缓存
+		Map<Long,Major> marjorCache = new HashMap<>();
+		//省份缓存
+		Map<Long,Province> proviceCache = new HashMap<>();
+		//装学校和专业出现次数的
+		List<UniNumberDTO> uniNumberDTOs = new ArrayList<>();
+		Set<Integer> years = new HashSet<>();
+		for (Enroll er : list) {
+			years.add(er.getTime());
+			//获取学校名称
+			Long uId = er.getuId();
+			University uni = uniCache.get(uId);
+			if (uni==null) {
+				uni = universityDao.selectOneById(uId);
+				uniCache.put(uId, uni);
+			}
+			er.setUniversity(uni);
+			//获取专业名称
+			Long mId = er.getmId();
+			Major major = marjorCache.get(mId);
+			if (major==null) {
+				major = majorDAO.selectOneById(mId);
+				marjorCache.put(mId, major);
+			}
+			er.setMajor(major);
+			
+			//出现次数
+			int isExitIndex = -1;//没有出现
+			for(int i = 0;i<uniNumberDTOs.size();i++) {
+				UniNumberDTO unDTO = uniNumberDTOs.get(i);
+				if (unDTO.getuId().equals(uId)) {
+					//出现了
+					System.err.println(uni.getName()+"的出现索引:"+i);
+					isExitIndex = i;
+					break;
+				}
+			}
+			//没有存起来
+			if (isExitIndex==-1) {
+				UniNumberDTO unDTO = new UniNumberDTO();
+				unDTO.setuId(uId);
+				unDTO.setUniNumber(1);
+				unDTO.setName(uni.getName());
+				List<UniAndMajorDTO> uams = new ArrayList<>();
+				unDTO.setUams(uams);
+				UniAndMajorDTO uamDTO = new UniAndMajorDTO();
+				uamDTO.setmId(mId);
+				uamDTO.setName(major.getName());
+				uamDTO.setMinNumber(er.getMinNumber());
+				uamDTO.setMaxNumber(er.getMaxNumber());
+				uamDTO.setNumber(1);
+				uams.add(uamDTO);
+				Long pId = er.getpId();
+				Province province = proviceCache.get(pId);
+				if (province==null) {
+					province = provinceDao.selectOneById(pId);
+					proviceCache.put(pId, province);
+				}
+				unDTO.setProvinceName(province.getName());
+				uniNumberDTOs.add(unDTO);
+			}else {
+				UniNumberDTO numberDTO = uniNumberDTOs.get(isExitIndex);
+				numberDTO.setUniNumber(numberDTO.getUniNumber()+1);
+				List<UniAndMajorDTO> uams = numberDTO.getUams();
+				int isExitIndex2=-1;
+				for (int j = 0; j < uams.size(); j++) {
+					UniAndMajorDTO uamDTO = uams.get(j);
+					if (mId.equals(uamDTO.getmId())) {
+						isExitIndex2 = j;
+						break;
+					}
+				}
+				if (isExitIndex2==-1) {
+					UniAndMajorDTO uamDTO = new UniAndMajorDTO();
+					uamDTO.setmId(mId);
+					uamDTO.setName(major.getName());
+					uamDTO.setMinNumber(er.getMinNumber());
+					uamDTO.setMaxNumber(er.getMaxNumber());
+					uamDTO.setNumber(1);
+					uams.add(uamDTO);
+				}else {
+					UniAndMajorDTO uamDTO = uams.get(isExitIndex2);
+					if (er.getMinNumber()<uamDTO.getMinNumber()) {
+						uamDTO.setMinNumber(er.getMinNumber());
+					};
+					if (er.getMaxNumber()>uamDTO.getMaxNumber()) {
+						uamDTO.setMaxNumber(er.getMaxNumber());
+					}
+					uamDTO.setNumber(uamDTO.getNumber()+1);
+				}
+			}
+		}
+		int total = years.size();
+		for(UniNumberDTO dto :uniNumberDTOs) {
+			int number = dto.getUniNumber();
+			if (total<=number-1) {
+				dto.setLv("color_green");
+			}else if(number==1) {
+				dto.setLv("color_red");
+			}else if(number==2) {
+				dto.setLv("color_yellow");
+			}else {
+				dto.setLv("color_blue");
+			}
+		}
+		return uniNumberDTOs;
+	}
 	/**
 	 * select en from ( 
 	 * 		select * from t_enroll where pId = ? and minRanking>=(?-range) and maxRanking >=(?-range) and bId = ?
@@ -186,7 +290,14 @@ public class EnrollService {
 		//省份缓存
 		Map<Long,Province> proviceCache = new HashMap<>();
 		Map<String,Map<String,List<Enroll>>> result = new HashMap<>();
+		//同一个学校的 出现次数
+		//同一个学校  同一个专业   将次数放进录取数据中
+		//key:  uId:xx,mId:yy
+		Map<Long,Integer> uniNumbers = new HashMap<>();
+		Map<String,Integer> uniAndMajorNumbers = new HashMap<>();
+		
 		for (Enroll er : list) {
+			//次数获取
 			String year = er.getTime()+"";
 			//判断年份是否已经存在  不存在就放进去  存在就获取集合
 			Map<String, List<Enroll>> res = result.get(year);
@@ -216,6 +327,24 @@ public class EnrollService {
 				marjorCache.put(mId, major);
 			}
 			er.setMajor(major);
+			
+			//出现次数
+			Integer uniNumber = uniNumbers.get(uId);
+			if (uniNumber==null||uniNumber==0) {
+				uniNumber = 1;
+				uniNumbers.put(uId, uniNumber);
+			}else {
+				++uniNumber;
+				uniNumbers.put(uId,uniNumber );
+			}
+			Integer uniAndMajorNumber = uniAndMajorNumbers.get("uId:"+uId+",mId:"+mId);
+			if (uniAndMajorNumber==null||uniAndMajorNumber==0) {
+				uniAndMajorNumber = 1;
+				uniAndMajorNumbers.put("uId:"+uId+",mId:"+mId,uniAndMajorNumber );
+			}else {
+				++uniAndMajorNumber;
+				uniAndMajorNumbers.put("uId:"+uId+",mId:"+mId,uniAndMajorNumber );
+			}
 			//获取批次
 			Long bId = er.getbId();
 			Batch bt = batchCache.get(bId);
@@ -234,6 +363,59 @@ public class EnrollService {
 			er.setProvince(province);
 			ens.add(er);
 		}
+		for (Enroll er : list) {
+			Long uId = er.getuId();
+			Long mId = er.getmId();
+			Integer uniNumber = uniNumbers.get(uId);
+			Integer uniAndMajorNumber = uniAndMajorNumbers.get("uId:"+uId+",mId:"+mId);
+			er.setUniNumber(uniNumber);
+			er.setUniAndMajorNumber(uniAndMajorNumber);
+		}
+//		Set<String> keySet = result.keySet();
+//		for (String key : keySet) {
+//			System.err.println(key+"年-----------");
+//			Map<String, List<Enroll>> map2 = result.get(key);
+//			Set<String> keySet2 = map2.keySet();
+//			for (String name : keySet2) {
+//				System.err.println("学校："+name);
+//				List<Enroll> list2 = map2.get(name);
+//				for (Enroll enroll : list2) {
+//					System.err.println(enroll.getMajor().getName()+",排名:"+enroll.getAvgRanking());
+//				}
+//			}
+//		}
 		return result;
+	}
+	/**
+	 *获取录取可能性较大院校 
+	 *当前排名 >= 最小排名   当前排名<=最大排名
+		加上批次   加上理科文科
+		-->得到数据
+		-->再次得到的数据中获取以下消息   
+		当前分数 >=最小分数    当前分数<=最大分数
+	 * @param map
+	 * @return
+	 */
+	public List<Enroll> enrollBigUni(Map<String, Object> map) {
+		List<Enroll> list = enrollDAO.enrollBigUni(map);
+		Map<Long,University> uniCache = new HashMap<>();
+		List<Enroll> exit = new ArrayList<>();
+		for (Enroll er : list) {
+			//获取学校名称
+			Long uId = er.getuId();
+			University uni = uniCache.get(uId);
+			if (uni==null) {
+				uni = universityDao.selectOneById(uId);
+				uniCache.put(uId, uni);
+			}else {
+				exit.add(er);
+			}
+			er.setUniversity(uni);
+		}
+		//删除已经存在的学校
+		for (Enroll enroll : exit) {
+			list.remove(enroll);
+		}
+		return list;
 	}
 }
