@@ -10,7 +10,7 @@ public class DateTimeConverter implements Converter<String, Date> {
 	public static final SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public static final SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
 
-	public Date convert(String dateStr) {
+	public Date convert(String dateStr) {//
 		Date date = null;
 
 		try {
