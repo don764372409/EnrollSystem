@@ -6,6 +6,7 @@ import com.yuanmaxinxi.entity.batch.Batch;
 public interface BatchDAO extends  BaseDAO<Batch> {
 
 	Batch selectOneByName(String name);
+	
 //	private List<Batch> query(String perparedSql, Object[] param) {
 //		List<Batch> list = new ArrayList<Batch>();
 //		try {
