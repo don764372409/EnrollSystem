@@ -18,6 +18,9 @@ public class UserService {
 		List<User> list = userDAO.selectAll();
 		return list;
 	}
+	public User selectOneId(Long id) {
+		return userDAO.selectOneById(id);
+	}
 	public User selectOneByOpenid(String openid) {
 		return userDAO.selectOneByOpenid(openid);
 	}

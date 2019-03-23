@@ -106,7 +106,7 @@ public class UserAnswerService {
 	 * 解析测试答案
 	 * @param uaId
 	 */
-	public String parseResult(Long uaId) {
+	public UserAnswer parseResult(Long uaId) {
 		try {
 			List<UserAnswerItem> items = userAnswerDAO.selectAllUserAnswerItemByUaId(uaId);
 			int E = 0;
@@ -179,7 +179,7 @@ public class UserAnswerService {
 			if (i!=1) {
 				throw new RuntimeException("解析失败,请稍后重试.");
 			}
-			return result;
+			return userAnswerDAO.selectOneById(uaId);
 		} catch (Exception e2) {
 			e2.printStackTrace();
 			throw new RuntimeException("解析失败,请稍后重试.");

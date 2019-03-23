@@ -4,7 +4,9 @@ import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.user.User;
 
 public interface UserDAO extends BaseDAO<User>{
+	
 	User selectOneByOpenid(String openid);
+	User selectOneById(String id);
 	/**
 	 * 根据自己唯一的邀请码找到用户对象
 	 * @param code

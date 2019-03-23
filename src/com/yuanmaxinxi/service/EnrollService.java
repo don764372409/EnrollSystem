@@ -67,11 +67,22 @@ public class EnrollService {
 		return enrollDAO.selectAll();
 	}
 
-	public void queryPage(EnrollQueryPageDTO dto) {
+	public List<Enroll> queryPage(EnrollQueryPageDTO dto) {
 		int count = enrollDAO.selectCount(dto);
 		dto.setCount(count);
 		List<Enroll> list = enrollDAO.queryPage(dto);
 		dto.setRows(list);
+		return list;
+	}
+	
+	public List<University> queryUniversity(String name){
+		return enrollDAO.queryUniversity(name);
+	}
+	public List<Major> queryMajorByuId(Long uId){
+		return enrollDAO.queryMajorByuId(uId);
+	}
+	public int queryProvinceScore(Long bId, Long pId, int time) {
+		return 0;
 	}
 
 	public int importEnroll(Map<String, String> map) {

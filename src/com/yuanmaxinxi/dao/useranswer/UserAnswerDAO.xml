@@ -13,6 +13,9 @@
     <select id="selectOneUserAnswerItemByObj" parameterType="UserAnswerItem" resultType="UserAnswerItem">
         select * from t_useransweritem where topicId = #{topicId} and uaId=#{uaId}
     </select>
+    <select id="selectOneById" parameterType="Long" resultType="UserAnswer">
+        select * from t_useranswer where id=#{id}
+    </select>
     <update id="updateUserAnswerItem" parameterType="UserAnswerItem">
         update t_useransweritem set answerId = #{answerId},type=#{type} where id = #{id}
     </update>
