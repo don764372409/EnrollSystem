@@ -8,15 +8,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.service.OccupationService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
-@WebServlet("/occupation")
 
-public class OccupationServlet extends BaseServlet{
+@Controller
+@RequestMapping("/occupation")
+public class OccupationController{
+	@Autowired
+	private OccupationService occupationService;
+	@RequestMapping("/list")
+	public String occupationList(Model model){
+		List<Occupation> list = occupationService.selectAll();
+		model.addAttribute("list",list);
+		return "occupation/list";
+		
+	}
 //
 //	private static final long serialVersionUID = 1L;
 //	private OccupationService ocpService;

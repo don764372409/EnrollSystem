@@ -57,7 +57,7 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+	<form action="admin/add" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>姓名：</label>
 		<div class="formControls col-sm-9">
@@ -120,7 +120,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/admin?cmd=add" ,
+				url: "/admin/add" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

@@ -11,6 +11,7 @@ import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 
 public interface DictionaryDAO extends BaseDAO<Dictionary> {
+	public List<Dictionary> selectAll();
 //	private static DictionaryDAO dd;
 //	private DictionaryDAO() {}
 //	public static DictionaryDAO getDictionaryDao() {

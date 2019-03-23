@@ -61,6 +61,7 @@ public interface UniversityDao extends BaseDAO<University>{
 
 	
 	public List<University> selectUnisByIds(@Param("ids")String[] ids);
+	public List<University> selectUnisList();
 
 	List<Jianzhang> selectAllJianZhangById(Long uId);
 

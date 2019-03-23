@@ -8,14 +8,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.service.DictionaryService;
 import com.yuanmaxinxi.service.DictionaryTypeService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
-@WebServlet("/dictionary")
-public class DictionaryServlet extends BaseServlet{
+@RequestMapping("/dictionary")
+@Controller
+public class DictionaryServlet{
+	@Autowired
+	private DictionaryService dictionaryService;
+	@RequestMapping("/list")
+	public String dictionaryList(Model model) {
+		List<Dictionary> list = dictionaryService.selectAll();
+		model.addAttribute("list",list);
+		return "dictionary/list";
+		
+	}
 //	private static final long serialVersionUID = 1L;
 //	private DictionaryService ds;
 //	private DictionaryTypeService dts;

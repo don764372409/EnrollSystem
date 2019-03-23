@@ -2,14 +2,22 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.yuanmaxinxi.dao.dictionary.DictionaryDAO;
 import com.yuanmaxinxi.entity.admin.Admin;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.util.MD5Util;
 import com.yuanmaxinxi.util.StringUtil;
 
-
+@Service
 public class DictionaryService {
+	@Autowired
+	private DictionaryDAO dictionaryDAO;
+	public List<Dictionary> selectAll(){
+		return dictionaryDAO.selectAll();
+	}
 //	private static DictionaryService ds;
 //	private DictionaryDAO dd;
 //	private DictionaryService() {

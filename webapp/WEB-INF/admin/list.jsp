@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加管理员','/admin?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="obj_add('添加管理员','/admin/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -73,7 +73,7 @@
 			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/admin?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
 		</td>
         	<td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/admin?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/admin/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
       </tr>
       </c:forEach>
@@ -126,12 +126,13 @@ $('.table-sort').dataTable({
 	]
 });
 function obj_add(title,url){
+	console.log("666");
 	layer_show(title,url,550,400);
-// 	var index = layer.open({
-// 		type: 2,
-// 		title: title,
-// 		content: url
-// 	});
+/*  	var index = layer.open({
+ 		type: 2,
+ 		title: title,
+ 		content: url
+ 	}); */
 // 	打开全屏
 // 	layer.full(index);
 }
@@ -140,7 +141,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"&id="+id
+		content: url+"?id="+id
 	});
 	layer.full(index);
 }

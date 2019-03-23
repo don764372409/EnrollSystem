@@ -88,6 +88,9 @@
     <select id="selectProvince" resultType="Province">
         select * from t_province
     </select>
+     <select id="selectUnisList" resultType="University">
+        select * from t_university
+    </select>
     
     
     

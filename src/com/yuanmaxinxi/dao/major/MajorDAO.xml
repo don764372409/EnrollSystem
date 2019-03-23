@@ -42,7 +42,7 @@
 		select * from t_major where id = #{id}
 	</select>
 	<select id="selectAll" resultType="Major">
-		select * from t_major where id >1609
+		select * from t_major
 	</select>
 	<update id="updateInfo" parameterType="Major">
 	    update t_major set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}

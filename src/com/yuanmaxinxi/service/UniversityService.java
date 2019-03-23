@@ -595,4 +595,8 @@ public class UniversityService {
 	public University selectOneByName(String name) {
 		return universityDAO.selectOneByName(name);
 	}
+	
+	public List<University> selectUniList() {
+		return universityDAO.selectUnisList();
+	}
 }

@@ -56,7 +56,7 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.dt.name}</td>
+        <td>${obj.typeId}</td>
         <td>
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典信息','/dictionary?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		 </td>

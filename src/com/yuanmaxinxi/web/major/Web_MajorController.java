@@ -1,9 +1,13 @@
 package com.yuanmaxinxi.web.major;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.service.MajorService;
 
 @RequestMapping("/major")
@@ -11,6 +15,13 @@ import com.yuanmaxinxi.service.MajorService;
 public class Web_MajorController{
 	@Autowired
 	private MajorService majorService;
+	
+	@RequestMapping("/list")
+	public String list(Model model) {
+		List<Major> list = majorService.selectAll();
+		model.addAttribute("list", list);
+		return "/major/list";
+	}
 
 //	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		String cmd = req.getParameter("cmd");

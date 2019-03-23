@@ -64,9 +64,9 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.pro.name}</td>
+        <!-- <td>${obj.pro.name}</td> -->
         <td>${obj.address}</td>
-        <td>${obj.quality}</td>
+        <!-- <td>${obj.quality}</td> -->
         <td>${obj.type}</td>
         <td>${obj.remark}</td>
         <td>${obj.teachers}</td>

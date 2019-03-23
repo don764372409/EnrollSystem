@@ -26,7 +26,14 @@ public class University{
 	private String imgSrc;
 	private List<Jianzhang> list;
 	private String bgImgSrc;
+	private String quality;
 	
+	public String getQuality() {
+		return quality;
+	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
 	private Province pro;//省份
 	
 	public String getBgImgSrc() {

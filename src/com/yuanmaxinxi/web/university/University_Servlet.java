@@ -9,6 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
 import com.yuanmaxinxi.entity.province.Province;
@@ -20,8 +25,18 @@ import com.yuanmaxinxi.util.CrawlUniversityDataUtil;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
 //@WebServlet("/university")
-public class University_Servlet extends BaseServlet{
-//	private UniversityService universityService;
+@Controller
+@RequestMapping("/university")
+public class University_Servlet{
+	@Autowired
+	private UniversityService universityService;
+
+	@RequestMapping("/list")
+	public String selectUniList(Model model) {
+		List<University> list = universityService.selectUniList();
+		model.addAttribute("list",list);
+		return "university/university";
+	}
 //	private static final long serialVersionUID = 1L;
 //	private ProvinceService provinceService;
 //	@Override
