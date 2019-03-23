@@ -48,9 +48,7 @@
         <th width="100">专业名</th>
         <th width="100">父级ID专业</th>
         <th width="100">专业所属学历分类</th>
-        <th width="100">专业简介</th>
-        <th width="100">专业解读</th>
-        <th width="100">专业排名</th>
+
         <th width="60">操作</th>
       </tr>
     </thead>
@@ -59,11 +57,8 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.pId}</td>
+        
         <td>${obj.type}</td>
-        <td>${obj.remark}</td>
-        <td>${obj.majorExplain}</td>
-        <td>${obj.ranking}</td>
         
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改专业','/major?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>|

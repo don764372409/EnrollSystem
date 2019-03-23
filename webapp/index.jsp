@@ -103,7 +103,7 @@
 				<dt><i class="Hui-iconfont">&#xe643;</i> 学校信息管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="/university" data-title="学校信息管理" href="javascript:void(0)">学校信息管理</a></li>
+						<li><a data-href="/university/list" data-title="学校信息管理" href="javascript:void(0)">学校信息管理</a></li>
 						<li><a data-href="/enroll/list" data-title="录取数据管理" href="javascript:void(0)">录取数据管理</a></li>
 						<li><a data-href="/vedio" data-title="学校相关视频管理" href="javascript:void(0)">学校相关视频管理</a></li>
 					</ul>
@@ -113,7 +113,7 @@
 				<dt><i class="Hui-iconfont">&#xe654;</i> 专业管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="/major" data-title="专业管理" href="javascript:void(0)">专业管理</a></li>
+						<li><a data-href="/major/list" data-title="专业管理" href="javascript:void(0)">专业管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -121,7 +121,7 @@
 				<dt><i class="Hui-iconfont">&#xe70d;</i> 职业管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="/occupation" data-title="职业管理" href="javascript:void(0)">职业管理</a></li>
+						<li><a data-href="/occupation/list" data-title="职业管理" href="javascript:void(0)">职业管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -129,7 +129,7 @@
 				<dt><i class="Hui-iconfont">&#xe60d;</i> 用户信息管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="/user" data-title="用户信息管理" href="javascript:void(0)">用户信息管理</a></li>
+						<li><a data-href="/admin/list" data-title="用户信息管理" href="javascript:void(0)">用户信息管理</a></li>
 						<li><a data-href="/admin/list" data-title="用户测试记录管理" href="javascript:void(0)">用户测试记录管理</a></li>
 						<li><a data-href="/payrecord" data-title="用户消费记录管理" href="javascript:void(0)">用户消费记录管理</a></li>
 					</ul>
@@ -141,8 +141,8 @@
 					<ul>
 						<li><a data-href="/admin" data-title="管理员管理" href="javascript:void(0)">管理员管理</a></li>
 						<li><a data-href="/dictionaryType" data-title="字典分类管理" href="javascript:void(0)">字典分类管理</a></li>
-						<li><a data-href="/dictionary" data-title="字典项管理" href="javascript:void(0)">字典项管理</a></li>
-						<li><a data-href="/province" data-title="省份管理" href="javascript:void(0)">省份管理</a></li>
+						<li><a data-href="/dictionary/list" data-title="字典项管理" href="javascript:void(0)">字典项管理</a></li>
+						<li><a data-href="/province/list" data-title="省份管理" href="javascript:void(0)">省份管理</a></li>
 					</ul>
 				</dd>
 			</dl>

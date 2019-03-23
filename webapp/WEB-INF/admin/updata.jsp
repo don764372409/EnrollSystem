@@ -111,7 +111,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/admin?cmd=edit",
+				url: "/admin/edit",
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

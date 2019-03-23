@@ -1,5 +1,7 @@
 package com.yuanmaxinxi.dao.admin;
 
+import java.util.List;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.admin.Admin;
 
@@ -11,5 +13,7 @@ public interface AdminDAO extends BaseDAO<Admin>{
 	 * @return
 	 */
 	public Admin selectOneByUsername(String username);
+	public List<Admin> select();
+	public Admin selectOneById(Long id);
 	
 }

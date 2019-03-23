@@ -18,99 +18,103 @@ import com.yuanmaxinxi.util.StringUtil;
 public class AdminService {
 	@Autowired
 	private AdminDAO adminDAO;
-	public void insert(Admin obj) {
-		if (StringUtil.isNullOrEmpty(obj.getName())) {
+	public List<Admin> selectAll() {
+		return adminDAO.selectAll();
+		
+	}
+	public void insert(String name,String username,String phone) {
+		if (StringUtil.isNullOrEmpty(name)) {
 			throw new RuntimeException("姓名不能为空.");
 		}
-		if (StringUtil.isNullOrEmpty(obj.getUsername())) {
+		if (StringUtil.isNullOrEmpty(username)) {
 			throw new RuntimeException("账号不能为空.");
 		}
-		if (StringUtil.isNullOrEmpty(obj.getPhone())) {
+		if (StringUtil.isNullOrEmpty(phone)) {
 			throw new RuntimeException("手机号不能为空.");
 		}
 		//通过账号去数据库找,是否存在
-		Admin sysAdmin = adminDAO.selectOneByUsername(obj.getUsername());
+		Admin sysAdmin = adminDAO.selectOneByUsername(username);
 		if (sysAdmin!=null) {
 			throw new RuntimeException("账号已存在,不能重复,请修改后再次添加.");
 		}
 		//添加
-		try {
-			String password = MD5Util.encode(obj.getPassword());
-			obj.setPassword(password);
-			int i = adminDAO.insert(obj);
-			if (i!=1) {
-				throw new RuntimeException("");
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("添加失败,请稍后重试.");
-		}
+//		try {
+//			String password = MD5Util.encode(obj.getPassword());
+//			obj.setPassword(password);
+//			int i = adminDAO.insert(obj);
+//			if (i!=1) {
+//				throw new RuntimeException("");
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException("添加失败,请稍后重试.");
+//		}
 		
 	}
-
-	public int update(Admin obj) {
-		if(StringUtil.isNullOrEmpty(obj.getName())) {
-			throw new RuntimeException("账号不能为空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
-			throw new RuntimeException("电话不能为空");
-		}
-		try {
-			return adminDAO.update(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("修改失败,请稍后重试.");
-		}
-	}
-	
-	public void edit(Admin obj) {
-		if(StringUtil.isNullOrEmpty(obj.getName())) {
-			throw new RuntimeException("账号不能为空");
-		}
-		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
-			throw new RuntimeException("电话不能为空");
-		}
-		try {
-			int i = adminDAO.edit(obj);
-			if (i!=1) {
-				throw new RuntimeException("修改失败,请稍后再试");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			e.printStackTrace();
-			throw new RuntimeException("修改失败,请稍后再试");
-		}
-	}
-
-	
-	public void delete(Long id) {
-		try {
-			int i = adminDAO.delete(id);
-			if (i!=1) {
-				
-				throw new RuntimeException("删除失败,请稍后再试");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("删除失败,请稍后再试");
-		}
-	}
-
+//
+//	public int update(Admin obj) {
+//		if(StringUtil.isNullOrEmpty(obj.getName())) {
+//			throw new RuntimeException("账号不能为空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
+//			throw new RuntimeException("电话不能为空");
+//		}
+//		try {
+//			return adminDAO.update(obj);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw new RuntimeException("修改失败,请稍后重试.");
+//		}
+//	}
+//	
+//	public void edit(Admin obj) {
+//		if(StringUtil.isNullOrEmpty(obj.getName())) {
+//			throw new RuntimeException("账号不能为空");
+//		}
+//		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
+//			throw new RuntimeException("电话不能为空");
+//		}
+//		try {
+//			int i = adminDAO.edit(obj);
+//			if (i!=1) {
+//				throw new RuntimeException("修改失败,请稍后再试");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			e.printStackTrace();
+//			throw new RuntimeException("修改失败,请稍后再试");
+//		}
+//	}
+//
+//	
+//	public void delete(Long id) {
+//		try {
+//			int i = adminDAO.delete(id);
+//			if (i!=1) {
+//				
+//				throw new RuntimeException("删除失败,请稍后再试");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw new RuntimeException("删除失败,请稍后再试");
+//		}
+//	}
+//
 	public Admin selectOneById(Long id) {
 		return adminDAO.selectOneById(id);
 	}
-
-	public List<Admin> selectAll() {
-		return adminDAO.selectAll();
-	}
-
-	public List<Admin> queryPage(BaseQueryPageDTO dto) {
-		return null;
-	}
-	/**
-	 * 登录方法
-	 * @param admin 里面有数据：账号、密码、当前IP
-	 * @return
-	 */
+//
+//	public List<Admin> selectAll() {
+//		return adminDAO.selectAll();
+//	}
+//
+//	public List<Admin> queryPage(BaseQueryPageDTO dto) {
+//		return null;
+//	}
+//	/**
+//	 * 登录方法
+//	 * @param admin 里面有数据：账号、密码、当前IP
+//	 * @return
+//	 */
 	public Admin login(Admin admin) {
 		if (StringUtil.isNullOrEmpty(admin.getUsername())) {
 			throw new RuntimeException("账号不能为空.");

@@ -9,13 +9,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.service.ProvinceService;
 import com.yuanmaxinxi.web.BaseServlet;
-@WebServlet("/province")
-public class ProvinceServlet extends BaseServlet{
+@RequestMapping("/province")
+@Controller
+public class ProvinceServlet{
+	@Autowired
+	private ProvinceService provinceService;
+	@RequestMapping("/list")
+	public String provinceList(Model model) {
+		List<Province> list = provinceService.selectAll();
+		model.addAttribute("list",list);
+		return "province/province";
+		
+		
+	}
 //	ProvinceService provinceservice;
 //	
 //	@Override

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.admin.AdminDAO;
@@ -14,8 +16,13 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.util.CrawlProvinceDataUtil;
 import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
+@Service
 public class ProvinceService {
-//	private ProvinceDao provincedao;
+	@Autowired
+	private ProvinceDao provincedao;
+	public List<Province> selectAll() {
+	return provincedao.selectAll();
+}
 //	private void init() {
 //		SqlSession session = DBUtil.openSession();
 //		provincedao = session.getMapper(ProvinceDao.class);

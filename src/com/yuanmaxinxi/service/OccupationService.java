@@ -1,19 +1,19 @@
 package com.yuanmaxinxi.service;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.yuanmaxinxi.dao.admin.AdminDAO;
 import com.yuanmaxinxi.dao.occupation.OccupationDAO;
-import com.yuanmaxinxi.dto.BaseQueryPageDTO;
-import com.yuanmaxinxi.entity.admin.Admin;
 //github.com/don764372409/EnrollSystem.git
 import com.yuanmaxinxi.entity.occupation.Occupation;
-import com.yuanmaxinxi.util.DBUtil;
-
+@Service
 public class OccupationService {
-//	private OccupationDAO ocpDAO;
+	
+	@Autowired
+	OccupationDAO occupationDAO;
+	
+	
 //	private void init() {
 //		SqlSession session = DBUtil.openSession();
 //		ocpDAO = session.getMapper(OccupationDAO.class);
@@ -37,9 +37,9 @@ public class OccupationService {
 //		return ocpDAO.selectOneById(id);
 //	}
 //
-//	public List<Occupation> selectAll() {
-//		return ocpDAO.selectAll();
-//	}
+	public List<Occupation> selectAll() {
+		return occupationDAO.selectAll();
+	}
 //
 //	public List<Occupation> queryPage(BaseQueryPageDTO dto) {
 //		return null;
