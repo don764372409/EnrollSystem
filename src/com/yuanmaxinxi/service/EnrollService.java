@@ -25,6 +25,7 @@ import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.error.ErrorContent;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.provincescore.Provincescore;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.web.enroll.EnrollController;
 @Service
@@ -46,7 +47,12 @@ public class EnrollService {
 		
 		
 	}
-	
+	public int queryProvinceScore(Provincescore ps) {
+		return enrollDAO.queryProviceScore(ps).getScore();
+	}
+	public Batch selectOneByName(String name) {
+		return batchDAO.selectOneByName(name);
+	}
 	public void insert(Enroll obj) throws Exception{
 		enrollDAO.insert(obj);
 	}
@@ -80,9 +86,6 @@ public class EnrollService {
 	}
 	public List<Major> queryMajorByuId(Long uId){
 		return enrollDAO.queryMajorByuId(uId);
-	}
-	public int queryProvinceScore(Long bId, Long pId, int time) {
-		return 0;
 	}
 
 	public int importEnroll(Map<String, String> map) {

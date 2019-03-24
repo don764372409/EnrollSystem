@@ -60,8 +60,8 @@
             </if>
         </where>
     </sql>
-    <select id="queryProvinceScore" resultType="int">
-    	SELECT score FROM t_provincescore WHERE bId=#{bId} and 
+    <select id="queryProvinceScore" parameterType="com.yuanmaxinxi.entity.provicescore.Provincescore" resultType="Provicescore">
+    	SELECT * FROM t_provincescore WHERE bId=#{bId} and 
     	pId=#{pId} and time=#{time}
     </select>
     <select id="selectEnrollProvince" resultType="Province">

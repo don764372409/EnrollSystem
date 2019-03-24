@@ -10,6 +10,7 @@ import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.provincescore.Provincescore;
 import com.yuanmaxinxi.entity.university.University;
 @Repository
 @Mapper
@@ -103,7 +104,7 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 	public List<Enroll> serch(Map<String, Object> map);
 
 	public List<Enroll> enrollBigUni(Map<String, Object> map);
-	public int queryProviceScore(Long bId, Long pId, int time);
+	public Provincescore queryProviceScore(Provincescore ps);
 
 	public void xxx(String content);
 

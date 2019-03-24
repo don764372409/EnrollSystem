@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yuanmaxinxi.dto.UniNumberDTO;
 import com.yuanmaxinxi.dto.enroll.EnrollQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.enroll.ScoreEnroll;
-import com.yuanmaxinxi.entity.enroll.UniversityEnroll;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.provincescore.Provincescore;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.entity.volunteer.Volunteer;
+import com.yuanmaxinxi.entity.volunteer.VolunteerMajor;
+import com.yuanmaxinxi.entity.volunteer.VolunteerUni;
 import com.yuanmaxinxi.service.EnrollService;
 import com.yuanmaxinxi.service.UniversityService;
 
@@ -118,19 +120,19 @@ public class MemberController {
 		map.put("range", range);
 		return enrollService.enrollBigUni(map);
 	}
-	
+
 	@RequestMapping("/enrollqueryUniversity")
 	@ResponseBody
-	public List<University> queryUniversity(String name){
+	public List<University> queryUniversity(String name) {
 		return enrollService.queryUniversity(name);
 	}
+
 	@RequestMapping("/enrollqueryMajorByuId")
 	@ResponseBody
-	public List<Major> queryMajorByuId(Long uId){
+	public List<Major> queryMajorByuId(Long uId) {
 		return enrollService.queryMajorByuId(uId);
 	}
 
-	
 	/**
 	 * 查询录取概率
 	 * 
@@ -138,35 +140,42 @@ public class MemberController {
 	 */
 	@RequestMapping("/enrollPercent")
 	@ResponseBody
-	public List<UniversityEnroll> enrollPercent(List<UniversityEnroll> ues, int socre) {
+	public Volunteer enrollPercent(Volunteer v) {
 		EnrollQueryPageDTO ed = new EnrollQueryPageDTO();
-		int pScore = 600;
-		for (UniversityEnroll us : ues) {
-			ed.setuId(us.getuId());
-			ed.setmId(us.getmId());
-			ed.setbId(us.getbId());
-			for (ScoreEnroll se : us.getSes()) {
-				ed.setmId(se.getmId());
+		Provincescore ps = new Provincescore();
+
+		// 设置省份和批次
+		ed.setmId(v.getProId());
+		ps.setpId(v.getProId());
+		Long bId = enrollService.selectOneByName(v.getBatch()).getId();
+		ed.setbId(bId);
+		ps.setbId(bId);
+
+		for (VolunteerUni vn : v.getUnis()) {
+			ed.setuId(vn.getId());
+			for (VolunteerMajor vm : vn.getMajors()) {
+				ed.setmId(vm.getId());
 				List<Enroll> es = enrollService.queryPage(ed);
-				int d=0,dl = 0, da = 0, dk = 0, len = es.size();
+				int d = 0, dl = 0, da = 0, dk = 0, len = es.size();
+				//根据往年录取数据计算概率
 				for (Enroll e : es) {
 					dl += e.getMinNumber();
 					da += e.getAvgNumber();
-					dk += pScore;
+					ps.setTime(e.getTime());
+					dk += enrollService.queryProvinceScore(ps);
 				}
-				d = socre-pScore;
+				d = v.getNumber() - 500;
 				dl = (dl - dk) / len;
 				da = (da - dk) / len;
-				if(d==dl) {
-					se.setPercent(50);
-				}else if(d>=da){
-					se.setPercent(100);
-				}else {
-					se.setPercent((da-dl)*100/(d-dl) >> 1+ 50);
+				if (d == dl) {
+					vm.setPercent(50);
+				} else if (d >= da) {
+					vm.setPercent(100);
+				} else {
+					vm.setPercent((da - dl) * 100 / (d - dl) >> 1 + 50);
 				}
-				
 			}
 		}
-		return ues;
+		return v;
 	}
 }
