@@ -48,7 +48,7 @@ public class EnrollService {
 		
 	}
 	public int queryProvinceScore(Provincescore ps) {
-		return enrollDAO.queryProviceScore(ps).getScore();
+		return enrollDAO.queryProvinceScore(ps).getScore();
 	}
 	public Batch selectOneByName(String name) {
 		return batchDAO.selectOneByName(name);

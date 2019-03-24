@@ -2,7 +2,6 @@ package com.yuanmaxinxi.service;
 
 
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yuanmaxinxi.dao.province.ProvinceDao;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
@@ -27,7 +27,8 @@ import com.yuanmaxinxi.util.StringUtil;
 public class UniversityService {
 	@Autowired
 	private UniversityDao universityDAO;
-//	private static ProvinceDao provinceDao = new ProvinceDao();
+	@Autowired
+	private ProvinceDao provinceDAO;
 	public static LinkedBlockingQueue<String> urls = new LinkedBlockingQueue<>();
 	public static LinkedBlockingQueue<String> jianzhangUrls1 = new LinkedBlockingQueue<>();
 	//baidu学校校徽的urls
@@ -132,6 +133,9 @@ public class UniversityService {
 		List<Jianzhang> jianzhangs = universityDAO.selectAllJianZhangById(id);
 		uni.setList(jianzhangs);
 		System.err.println(jianzhangs);
+		//获取城市
+		Province province = provinceDAO.selectOneById(uni.getpId());
+		uni.setPro(province);
 		return uni;
 	}
 	//查询所有的院校信息

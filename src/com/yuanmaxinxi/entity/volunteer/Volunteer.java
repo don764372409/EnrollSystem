@@ -1,12 +1,13 @@
 package com.yuanmaxinxi.entity.volunteer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Volunteer {
 	private Long  proId;
 	private String batch;
 	private int number;
-	private List<VolunteerUni> unis;
+	private List<VolunteerUni> unis = new ArrayList<>();
 	public Long getProId() {
 		return proId;
 	}

@@ -104,7 +104,7 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 	public List<Enroll> serch(Map<String, Object> map);
 
 	public List<Enroll> enrollBigUni(Map<String, Object> map);
-	public Provincescore queryProviceScore(Provincescore ps);
+	public Provincescore queryProvinceScore(Provincescore ps);
 
 	public void xxx(String content);
 

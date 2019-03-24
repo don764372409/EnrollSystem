@@ -1,6 +1,5 @@
 package com.yuanmaxinxi.smallsoft.member;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -140,7 +140,12 @@ public class MemberController {
 	 */
 	@RequestMapping("/enrollPercent")
 	@ResponseBody
-	public Volunteer enrollPercent(Volunteer v) {
+	public Volunteer enrollPercent(@RequestBody Volunteer v) {
+//		Map<String, String[]> map = req.getParameterMap();
+//		System.out.println(map);
+//		String vStr = req.getParameter("v");
+//		System.out.println(vStr);
+//		Volunteer v = JSON.parseObject(vStr, Volunteer.class);
 		EnrollQueryPageDTO ed = new EnrollQueryPageDTO();
 		Provincescore ps = new Provincescore();
 
@@ -152,10 +157,23 @@ public class MemberController {
 		ps.setbId(bId);
 
 		for (VolunteerUni vn : v.getUnis()) {
+			if (vn.getId()==0) {
+				continue;
+			}
+			University university = universityService.selectOneById(vn.getId());
+			vn.setAddress(university.getPro().getName());
+			vn.setType(university.getType());
 			ed.setuId(vn.getId());
 			for (VolunteerMajor vm : vn.getMajors()) {
+				if (vm.getId()==0) {
+					continue;
+				}
 				ed.setmId(vm.getId());
 				List<Enroll> es = enrollService.queryPage(ed);
+				if (es.size()==0) {
+					vm.setPercent(999);
+					continue;
+				}
 				int d = 0, dl = 0, da = 0, dk = 0, len = es.size();
 				//根据往年录取数据计算概率
 				for (Enroll e : es) {
@@ -164,15 +182,25 @@ public class MemberController {
 					ps.setTime(e.getTime());
 					dk += enrollService.queryProvinceScore(ps);
 				}
+				
 				d = v.getNumber() - 500;
+				if (d<0) {
+					vm.setPercent(0);
+					continue;
+				}
 				dl = (dl - dk) / len;
 				da = (da - dk) / len;
 				if (d == dl) {
 					vm.setPercent(50);
-				} else if (d >= da) {
+				}else if (d >= da) {
 					vm.setPercent(100);
 				} else {
-					vm.setPercent((da - dl) * 100 / (d - dl) >> 1 + 50);
+					//解决平均分和最低分相等时的BUG
+					int result = 1;
+					if (da!=dl) {
+						result = da-dl;
+					}
+					vm.setPercent((result * 100 / (d - dl))/2 + 50);// 100/-490/2+50
 				}
 			}
 		}
