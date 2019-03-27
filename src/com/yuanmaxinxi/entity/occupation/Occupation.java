@@ -1,4 +1,8 @@
 package com.yuanmaxinxi.entity.occupation;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author 职业表
@@ -9,7 +13,14 @@ public class Occupation {
 	private String name;
 	private Long pId;//父级职业
 	private String remark;//职业简介
-	private String workContent;//工作内容
+	private List<Occupation> children = new ArrayList<>();
+	
+	public List<Occupation> getChildren() {
+		return children;
+	}
+	public void setChildren(List<Occupation> children) {
+		this.children = children;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -34,12 +45,9 @@ public class Occupation {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getWorkContent() {
-		return workContent;
+	@Override
+	public String toString() {
+		return "Occupation [id=" + id + ", name=" + name + ", pId=" + pId + ", remark=" + remark + ", children="
+				+ children + "]";
 	}
-	public void setWorkContent(String workContent) {
-		this.workContent = workContent;
-	}
-	
-	
 }
