@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
@@ -24,11 +25,17 @@ public class AdminServlet{
 		
 	}
 	@RequestMapping("/add")
-	public void add(String username,String phone,String name) {
-		System.out.println(username);
-		System.out.println(phone);
-		System.out.println(name);
-
+	@ResponseBody
+	public ResultDTO add(Admin admin) {
+		ResultDTO dto;
+		try {
+			adminService.add(admin);
+			dto=ResultDTO.newInstance(true, "添加成功!");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, "添加失败!");
+		}
+		return dto;
+		
 	}
 	@RequestMapping("/showAdd")
 	public String showAdd() {
@@ -39,6 +46,18 @@ public class AdminServlet{
 		Admin obj = adminService.selectOneById(id);
 		model.addAttribute("obj",obj);
 		return "admin/updata";
+	}
+	@RequestMapping("/edit")
+	public ResultDTO edit(Admin admin) {
+		ResultDTO dto;
+		System.out.println(admin.getName()+admin.getUsername()+admin.getPhone());
+		try {
+			adminService.update(admin);
+			dto=ResultDTO.newInstance(true, "修改成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, "修改失败，稍后再试");
+		}
+		return dto;
 	}
 //	private static final long serialVersionUID = 1L;
 //	private AdminService adminService;

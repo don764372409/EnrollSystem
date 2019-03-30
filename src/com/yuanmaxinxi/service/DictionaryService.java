@@ -18,6 +18,29 @@ public class DictionaryService {
 	public List<Dictionary> selectAll(){
 		return dictionaryDAO.selectAll();
 	}
+	
+	public Dictionary selectOneById(int id) {
+		return dictionaryDAO.selectOneById(id);	
+	}
+	public void edit(Dictionary dictionary) {
+		if(StringUtil.isNullOrEmpty(dictionary.getName())) {
+			throw new RuntimeException("名字不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(Long.toString(dictionary.getTypeId()))){
+			throw new RuntimeException("typeId不能为空");
+		}
+		try {
+			int rs = dictionaryDAO.edit(dictionary);
+			if(rs!=1) {
+				System.out.println("111111111");
+				throw new RuntimeException("添加失败");
+				
+			}
+		} catch (Exception e) {
+			System.out.println("222222");
+			throw new RuntimeException("添加失败");
+		}
+	}
 //	private static DictionaryService ds;
 //	private DictionaryDAO dd;
 //	private DictionaryService() {
@@ -60,4 +83,18 @@ public class DictionaryService {
 //	public List<Dictionary> selectAll() {
 //		return dd.selectAll();
 //	}
+
+	public void deleteById(int id) {
+		// TODO Auto-generated method stub
+		try {
+			int rs = dictionaryDAO.delete(id);
+			if(rs!=1) {
+				System.out.println("6666");
+				throw new RuntimeException("删除失败");
+			}
+		} catch (Exception e) {
+			System.out.println("777");
+			throw new RuntimeException("删除失败");
+		}
+	}
 }

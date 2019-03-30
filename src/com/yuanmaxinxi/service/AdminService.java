@@ -22,50 +22,49 @@ public class AdminService {
 		return adminDAO.selectAll();
 		
 	}
-	public void insert(String name,String username,String phone) {
-		if (StringUtil.isNullOrEmpty(name)) {
+	public void add(Admin admin) {
+		if (StringUtil.isNullOrEmpty(admin.getName())) {
 			throw new RuntimeException("姓名不能为空.");
 		}
-		if (StringUtil.isNullOrEmpty(username)) {
+		if (StringUtil.isNullOrEmpty(admin.getUsername())) {
 			throw new RuntimeException("账号不能为空.");
 		}
-		if (StringUtil.isNullOrEmpty(phone)) {
+		if (StringUtil.isNullOrEmpty(admin.getPhone())) {
 			throw new RuntimeException("手机号不能为空.");
 		}
 		//通过账号去数据库找,是否存在
-		Admin sysAdmin = adminDAO.selectOneByUsername(username);
+		Admin sysAdmin = adminDAO.selectOneByUsername(admin.getUsername());
 		if (sysAdmin!=null) {
 			throw new RuntimeException("账号已存在,不能重复,请修改后再次添加.");
 		}
 		//添加
-//		try {
-//			String password = MD5Util.encode(obj.getPassword());
-//			obj.setPassword(password);
-//			int i = adminDAO.insert(obj);
-//			if (i!=1) {
-//				throw new RuntimeException("");
-//			}
-//		} catch (Exception e) {
-//			throw new RuntimeException("添加失败,请稍后重试.");
-//		}
+		try {
+			int i = adminDAO.insert(admin);
+			System.out.println(i);
+			if (i!=1) {
+				throw new RuntimeException("添加失败！");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("添加失败,请稍后重试.");
+		}
 		
 	}
-//
-//	public int update(Admin obj) {
-//		if(StringUtil.isNullOrEmpty(obj.getName())) {
-//			throw new RuntimeException("账号不能为空");
-//		}
-//		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
-//			throw new RuntimeException("电话不能为空");
-//		}
-//		try {
-//			return adminDAO.update(obj);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new RuntimeException("修改失败,请稍后重试.");
-//		}
-//	}
-//	
+
+	public int update(Admin obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("账号不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getPhone())) {
+			throw new RuntimeException("电话不能为空");
+		}
+		try {
+			return adminDAO.update(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("修改失败,请稍后重试.");
+		}
+	}
+	
 //	public void edit(Admin obj) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {
 //			throw new RuntimeException("账号不能为空");

@@ -43,7 +43,7 @@
 			<label class="form-label col-xs-4 col-sm-3">院校所在省份：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 				<select class="select" name="pId" size="1">
-					<c:forEach items="${pros}" var="xxx">
+					<c:forEach items="${list}" var="xxx">
 					<option value="${xxx.id}">${xxx.name}</option>
 					</c:forEach>
 				</select>
@@ -60,10 +60,10 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">院校水平：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="quality" size="1">
-					<c:forEach items="${qualities}" var="xxx">
-					<option value="${xxx.id}">${xxx.name}</option>
-					</c:forEach>
+				<select class="select" name="record" >
+					<option value="本科">本科</option>
+					<option value="专科">专科</option>
+					<option value="其他">其他</option>
 				</select>
 				</span> </div>
 		</div>
@@ -72,9 +72,11 @@
 			<label class="form-label col-xs-4 col-sm-3">院校类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 				<select class="select" name="type" size="1">
-				<c:forEach items="${types}" var="type">
-					<option value="${type.id}">${type.name}</option>
-					</c:forEach>
+				
+					<option value="高职高专">高职高专</option>
+					<option value="普通本科">普通本科</option>
+					
+				
 				</select>
 				</span> </div>
 		</div>
@@ -97,7 +99,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">师资团队：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="teacher" id="teacher" cols="" rows="" class="textarea"  placeholder="请输入院校师资团队，至少10个字符。。。" ></textarea>
+				<textarea name="teachers" id="teachers" cols="" rows="" class="textarea"  placeholder="请输入院校师资团队，至少10个字符。。。" ></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -105,10 +107,10 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">院校学历：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="record" size="1">
-					<c:forEach items="${records}" var="rec">
-						<option value="${rec.id}">${rec.name}</option>
-					</c:forEach>
+				<select class="select" name="record" >
+					<option value="本科">本科</option>
+					<option value="专科">专科</option>
+					<option value="其他">其他</option>
 				</select>
 			</span> </div>
 		</div>
@@ -182,16 +184,18 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type:'post',
-				url:"/university?cmd=add",
+				url:"/university/add",
 				success:function(data){
 					data = JSON.parse(data);
 					console.log(data.result);
 					if(data.result){
-						console.log("1111111111");
-						layer.msg(data.msg,{icon:1,time:2000});
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.$('.btn-refresh').click();
-						parent.layer.close(index);
+						
+						layer.msg(data.msg,{icon:1,time:2000},function(){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							parent.layer.close(index);	
+						})
+						
 					}else{
 						/* 这个页面无法显示 */
 						console.log("2222");

@@ -54,22 +54,24 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+	<form action="/dictionary/updata" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>名称：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span">名称：</label>
 		<div class="formControls col-sm-9">
 			<input type="hidden" value="${obj.id}" name="id"/>
-			<input type="text" class="input-text" placeholder="请输入字典名称" id="name" name="name"/>
+			<input type="text" class="input-text" placeholder="请输入字典名称" id="name" name="name" value="${obj.name}" />
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>类型：</label>
 		<div class="formControls col-sm-9">
-			<select class="select" name="type" size="1">
-					<c:forEach items="${dtlist}" var="xxx">
-						<option value="${xxx.id}">${xxx.name}</option>
-					</c:forEach>
-			</select>
+			<input type="text" class="input-text" name="typeId" value="${obj.typeId}" />
+<!-- 			<select class="select" name="type" size="1"> -->
+				
+<%-- 					<c:forEach items="${dtlist}" var="xxx">  --%>
+<%--  						<option value="${xxx.id}">${xxx.name}</option>  --%>
+<%--  					</c:forEach> --%>
+<!-- 			</select> -->
 		</div>
 	</div>
 	<div class="row cl">
@@ -105,7 +107,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/dictionary?cmd=edit" ,
+				url: "/dictionary/edit" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

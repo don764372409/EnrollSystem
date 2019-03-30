@@ -121,14 +121,23 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type:'post',
-				url:'/occupation?cmd=edit',
-				success:function(data){
-					data=JSON.parse(data);
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.$('.btn-refresh').click();
-					parent.layer.close(index);
+				url:'/occupation/edit',
+				success: function(data){
+					data = JSON.parse(data);
+					if(data.result){
+						layer.msg(data.msg,{icon:1,time:1000},function(){
+							parent.$('.btn-refresh').click();
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						});
+					}else{
+						layer.msg(data.msg,{icon:2,time:2000});
+					}
+				},
+                error: function(XmlHttpRequest, textStatus, errorThrown){
+					layer.msg('网络异常,请刷新重试!',{icon:2,time:1000});
 				}
-			})
+			});
 		}
 	});
 });

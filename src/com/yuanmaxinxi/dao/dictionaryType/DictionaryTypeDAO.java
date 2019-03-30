@@ -10,6 +10,8 @@ import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
 
 public interface DictionaryTypeDAO extends BaseDAO<DictionaryType> {
+	
+	public List<DictionaryType> selectAll();
 //	private static DictionaryTypeDAO dtd;
 //	private DictionaryTypeDAO() {}
 //	public static DictionaryTypeDAO getDictionaryTypeDao() {

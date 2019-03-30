@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
@@ -29,6 +30,44 @@ public class DictionaryServlet{
 		List<Dictionary> list = dictionaryService.selectAll();
 		model.addAttribute("list",list);
 		return "dictionary/list";
+		
+	}
+	@RequestMapping("/showEdit")
+	public String showEdit(int id,Model model) {
+
+		Dictionary dictionary = dictionaryService.selectOneById(id);
+		model.addAttribute("obj", dictionary);
+		return "/dictionary/edit";
+		
+	}
+	@RequestMapping("/edit")
+	@ResponseBody
+	public ResultDTO edit(Dictionary dictionary) {
+		ResultDTO dto;
+		try {
+			dictionaryService.edit(dictionary);
+			dto=ResultDTO.newInstance(true, "修改成功!");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		return dto;
+	}
+	
+	@RequestMapping("showAdd")
+	public String showAdd() {
+		return "/dictionary/add";
+	}
+	@RequestMapping("/delete")
+	@ResponseBody
+	public ResultDTO deleteById(int id) {
+		ResultDTO dto;
+		try {
+			dictionaryService.deleteById(id);
+			dto=ResultDTO.newInstance(true, "删除成功!");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, "删除失败");
+		}
+		return dto;
 		
 	}
 //	private static final long serialVersionUID = 1L;

@@ -44,7 +44,7 @@
 			<label class="form-label col-xs-4 col-sm-3">院校所在省份：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 				<select class="select" name="pId" size="1">
-					<c:forEach items="${pros}" var="xxx">
+					<c:forEach items="${list}" var="xxx">
 					<option value="${xxx.id}">${xxx.name}</option>
 					</c:forEach>
 				</select>
@@ -61,10 +61,10 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">院校水平：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="quality" size="1">
-					<c:forEach items="${qualities}" var="xxx">
-					<option value="${xxx.id}">${xxx.name}</option>
-					</c:forEach>
+				<select class="select" name="record" >
+					<option value="本科">本科</option>
+					<option value="专科">专科</option>
+					<option value="其他">其他</option>
 				</select>
 				</span> </div>
 		</div>
@@ -73,9 +73,8 @@
 			<label class="form-label col-xs-4 col-sm-3">院校类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 				<select class="select" name="type" size="1">
-				<c:forEach items="${types}" var="type">
-					<option value="${type.id}">${type.name}</option>
-					</c:forEach>
+					<option value="高职高专">高职高专</option>
+					<option value="普通本科">普通本科</option>
 				</select>
 				</span> </div>
 		</div>

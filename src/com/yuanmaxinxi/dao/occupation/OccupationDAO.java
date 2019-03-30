@@ -6,11 +6,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.dto.BaseQueryPageDTO;
 import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.util.DBUtil;
-
+@Repository
+@Mapper
 public interface OccupationDAO extends BaseDAO<Occupation>{
 
 	

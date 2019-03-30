@@ -2,14 +2,19 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO;
 import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
 import com.yuanmaxinxi.util.StringUtil;
-
-
+@Service
+@Transactional
 public class DictionaryTypeService {
 //	private static DictionaryTypeService dts;
-//	private DictionaryTypeDAO dtd;
+	@Autowired
+	private DictionaryTypeDAO dtd;
 //	private DictionaryTypeService() {
 //		dtd = DictionaryTypeDAO.getDictionaryTypeDao();
 //	}
@@ -47,7 +52,7 @@ public class DictionaryTypeService {
 //		return dtd.selectOneById(id);
 //	}
 //
-//	public List<DictionaryType> selectAll() {
-//		return dtd.selectAll();
-//	}
+	public List<DictionaryType> selectAll() {
+		return dtd.selectAll();
+	}
 }

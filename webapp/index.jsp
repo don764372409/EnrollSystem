@@ -139,8 +139,8 @@
 				<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="/admin" data-title="管理员管理" href="javascript:void(0)">管理员管理</a></li>
-						<li><a data-href="/dictionaryType" data-title="字典分类管理" href="javascript:void(0)">字典分类管理</a></li>
+						<li><a data-href="/admin/list" data-title="管理员管理" href="javascript:void(0)">管理员管理</a></li>
+						<li><a data-href="/dictionaryType/list" data-title="字典分类管理" href="javascript:void(0)">字典分类管理</a></li>
 						<li><a data-href="/dictionary/list" data-title="字典项管理" href="javascript:void(0)">字典项管理</a></li>
 						<li><a data-href="/province/list" data-title="省份管理" href="javascript:void(0)">省份管理</a></li>
 					</ul>

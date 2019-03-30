@@ -15,5 +15,7 @@ public interface AdminDAO extends BaseDAO<Admin>{
 	public Admin selectOneByUsername(String username);
 	public List<Admin> select();
 	public Admin selectOneById(Long id);
+	public int insert(Admin admin);
+	public int update(Admin admin);
 	
 }
