@@ -1,10 +1,12 @@
 package com.yuanmaxinxi.dao.testinfo;
 
+import java.util.List;
+
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.test.TestInfo;
 import com.yuanmaxinxi.entity.user.User;
 
-public interface TestInfoDAO extends BaseDAO<User>{
+public interface TestInfoDAO{
 	User selectOneByOpenid(String openid);
 	/**
 	 * 根据自己唯一的邀请码找到用户对象
@@ -21,4 +23,5 @@ public interface TestInfoDAO extends BaseDAO<User>{
 	public int bingNumber(User user) ;
 	int selectShoucangNumbers(Long id);
 	TestInfo selectOneByType(int type);
+	public List<TestInfo> selectAll();
 }

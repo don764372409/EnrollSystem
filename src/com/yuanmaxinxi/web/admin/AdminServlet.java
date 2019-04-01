@@ -17,6 +17,7 @@ import com.yuanmaxinxi.web.BaseServlet;
 public class AdminServlet{
 	@Autowired
 	private AdminService adminService;
+	ResultDTO dto;
 	@RequestMapping("list")
 	public String adminList(Model model) {
 		List<Admin> list = adminService.selectAll();
@@ -27,12 +28,11 @@ public class AdminServlet{
 	@RequestMapping("/add")
 	@ResponseBody
 	public ResultDTO add(Admin admin) {
-		ResultDTO dto;
 		try {
 			adminService.add(admin);
 			dto=ResultDTO.newInstance(true, "添加成功!");
 		} catch (Exception e) {
-			dto=ResultDTO.newInstance(false, "添加失败!");
+			dto=ResultDTO.newInstance(false, e.getMessage());
 		}
 		return dto;
 		
@@ -48,8 +48,9 @@ public class AdminServlet{
 		return "admin/updata";
 	}
 	@RequestMapping("/edit")
+	@ResponseBody
 	public ResultDTO edit(Admin admin) {
-		ResultDTO dto;
+		
 		System.out.println(admin.getName()+admin.getUsername()+admin.getPhone());
 		try {
 			adminService.update(admin);
@@ -58,6 +59,18 @@ public class AdminServlet{
 			dto=ResultDTO.newInstance(false, "修改失败，稍后再试");
 		}
 		return dto;
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	public ResultDTO delete(Long id) {
+		try {
+			adminService.delete(id);
+			dto=ResultDTO.newInstance(true, "删除成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(true, "删除成功");
+		}
+			return dto;
 	}
 //	private static final long serialVersionUID = 1L;
 //	private AdminService adminService;

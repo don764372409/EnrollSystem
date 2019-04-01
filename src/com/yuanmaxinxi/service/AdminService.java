@@ -45,6 +45,7 @@ public class AdminService {
 				throw new RuntimeException("添加失败！");
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new RuntimeException("添加失败,请稍后重试.");
 		}
 		
@@ -60,7 +61,7 @@ public class AdminService {
 		try {
 			return adminDAO.update(obj);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			throw new RuntimeException("修改失败,请稍后重试.");
 		}
 	}
@@ -85,19 +86,19 @@ public class AdminService {
 //	}
 //
 //	
-//	public void delete(Long id) {
-//		try {
-//			int i = adminDAO.delete(id);
-//			if (i!=1) {
-//				
-//				throw new RuntimeException("删除失败,请稍后再试");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new RuntimeException("删除失败,请稍后再试");
-//		}
-//	}
-//
+	public void delete(Long id) {
+		try {
+			int i = adminDAO.delete(id);
+			if (i!=1) {
+				
+				throw new RuntimeException("删除失败,请稍后再试");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("删除失败,请稍后再试");
+		}
+	}
+
 	public Admin selectOneById(Long id) {
 		return adminDAO.selectOneById(id);
 	}

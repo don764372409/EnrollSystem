@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加管理员','/province?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
+		 	<a href="javascript:;" onclick="obj_add('添加消费记录','/payrecord/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加管理员</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -65,7 +65,9 @@
 <!--         <td> -->
 <%--         	${obj.status} --%>
 <!-- 		</td> -->
+	
         <td class="f-14 user-manage">
+        	<a style="text-decoration:none" class="ml-5" onClick="edit('修改','/payrecord/edit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe609;</i></a> 
 			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/payrecord?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
 		</td>
        	

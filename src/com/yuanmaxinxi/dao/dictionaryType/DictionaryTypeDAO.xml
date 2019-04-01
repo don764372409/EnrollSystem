@@ -19,8 +19,19 @@
 <!--     <select id="selectOneById" parameterType="Long" resultType="Admin"> -->
 <!--         select * from t_admin where id=#{id} -->
 <!--     </select> -->
-    <select id="selectAll" resultType="DictionaryType">
+    <select id="selectAll" parameterType="int" resultType="DictionaryType">
        select * from t_dictionarytype
     </select>
-  
+     <select id="selectOneById" resultType="DictionaryType">
+       select * from t_dictionarytype where id=#{id}
+    </select>
+     <insert id="insert" parameterType="DictionaryType">
+       insert into t_dictionarytype (name) values (#{name})
+    </insert>
+  	<update id="update" parameterType="DictionaryType"> 
+		update t_dictionarytype set name = #{name} where id = #{id} 
+    </update> 
+    <delete id="delete" parameterType="int">
+        delete from t_dictionarytype where id=#{id}
+    </delete> 
 </mapper>

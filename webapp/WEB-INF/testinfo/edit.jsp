@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -35,7 +36,7 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
-<title>添加短信用户</title>
+<title>修改字典</title>
 <style type="text/css">
 	.searchBtn{
 		position: absolute;
@@ -53,11 +54,24 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+	<form action="/dictionary/updata" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>名称：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span">名称：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" onkeyup="createUsername(this)" value="" placeholder="请输入字典名称" name="name">
+			<input type="hidden" value="${obj.id}" name="id"/>
+			<input type="text" class="input-text" placeholder="请输入字典名称" id="name" name="name" value="${obj.name}" />
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>类型：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" name="typeId" value="${obj.typeId}" />
+<!-- 			<select class="select" name="type" size="1"> -->
+				
+<%-- 					<c:forEach items="${dtlist}" var="xxx">  --%>
+<%--  						<option value="${xxx.id}">${xxx.name}</option>  --%>
+<%--  					</c:forEach> --%>
+<!-- 			</select> -->
 		</div>
 	</div>
 	<div class="row cl">
@@ -76,11 +90,14 @@ function createUsername(ele){
 $(function(){
 	$("#form-member-add").validate({
 		rules:{
+			id:{
+				required:true
+			},
 			name:{
 				required:true
 			},
 			type:{
-				required:true,
+				required:true
 // 				isMobile:true
 			},
 		},
@@ -90,7 +107,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/dictionaryType/add" ,
+				url: "/dictionary/edit" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

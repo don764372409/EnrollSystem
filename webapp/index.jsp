@@ -130,8 +130,8 @@
 				<dd>
 					<ul>
 						<li><a data-href="/admin/list" data-title="用户信息管理" href="javascript:void(0)">用户信息管理</a></li>
-						<li><a data-href="/admin/list" data-title="用户测试记录管理" href="javascript:void(0)">用户测试记录管理</a></li>
-						<li><a data-href="/payrecord" data-title="用户消费记录管理" href="javascript:void(0)">用户消费记录管理</a></li>
+						<li><a data-href="/testinfo/list" data-title="用户测试记录管理" href="javascript:void(0)">用户测试记录管理</a></li>
+						<li><a data-href="/payrecord/list" data-title="用户消费记录管理" href="javascript:void(0)">用户消费记录管理</a></li>
 					</ul>
 				</dd>
 			</dl>

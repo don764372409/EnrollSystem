@@ -9,12 +9,70 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.payrecord.PayRecord;
 import com.yuanmaxinxi.service.PayRecordService;
 import com.yuanmaxinxi.web.BaseServlet;
-@WebServlet("/payrecord")
-public class PayRecordServlet extends BaseServlet{
+@Controller
+@RequestMapping("/payrecord")
+public class PayRecordServlet{
+	@Autowired
+	private PayRecordService payRecordService;
+	ResultDTO dto;
+	@RequestMapping("/list")
+	public String payRecordList(Model model) {
+		List<PayRecord> list = payRecordService.recordList();
+		model.addAttribute("list", list);
+		return "payrecord/list";
+	}
+	
+	@RequestMapping("/showAdd")
+	public String showAdd() {
+		return "payrecord/add";
+	}
+	
+	@RequestMapping("/add")
+	@ResponseBody
+	public ResultDTO add(PayRecord payRecord) {
+		System.out.println(payRecord.getTime());
+		try {
+			payRecordService.insert(payRecord);
+			dto=ResultDTO.newInstance(true, "添加成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	@RequestMapping("/edit")
+	public String showEdit(int id,Model model) {
+		PayRecord obj = payRecordService.selectOneById(id);
+		model.addAttribute("obj", obj);
+		return "payrecord/edit";
+	}
+	
+	@RequestMapping("/update")
+	@ResponseBody
+	public ResultDTO update(PayRecord payRecord) {
+		try {
+			payRecordService.update(payRecord);
+			dto=ResultDTO.newInstance(true, "修改成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	
+	
 //	PayRecordService payrecordservice;
 //	@Override
 //	public void init() throws ServletException {

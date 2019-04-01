@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
@@ -23,10 +24,64 @@ import com.yuanmaxinxi.web.BaseServlet;
 public class DictionaryTypeServlet extends BaseServlet{
 	@Autowired
 	private DictionaryTypeService dictionaryTypeService;
+	
+	ResultDTO dto;
 	@RequestMapping("/list")
 	public void selectAll(Model model) {
 		List<DictionaryType> list = dictionaryTypeService.selectAll();
 		model.addAttribute("list", list);
+	}
+	
+	@RequestMapping("/showAdd")
+	public String showAdd() {
+		return "dictionaryType/add";
+	}
+	
+	@RequestMapping("/add")
+	@ResponseBody
+	public ResultDTO add(DictionaryType obj) {
+		try {
+			System.out.println("6666666666");
+			dictionaryTypeService.add(obj);
+			dto=ResultDTO.newInstance(true, "添加成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	@RequestMapping("/edit")
+	@ResponseBody
+	public ResultDTO edit(DictionaryType obj) {
+		try {
+			dictionaryTypeService.update(obj);
+			dto=ResultDTO.newInstance(true, "修改成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	@RequestMapping("showEdit")
+	public String showEdit(int id,Model model) {
+		DictionaryType obj = dictionaryTypeService.selectOneById(id);
+		model.addAttribute("obj", obj);
+		return "dictionaryType/edit";
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public ResultDTO delete(int id) {
+		try {
+			dictionaryTypeService.delete(id);
+			dto=ResultDTO.newInstance(true, "删除成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, "删除失败");
+		}
+		
+		return dto;
 	}
 //	private static final long serialVersionUID = 1L;
 //	private DictionaryTypeService dts;

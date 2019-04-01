@@ -3,6 +3,13 @@ package com.yuanmaxinxi.entity.test;
 import java.math.BigDecimal;
 
 public class TestInfo {
+	private int id;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	private String name;
 	private String remark;
 	private BigDecimal money;

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -55,11 +56,31 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
 	<div class="row cl">
-		<label class="form-label col-sm-3"><span class="c-red">*</span>名称：</label>
+		<label class="form-label col-sm-3"><span class="c-red">*</span>用户id：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" onkeyup="createUsername(this)" value="" placeholder="请输入字典名称" name="name">
+			<input type="text" class="input-text" onkeyup="createUsername(this)" value=${obj.uId} placeholder="请输入用户id" name="uId">
 		</div>
 	</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>金额：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" onkeyup="createUsername(this)" value=${obj.money} placeholder="请输入消费金额" name="money">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>内容：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class="input-text" onkeyup="createUsername(this)" value=${obj.remark} placeholder="请输入消费内容" name="remark">
+		</div>
+	</div>
+	
+	<div class="row cl">
+		<label class="form-label col-sm-3"><span class="c-red">*</span>时间：</label>
+		<div class="formControls col-sm-9">
+			<input type="datetime-local" class="input-text" onkeyup="createUsername(this)" value=${obj.time}  name="time">
+		</div>
+	</div>
+	
 	<div class="row cl">
 		<div class="col-xs-8 col-sm-10 col-sm-offset-2">
 			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -80,8 +101,7 @@ $(function(){
 				required:true
 			},
 			type:{
-				required:true,
-// 				isMobile:true
+				required:true
 			},
 		},
 		onkeyup:false,
@@ -90,7 +110,7 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/dictionaryType/add" ,
+				url: "/payrecord/update" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){

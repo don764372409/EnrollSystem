@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.admin.AdminDAO">
     <insert id="insert" parameterType="Admin">
-        insert into t_admin(name,username,phone)value(#{name},#{username},#{phone})
+        insert into t_admin(name,username,phone,password) values (#{name},#{username},#{phone},#{phone})
     </insert>
     <update id="update" parameterType="Admin">
 		update t_admin set name = #{name},phone=#{phone},username=#{username} where id = #{id}        

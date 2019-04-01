@@ -1,5 +1,7 @@
 package com.yuanmaxinxi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +14,9 @@ public class TestInfoService {
 	private TestInfoDAO testInfoDAO;
 	public TestInfo selectOneByType(int type) {
 		return testInfoDAO.selectOneByType(type);
+	}
+	
+	public List<TestInfo> selectAll(){
+		return testInfoDAO.selectAll();
 	}
 }
