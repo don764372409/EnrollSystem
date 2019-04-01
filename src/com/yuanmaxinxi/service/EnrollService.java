@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.xalan.xsltc.compiler.sym;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,30 @@ public class EnrollService {
 	private MajorDAO majorDAO;
 	@Autowired
 	private ErrorContentDAO errorContentDAO;
+	public Map<String, List<String>> queryUniANDMajorByRankANDMajor(Integer rank, Long mId){
+		Map<Long, String> uniMap = new HashMap<>();
+		for(University u : universityDao.selectAllName()) {
+			uniMap.put(u.getId(), u.getName());
+		}
+		
+		Map<Long, String> majorMap = new HashMap<>();
+		for(Major m : majorDAO.selectAllName()) {
+			majorMap.put(m.getId(), m.getName());
+		}
+		
+		Map<String, Long> map = new HashMap<>();
+		map.put("rank",rank.longValue());
+		map.put("mId", mId);
+		Map<String,List<String>> umMap = new HashMap<>();
+		for(Enroll e: enrollDAO.queryEnrollByRankANDMajor(map)) {
+			Long uId=e.getuId();
+			if(!umMap.containsKey(uniMap.get(uId))) {
+				umMap.put(uniMap.get(uId), new ArrayList<>());
+			}
+			umMap.get(uniMap.get(uId)).add(majorMap.get(e.getmId()));
+		}
+		return umMap;
+	}
 	public void xxxx() {
 		
 		

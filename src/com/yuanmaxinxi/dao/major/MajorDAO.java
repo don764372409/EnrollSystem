@@ -48,4 +48,5 @@ public interface MajorDAO extends BaseDAO<Major>{
 	public Major selectOneByNameYYY(String name);
 	public Major selectOneByNameZZZ(String name);
 	public List<Major> selectAllCCC(Major major2);
+	public List<Major> selectAllName();
 }

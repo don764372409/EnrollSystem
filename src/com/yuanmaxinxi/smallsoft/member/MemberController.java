@@ -132,7 +132,18 @@ public class MemberController {
 	public List<Major> queryMajorByuId(Long uId) {
 		return enrollService.queryMajorByuId(uId);
 	}
+	/**
+	 * 根据名次和专业查询学校专业
+	 * @param rank
+	 * @param mId
+	 * @return
+	 */
 
+	@RequestMapping("/queryUniANDMajorByRankANDMajor")
+	@ResponseBody
+	public Map<String, List<String>> queryUniANDMajorByRankANDMajor(Integer rank, Long mId){
+		return enrollService.queryUniANDMajorByRankANDMajor(rank, mId);
+	}
 	/**
 	 * 查询录取概率
 	 * 

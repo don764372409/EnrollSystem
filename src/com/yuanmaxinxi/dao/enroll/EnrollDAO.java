@@ -105,7 +105,7 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 
 	public List<Enroll> enrollBigUni(Map<String, Object> map);
 	public Provincescore queryProvinceScore(Provincescore ps);
-
+	public  List<Enroll> queryEnrollByRankANDMajor(Map<String,Long> map);
 	public void xxx(String content);
 
 	public List<Enroll> selectAllByMajorName(String majorName);
