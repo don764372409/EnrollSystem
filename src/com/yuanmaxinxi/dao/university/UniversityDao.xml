@@ -25,6 +25,9 @@
     <select id="selectAll" resultType="University">
         select * from t_university
     </select>
+    <select id="selectAllName" resultType="University">
+        select id,name from t_university
+    </select>
     <update id="updateRanking" parameterType="University">
         update t_university set ranking = #{ranking} where name = #{name}
     </update>

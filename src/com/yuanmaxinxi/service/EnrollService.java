@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.xalan.xsltc.compiler.sym;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.error.ErrorContent;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.provincescore.Provincescore;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.web.enroll.EnrollController;
 @Service
@@ -42,11 +44,40 @@ public class EnrollService {
 	private MajorDAO majorDAO;
 	@Autowired
 	private ErrorContentDAO errorContentDAO;
+	public Map<String, List<String>> queryUniANDMajorByRankANDMajor(Integer rank, Long mId){
+		Map<Long, String> uniMap = new HashMap<>();
+		for(University u : universityDao.selectAllName()) {
+			uniMap.put(u.getId(), u.getName());
+		}
+		
+		Map<Long, String> majorMap = new HashMap<>();
+		for(Major m : majorDAO.selectAllName()) {
+			majorMap.put(m.getId(), m.getName());
+		}
+		
+		Map<String, Long> map = new HashMap<>();
+		map.put("rank",rank.longValue());
+		map.put("mId", mId);
+		Map<String,List<String>> umMap = new HashMap<>();
+		for(Enroll e: enrollDAO.queryEnrollByRankANDMajor(map)) {
+			Long uId=e.getuId();
+			if(!umMap.containsKey(uniMap.get(uId))) {
+				umMap.put(uniMap.get(uId), new ArrayList<>());
+			}
+			umMap.get(uniMap.get(uId)).add(majorMap.get(e.getmId()));
+		}
+		return umMap;
+	}
 	public void xxxx() {
 		
 		
 	}
-	
+	public int queryProvinceScore(Provincescore ps) {
+		return enrollDAO.queryProvinceScore(ps).getScore();
+	}
+	public Batch selectOneByName(String name) {
+		return batchDAO.selectOneByName(name);
+	}
 	public void insert(Enroll obj) throws Exception{
 		enrollDAO.insert(obj);
 	}
@@ -67,11 +98,19 @@ public class EnrollService {
 		return enrollDAO.selectAll();
 	}
 
-	public void queryPage(EnrollQueryPageDTO dto) {
+	public List<Enroll> queryPage(EnrollQueryPageDTO dto) {
 		int count = enrollDAO.selectCount(dto);
 		dto.setCount(count);
 		List<Enroll> list = enrollDAO.queryPage(dto);
 		dto.setRows(list);
+		return list;
+	}
+	
+	public List<University> queryUniversity(String name){
+		return enrollDAO.queryUniversity(name);
+	}
+	public List<Major> queryMajorByuId(Long uId){
+		return enrollDAO.queryMajorByuId(uId);
 	}
 
 	public int importEnroll(Map<String, String> map) {

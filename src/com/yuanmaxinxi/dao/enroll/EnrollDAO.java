@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.yuanmaxinxi.dao.BaseDAO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
+import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
+import com.yuanmaxinxi.entity.provincescore.Provincescore;
+import com.yuanmaxinxi.entity.university.University;
 @Repository
 @Mapper
 public interface EnrollDAO extends BaseDAO<Enroll>{
@@ -101,8 +104,12 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 	public List<Enroll> serch(Map<String, Object> map);
 
 	public List<Enroll> enrollBigUni(Map<String, Object> map);
-
+	public Provincescore queryProvinceScore(Provincescore ps);
+	public  List<Enroll> queryEnrollByRankANDMajor(Map<String,Long> map);
 	public void xxx(String content);
 
 	public List<Enroll> selectAllByMajorName(String majorName);
+
+	public List<Major> queryMajorByuId(Long uId);
+	public List<University> queryUniversity(String name);
 }

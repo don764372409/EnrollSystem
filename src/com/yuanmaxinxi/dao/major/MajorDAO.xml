@@ -44,6 +44,9 @@
 	<select id="selectAll" resultType="Major">
 		select * from t_major
 	</select>
+	<select id="selectAllName" resultType="Major">
+		select id,name from t_major
+	</select>
 	<update id="updateInfo" parameterType="Major">
 	    update t_major set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}
 	    ,kecheng=#{kecheng},xueke=#{xueke},zhishi=#{zhishi} where id =#{id}
