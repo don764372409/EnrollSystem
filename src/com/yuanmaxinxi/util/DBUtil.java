@@ -2,6 +2,9 @@ package com.yuanmaxinxi.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.alibaba.druid.sql.visitor.functions.Insert;
+import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.entity.test.Answer;
 public class DBUtil {
 	private static SqlSessionFactory factory;
@@ -19,7 +23,7 @@ public class DBUtil {
 			try {
 //				factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream("mybatis/mybatis-config.xml"));
 				Class.forName("com.mysql.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://122.114.0.52:3306/enroll?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull", "root", "100-99=yi.0");
+				conn = DriverManager.getConnection("jdbc:mysql://47.112.20.227:3306/enroll?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull", "root", "admin");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -75,22 +79,29 @@ public class DBUtil {
 				}
 				id++;
 			}
-			insert(answer);
+//			insert(answer);
 		}
 	}
-	private static int insert(Answer obj) {
+	public static void insert(Occupation occ){
 		try {
-			String sql = "insert into t_answer values(?,?,?,?,?)";
-			PreparedStatement state = conn.prepareStatement(sql);
-			state.setObject(1, obj.getId());
-			state.setObject(2, obj.getContent());
-			state.setObject(3, obj.getOption());
-			state.setObject(4, obj.getTopicId());
-			state.setObject(5, obj.getType());
-			return state.executeUpdate();
+			String sql = "insert into t_occupation(name,pId,remark) values(?,?,?)";
+			PreparedStatement state = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			state.setObject(1,occ.getName());
+			state.setObject(2, occ.getpId());
+			state.setObject(3, occ.getRemark());
+			state.executeUpdate();
+			ResultSet generatedKeys = state.getGeneratedKeys();
+			while (generatedKeys.next()) {
+				long generateKey = generatedKeys.getLong(1);
+				occ.setId(generateKey);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			String message = e.getMessage();
+			if (message.contains("Data truncation")) {
+				
+			}else {
+				throw new RuntimeException();
+			}
 		}
-		return 0;
 	}
 }
