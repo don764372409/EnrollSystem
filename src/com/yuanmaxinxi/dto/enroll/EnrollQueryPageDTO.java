@@ -9,6 +9,7 @@ public class EnrollQueryPageDTO extends MyBatisQueryPageDTO<Enroll>{
 	private Long pId;
 	private Long mId;
 	private Long bId;
+	private Long rank;
 	
 	public Long getuId() {
 		return uId;
@@ -40,4 +41,11 @@ public class EnrollQueryPageDTO extends MyBatisQueryPageDTO<Enroll>{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Long getRank() {
+		return rank;
+	}
+	public void setRank(Long rank) {
+		this.rank = rank;
+	}
+	
 }

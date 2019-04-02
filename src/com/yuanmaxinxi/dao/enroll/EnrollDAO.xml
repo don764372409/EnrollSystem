@@ -23,8 +23,11 @@
        select * from t_enroll
     </select>
     <select id="queryEnrollByRankANDMajor" parameterType="Long" resultType="Enroll">
-        SELECT uId,mId FROM t_enroll <include refid="whereSql"></include> 
-		  GROUP BY uId,mId HAVING avg(minRanking) > #{rank}
+        SELECT uId,mId,min(minRanking) FROM t_enroll <include refid="whereSql"></include> 
+		  GROUP BY uId,mId HAVING min(minRanking) > #{rank}
+    </select>
+    <select id="queryEnrollByRankUni" parameterType="Long" resultType="Enroll">
+        SELECT uId FROM t_enroll  GROUP BY uId  ORDER BY avg(minRanking)
     </select>
 <!--     <select id="selectOneByUsername" resultType="Admin"> -->
 <!--         select * from t_admin where username = #{username} -->
