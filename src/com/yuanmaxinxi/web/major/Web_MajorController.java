@@ -7,14 +7,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.major.Major;
+import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.service.MajorService;
+import com.yuanmaxinxi.service.ProvinceService;
 
 @RequestMapping("/major")
 @Controller
 public class Web_MajorController{
 	@Autowired
 	private MajorService majorService;
+	@Autowired
+	private ProvinceService provinceService;
 	
 	@RequestMapping("/list")
 	public String list(Model model) {
@@ -22,7 +27,22 @@ public class Web_MajorController{
 		model.addAttribute("list", list);
 		return "/major/list";
 	}
-
+	
+	@RequestMapping("/showAdd")
+	public String showAdd(Model model) {
+		
+		return "major/add";
+	}
+	
+//	@RequestMapping("/add")
+//	public ResultDTO add(Major major,Model model) {
+//		ResultDTO dto;
+//		try {
+//			majorService.add(major)
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//	}
 //	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		String cmd = req.getParameter("cmd");
 //		if ("showAdd".equals(cmd)) {

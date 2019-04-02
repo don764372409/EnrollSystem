@@ -22,10 +22,10 @@
 <script type="text/javascript" src="/H-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>字典管理</title>
+<title>测试记录</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 字典管理 <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 测试记录<a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" onclick="location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
 <!--   <div class="text-c"> 短信发送时间： -->
 <!--     <input type="text" onfocus="WdatePicker()" id="datemin" class="input-text Wdate" style="width:120px;"> -->
@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加字典','/dictionary/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加字典</a>
+		 	<a href="javascript:;" onclick="obj_add('添加字典','/dictionary/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加记录</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -46,6 +46,8 @@
       <tr class="text-c">
         <th width="20%">ID</th>
         <th width="30%">名称</th>
+        <th width="20%">内容</th>
+        <th width="20%">金额</th>
         <th width="20%">类型</th>
         <th width="15%">修改</th>
         <th width="15%">删除</th>
@@ -56,7 +58,9 @@
       <tr class="text-c">
         <td>${obj.id}</td>
         <td>${obj.name}</td>
-        <td>${obj.typeId}</td>
+        <td>${obj.remark}</td>
+        <td>${obj.money}</td>
+        <td>${obj.type}</td>
         <td>
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典信息','/dictionary/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		 </td>

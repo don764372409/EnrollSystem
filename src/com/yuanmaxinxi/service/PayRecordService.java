@@ -3,6 +3,9 @@ package com.yuanmaxinxi.service;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.payrecord.PayrecordDao;
 import com.yuanmaxinxi.dao.province.ProvinceDao;
@@ -15,8 +18,60 @@ import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.DBUtil;
 import com.yuanmaxinxi.util.StringUtil;
 
+@Service
 public class PayRecordService {
-//	private PayrecordDao payrecorddao;
+	@Autowired
+	private PayrecordDao payrecorddao;
+	
+	public List<PayRecord> recordList(){
+		return payrecorddao.selectAll();
+	}
+	
+	@Transactional
+	public void insert(PayRecord obj) {
+		if(StringUtil.isNullOrEmpty(obj.getId()+"")) {
+			throw new RuntimeException("用户id不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getMoney()+"")) {
+			throw new RuntimeException("金额不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
+			throw new RuntimeException("消费内容不能为空");
+		}
+		try {
+			int rs = payrecorddao.insert(obj);
+			if(rs!=1) {
+				throw new RuntimeException("添加失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("添加失败");
+		}
+	}
+	
+	public PayRecord selectOneById(int id) {
+		return payrecorddao.selectOneById(id);
+	}
+	
+	public void update(PayRecord obj) {
+		if(StringUtil.isNullOrEmpty(obj.getId()+"")) {
+			throw new RuntimeException("用户id不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getMoney()+"")) {
+			throw new RuntimeException("金额不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
+			throw new RuntimeException("消费内容不能为空");
+		}
+		try {
+			int rs = payrecorddao.update(obj);
+			System.out.println(rs+"666666666666666666666");
+			if(rs!=1) {
+				throw new RuntimeException("添加失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("添加失败");
+		}
+	}
 //	private void init() {
 //		SqlSession session = DBUtil.openSession();
 //		payrecorddao = session.getMapper(PayrecordDao.class);
@@ -24,8 +79,7 @@ public class PayRecordService {
 //	public PayRecordService() {
 //		init();
 //	}
-//	public void insert(PayRecord obj) {		
-//	}
+
 //
 //	public void update(PayRecord obj) {
 //	}
@@ -34,9 +88,7 @@ public class PayRecordService {
 //		return payrecorddao.delete(id);
 //	}
 //
-//	public Admin selectOneById(Long id) {
-//		return null;
-//	}
+
 //
 //	public List<PayRecord> selectAll() {
 //		return payrecorddao.selectAll();

@@ -25,12 +25,40 @@ public class MajorService {
 	public void insert(Major mj) {
 		try {
 			majorDAO.insert(mj);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("添加失败");
 		}
 	}
-
+	
+	public void add(Major obj) {
+		if(StringUtil.isNullOrEmpty(obj.getpNo())) {
+			throw new RuntimeException("父级id不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("名称不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getType()+"")) {
+			throw new RuntimeException("学历分类id不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getJianjie())) {
+			throw new RuntimeException("简介内容内容不能为空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getMubiao())) {
+			throw new RuntimeException("目标内容不能为空");
+		}
+//		if(StringUtil.isNullOrEmpty(obj.getJianjie())) {
+//			throw new RuntimeException("简介内容内容不能为空");
+//		}
+		try {
+			int rs =majorDAO.insert(obj);
+			if(rs!=1) {
+				throw new RuntimeException("添加失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("添加失败");
+		}
+	}
 	public void update(Major mj) {
 		try {
 			majorDAO.update(mj);

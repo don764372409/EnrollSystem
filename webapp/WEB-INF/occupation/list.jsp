@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加管理员','/occupation?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加职业</a>
+		 	<a href="javascript:;" onclick="obj_add('添加管理员','/occupation/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加职业</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -62,8 +62,8 @@
         <td>${obj.workContent}</td>
         
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改职业','/occupation?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>| 
-       		<a style="text-decoration:none" class="ml-5" onClick="deleteObj(this,'${obj.name}','/occupation?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a>
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改职业','/occupation/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>| 
+       		<a style="text-decoration:none" class="ml-5" onClick="deleteObj(this,'${obj.name}','/occupation/delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a>
        	</td>
        	
       </tr>
@@ -119,7 +119,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"&id="+id
+		content: url+"?id="+id
 	});
 	layer.full(index);
 }

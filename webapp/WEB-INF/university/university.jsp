@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加院校信息','/university?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加院校信息</a>
+		 	<a href="javascript:;" onclick="obj_add('添加院校信息','/university/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加院校信息</a>
     	</span>
     	 
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
@@ -47,11 +47,11 @@
       <tr class="text-c">
         <th width="40">ID</th>
         <th width="80">院校名称</th>
-        <th width="100">院校所在省份</th>
+<!--         <th width="100">院校所在省份</th> -->
         <th width="80">院校地址</th>
         <th width="80">院校水平</th>
         <th width="80">院校类型</th>
-        <th width="60">简介</th>
+        
         <th width="100">院校排名</th>
         <th width="100">师资团队</th>
         <th width="100">院校学历</th>
@@ -66,9 +66,9 @@
         <td>${obj.name}</td>
         <!-- <td>${obj.pro.name}</td> -->
         <td>${obj.address}</td>
-        <!-- <td>${obj.quality}</td> -->
+        <td>${obj.quality}</td>
         <td>${obj.type}</td>
-        <td>${obj.remark}</td>
+        
         <td>${obj.teachers}</td>
         <td>${obj.record}</td>
         <td>
@@ -76,7 +76,7 @@
 		</td>
 		<td></td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university/edit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
        	
       </tr>
@@ -133,7 +133,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"&id="+id
+		content: url+"?id="+id
 	});
 	layer.full(index);
 }

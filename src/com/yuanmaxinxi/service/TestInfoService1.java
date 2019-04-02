@@ -12,7 +12,7 @@ import com.yuanmaxinxi.util.MD5Util;
 import com.yuanmaxinxi.util.StringUtil;
 
 @Service
-public class DictionaryService {
+public class TestInfoService1 {
 	@Autowired
 	private DictionaryDAO dictionaryDAO;
 	public List<Dictionary> selectAll(){

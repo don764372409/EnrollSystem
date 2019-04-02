@@ -2,14 +2,19 @@ package com.yuanmaxinxi.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO;
 import com.yuanmaxinxi.entity.dictionaryType.DictionaryType;
 import com.yuanmaxinxi.util.StringUtil;
-
-
+@Service
+@Transactional
 public class DictionaryTypeService {
 //	private static DictionaryTypeService dts;
-//	private DictionaryTypeDAO dtd;
+	@Autowired
+	private DictionaryTypeDAO dtd;
 //	private DictionaryTypeService() {
 //		dtd = DictionaryTypeDAO.getDictionaryTypeDao();
 //	}
@@ -43,11 +48,53 @@ public class DictionaryTypeService {
 //		dtd.delete(id);
 //	}
 //
-//	public DictionaryType selectOneById(Long id) {
-//		return dtd.selectOneById(id);
-//	}
-//
-//	public List<DictionaryType> selectAll() {
-//		return dtd.selectAll();
-//	}
+	public DictionaryType selectOneById(int id) {
+		return dtd.selectOneById(id);
+	}
+
+	public List<DictionaryType> selectAll() {
+		return dtd.selectAll();
+	}
+	
+	public void delete(int id) {
+		try {
+			int rs = dtd.delete(id);
+			if(rs!=1) {
+				throw new RuntimeException("删除失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("删除失败");
+		}
+		
+	}
+	
+	public void add(DictionaryType obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("名字不能为空");
+		}
+		
+		try {
+			int rs = dtd.insert(obj);
+			if(rs!=1) {
+				throw new RuntimeException("添加失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("添加失败");
+		}
+	}
+	
+	public void update(DictionaryType obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("名字不能为空");
+		}
+		
+		try {
+			int rs = dtd.update(obj);
+			if(rs!=1) {
+				throw new RuntimeException("修改失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("修改失败");
+		}
+	}
 }

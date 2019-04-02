@@ -25,7 +25,7 @@ public interface PayrecordDao extends BaseDAO<PayRecord>{
 	public int delete(Long id);
 
 	
-	public PayRecord selectOneById(Long id);
+	public PayRecord selectOneById(int id);
 		
 	public List<PayRecord> selectAll();
 

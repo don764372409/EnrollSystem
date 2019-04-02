@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.admin.Admin;
@@ -16,6 +17,7 @@ import com.yuanmaxinxi.web.BaseServlet;
 public class AdminServlet{
 	@Autowired
 	private AdminService adminService;
+	ResultDTO dto;
 	@RequestMapping("list")
 	public String adminList(Model model) {
 		List<Admin> list = adminService.selectAll();
@@ -24,11 +26,16 @@ public class AdminServlet{
 		
 	}
 	@RequestMapping("/add")
-	public void add(String username,String phone,String name) {
-		System.out.println(username);
-		System.out.println(phone);
-		System.out.println(name);
-
+	@ResponseBody
+	public ResultDTO add(Admin admin) {
+		try {
+			adminService.add(admin);
+			dto=ResultDTO.newInstance(true, "添加成功!");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		return dto;
+		
 	}
 	@RequestMapping("/showAdd")
 	public String showAdd() {
@@ -39,6 +46,31 @@ public class AdminServlet{
 		Admin obj = adminService.selectOneById(id);
 		model.addAttribute("obj",obj);
 		return "admin/updata";
+	}
+	@RequestMapping("/edit")
+	@ResponseBody
+	public ResultDTO edit(Admin admin) {
+		
+		System.out.println(admin.getName()+admin.getUsername()+admin.getPhone());
+		try {
+			adminService.update(admin);
+			dto=ResultDTO.newInstance(true, "修改成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, "修改失败，稍后再试");
+		}
+		return dto;
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	public ResultDTO delete(Long id) {
+		try {
+			adminService.delete(id);
+			dto=ResultDTO.newInstance(true, "删除成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(true, "删除成功");
+		}
+			return dto;
 	}
 //	private static final long serialVersionUID = 1L;
 //	private AdminService adminService;

@@ -38,7 +38,50 @@ public class UniversityService {
 	public static LinkedBlockingQueue<String> jianjieUrals = new LinkedBlockingQueue<>();
 	private static Object msgUrls;
 
-	public void insert(Map uu) {
+	@Transactional	
+	public void insert(University obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("院校名称不能空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getAddress())) {
+			throw new RuntimeException("院校所在地不能空");
+		}
+//		if(obj.getQuality()==0||obj.getQuality()==null) {
+//			throw new RuntimeException("院校水平不能空");
+//		}
+//		if(obj.getType()==0||obj.getType()==null) {
+//			throw new RuntimeException("院校类型不能空");
+//		}
+		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
+			throw new RuntimeException("院校简介不能空");
+		}
+		if(obj.getRanking()==0||obj.getType()==null) {
+			throw new RuntimeException("院校排名不能空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
+			throw new RuntimeException("院校师资团队不能空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getRecord())){
+			throw new RuntimeException("院校学历不能空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
+			throw new RuntimeException("院校学科建设不能空");
+		}
+		University selectOneByName = universityDAO.selectOneByName(obj.getName());
+		if(selectOneByName!=null) {
+			throw new RuntimeException("添加院校名称重复");
+		}
+		try {
+			int i = universityDAO.insert(obj);
+			if (i!=1) {
+				throw new RuntimeException("请重新添加");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("添加失败,请稍后重试.");
+		}
+	}
+//	}	public void insert(Map uu) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {
 //			throw new RuntimeException("院校名称不能空");
 //		}
@@ -79,7 +122,7 @@ public class UniversityService {
 //			e.printStackTrace();
 //			throw new RuntimeException("添加失败,请稍后重试.");
 //		}	
-	}
+//	}
 	
 
 	public void update(University obj) {

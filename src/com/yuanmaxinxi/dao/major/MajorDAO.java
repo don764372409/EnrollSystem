@@ -37,6 +37,7 @@ public interface MajorDAO extends BaseDAO<Major>{
 	
 	public LikeMajor selectLikeMajor(LikeMajor lm);
 	public int insertLikeMajor(LikeMajor lm);
+	public int insert(Major major);
 	public void insertMajorAndUniversity(Map<String, Object> map);
 	String selectxxx(Map<String, Object> map);
 	public void insertXXX(String content);

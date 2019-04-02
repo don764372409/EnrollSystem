@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
@@ -30,12 +31,49 @@ import com.yuanmaxinxi.web.BaseServlet;
 public class University_Servlet{
 	@Autowired
 	private UniversityService universityService;
+	@Autowired
+	private ProvinceService provinceService;
 
 	@RequestMapping("/list")
 	public String selectUniList(Model model) {
 		List<University> list = universityService.selectUniList();
 		model.addAttribute("list",list);
 		return "university/university";
+	}
+	@RequestMapping("/edit")
+	public String edit(Long id,Model model) {
+		University un = universityService.selectOneById(id);
+		model.addAttribute("obj", un);
+		return "/dictionary/edit";
+	}
+	
+	@RequestMapping("/showAdd")
+	public String showAdd(Model model) {
+		List<Province> list = provinceService.selectAll();
+		model.addAttribute("list", list);
+		return "university/add";
+	}
+	
+	@RequestMapping("/add")
+	@ResponseBody
+	public ResultDTO insert(University university) {
+		ResultDTO dto;
+		try {
+			universityService.insert(university);
+			dto=ResultDTO.newInstance(true, "添加成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	@RequestMapping("showEdit")
+	public String showEdit(Long id,Model model) {
+		University university = universityService.selectOneById(id);
+		model.addAttribute("obj", university);
+		return "university/edit";
+		
 	}
 //	private static final long serialVersionUID = 1L;
 //	private ProvinceService provinceService;

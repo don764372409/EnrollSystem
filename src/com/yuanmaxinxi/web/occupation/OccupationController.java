@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.major.Major;
@@ -31,6 +32,57 @@ public class OccupationController{
 		model.addAttribute("list",list);
 		return "occupation/list";
 		
+	}
+	@RequestMapping("/showAdd")
+	public String showAdd() {
+		return "/occupation/add";
+	}
+	@RequestMapping("/add")
+	@ResponseBody
+	public ResultDTO add(Occupation occupation) {
+		ResultDTO dto;
+		try {
+			occupationService.insert(occupation);
+			dto=ResultDTO.newInstance(true, "添加成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, "添加失败");
+		}
+		
+		return dto;
+	}
+	@RequestMapping("/showEdit")
+		
+	public String showEdit(Long id,Model model) {
+		Occupation occupation=occupationService.selectOneById(id);
+		model.addAttribute("occupation", occupation);
+		return "/occupation/update";
+		
+	}
+	
+	@RequestMapping("/edit")
+	@ResponseBody
+	public ResultDTO update(Occupation obj) {
+		ResultDTO dto;
+		try {
+			occupationService.update(obj);
+			dto=ResultDTO.newInstance(true, "添加成功6");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		return dto;
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public ResultDTO delete(Long id) {
+		ResultDTO dto;
+		try {
+			occupationService.delete(id);
+			dto=ResultDTO.newInstance(true, "删除成功6");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(true, e.getMessage());
+		}
+		return dto;
 	}
 //
 //	private static final long serialVersionUID = 1L;

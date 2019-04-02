@@ -12,6 +12,9 @@ import com.yuanmaxinxi.entity.dictionary.Dictionary;
 
 public interface DictionaryDAO extends BaseDAO<Dictionary> {
 	public List<Dictionary> selectAll();
+	public Dictionary selectOneById(int id);
+	public int edit(Dictionary dictionary);
+	public int delete(int id);
 //	private static DictionaryDAO dd;
 //	private DictionaryDAO() {}
 //	public static DictionaryDAO getDictionaryDao() {

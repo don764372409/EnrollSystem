@@ -36,7 +36,7 @@
 <!--   </div> -->
   <div class="cl pd-5 bg-1 bk-gray mt-20">
 	     <span class="l">
-		 	<a href="javascript:;" onclick="obj_add('添加字典类型','/dictionaryType?cmd=showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加字典类型</a>
+		 	<a href="javascript:;" onclick="obj_add('添加字典类型','/dictionaryType/showAdd')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加字典类型</a>
     	</span>
     <span class="r">共有数据：<strong>${list.size()}</strong> 条</span>
   </div>
@@ -56,10 +56,10 @@
         <td>${obj.id}</td>
         <td>${obj.name}</td>
         <td>
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典类型','/dictionaryType?cmd=showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典类型','/dictionaryType/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		</td>
        <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除字典类型','当前这条数据','/dictionaryType?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除字典类型','当前这条数据','/dictionaryType/delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
        </td>
       </tr>
       </c:forEach>
@@ -114,7 +114,7 @@ function edit(title,url,id){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: url+"&id="+id
+		content: url+"?id="+id
 	});
 	layer.full(index);
 }
@@ -138,6 +138,7 @@ function deleteObj(obj,o,u,id){
 				if(data.result){
 					layer.msg(data.msg,{icon:1,time:2000});
 					$(obj).parents("tr").remove();
+					$('.btn-refresh').click();
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}

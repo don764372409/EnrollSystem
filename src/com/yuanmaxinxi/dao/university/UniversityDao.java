@@ -14,6 +14,7 @@ import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.entity.university.jianzhang.Jianzhang;
 
+
 public interface UniversityDao extends BaseDAO<University>{
 	University selectOneByName(String name);
 

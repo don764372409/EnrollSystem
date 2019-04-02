@@ -1,4 +1,4 @@
-package com.yuanmaxinxi.web.dictionary;
+package com.yuanmaxinxi.web.testinfo;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,60 +16,62 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.dictionary.Dictionary;
+import com.yuanmaxinxi.entity.test.TestInfo;
 import com.yuanmaxinxi.service.DictionaryService;
 import com.yuanmaxinxi.service.DictionaryTypeService;
+import com.yuanmaxinxi.service.TestInfoService;
 import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.BaseServlet;
-@RequestMapping("/dictionary")
+@RequestMapping("/testinfo")
 @Controller
-public class DictionaryServlet{
+public class TestInfoContraller{
 	@Autowired
-	private DictionaryService dictionaryService;
+	private TestInfoService testInfoService;
 	@RequestMapping("/list")
-	public String dictionaryList(Model model) {
-		List<Dictionary> list = dictionaryService.selectAll();
+	public String testInfoList(Model model) {
+		List<TestInfo> list = testInfoService.selectAll();
 		model.addAttribute("list",list);
-		return "dictionary/list";
+		return "testinfo/list";
 		
 	}
-	@RequestMapping("/showEdit")
-	public String showEdit(int id,Model model) {
-
-		Dictionary dictionary = dictionaryService.selectOneById(id);
-		model.addAttribute("obj", dictionary);
-		return "/dictionary/edit";
-		
-	}
-	@RequestMapping("/edit")
-	@ResponseBody
-	public ResultDTO edit(Dictionary dictionary) {
-		ResultDTO dto;
-		try {
-			dictionaryService.edit(dictionary);
-			dto=ResultDTO.newInstance(true, "修改成功!");
-		} catch (Exception e) {
-			dto=ResultDTO.newInstance(false, e.getMessage());
-		}
-		return dto;
-	}
-	
-	@RequestMapping("showAdd")
-	public String showAdd() {
-		return "/dictionary/add";
-	}
-	@RequestMapping("/delete")
-	@ResponseBody
-	public ResultDTO deleteById(int id) {
-		ResultDTO dto;
-		try {
-			dictionaryService.deleteById(id);
-			dto=ResultDTO.newInstance(true, "删除成功!");
-		} catch (Exception e) {
-			dto=ResultDTO.newInstance(false, "删除失败");
-		}
-		return dto;
-		
-	}
+//	@RequestMapping("/showEdit")
+//	public String showEdit(int id,Model model) {
+//
+//		Dictionary dictionary = dictionaryService.selectOneById(id);
+//		model.addAttribute("obj", dictionary);
+//		return "/dictionary/edit";
+//		
+//	}
+//	@RequestMapping("/edit")
+//	@ResponseBody
+//	public ResultDTO edit(Dictionary dictionary) {
+//		ResultDTO dto;
+//		try {
+//			dictionaryService.edit(dictionary);
+//			dto=ResultDTO.newInstance(true, "修改成功!");
+//		} catch (Exception e) {
+//			dto=ResultDTO.newInstance(false, e.getMessage());
+//		}
+//		return dto;
+//	}
+//	
+//	@RequestMapping("showAdd")
+//	public String showAdd() {
+//		return "/dictionary/add";
+//	}
+//	@RequestMapping("/delete")
+//	@ResponseBody
+//	public ResultDTO deleteById(int id) {
+//		ResultDTO dto;
+//		try {
+//			dictionaryService.deleteById(id);
+//			dto=ResultDTO.newInstance(true, "删除成功!");
+//		} catch (Exception e) {
+//			dto=ResultDTO.newInstance(false, "删除失败");
+//		}
+//		return dto;
+//		
+//	}
 //	private static final long serialVersionUID = 1L;
 //	private DictionaryService ds;
 //	private DictionaryTypeService dts;

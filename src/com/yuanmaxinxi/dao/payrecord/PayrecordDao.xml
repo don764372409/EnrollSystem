@@ -4,11 +4,18 @@
     <delete id="delete" parameterType="Long">
         delete from t_payment where id=#{id}
     </delete>
-    <select id="selectOneById" parameterType="Long" resultType="PayRecord">
-        select from t_payment where id=#{id}
+    <select id="selectOneById"  resultType="PayRecord">
+        select * from t_payment where id=#{id}
     </select>
     <select id="selectAll" resultType="PayRecord">
         select * from t_payment
     </select>
-
+	
+	 <insert id="insert" parameterType="PayRecord" useGeneratedKeys="true" keyProperty="id" >
+        insert into t_payment (uId,money,remark,time) values (#{uId},#{money},#{remark},#{time})
+    </insert>
+    
+    <update id="update" parameterType="PayRecord">
+		update t_payment set uId =#{uId},money=#{money}, remark=#{remark},time=#{time} where id = #{id}
+	</update>
 </mapper>

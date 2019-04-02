@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.dictionaryType.DictionaryTypeDAO">
+<!--     <insert id="insert" parameterType="Enroll"> -->
+<!--         insert into t_enroll(uId,pId,mId,bId,number,maxNumber,avgNumber,minNumber,minRanking,time)value(#{uId},#{pId},#{mId},#{bId},#{number},#{maxNumber},#{avgNumber},#{minNumber},#{minRanking},#{time}) -->
+<!--     </insert> -->
+<!--     <insert id="xxx" parameterType="string"> -->
+<!--         insert into t_xx(content)value(#{content}) -->
+<!--     </insert> -->
+<!--     <update id="update" parameterType="Enroll"> -->
+<!-- 		update t_enroll set mId=#{mId} where id = #{id}         -->
+<!--     </update> -->
+<!--     <update id="edit" parameterType="Admin"> -->
+<!-- 		update t_admin set name = #{name},phone=phone=#{phone} where id = #{ip}  -->
+<!--     </update> -->
+<!--     <delete id="delete" parameterType="Long"> -->
+<!--         delete from t_admin where id=#{id} -->
+<!--     </delete> -->
+<!--     <select id="selectOneById" parameterType="Long" resultType="Admin"> -->
+<!--         select * from t_admin where id=#{id} -->
+<!--     </select> -->
+    <select id="selectAll" parameterType="int" resultType="DictionaryType">
+       select * from t_dictionarytype
+    </select>
+     <select id="selectOneById" resultType="DictionaryType">
+       select * from t_dictionarytype where id=#{id}
+    </select>
+     <insert id="insert" parameterType="DictionaryType">
+       insert into t_dictionarytype (name) values (#{name})
+    </insert>
+  	<update id="update" parameterType="DictionaryType"> 
+		update t_dictionarytype set name = #{name} where id = #{id} 
+    </update> 
+    <delete id="delete" parameterType="int">
+        delete from t_dictionarytype where id=#{id}
+    </delete> 
+</mapper>

@@ -6,8 +6,8 @@
         <association property="pro" column="pId" select="com.yuanmaxinxi.dao.province.ProvinceDao.selectOneById"></association>
     </resultMap>
     <insert id="insert" parameterType="University">
-        insert into t_university(pId,name,property,type,remark,record,dept,nature,f211,f985,guanwang) 
-        values (#{pId},#{name},#{property},#{type},#{remark},#{record},#{dept},#{nature},#{f211},#{f985},#{guanwang})
+        insert into t_university(pId,name,type,remark,record,subject,teachers,ranking,address) 
+        values (#{pId},#{name},#{type},#{remark},#{record},#{subject},#{teachers},#{ranking},#{address})
     </insert>
     <update id="update" parameterType="University">
         update t_university set pId = #{pId},name=#{name},property=#{property},

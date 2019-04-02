@@ -57,7 +57,7 @@
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">
 		<div class="formControls col-sm-9">
-			<input type="hidden" class="input-text" onkeyup="createUsername(this)" value="${obj.id}" placeholder="请输入管理员姓名" name="id">
+			<input type="hidden" class="input-text"  value="${obj.id}" placeholder="请输入管理员姓名" name="id">
 		</div>
 	</div>
 	<div class="row cl">
@@ -69,7 +69,7 @@
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>账号：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" disabled="disabled" class="input-text" value="${obj.username}" placeholder="请输入管理员账号" name="username">
+			<input type="text" class="input-text" value="${obj.username}" placeholder="请输入管理员账号" name="username">
 		</div>
 	</div>
 	<div class="row cl">

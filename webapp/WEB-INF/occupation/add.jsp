@@ -57,25 +57,25 @@
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>职业名：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text"  value="" placeholder="请输入管理员姓名" name="name">
+			<input type="text" class="input-text"  value=""  name="name">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>父级id所属职业：</label>
 		<div class="formControls col-sm-9">
-		<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="pId">
+		<input type="text" class="input-text" value=""  name="pId">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>职业简介：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员账号" name="remark">
+			<input type="text" class="input-text" value=""  name="remark">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>工作内容：</label>
 		<div class="formControls col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="请输入管理员电话" name="workContent">
+			<input type="text" class="input-text" value=""  name="workContent">
 		</div>
 	</div>
 	<div class="row cl">
@@ -108,11 +108,11 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/occupation?cmd=add" ,
+				url: "/occupation/add" ,
 				success: function(data){
 					data = JSON.parse(data);
 					if(data.result){
-						layer.msg(data.msg,{icon:1,time:2000},function(){
+						layer.msg(data.msg,{icon:1,time:1000},function(){
 							parent.$('.btn-refresh').click();
 							var index = parent.layer.getFrameIndex(window.name);
 							parent.layer.close(index);
