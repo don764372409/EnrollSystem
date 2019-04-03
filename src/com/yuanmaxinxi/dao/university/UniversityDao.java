@@ -68,10 +68,14 @@ public interface UniversityDao extends BaseDAO<University>{
 
 	List<University> selectAllName();
 	List<String> selectPropertys();
+	
+	int deleteById(int id);
 
 	List<Province> selectProvince();
 
 	List<Major> selectMajor(Map<String,String> map);
 
 	List<Enroll> selectEnrollByTwoUni(Map<String, String> map);
+	int update(University obj);
+	
 }

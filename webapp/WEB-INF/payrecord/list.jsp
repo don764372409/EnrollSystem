@@ -49,7 +49,8 @@
 		<th width="100">time</th>
 		<th width="100">money</th>
 		<th width="90">remark</th>
-		<th width="60">操作</th>
+		 <th width="90">修改</th>
+        <th width="60">删除</th>
       </tr>
     </thead>
     <tbody>
@@ -65,12 +66,13 @@
 <!--         <td> -->
 <%--         	${obj.status} --%>
 <!-- 		</td> -->
-	
-        <td class="f-14 user-manage">
-        	<a style="text-decoration:none" class="ml-5" onClick="edit('修改','/payrecord/edit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe609;</i></a> 
-			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/payrecord?cmd=delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+		
+		 <td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改','/payrecord/edit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		</td>
-       	
+        <td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/payrecord/delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+       	</td>
       </tr>
       </c:forEach>
     </tbody>

@@ -58,12 +58,12 @@
 			<input type="text" class="input-text" value="${occupation.remark}" placeholder="请输入管理员账号" name="remark">
 		</div>
 	</div>
-	<div class="row cl">
+<%-- 	<div class="row cl">
 		<label class="form-label col-sm-3"><span class="c-red">*</span>工作内容：</label>
 		<div class="formControls col-sm-9">
 			<input type="text" class="input-text" value="${occupation.workContent}" placeholder="请输入管理员电话" name="workContent">
 		</div>
-	</div>
+	</div> --%>
 
 	
 		<div class="row cl">

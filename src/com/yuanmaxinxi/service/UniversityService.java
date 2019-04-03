@@ -81,6 +81,50 @@ public class UniversityService {
 			throw new RuntimeException("添加失败,请稍后重试.");
 		}
 	}
+	
+	@Transactional	
+	public void update(University obj) {
+		if(StringUtil.isNullOrEmpty(obj.getName())) {
+			throw new RuntimeException("院校名称不能空");
+		}
+//		if(StringUtil.isNullOrEmpty(obj.getAddress())) {
+//			throw new RuntimeException("院校所在地不能空");
+//		}
+//		if(obj.getQuality()==0||obj.getQuality()==null) {
+//			throw new RuntimeException("院校水平不能空");
+//		}
+		if(StringUtil.isNullOrEmpty(obj.getProperty())) {
+			throw new RuntimeException("院校类型不能空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
+			throw new RuntimeException("院校简介不能空");
+		}
+//		if(obj.getRanking()==0||obj.getType()==null) {
+//			throw new RuntimeException("院校排名不能空");
+//		}
+		if(StringUtil.isNullOrEmpty(obj.getTeachers())) {
+			throw new RuntimeException("院校师资团队不能空");
+		}
+		if(StringUtil.isNullOrEmpty(obj.getRecord())){
+			throw new RuntimeException("院校学历不能空");
+		}
+//		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
+//			throw new RuntimeException("院校学科建设不能空");
+//		}
+		University selectOneByName = universityDAO.selectOneByName(obj.getName());
+		if(selectOneByName!=null) {
+			throw new RuntimeException("添加院校名称重复");
+		}
+		try {
+			int i = universityDAO.update(obj);
+			if (i!=1) {
+				throw new RuntimeException("请重新添加");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("添加失败,请稍后重试.");
+		}
+	}
 //	}	public void insert(Map uu) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {
 //			throw new RuntimeException("院校名称不能空");
@@ -125,7 +169,7 @@ public class UniversityService {
 //	}
 	
 
-	public void update(University obj) {
+//	public void update(University obj) {
 //		if(StringUtil.isNullOrEmpty(obj.getName())) {
 //			throw new RuntimeException("院校名称不能空");
 //		}
@@ -144,21 +188,21 @@ public class UniversityService {
 //		if(StringUtil.isNullOrEmpty(obj.getSubject())) {
 //			throw new RuntimeException("院校学科建设不能空");
 //		}
-		try {
-			int i = universityDAO.update(obj);
-			if (i!=1) {
-				throw new RuntimeException("");
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("修改失败,请稍后重试.");
-		}
-	}
+//		try {
+//			int i = universityDAO.update(obj);
+//			if (i!=1) {
+//				throw new RuntimeException("");
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException("修改失败,请稍后重试.");
+//		}
+//	}
 
-	public void delete(Long id) {
+	public void deleteById(int id) {
 		int row;
 		try {
-			row = universityDAO.delete(id);
-			if(row==0) {
+			row = universityDAO.deleteById(id);
+			if(row!=1) {
 				throw new RuntimeException("删除院校信息失败");
 			}
 		} catch (Exception e) {

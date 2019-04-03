@@ -40,17 +40,17 @@
 				<input type="text" class="input-text" value="${obj.name}" placeholder="请输入院校名称" id="name" name="name">
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">院校所在省份：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="pId" size="1">
-					<c:forEach items="${list}" var="xxx">
-					<option value="${xxx.id}">${xxx.name}</option>
-					</c:forEach>
-				</select>
-				</span> 
-			</div>
-		</div>
+<!-- 		<div class="row cl"> -->
+<!-- 			<label class="form-label col-xs-4 col-sm-3">院校所在省份：</label> -->
+<!-- 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;"> -->
+<!-- 				<select class="select" name="pId" size="1"> -->
+<%-- 					<c:forEach items="${list}" var="xxx"> --%>
+<%-- 					<option value="${xxx.id}">${xxx.name}</option> --%>
+<%-- 					</c:forEach> --%>
+<!-- 				</select> -->
+<!-- 				</span>  -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校所在地：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -58,25 +58,22 @@
 			</div>
 		</div>
 		
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">院校水平：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="record" >
-					<option value="本科">本科</option>
-					<option value="专科">专科</option>
-					<option value="其他">其他</option>
-				</select>
-				</span> </div>
-		</div>
+<!-- 		<div class="row cl"> -->
+<!-- 			<label class="form-label col-xs-4 col-sm-3">院校水平：</label> -->
+<!-- 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;"> -->
+<%-- 				<select class="select" name="record" value="${obj.record}"> --%>
+<!-- 					<option value="本科">本科</option> -->
+<!-- 					<option value="专科">专科</option> -->
+<!-- 					<option value="其他">其他</option> -->
+<!-- 				</select> -->
+<!-- 				</span> </div> -->
+<!-- 		</div> -->
 		
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">院校类型：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="type" size="1">
-					<option value="高职高专">高职高专</option>
-					<option value="普通本科">普通本科</option>
-				</select>
-				</span> </div>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>院校类型：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${obj.property}" placeholder="" id="username" name="property">
+			</div>
 		</div>
 		
 		<div class="row cl">
@@ -97,7 +94,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">师资团队：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="teacher" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)">${obj.teachers}</textarea>
+				<textarea name="teachers" cols="" rows="" class="textarea"  placeholder="最少输入10个字。。。。" onKeyUp="$.Huitextarealength(this,100)">${obj.teachers}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -105,10 +102,10 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">院校学历：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="record" size="1">
-					<c:forEach items="${records}" var="rec">
-						<option value="${rec.id}">${rec.name}</option>
-					</c:forEach>
+				<select class="select" name="record" value="${obj.record}">
+					<option value="本科">本科</option>
+					<option value="专科">专科</option>
+					<option value="其他">其他</option>
 				</select>
 			</span> </div>
 		</div>
@@ -180,14 +177,23 @@ $(function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type:'post',
-				url:'/university?cmd=edit',
-				success:function(data){
-					var index = parent.layer.getFrameIndex(window.name);
-					//找到.btn-refresh页面进行刷新
-					parent.$('.btn-refresh').click();
-					parent.layer.close(index);
+				url:'/university/update',
+				success: function(data){
+					data = JSON.parse(data);
+					if(data.result){
+						layer.msg(data.msg,{icon:1,time:2000},function(){
+							parent.$('.btn-refresh').click();
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						});
+					}else{
+						layer.msg(data.msg,{icon:2,time:2000});
+					}
+				},
+                error: function(XmlHttpRequest, textStatus, errorThrown){
+					layer.msg('网络异常,请刷新重试!',{icon:2,time:1000});
 				}
-			})
+			});
 		}
 	});
 });

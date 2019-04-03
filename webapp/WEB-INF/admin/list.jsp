@@ -70,10 +70,10 @@
         </td>
         <td>${obj.phone}</td>
         <td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/admin/delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('/payrecord/edit',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
 		</td>
-        	<td class="f-14 user-manage">
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/admin/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+        <td class="f-14 user-manage">
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改管理员信息','/payrecord/delete',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
        	</td>
       </tr>
       </c:forEach>

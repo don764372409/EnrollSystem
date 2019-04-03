@@ -71,6 +71,18 @@ public class PayRecordServlet{
 		return dto;
 	}
 	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public ResultDTO deleteById(Long id) {
+		try {
+			payRecordService.deleteById(id);
+			dto=ResultDTO.newInstance(true, "删除成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
 	
 	
 //	PayRecordService payrecordservice;

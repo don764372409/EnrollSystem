@@ -57,6 +57,7 @@
         <th width="100">院校学历</th>
         <th width="100">学科建设</th>
         <th width="50">操作</th>
+        <th width="50">删除</th>
       </tr>
     </thead>
     <tbody>
@@ -67,16 +68,19 @@
         <!-- <td>${obj.pro.name}</td> -->
         <td>${obj.address}</td>
         <td>${obj.quality}</td>
-        <td>${obj.type}</td>
-        
+        <td>${obj.property}</td>
+        <td>${obj.ranking}</td>
         <td>${obj.teachers}</td>
         <td>${obj.record}</td>
         <td>
         	${obj.subject}
 		</td>
-		<td></td>
+		
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改院校信息','/university/edit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+       	</td>
+       	 <td class="f-14 user-manage">
+				<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除学校','当前这条数据','/university/delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 
        	</td>
        	
       </tr>
@@ -157,6 +161,7 @@ function deleteObj(obj,o,u,id){
 				if(data.result){
 					layer.msg(data.msg,{icon:1,time:2000});
 					$(obj).parents("tr").remove();
+					$('.btn-refresh').click();
 				}else{
 					layer.msg(data.msg,{icon:2,time:2000});
 				}

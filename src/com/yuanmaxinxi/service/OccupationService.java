@@ -34,9 +34,9 @@ public class OccupationService {
 		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
 			throw new RuntimeException("内容不能为空");
 		}
-		if(StringUtil.isNullOrEmpty(obj.getWorkContent())) {
-			throw new RuntimeException("工作内容不能为空");
-		}
+//		if(StringUtil.isNullOrEmpty(obj.getWorkContent())) {
+//			throw new RuntimeException("工作内容不能为空");
+//		}
 		try {
 			System.out.println("666");
 			int rs = occupationDAO.insert(obj);
@@ -61,9 +61,9 @@ public class OccupationService {
 		if(StringUtil.isNullOrEmpty(obj.getRemark())) {
 			throw new RuntimeException("内容不能为空");
 		}
-		if(StringUtil.isNullOrEmpty(obj.getWorkContent())) {
-			throw new RuntimeException("工作内容不能为空");
-		}
+//		if(StringUtil.isNullOrEmpty(obj.getWorkContent())) {
+//			throw new RuntimeException("工作内容不能为空");
+//		}
 		try {
 			int rs = occupationDAO.update(obj);
 			if(rs!=1) {

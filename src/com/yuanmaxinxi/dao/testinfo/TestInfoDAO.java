@@ -21,7 +21,12 @@ public interface TestInfoDAO{
 	 * @return
 	 */
 	public int bingNumber(User user) ;
+	
 	int selectShoucangNumbers(Long id);
+	
 	TestInfo selectOneByType(int type);
+	
 	public List<TestInfo> selectAll();
+	
+	public TestInfo selectOneById(int id);
 }

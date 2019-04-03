@@ -20,6 +20,9 @@
 <!--         select count(uId) from t_shoucang where uId = #{id} -->
 <!--     </select> -->
     <select id="selectOneByType" resultType="TestInfo" parameterType="int">
-        select * from t_testInfo where type = #{type}
+        select * from t_testinfo where type = #{type}
+    </select>
+     <select id="selectOneById" resultType="TestInfo" parameterType="int">
+        select * from t_testinfo where id = #{id}
     </select>
 </mapper>

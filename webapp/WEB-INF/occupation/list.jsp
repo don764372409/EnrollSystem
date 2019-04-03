@@ -48,7 +48,7 @@
         <th width="100">职业名</th>
         <th width="100">父级职业</th>
         <th width="100">职业简介</th>
-        <th width="100">工作内容</th>
+<!--         <th width="100">工作内容</th> -->
         <th width="60">操作</th>
       </tr>
     </thead>
@@ -59,7 +59,7 @@
         <td>${obj.name}</td>
         <td>${obj.pId}</td>
         <td>${obj.remark}</td>
-        <td>${obj.workContent}</td>
+<%--         <td>${obj.workContent}</td> --%>
         
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="edit('修改职业','/occupation/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>| 
