@@ -138,7 +138,6 @@ public class MemberController {
 	 * @param mId
 	 * @return
 	 */
-
 	@RequestMapping("/queryUniANDMajorByRankANDMajor")
 	@ResponseBody
 	public Map<String, List<String>> queryUniANDMajorByRankANDMajor(Integer rank, Long mId){
