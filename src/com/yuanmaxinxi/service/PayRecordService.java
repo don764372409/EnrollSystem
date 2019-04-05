@@ -41,10 +41,10 @@ public class PayRecordService {
 		try {
 			int rs = payrecorddao.insert(obj);
 			if(rs!=1) {
-				throw new RuntimeException("添加失败");
+				throw new RuntimeException("添加失败1");
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("添加失败");
+			throw new RuntimeException("添加失败2");
 		}
 	}
 	
@@ -69,6 +69,7 @@ public class PayRecordService {
 				throw new RuntimeException("添加失败");
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new RuntimeException("添加失败");
 		}
 	}
@@ -79,6 +80,18 @@ public class PayRecordService {
 //	public PayRecordService() {
 //		init();
 //	}
+
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+		try {
+			int rs = payrecorddao.delete(id);
+			if(rs!=1) {
+				throw new RuntimeException("删除失败");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("删除失败,稍后重试");
+		}
+	}
 
 //
 //	public void update(PayRecord obj) {

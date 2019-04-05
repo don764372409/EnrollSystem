@@ -140,8 +140,8 @@ public class MemberController {
 	 */
 	@RequestMapping("/queryUniANDMajorByRankANDMajor")
 	@ResponseBody
-	public Map<String, List<String>> queryUniANDMajorByRankANDMajor(Integer rank, Long mId){
-		return enrollService.queryUniANDMajorByRankANDMajor(rank, mId);
+	public Map<University, List<Major>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page){
+		return enrollService.queryUniANDMajorByRankANDMajor(page);
 	}
 	/**
 	 * 查询录取概率

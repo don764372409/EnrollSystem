@@ -19,4 +19,8 @@ public class TestInfoService {
 	public List<TestInfo> selectAll(){
 		return testInfoDAO.selectAll();
 	}
+	
+	public TestInfo selectOneById(int id) {
+		return testInfoDAO.selectOneById(id);
+	}
 }

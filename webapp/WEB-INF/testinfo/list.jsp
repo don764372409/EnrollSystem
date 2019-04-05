@@ -62,7 +62,7 @@
         <td>${obj.money}</td>
         <td>${obj.type}</td>
         <td>
-			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典信息','/dictionary/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
+			<a style="text-decoration:none" class="ml-5" onClick="edit('修改字典信息','/testinfo/showEdit',${obj.id})" href="javascript:;" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a> 
 		 </td>
         <td class="f-14 user-manage">
 			<a style="text-decoration:none" class="ml-5" onClick="deleteObj('删除字典信息','当前这条数据','/dictionary/delete',${obj.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe609;</i></a> 

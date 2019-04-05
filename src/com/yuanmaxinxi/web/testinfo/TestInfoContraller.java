@@ -34,6 +34,13 @@ public class TestInfoContraller{
 		return "testinfo/list";
 		
 	}
+	
+	@RequestMapping("/showEdit")
+	public String showEdit(int id,Model model) {
+		TestInfo obj = testInfoService.selectOneById(id);
+		model.addAttribute("obj", obj);
+		return "testinfo/edit";	
+	}
 //	@RequestMapping("/showEdit")
 //	public String showEdit(int id,Model model) {
 //

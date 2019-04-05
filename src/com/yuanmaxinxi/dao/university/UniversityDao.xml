@@ -10,10 +10,10 @@
         values (#{pId},#{name},#{type},#{remark},#{record},#{subject},#{teachers},#{ranking},#{address})
     </insert>
     <update id="update" parameterType="University">
-        update t_university set pId = #{pId},name=#{name},property=#{property},
-        type=#{type},remark=#{remark},record=#{record},dept=#{dept},nature=#{nature},f211=#{f211},f958=#{f958},guanwang=#{guanwang} where id=#{id}
+        update t_university set name=#{name}, address=#{address},property=#{property},ranking=#{ranking},teachers=#{teachers},
+        remark=#{remark},record=#{record},subject=#{subject} where id=#{id}
     </update>
-    <delete id="delete" parameterType="long">
+    <delete id="deleteById" parameterType="int">
         delete from t_university where id=#{id}
     </delete>
     <select id="selectOneById" parameterType="long" resultType="University">

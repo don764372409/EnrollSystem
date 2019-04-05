@@ -33,7 +33,9 @@ public class University_Servlet{
 	private UniversityService universityService;
 	@Autowired
 	private ProvinceService provinceService;
-
+	
+	ResultDTO dto;
+	
 	@RequestMapping("/list")
 	public String selectUniList(Model model) {
 		List<University> list = universityService.selectUniList();
@@ -44,7 +46,7 @@ public class University_Servlet{
 	public String edit(Long id,Model model) {
 		University un = universityService.selectOneById(id);
 		model.addAttribute("obj", un);
-		return "/dictionary/edit";
+		return "university/edit";
 	}
 	
 	@RequestMapping("/showAdd")
@@ -75,6 +77,36 @@ public class University_Servlet{
 		return "university/edit";
 		
 	}
+	
+	@RequestMapping("update")
+	@ResponseBody
+	public ResultDTO update(University obj) {
+	
+		try {
+			universityService.update(obj);
+			dto=ResultDTO.newInstance(true, "添加成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	public ResultDTO deleteById(int  id) {
+	
+		try {
+			universityService.deleteById(id);
+			dto=ResultDTO.newInstance(true, "删除成功");
+		} catch (Exception e) {
+			dto=ResultDTO.newInstance(false, e.getMessage());
+		}
+		
+		return dto;
+	}
+	
+	
 //	private static final long serialVersionUID = 1L;
 //	private ProvinceService provinceService;
 //	@Override
