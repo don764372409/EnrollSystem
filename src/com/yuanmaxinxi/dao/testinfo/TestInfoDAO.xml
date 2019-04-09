@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.testinfo.TestInfoDAO">
+<!--     <insert id="insert" parameterType="User"> -->
+<!--         insert into t_user(name,url,openid,code)values(#{name},#{url},#{openid},#{code}) -->
+<!--     </insert> -->
+    <select id="selectAll" resultType="TestInfo">
+       select * from t_testinfo
+    </select>
+<!--     <select id="selectOneByOpenid" parameterType="string" resultType="User"> -->
+<!--         select * from t_user where openid=#{openid} -->
+<!--     </select> -->
+<!--     <select id="selectOneByCode" parameterType="string" resultType="User"> -->
+<!--         select * from t_user where code = #{code} -->
+<!--     </select> -->
+<!--     <update id="bingNumber" parameterType="User"> -->
+<!--         update t_user set number = #{number} where openid =#{openid} -->
+<!--     </update> -->
+<!--     <select id="selectShoucangNumbers" parameterType="long" resultType="int"> -->
+<!--         select count(uId) from t_shoucang where uId = #{id} -->
+<!--     </select> -->
+    <select id="selectOneByType" resultType="TestInfo" parameterType="int">
+        select * from t_testinfo where type = #{type}
+    </select>
+     <select id="selectOneById" resultType="TestInfo" parameterType="int">
+        select * from t_testinfo where id = #{id}
+    </select>
+</mapper>

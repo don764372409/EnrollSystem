@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 设置扫描注解容器管理对象的基础包 -->
+	<context:component-scan base-package="com.yuanmaxinxi.web;com.yuanmaxinxi.smallsoft;" />
+	<!-- 设置SpringMVC不拦截静态资源访问 -->
+	<mvc:default-servlet-handler />
+<!-- 	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 					设置拦截的路径   -->
+<!--             <mvc:mapping path="/**" /> -->
+<!-- 					设置不拦截的路径   -->
+<!--                <mvc:exclude-mapping path="/voting/**"/> -->
+<!--             <bean class="com.lxgh.web.interceptor.LoginInterceptor" /> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/vip/**"/> -->
+<!--             <mvc:mapping path="/takePictures/**"/> -->
+<!--             <mvc:mapping path="/Qlaw/qlaw_add**"/> -->
+<!-- 			<bean class="com.lxgh.web.interceptor.VipInterceptor" /> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
+
+	<!-- SpringMVC注解驱动的配置 -->
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:message-converters register-defaults="true">
+			<!-- 配置Fastjson支持 -->
+			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+					     <!-- 这里顺序不能反，一定先写text/html,不然ie下出现下载提示 -->
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json</value>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<value>WriteMapNullValue</value>
+						<value>QuoteFieldNames</value>
+						<value>WriteDateUseDateFormat</value>
+						<value>DisableCircularReferenceDetect</value>
+					</list>
+				</property>
+			</bean>
+			<!-- 文件下载 -->
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- 视图解析器 -->
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 自定义参数绑定使用的转换器 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.yuanmaxinxi.converter.DateTimeConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- 支持文件上传 -->
+   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--最大上传文件字节大小，单位字节，这里20971520是20MB-->
+		<property name="maxUploadSize" value="20971520" />
+		<!--最大上传文件放入内存大小，这里是512KB-->
+		<property name="maxInMemorySize" value="524288" />
+		<!--resolveLazily属性启用是为了推迟文件解析，以便在控制器中捕获文件大小异常-->
+		<property name="resolveLazily" value="true" />
+	</bean>  
+
+	<!-- 统一异常处理器 -->
+<!-- 	<bean id="exceptionHandler" class="com.tajibao.manage.exceptionhandler.ExceptionHandler" /> -->
+
+</beans>

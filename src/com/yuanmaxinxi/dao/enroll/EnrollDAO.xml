@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.enroll.EnrollDAO">
+    <insert id="insert" parameterType="Enroll">
+        insert into t_enroll(uId,pId,mId,bId,number,maxNumber,avgNumber,minNumber,minRanking,time)value(#{uId},#{pId},#{mId},#{bId},#{number},#{maxNumber},#{avgNumber},#{minNumber},#{minRanking},#{time})
+    </insert>
+    <insert id="xxx" parameterType="string">
+        insert into t_xx(content)value(#{content})
+    </insert>
+    <update id="update" parameterType="Enroll">
+		update t_enroll set mId=#{mId} where id = #{id}        
+    </update>
+    <update id="edit" parameterType="Admin">
+		update t_admin set name = #{name},phone=phone=#{phone} where id = #{ip} 
+    </update>
+    <delete id="delete" parameterType="Long">
+        delete from t_admin where id=#{id}
+    </delete>
+    <select id="selectOneById" parameterType="Long" resultType="Admin">
+        select * from t_admin where id=#{id}
+    </select>
+    <select id="selectAll" resultType="Enroll">
+       select * from t_enroll
+    </select>
+    <select id="queryEnrollByRankANDMajor" parameterType="Long" resultType="Enroll">
+        SELECT uId,mId,min(minRanking) minRanking, min(avgRanking) avgRanking, min(maxRanking) maxRanking
+         FROM t_enroll <include refid="whereSql"></include> 
+		  GROUP BY uId,mId HAVING min(minRanking) > #{rank}
+    </select>
+    <select id="queryEnrollByRankUni" parameterType="Long" resultType="Enroll">
+        SELECT uId FROM t_enroll  GROUP BY uId  ORDER BY avg(minRanking)
+    </select>
+<!--     <select id="selectOneByUsername" resultType="Admin"> -->
+<!--         select * from t_admin where username = #{username} -->
+<!--     </select> -->
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="int">
+        select count(id) from t_enroll
+        <include refid="whereSql"></include>
+    </select>
+    <select id="queryUniversity" parameterType="String" resultType="University">
+    	SELECT * FROM t_university WHERE id IN
+    		(SELECT DISTINCT uId FROM t_enroll) AND instr(name,#{name})
+    </select>
+    <select id="queryMajorByuId" parameterType="Long" resultType="Major">
+    	SELECT * FROM t_major WHERE id IN
+    		(SELECT DISTINCT mId FROM t_enroll WHERE uId=#{uId}) 
+    </select>
+    <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Enroll">
+        select * from t_enroll <include refid="whereSql"></include> 
+        limit #{beginIndex},#{pageSize}
+    </select>
+    <sql id="whereSql">
+        <where>
+            <if test="name!=null and name != ''">
+                and instr(name,#{name})
+            </if>
+            <if test="uId!=null and uId &gt; 0">
+				and uId=#{uId}
+            </if>
+            <if test="pId!=null and pId &gt; 0">
+				and pId=#{pId}
+            </if>
+            <if test="mId!=null">
+				and mId in (#{mId})
+            </if>
+            <if test="bId!=null and bId &gt; 0">
+				and bId=#{bId}
+            </if>
+        </where>
+    </sql>
+    <select id="queryProvinceScore" parameterType="com.yuanmaxinxi.entity.provincescore.Provincescore" resultType="Provincescore">
+    	SELECT * FROM t_provincescore WHERE bId=#{bId} and 
+    	pId=#{pId} and time=#{time}
+    </select>
+    <select id="selectEnrollProvince" resultType="Province">
+        select id,name from t_province where id in (
+        	select distinct pId from t_enroll
+        )
+    </select>
+    <select id="serch" parameterType="map" resultType="Enroll">
+        select en.* from ( 
+	  		select * from t_enroll 
+	  		where pId =  #{pId} and minRanking>=(${ranking}-#{range}) and (${ranking}+#{range}) >= maxRanking
+	  		and bId = #{bId}
+	   )en where (#{number}>=en.minNumber or  #{number}>= en.maxNumber or #{number}>=en.avgNumber) and en.time>2000 order by time desc,
+	   maxRanking desc,avgRanking desc,minRanking desc
+    </select>
+    <select id="enrollBigUni" parameterType="map" resultType="Enroll">
+        select * from 
+		(
+		select id,uId,maxNumber,minNumber,avgNumber from t_enroll where maxRanking >=#{ranking} and (#{ranking}+100) >=minRanking
+		) en where  #{number} >= en.maxNumber and  #{number} >= en.avgNumber and  #{number} >= en.minNumber
+		order by minNumber,avgNumber,maxNumber
+    </select>
+    <select id="selectAllByMajorName" parameterType="string" resultType="Enroll">
+        select mId,bId from t_enroll where mId in(
+			select id from t_major where name = #{name}
+		)
+    </select>
+</mapper>

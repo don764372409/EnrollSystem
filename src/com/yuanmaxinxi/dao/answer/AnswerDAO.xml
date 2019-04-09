@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.answer.AnswerDAO">
+    <select id="selectAllBytopicId" resultType="Answer">
+        select * from t_answer where topicId = #{topicId}
+    </select>
+    <select id="selectOneById" parameterType="long" resultType="Answer">
+        select * from t_answer where id = #{id}
+    </select>
+</mapper>

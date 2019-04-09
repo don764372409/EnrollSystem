@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.major.MajorDAO">
+    <select id="selectUnis" parameterType="long" resultType="University">
+        select id,name,imgsrc from t_university where id in (
+        	select uId from t_university_major where no = (
+        		select no from t_major where id = #{id}
+        	)
+        )
+    </select>
+    <select id="selectLikeMajorsById" parameterType="long" resultType="Major">
+        select id,name,no from t_major where no in(
+        	select no2 from t_major_like where no1 = (
+        		select no from t_major where id = #{id}
+        	)
+        	union
+        	select no1 from t_major_like where no2 = (
+        		select no from t_major where id = #{id}
+        	)
+        )
+    </select>
+    <insert id="insertMajorAndUniversity" parameterType="map">
+        insert into t_university_major(no,uId) values(#{no},#{uId})
+    </insert>
+    <insert id="insertXXX" parameterType="string">
+        insert int t_errorContent(content) values(#{content})
+    </insert>
+    <select id="selectxxx" parameterType="map" resultType="string">
+        select no from t_university_major where no=#{no} and uId=#{uId}
+    </select>
+	<insert id="insert" parameterType="Major" useGeneratedKeys="true" keyProperty="id">
+		insert into t_major(name,no,pNo,type,layer,url)values
+		(#{name},#{no},#{pNo},#{type},#{layer},#{url})
+	</insert>
+	<update id="update" parameterType="Major">
+		update t_major set no = #{no},content=#{content} where id =#{id}
+	</update>
+	<delete id="delete" parameterType="long">
+		delete from t_major where id =#{id}
+	</delete>
+	<select id="selectOneById" parameterType="long" resultType="Major">
+		select * from t_major where id = #{id}
+	</select>
+	<select id="selectAll" resultType="Major">
+		select * from t_major
+	</select>
+	<select id="selectAllName" resultType="Major">
+		select id,name from t_major
+	</select>
+	<update id="updateInfo" parameterType="Major">
+	    update t_major set jianjie=#{jianjie},mubiao=#{mubiao},yaoqiu=#{yaoqiu},minren=#{minren}
+	    ,kecheng=#{kecheng},xueke=#{xueke},zhishi=#{zhishi} where id =#{id}
+	</update>
+	<select id="selectAllMajor" resultType="Major">
+	    select url,id,no from t_major where layer = 3 and url is not null
+	</select>
+	<select id="selectChildrenByPNo" parameterType="string" resultType="Major">
+	    select id,name,no from t_major where pNo=#{no}
+	</select>
+	<select id="selectOneByOn" parameterType="string" resultType="Major">
+	    select * from t_major where no=#{no}
+	</select>
+	<select id="selectFirstMajor" parameterType="int" resultType="Major">
+	    select id,name,no from t_major where layer=1 and type=#{type}
+	</select>
+	<insert id="save" parameterType="Major">
+	    insert into t_major(name,no,type,jianjie,layer,content,url,pNo)values
+					(#{name},#{no},#{type},#{jianjie},#{layer},#{content},#{url},#{pNo})
+	</insert>
+	
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="int">
+        select count(id) from t_major
+        <include refid="whereSql"></include>
+    </select>
+    <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Major">
+        select id,name,no,pNo,type from t_major <include refid="whereSql"></include> 
+        order by type limit #{beginIndex},#{pageSize}
+    </select>
+    
+    <select id="selectLikeMajor" parameterType="com.yuanmaxinxi.dto.LikeMajor" resultType="com.yuanmaxinxi.dto.LikeMajor">
+        	select * from t_major_like where no1 = #{no1} and no2 = #{no2}
+        	union 
+        	select * from t_major_like where no2 = #{no1} and no1 = #{no2}
+    </select>
+    <insert id="insertLikeMajor" parameterType="com.yuanmaxinxi.dto.LikeMajor">
+        insert into t_major_like values(#{no1},#{no2})
+    </insert>
+	<sql id="whereSql">
+        <where>
+			 <if test="name!=null and name != ''">
+			     and instr(name,#{name}) and layer = 3
+			 </if> 
+        </where>
+    </sql>
+    <select id="selectOneByNameXXX" parameterType="string" resultType="Major">
+        select * from t_major where name=#{name} and id >711 and id &lt;=1845
+    </select>
+    <select id="selectOneByNameYYY" parameterType="string" resultType="Major">
+        select * from t_major where name=#{name} and id &lt;=711
+    </select>
+    <select id="selectOneByNameZZZ" parameterType="string" resultType="Major">
+        select min(mId) as id from t_enroll where mId in(
+			select id from t_major where name = #{name}
+		)
+    </select>
+    <select id="selectAllCCC" parameterType="Major" resultType="Major">
+        select id from t_major where id in(
+			select id from t_major where name = #{name}
+		) and id > #{id} and id >1845
+    </select>
+</mapper>

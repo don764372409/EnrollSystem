@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.dictionary.DictionaryDAO">
+
+    <select id="selectAll" resultType="Dictionary">
+        select * from t_dictionary
+    </select>
+    <select id="selectOneById" resultType="Dictionary">
+        select * from t_dictionary where id=#{id}
+    </select>
+  	  <update id="edit">
+    	update t_dictionary set typeId=#{typeId},name=#{name} where id=#{id}
+    </update>
+    <delete id="delete">
+    	delete from t_dictionary where id=#{id}
+    </delete>
+</mapper>
