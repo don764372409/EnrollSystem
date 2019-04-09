@@ -43,6 +43,7 @@ public interface MajorDAO extends BaseDAO<Major>{
 	public void insertXXX(String content);
 	public List<Major> selectLikeMajorsById(Long id);
 	public List<University> selectUnis(Long id);
+
 	
 	
 	public Major selectOneByNameXXX(String name);

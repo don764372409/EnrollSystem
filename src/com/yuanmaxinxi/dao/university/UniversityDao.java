@@ -19,6 +19,7 @@ public interface UniversityDao extends BaseDAO<University>{
 	University selectOneByName(String name);
 
 	public int updateRanking(University uni);
+	public List<String> selectUniversityProperty();
 	
 	/**
 	 * 根据学校ID查询学校的录取专业

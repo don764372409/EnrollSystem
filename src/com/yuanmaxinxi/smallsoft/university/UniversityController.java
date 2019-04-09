@@ -127,4 +127,9 @@ public class UniversityController{
 			universityService.queryPage(dto);//0-10条数据
 			return dto;
 	}
+	@RequestMapping("/listUniversityProperty")
+	@ResponseBody
+	public List<String> selectUniversityProperty() {
+		return universityService.selectUniversityProperty();
+	}
 }

@@ -23,7 +23,8 @@
        select * from t_enroll
     </select>
     <select id="queryEnrollByRankANDMajor" parameterType="Long" resultType="Enroll">
-        SELECT uId,mId,min(minRanking) FROM t_enroll <include refid="whereSql"></include> 
+        SELECT uId,mId,min(minRanking) minRanking, min(avgRanking) avgRanking, min(maxRanking) maxRanking
+         FROM t_enroll <include refid="whereSql"></include> 
 		  GROUP BY uId,mId HAVING min(minRanking) > #{rank}
     </select>
     <select id="queryEnrollByRankUni" parameterType="Long" resultType="Enroll">
@@ -59,8 +60,8 @@
             <if test="pId!=null and pId &gt; 0">
 				and pId=#{pId}
             </if>
-            <if test="mId!=null and mId &gt; 0">
-				and mId=#{mId}
+            <if test="mId!=null">
+				and mId in (#{mId})
             </if>
             <if test="bId!=null and bId &gt; 0">
 				and bId=#{bId}

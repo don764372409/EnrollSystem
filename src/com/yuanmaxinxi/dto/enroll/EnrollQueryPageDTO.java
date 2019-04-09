@@ -6,16 +6,44 @@ import com.yuanmaxinxi.entity.enroll.Enroll;
 public class EnrollQueryPageDTO extends MyBatisQueryPageDTO<Enroll>{
 	private String name;
 	private Long uId;
+	private Long uPId;
+	private String property;
+	private int uType;
 	private Long pId;
 	private Long mId;
+	private String mIds;
 	private Long bId;
 	private Long rank;
 	
+	public int getuType() {
+		return uType;
+	}
+	public void setuType(int uType) {
+		this.uType = uType;
+	}
 	public Long getuId() {
 		return uId;
 	}
+	public Long getuPId() {
+		return uPId;
+	}
+	public void setuPId(Long uPId) {
+		this.uPId = uPId;
+	}
+	public String getProperty() {
+		return property;
+	}
+	public void setProperty(String property) {
+		this.property = property;
+	}
 	public void setuId(Long uId) {
 		this.uId = uId;
+	}
+	public String getmIds() {
+		return mIds;
+	}
+	public void setmIds(String mIds) {
+		this.mIds = mIds;
 	}
 	public Long getpId() {
 		return pId;

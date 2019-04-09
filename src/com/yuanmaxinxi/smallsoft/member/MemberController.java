@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yuanmaxinxi.dto.UniNumberDTO;
 import com.yuanmaxinxi.dto.enroll.EnrollQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
+import com.yuanmaxinxi.entity.enroll.EnrollMajor;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.provincescore.Provincescore;
@@ -102,6 +103,8 @@ public class MemberController {
 		map.put("range", range);
 		return enrollService.serch(map);
 	}
+	
+
 
 	/**
 	 * 历年录取匹配查询
@@ -140,8 +143,20 @@ public class MemberController {
 	 */
 	@RequestMapping("/queryUniANDMajorByRankANDMajor")
 	@ResponseBody
-	public Map<University, List<Major>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page){
+	public Map<University, List<EnrollMajor>> queryUniANDMajorByRank(EnrollQueryPageDTO page){
 		return enrollService.queryUniANDMajorByRankANDMajor(page);
+	}
+	
+	/**
+	 * 根据名次查询学校专业
+	 * @param rank
+	 * @param mId
+	 * @return
+	 */
+	@RequestMapping("/queryUniANDMajorByRank")
+	@ResponseBody
+	public Map<University, List<EnrollMajor>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page){
+		return enrollService.queryUniANDMajorByRank(page);
 	}
 	/**
 	 * 查询录取概率

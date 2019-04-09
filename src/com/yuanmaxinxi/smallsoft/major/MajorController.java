@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.MajorQueryPageDTO;
+import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.MajorService;
@@ -49,6 +50,7 @@ public class MajorController{
 	public List<University> uni(Long id){
 		return  majorService.selectUnis(id);
 	}
+
 	
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/json;charset=UTF-8");

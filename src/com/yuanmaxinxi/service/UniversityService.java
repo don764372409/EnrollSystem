@@ -82,6 +82,9 @@ public class UniversityService {
 		}
 	}
 	
+	public List<String> selectUniversityProperty() {
+		return universityDAO.selectUniversityProperty();
+	}
 	@Transactional	
 	public void update(University obj) {
 		if(StringUtil.isNullOrEmpty(obj.getName())) {
