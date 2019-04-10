@@ -46,6 +46,7 @@ public interface MajorDAO extends BaseDAO<Major>{
 
 	
 	
+	public Major selectOneBenByName(String name);
 	public Major selectOneByNameXXX(String name);
 	public Major selectOneByNameYYY(String name);
 	public Major selectOneByNameZZZ(String name);

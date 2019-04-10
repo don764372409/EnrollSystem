@@ -60,11 +60,17 @@
             <if test="pId!=null and pId &gt; 0">
 				and pId=#{pId}
             </if>
-            <if test="mId!=null">
-				and mId in (#{mId})
+            <if test="mId!=null and mId &gt; 0">
+				and mId=#{mId}
+            </if>
+            <if test="mIds!=null">
+				and mId in (${mIds})
             </if>
             <if test="bId!=null and bId &gt; 0">
 				and bId=#{bId}
+            </if>
+            <if test="bIds!=null">
+				and bId in (${bIds})
             </if>
         </where>
     </sql>

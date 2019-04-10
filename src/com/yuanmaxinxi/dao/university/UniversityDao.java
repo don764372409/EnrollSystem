@@ -34,6 +34,7 @@ public interface UniversityDao extends BaseDAO<University>{
 	 * @return
 	 */
 	public List<Enroll> selectYearByMajorAndBidAndId(Map<String,String> map);
+	public List<University> selectAllEnrollMajor();
 	/**
 	 * 
 	 * @param map 

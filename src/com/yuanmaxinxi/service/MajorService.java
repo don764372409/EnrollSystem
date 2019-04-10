@@ -88,6 +88,10 @@ public class MajorService {
 		}
 		return mj;
 	}
+	
+	public Major selectOneBenByName(String name) {
+		return majorDAO.selectOneBenByName(name);
+	}
 
 	public List<Major> selectAll() {
 		return majorDAO.selectAll();

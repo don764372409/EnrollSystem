@@ -53,13 +53,16 @@ public class EnrollService {
 		Map<Long, List<Enroll>> ueMap = new HashMap<>();
 		for (Enroll e : enrollDAO.queryEnrollByRankANDMajor(page)) {
 			uId = e.getuId();
+			if (uId==1300) {
+				System.err.println("2222222222224243");
+			}
 			if (!ueMap.containsKey(uId)) {
 				ueMap.put(uId, new ArrayList<>());
 			}
 			ueMap.get(uId).add(e);
 		}
 
-		int i = page.getCurrentPage();
+		int i = page.getPageSize();
 		Map<University, List<EnrollMajor>> umMap = new HashMap<>();
 		for (Enroll e : enrollDAO.queryEnrollByRankUni()) {
 			uId = e.getuId();
@@ -93,7 +96,7 @@ public class EnrollService {
 	public Map<University, List<EnrollMajor>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page) {
 		// 查询学校参数
 		Map<Long, University> uMap = new HashMap<>();
-		for (University u : universityDao.selectAll()) {
+		for (University u : universityDao.selectAllEnrollMajor()) {
 			uMap.put(u.getId(), u);
 		}
 
@@ -138,7 +141,7 @@ public class EnrollService {
 			return null;
 		}
 
-		// 计算计数最多的学校
+		// 计算计数最多的学校,如果计数相同,选择排名高的学校
 		LinkedList<Long> uIds = new LinkedList<>();
 		int size = page.getPageSize();
 		for (Enroll e : enrollDAO.queryEnrollByRankUni()) {
@@ -165,7 +168,7 @@ public class EnrollService {
 		// 封装学校和专业
 		for (int i = 0; i < size; i++) {
 			Long uId = uIds.get(i);
-			University uni = universityDao.selectOneById(uId);
+			University uni = uMap.get(uId);
 			List<EnrollMajor> ems = new ArrayList<>();
 			for (Enroll ee : ueMap.get(uId)) {
 				EnrollMajor em = new EnrollMajor();

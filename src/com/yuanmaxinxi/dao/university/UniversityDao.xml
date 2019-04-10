@@ -25,6 +25,9 @@
     <select id="selectAll" resultType="University">
         select * from t_university
     </select>
+    <select id="selectAllEnrollMajor" resultType="University">
+        select id,name,pId,f985,f211,property from t_university
+    </select>
     <select id="selectAllName" resultType="University">
         select id,name from t_university
     </select>

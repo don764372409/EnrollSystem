@@ -26,6 +26,7 @@ import com.yuanmaxinxi.entity.volunteer.Volunteer;
 import com.yuanmaxinxi.entity.volunteer.VolunteerMajor;
 import com.yuanmaxinxi.entity.volunteer.VolunteerUni;
 import com.yuanmaxinxi.service.EnrollService;
+import com.yuanmaxinxi.service.MajorService;
 import com.yuanmaxinxi.service.UniversityService;
 
 /**
@@ -42,6 +43,8 @@ public class MemberController {
 	private UniversityService universityService;
 	@Autowired
 	private EnrollService enrollService;
+	@Autowired
+	private MajorService majorService;
 
 	@RequestMapping("/xx")
 	public @ResponseBody Object xx(HttpSession session, HttpServletResponse response) {
@@ -103,8 +106,6 @@ public class MemberController {
 		map.put("range", range);
 		return enrollService.serch(map);
 	}
-	
-
 
 	/**
 	 * 历年录取匹配查询
@@ -135,18 +136,34 @@ public class MemberController {
 	public List<Major> queryMajorByuId(Long uId) {
 		return enrollService.queryMajorByuId(uId);
 	}
-	/**
-	 * 根据名次和专业查询学校专业
-	 * @param rank
-	 * @param mId
-	 * @return
-	 */
-	@RequestMapping("/queryUniANDMajorByRankANDMajor")
-	@ResponseBody
-	public Map<University, List<EnrollMajor>> queryUniANDMajorByRank(EnrollQueryPageDTO page){
-		return enrollService.queryUniANDMajorByRankANDMajor(page);
+
+	private void setPageParma(EnrollQueryPageDTO page) {
+		if (page.getbId() != null) {
+			if (page.getbId() == 88) {
+				page.setbId(0L);
+				page.setbIds("8,10");
+			} else if (page.getbId() == 99) {
+				page.setbId(0L);
+				page.setbIds("9,11");
+			}
+		}
+		if (page.getmNames() != null) {
+			String mNames[] = page.getmNames().split(",");
+			String mIds = null;
+			Major major = majorService.selectOneBenByName(mNames[0]);
+			if (major != null) {
+				mIds = major.getId().toString();
+			}
+			for (int i = 1; i < mNames.length; i++) {
+				major = majorService.selectOneBenByName(mNames[i]);
+				if (major != null) {
+					mIds += "," + major.getId();
+				}
+			}
+			page.setmIds(mIds);
+		}
 	}
-	
+
 	/**
 	 * 根据名次查询学校专业
 	 * @param rank
@@ -155,9 +172,25 @@ public class MemberController {
 	 */
 	@RequestMapping("/queryUniANDMajorByRank")
 	@ResponseBody
-	public Map<University, List<EnrollMajor>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page){
+	public Map<University, List<EnrollMajor>> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
+		setPageParma(page);
 		return enrollService.queryUniANDMajorByRank(page);
 	}
+
+	/**
+	 * 根据名次和专业查询学校专业
+	 * 
+	 * @param rank
+	 * @param mId
+	 * @return
+	 */
+	@RequestMapping("/queryUniANDMajorByRankANDMajor")
+	@ResponseBody
+	public Map<University, List<EnrollMajor>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page) {
+		setPageParma(page);
+		return enrollService.queryUniANDMajorByRankANDMajor(page);
+	}
+
 	/**
 	 * 查询录取概率
 	 * 
@@ -182,7 +215,7 @@ public class MemberController {
 		ps.setbId(bId);
 
 		for (VolunteerUni vn : v.getUnis()) {
-			if (vn.getId()==0) {
+			if (vn.getId() == 0) {
 				continue;
 			}
 			University university = universityService.selectOneById(vn.getId());
@@ -190,26 +223,26 @@ public class MemberController {
 			vn.setType(university.getType());
 			ed.setuId(vn.getId());
 			for (VolunteerMajor vm : vn.getMajors()) {
-				if (vm.getId()==0) {
+				if (vm.getId() == 0) {
 					continue;
 				}
 				ed.setmId(vm.getId());
 				List<Enroll> es = enrollService.queryPage(ed);
-				if (es.size()==0) {
+				if (es.size() == 0) {
 					vm.setPercent(999);
 					continue;
 				}
 				int d = 0, dl = 0, da = 0, dk = 0, len = es.size();
-				//根据往年录取数据计算概率
+				// 根据往年录取数据计算概率
 				for (Enroll e : es) {
 					dl += e.getMinNumber();
 					da += e.getAvgNumber();
 					ps.setTime(e.getTime());
 					dk += enrollService.queryProvinceScore(ps);
 				}
-				
+
 				d = v.getNumber() - 500;
-				if (d<0) {
+				if (d < 0) {
 					vm.setPercent(0);
 					continue;
 				}
@@ -217,15 +250,15 @@ public class MemberController {
 				da = (da - dk) / len;
 				if (d == dl) {
 					vm.setPercent(50);
-				}else if (d >= da) {
+				} else if (d >= da) {
 					vm.setPercent(100);
 				} else {
-					//解决平均分和最低分相等时的BUG
+					// 解决平均分和最低分相等时的BUG
 					int result = 1;
-					if (da!=dl) {
-						result = da-dl;
+					if (da != dl) {
+						result = da - dl;
 					}
-					vm.setPercent((result * 100 / (d - dl))/2 + 50);// 100/-490/2+50
+					vm.setPercent((result * 100 / (d - dl)) / 2 + 50);// 100/-490/2+50
 				}
 			}
 		}

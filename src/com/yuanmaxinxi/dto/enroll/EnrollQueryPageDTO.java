@@ -11,10 +11,31 @@ public class EnrollQueryPageDTO extends MyBatisQueryPageDTO<Enroll>{
 	private int uType;
 	private Long pId;
 	private Long mId;
+	private String mNames;
 	private String mIds;
 	private Long bId;
+	private String bIds;
 	private Long rank;
 	
+	
+	public String getmNames() {
+		return mNames;
+	}
+	public void setmNames(String mNames) {
+		this.mNames = mNames;
+	}
+	public Long getbId() {
+		return bId;
+	}
+	public void setbId(Long bId) {
+		this.bId = bId;
+	}
+	public String getbIds() {
+		return bIds;
+	}
+	public void setbIds(String bIds) {
+		this.bIds = bIds;
+	}
 	public int getuType() {
 		return uType;
 	}
@@ -56,12 +77,6 @@ public class EnrollQueryPageDTO extends MyBatisQueryPageDTO<Enroll>{
 	}
 	public void setmId(Long mId) {
 		this.mId = mId;
-	}
-	public Long getbId() {
-		return bId;
-	}
-	public void setbId(Long bId) {
-		this.bId = bId;
 	}
 	public String getName() {
 		return name;
