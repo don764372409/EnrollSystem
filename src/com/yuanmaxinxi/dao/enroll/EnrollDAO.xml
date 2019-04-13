@@ -52,7 +52,7 @@
     <sql id="whereSql">
         <where>
             <if test="name!=null and name != ''">
-                and instr(name,#{name})
+                AND uId IN (SELECT id FROM t_university WHERE instr(name,#{name}))
             </if>
             <if test="uId!=null and uId &gt; 0">
 				and uId=#{uId}

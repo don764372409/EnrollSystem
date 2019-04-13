@@ -18,6 +18,7 @@ import com.yuanmaxinxi.dto.UniNumberDTO;
 import com.yuanmaxinxi.dto.enroll.EnrollQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.enroll.EnrollMajor;
+import com.yuanmaxinxi.entity.enroll.UniEnrollMajor;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.provincescore.Provincescore;
@@ -172,7 +173,7 @@ public class MemberController {
 	 */
 	@RequestMapping("/queryUniANDMajorByRank")
 	@ResponseBody
-	public Map<University, List<EnrollMajor>> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
+	public List<UniEnrollMajor> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
 		setPageParma(page);
 		return enrollService.queryUniANDMajorByRank(page);
 	}
@@ -182,11 +183,11 @@ public class MemberController {
 	 * 
 	 * @param rank
 	 * @param mId
-	 * @return
+	 * @return  
 	 */
 	@RequestMapping("/queryUniANDMajorByRankANDMajor")
 	@ResponseBody
-	public Map<University, List<EnrollMajor>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page) {
+	public List<UniEnrollMajor> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page) {
 		setPageParma(page);
 		return enrollService.queryUniANDMajorByRankANDMajor(page);
 	}

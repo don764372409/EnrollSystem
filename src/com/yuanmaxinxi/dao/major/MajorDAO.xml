@@ -93,7 +93,7 @@
         </where>
     </sql>
     <select id="selectOneBenByName" parameterType="string" resultType="Major">
-        select * from t_major where name=#{name} and type=0
+        select * from t_major where name=#{name} and type=0 and layer=3
     </select>
     <select id="selectOneByNameXXX" parameterType="string" resultType="Major">
         select * from t_major where name=#{name} and id >711 and id &lt;=1845

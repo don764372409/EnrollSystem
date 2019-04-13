@@ -24,6 +24,7 @@ import com.yuanmaxinxi.dto.enroll.EnrollQueryPageDTO;
 import com.yuanmaxinxi.entity.batch.Batch;
 import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.enroll.EnrollMajor;
+import com.yuanmaxinxi.entity.enroll.UniEnrollMajor;
 import com.yuanmaxinxi.entity.error.ErrorContent;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
@@ -47,15 +48,12 @@ public class EnrollService {
 	@Autowired
 	private ErrorContentDAO errorContentDAO;
 
-	public Map<University, List<EnrollMajor>> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
+	public List<UniEnrollMajor> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
 		Long uId;
 //		Map<University,List<String>> umMap = new HashMap<>();
 		Map<Long, List<Enroll>> ueMap = new HashMap<>();
 		for (Enroll e : enrollDAO.queryEnrollByRankANDMajor(page)) {
 			uId = e.getuId();
-			if (uId==1300) {
-				System.err.println("2222222222224243");
-			}
 			if (!ueMap.containsKey(uId)) {
 				ueMap.put(uId, new ArrayList<>());
 			}
@@ -63,7 +61,7 @@ public class EnrollService {
 		}
 
 		int i = page.getPageSize();
-		Map<University, List<EnrollMajor>> umMap = new HashMap<>();
+		List<UniEnrollMajor> uems = new ArrayList<>();
 		for (Enroll e : enrollDAO.queryEnrollByRankUni()) {
 			uId = e.getuId();
 			if (ueMap.containsKey(uId) && ueMap.get(uId) != null) {
@@ -71,8 +69,11 @@ public class EnrollService {
 				System.err.println(uId);
 
 				University uni = universityDao.selectOneById(uId);
+				uni.setRemark("");
 				List<EnrollMajor> ems = new ArrayList<>();
-				for (Enroll ee : ueMap.get(uId)) {
+				List<Enroll> es = ueMap.get(uId);
+				for (int j = 0; j < (es.size() > 6 ? 6 : es.size()); j++) {
+					Enroll ee=es.get(j);
 					EnrollMajor em = new EnrollMajor();
 					em.setAvgRank(ee.getAvgRanking());
 					em.setMaxRank(ee.getMaxRanking());
@@ -83,17 +84,25 @@ public class EnrollService {
 					em.setNo(major.getNo());
 					ems.add(em);
 				}
+				/*
+				for (Enroll ee : ueMap.get(uId)) {
+				
+				}
+				*/
 
-				umMap.put(uni, ems);
-				if (--i == 0) {
+				UniEnrollMajor uem = new UniEnrollMajor();
+				uem.setUni(uni);
+				uem.setEms(ems);
+				uems.add(uem);
+				if (--i <= 0) {
 					break;
 				}
 			}
 		}
-		return umMap;
+		return uems;
 	}
 
-	public Map<University, List<EnrollMajor>> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page) {
+	public List<UniEnrollMajor> queryUniANDMajorByRankANDMajor(EnrollQueryPageDTO page) {
 		// 查询学校参数
 		Map<Long, University> uMap = new HashMap<>();
 		for (University u : universityDao.selectAllEnrollMajor()) {
@@ -160,11 +169,11 @@ public class EnrollService {
 				}
 			}
 		}
-		Map<University, List<EnrollMajor>> umMap = new HashMap<>();
 		if (size > uIds.size()) {
 			size = uIds.size();
 		}
 
+		List<UniEnrollMajor> uems = new ArrayList<>();
 		// 封装学校和专业
 		for (int i = 0; i < size; i++) {
 			Long uId = uIds.get(i);
@@ -183,9 +192,12 @@ public class EnrollService {
 				}
 				ems.add(em);
 			}
-			umMap.put(uni, ems);
+			UniEnrollMajor uem = new UniEnrollMajor();
+			uem.setUni(uni);
+			uem.setEms(ems);
+			uems.add(uem);
 		}
-		return umMap;
+		return uems;
 	}
 
 	public void xxxx() {

@@ -3,7 +3,7 @@ package com.yuanmaxinxi.entity.enroll;
 public class EnrollMajor {
 	private Long mId;
 	private String name;
-	private String no;
+	private String no="";
 	private Integer minRank;
 	private Integer avgRank;
 	private Integer maxRank;
