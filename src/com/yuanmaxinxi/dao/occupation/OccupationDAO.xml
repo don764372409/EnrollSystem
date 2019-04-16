@@ -16,4 +16,16 @@
 	<select id="selectAll" resultType="Occupation">
 		select * from t_occupation
 	</select>
+	
+	<select id="selectByPid" resultType="Occupation">
+		select * from t_occupation where pId is null
+	</select>
+	
+	<select id="selectByFatherPid" resultType="Occupation">
+		select * from t_occupation where pId=#{id}
+	</select>
+	
+	<select id="selectFatherOneByPid" resultType="Occupation">
+		select * from t_occupation where id=#{pId}
+	</select>
 </mapper>

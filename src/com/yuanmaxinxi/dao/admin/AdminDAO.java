@@ -17,5 +17,4 @@ public interface AdminDAO extends BaseDAO<Admin>{
 	public Admin selectOneById(Long id);
 	public int insert(Admin admin);
 	public int update(Admin admin);
-	
 }

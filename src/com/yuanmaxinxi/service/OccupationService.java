@@ -93,6 +93,28 @@ public class OccupationService {
 	public List<Occupation> selectAll() {
 		return occupationDAO.selectAll();
 	}
+	
+	public List<Occupation> sFselectAll(){
+		List<Occupation> list = occupationDAO.selectByPid();
+		for (Occupation occupation : list) {
+			List<Occupation> childrenList = occupationDAO.selectByFatherPid(occupation.getId());
+			occupation.setChildren(childrenList);
+			for (Occupation list2 : childrenList) {
+				List<Occupation> list3 = occupationDAO.selectByFatherPid(list2.getId());
+				list2.setChildren(list3);
+		}
+	}
+		return list;
+	}
+	
+	public Occupation selectFatherOneByPid(Long pId) {
+		System.out.println(pId);
+		Occupation selectFatherOneByPid = occupationDAO.selectFatherOneByPid(pId);
+		System.out.println(selectFatherOneByPid.getpId());
+		Occupation selectFatherOneByPid2 = occupationDAO.selectFatherOneByPid(selectFatherOneByPid.getpId());
+		selectFatherOneByPid.setOc(selectFatherOneByPid2);
+		return selectFatherOneByPid;
+	}
 //
 //	public List<Occupation> queryPage(BaseQueryPageDTO dto) {
 //		return null;

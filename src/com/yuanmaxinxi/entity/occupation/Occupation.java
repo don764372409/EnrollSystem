@@ -14,7 +14,14 @@ public class Occupation {
 	private Long pId;//父级职业
 	private String remark;//职业简介
 	private List<Occupation> children = new ArrayList<>();
+	private Occupation oc;
 	
+	public Occupation getOc() {
+		return oc;
+	}
+	public void setOc(Occupation oc) {
+		this.oc = oc;
+	}
 	public List<Occupation> getChildren() {
 		return children;
 	}

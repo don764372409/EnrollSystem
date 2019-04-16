@@ -33,5 +33,12 @@ public interface OccupationDAO extends BaseDAO<Occupation>{
 
 	
 	public void queryPage(BaseQueryPageDTO<Occupation> dto);
+	
+	public List<Occupation> selectByPid();
+	
+	public List<Occupation> selectByFatherPid(Long id);
+
+
+	public Occupation selectFatherOneByPid(Long pId);
 
 }
