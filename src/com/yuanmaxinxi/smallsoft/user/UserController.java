@@ -13,6 +13,16 @@ import com.yuanmaxinxi.service.UserService;
 public class UserController{
 	@Autowired
 	private UserService userService;
+	@RequestMapping("/updateInfo")
+	@ResponseBody
+	public ResultDTO updateInfo (User user){
+		try {
+			userService.update(user);
+			return ResultDTO.putError("修改信息成功.");
+		} catch (Exception e) {
+			return ResultDTO.putError(e.getMessage());
+		}
+	}
 	@RequestMapping("/login")
 	@ResponseBody
 	public ResultDTO login (String openid){
