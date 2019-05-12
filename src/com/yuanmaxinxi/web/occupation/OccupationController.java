@@ -84,6 +84,8 @@ public class OccupationController{
 		}
 		return dto;
 	}
+	
+	
 //
 //	private static final long serialVersionUID = 1L;
 //	private OccupationService ocpService;

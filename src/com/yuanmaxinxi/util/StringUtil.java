@@ -1,5 +1,6 @@
 package com.yuanmaxinxi.util;
 
+import java.net.MalformedURLException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,11 +9,68 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class StringUtil {
 	private static String[] nums = {"0","1","2","3","4","5","6","7","8","9"};
+	/**
+	 * 验证手机号码
+	 * 
+	 * @param str
+	 * @return true 符合格式 false 不符合格式
+	 */
+	public static boolean isMobile(String str) {
+		Pattern p = null;
+		Matcher m = null;
+		boolean b = false;
+		p = Pattern.compile("^[1][3,4,5,6,7,8,9][0-9]{9}$"); // 验证手机号
+		m = p.matcher(str);
+		b = m.matches();
+		return b;
+	}
+	 /**
+  * 获取文件后缀名
+  */
+	public static String getEndFix(String fileName) {
+		  return fileName.substring(fileName.lastIndexOf(".")+1);
+	}
 	public static String getEndWidth(String str) {
 		int i = str.lastIndexOf(".");
 		return str.substring(i, str.length());
+	}
+	/**
+	 * 给一个请求对象返回一个 域名 带项目上下文
+	 * @param request
+	 * @return
+	 */
+	public static String getHost(HttpServletRequest request) {
+		java.net.URL url = null;
+		try {
+			url = new java.net.URL(request.getRequestURL().toString());
+		} catch (MalformedURLException e1) {
+			throw new RuntimeException("上传文件失败.errorCode:2002");
+		}
+		StringBuilder sb = new StringBuilder();
+		String type = url.getProtocol();
+//		if("http".equals(type)) {
+//			type="https";
+//		}
+		String host = sb.append(type).append("://").append(url.getHost())+request.getContextPath()
+		.toString();
+		return host;
+	}
+	/**
+	 * 给一个请求对象返回一个请求ip
+	 * @param request
+	 * @return
+	 */
+	public static String getIp(HttpServletRequest request) {
+		String ip = "";
+		ip = request.getHeader("X-FORWARDED-FOR");
+		if (ip == null || "".equals(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
 	}
 	public static boolean isNotNullAndEmpty(String str) {
 		return str!=null&&!"".equals(str.trim())&&!"undefined".equals(str);

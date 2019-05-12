@@ -27,4 +27,16 @@
 			WHERE id IN (SELECT oId FROM t_major_occupation 
 				WHERE mId=#{mId})
 	</select>
+	
+	<select id="selectByPid" resultType="Occupation">
+		select * from t_occupation where pId is null
+	</select>
+	
+	<select id="selectByFatherPid" resultType="Occupation">
+		select * from t_occupation where pId=#{id}
+	</select>
+	
+	<select id="selectFatherOneByPid" resultType="Occupation">
+		select * from t_occupation where id=#{pId}
+	</select>
 </mapper>

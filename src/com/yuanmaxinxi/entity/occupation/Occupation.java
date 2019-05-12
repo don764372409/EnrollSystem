@@ -17,7 +17,7 @@ public class Occupation {
 	private String remark;//职业简介
 	private List<Occupation> children = new ArrayList<>();
 	private List<Major> major;
-	
+	private Occupation oc;
 	
 	
 	public List<Major> getMajor() {
@@ -25,6 +25,12 @@ public class Occupation {
 	}
 	public void setMajor(List<Major> major) {
 		this.major = major;
+	}
+	public Occupation getOc() {
+		return oc;
+	}
+	public void setOc(Occupation oc) {
+		this.oc = oc;
 	}
 	public List<Occupation> getChildren() {
 		return children;
