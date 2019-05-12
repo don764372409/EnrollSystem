@@ -33,6 +33,7 @@ public interface MajorDAO extends BaseDAO<Major>{
 	 */
 	public List<Major> selectAllMajor();
 	public List<Major> selectByOcc(Long oId);
+	public List<Major> selectLayer(String no);
 	public void updateInfo(Major mj);
 	public Major selectOneByOn(String on);
 	

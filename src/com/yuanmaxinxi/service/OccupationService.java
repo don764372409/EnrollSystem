@@ -19,18 +19,31 @@ public class OccupationService {
 	@Autowired
 	private OccupationDAO occupationDAO;
 	
+	/**
+	 * 根据专业查职业
+	 * @param mId
+	 * @return
+	 */
+	public List<Occupation> selectBymId(Long mId){
+		return occupationDAO.selectByMajor(mId);
+	}
+	
+	
 	private List<Occupation> selectChild(Long pId,int cnt){
-		if(cnt==2) {
+		if(cnt==0) {
 			return null;
 		}else {
 			List<Occupation> children = occupationDAO.selectBypId(pId);
 			for(Occupation occ :children) {
+				occ.setChildren(selectChild(occ.getpId(), cnt-1));
+				/*
 				List<Occupation> clild=selectChild(occ.getId(),cnt+1);
 				if(clild==null) {
 					occ.setMajor(majorDAO.selectByOcc(occ.getId()));
 				}else {
 					occ.setChildren(clild);
 				}
+				*/
 			}
 			return children;
 		}
@@ -42,7 +55,7 @@ public class OccupationService {
 	public List<Occupation> selectAllByLayer() {
 		List<Occupation> list = occupationDAO.selectFirst();
 		for (Occupation occ : list) {
-			occ.setChildren(selectChild(occ.getId(),0));
+			occ.setChildren(selectChild(occ.getId(),2));
 		}
 		return list;
 	}

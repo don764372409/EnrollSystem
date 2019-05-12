@@ -14,6 +14,7 @@ import com.yuanmaxinxi.dao.occupation.OccupationDAO;
 import com.yuanmaxinxi.dao.university.UniversityDao;
 import com.yuanmaxinxi.dto.MyBatisQueryPageDTO;
 import com.yuanmaxinxi.entity.major.Major;
+import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.util.StringUtil;
 
@@ -80,6 +81,33 @@ public class MajorService {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 获取具有层次关系的专业
+	 * @param pId
+	 * @param cnt 层级
+	 * @return
+	 */
+	public List<Major> selectLayer(String pNo,int cnt) {
+		if(cnt==0) {
+			return null;
+		}else {
+			List<Major> children = majorDAO.selectLayer(pNo);
+			for(Major major :children) {
+				List<Major> clild=selectLayer(major.getNo(),cnt-1);
+				major.setChildren(clild);
+			}
+			return children;
+		}
+	}
+	
+	/**
+	 * 根据职业查专业
+	 * @param oId
+	 * @return
+	 */
+	public List<Major> selectByoId(Long oId){
+		return majorDAO.selectByOcc(oId);
+	}
 
 	public Major selectOneById(Long id) {
 		Major mj = majorDAO.selectOneById(id);
@@ -144,10 +172,11 @@ public class MajorService {
 			mj.setChildren(children);
 			for (Major mj2 : children) {
 				List<Major> children2 = majorDAO.selectChildrenByPNo(mj2.getNo());
+				/*
 				for (Major mj3 : children2) {
-					System.err.println(mj3.getId());
 					mj3.setOcc(occupationDAO.selectByMajor(mj3.getId()));
 				}
+				*/
 			}
 		}
 		return list;
