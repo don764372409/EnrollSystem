@@ -44,6 +44,11 @@
 	<select id="selectAll" resultType="Major">
 		select * from t_major
 	</select>
+	<select id="selectByOcc"   parameterType="long" resultType="Major">
+		SELECT id,name FROM t_major
+			WHERE id IN (SELECT mId FROM t_major_occupation 
+				WHERE oId=#{oId})
+	</select>
 	<select id="selectAllName" resultType="Major">
 		select id,name from t_major
 	</select>

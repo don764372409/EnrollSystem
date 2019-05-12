@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yuanmaxinxi.dao.major.MajorDAO;
 import com.yuanmaxinxi.dao.occupation.OccupationDAO;
+import com.yuanmaxinxi.entity.major.Major;
 //github.com/don764372409/EnrollSystem.git
 import com.yuanmaxinxi.entity.occupation.Occupation;
 import com.yuanmaxinxi.util.StringUtil;
@@ -13,9 +15,37 @@ import com.yuanmaxinxi.util.StringUtil;
 public class OccupationService {
 	
 	@Autowired
+	private MajorDAO majorDAO;
+	@Autowired
 	private OccupationDAO occupationDAO;
 	
-	
+	private List<Occupation> selectChild(Long pId,int cnt){
+		if(cnt==2) {
+			return null;
+		}else {
+			List<Occupation> children = occupationDAO.selectBypId(pId);
+			for(Occupation occ :children) {
+				List<Occupation> clild=selectChild(occ.getId(),cnt+1);
+				if(clild==null) {
+					occ.setMajor(majorDAO.selectByOcc(occ.getId()));
+				}else {
+					occ.setChildren(clild);
+				}
+			}
+			return children;
+		}
+	}
+	/**
+	 * 获取具有层次关系的职业
+	 * @return
+	 */
+	public List<Occupation> selectAllByLayer() {
+		List<Occupation> list = occupationDAO.selectFirst();
+		for (Occupation occ : list) {
+			occ.setChildren(selectChild(occ.getId(),0));
+		}
+		return list;
+	}
 //	private void init() {
 //		SqlSession session = DBUtil.openSession();
 //		ocpDAO = session.getMapper(OccupationDAO.class);

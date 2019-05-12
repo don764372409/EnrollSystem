@@ -3,6 +3,8 @@ package com.yuanmaxinxi.entity.occupation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yuanmaxinxi.entity.major.Major;
+
 /**
  * 
  * @author 职业表
@@ -14,7 +16,16 @@ public class Occupation {
 	private Long pId;//父级职业
 	private String remark;//职业简介
 	private List<Occupation> children = new ArrayList<>();
+	private List<Major> major;
 	
+	
+	
+	public List<Major> getMajor() {
+		return major;
+	}
+	public void setMajor(List<Major> major) {
+		this.major = major;
+	}
 	public List<Occupation> getChildren() {
 		return children;
 	}

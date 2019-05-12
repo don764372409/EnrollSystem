@@ -3,6 +3,8 @@ package com.yuanmaxinxi.entity.major;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yuanmaxinxi.entity.occupation.Occupation;
+
 public class Major {
 	private Long id;
 	private String name;//专业名称
@@ -20,8 +22,16 @@ public class Major {
 	private int type;//0-本科专业 1-专科专业
 	private int layer;//1- 1级专业  2-2级专业 3-3级专业
 	private List<Major> children = new ArrayList<>();
+	private List<Occupation> occ;
 	private String name1;//1级父亲专业
 	private String name2;//2级父亲专业
+	
+	public List<Occupation> getOcc() {
+		return occ;
+	}
+	public void setOcc(List<Occupation> occ) {
+		this.occ = occ;
+	}
 	public String getName1() {
 		return name1;
 	}
