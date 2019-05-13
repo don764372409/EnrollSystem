@@ -43,6 +43,12 @@ public class ResultDTO {
 		dto.setMsg(msg);
 		return dto;
 	}
+	public static ResultDTO putSuccess(String msg) {
+		ResultDTO dto = new ResultDTO();
+		dto.setResult(true);
+		dto.setMsg(msg);
+		return dto;
+	}
 	public static ResultDTO putError(String msg) {
 		return newInstance(false,msg);
 	}

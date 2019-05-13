@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.service;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,30 +67,10 @@ public class RankingService{
 			throw new RuntimeException("删除失败.");
 		}
 	}
-	public Ranking selectOneById(Long id){
+	public Ranking selectOneById(Ranking r){
 		try {
-			Ranking ranking= rankingDAO.selectOneById(id);
-			University uIdUniversity = universityDAO.selectOneById(ranking.getuId());
-			ranking.setuIdUniversity(uIdUniversity);
-
+			Ranking ranking= rankingDAO.selectOneById(r);
 			return ranking;
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (e instanceof SQLException) {
-				throw new RuntimeException("查询失败,网络异常,请稍后或刷新重试.");
-			}
-			throw new RuntimeException("查询失败.");
-		}
-	}
-	public List<Ranking> selectAll(){
-		try {
-			List<Ranking> list = rankingDAO.selectAll();
-			for(Ranking ranking:list){
-				University universityObj = universityDAO.selectOneById(ranking.getuId());
-				ranking.setuIdUniversity(universityObj);
-			}
-
-			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (e instanceof SQLException) {
@@ -114,11 +95,6 @@ public class RankingService{
 			int count = selectCount(dto);
 			dto.setCount(count);
 			List<Ranking> list = rankingDAO.queryPage(dto);
-			for(Ranking ranking:list){
-				University universityObj = universityDAO.selectOneById(ranking.getuId());
-				ranking.setuIdUniversity(universityObj);
-			}
-
 			dto.setRows(list);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,6 +113,30 @@ public class RankingService{
 			}
 			throw new RuntimeException("查询失败.");
 		}
+	}
+	@Transactional
+	public void insert2(Map<String, Object> map) {
+		try {
+			System.out.println(map);
+			int i = rankingDAO.insert2(map);
+			if(i!=1){
+				throw new RuntimeException("添加失败.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e instanceof SQLException) {
+				throw new RuntimeException("添加失败,网络异常,请稍后或刷新重试.");
+			}
+			throw new RuntimeException("添加失败.");
+		}
+	}
+	public List<Ranking> selectAll(int type) {
+		List<Ranking> list = rankingDAO.selectAll(type);
+		for (Ranking ranking : list) {
+			University university = universityDAO.selectOneById(ranking.getuId());
+			ranking.setuIdUniversity(university);
+		}
+		return list; 
 	}
 
 }
