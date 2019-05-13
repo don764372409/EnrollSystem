@@ -2,43 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.ranking.RankingDAO">
-	<resultMap type="Ranking" id="RankingResultMap">
-		<id column="Long" property="id"/>
-		<result column="uId" property="uId"/>
-		<result column="number1" property="number1"/>
-		<result column="number2" property="number2"/>
-		<result column="number3" property="number3"/>
-		<result column="number4" property="number4"/>
-		<result column="ranking1" property="ranking1"/>
-		<result column="ranking2" property="ranking2"/>
-		<result column="ranking3" property="ranking3"/>
-		<result column="ranking4" property="ranking4"/>
-
-	</resultMap>
 	<insert id="insert" parameterType="Ranking" useGeneratedKeys="true" keyProperty="id">
 		insert into t_ranking(uId,number1,number2,number3,number4,ranking1,ranking2,ranking3,ranking4) values(#{uId},#{number1},#{number2},#{number3},#{number4},#{ranking1},#{ranking2},#{ranking3},#{ranking4})
 	</insert>
-	<update id="update" parameterType="Ranking">
-		update t_ranking set uId=#{uId},number1=#{number1},number2=#{number2},number3=#{number3},number4=#{number4},ranking1=#{ranking1},ranking2=#{ranking2},ranking3=#{ranking3},ranking4=#{ranking4} where id=#{id}
-	</update>
+	<insert id="insert2" parameterType="Ranking" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ranking(uId,number,ranking,type) values(#{uId},#{number},#{ranking},#{type})
+	</insert>
 	<delete id="delete" parameterType='Long'>
 		delete from t_ranking where Long=#{id}
 	</delete>
-	<select id="selectOneById" parameterType="Long" resultMap="RankingResultMap">
-		select * from t_ranking where id=#{id}
+	<select id="selectOneById" parameterType="Ranking" resultType="Ranking">
+		select * from t_ranking where uId=#{uId} and type = #{type}
 	</select>
-	<select id="selectAll" resultMap="RankingResultMap">
-		select * from t_ranking 
+	<select id="selectAll" resultType="Ranking" parameterType="int">
+		select * from t_ranking where type = #{type}
 	</select>
-	<select id="selectAllRankingsByUniversityId" parameterType="Long" resultMap="RankingResultMap">
+	<select id="selectAllRankingsByUniversityId" parameterType="Long" resultType="Ranking">
 		select * from t_ranking where Long in( select uId from t_ranking where id=#{id})
 	</select>
 
-	<select id="selectCount" parameterType="com.villa.config.xml.dto.BasePageDTO" resultType="int">
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.RankingPageDTO" resultType="int">
 		select count(id) from t_ranking 
 		<include refid="whereSql"></include>
 	</select>
-	<select id="queryPage" parameterType="com.villa.config.xml.dto.BasePageDTO" resultMap="RankingResultMap">
+	<select id="queryPage" parameterType="com.yuanmaxinxi.dto.RankingPageDTO" resultType="Ranking">
 		select * from t_ranking 
 		<include refid="whereSql"></include>
 		limit #{beginIndex},#{pageSize}
