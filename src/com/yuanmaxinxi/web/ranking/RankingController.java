@@ -51,7 +51,7 @@ public class RankingController {
 	public ResultDTO add(Ranking ranking) {
 		try {
 			rankingService.insert(ranking);
-			return ResultDTO.putSuccess("添加成功!");
+			return ResultDTO.putSuccessObj("添加成功!",null);
 		} catch (Exception e) {
 			return ResultDTO.putError(e.getMessage());
 		}
@@ -71,7 +71,7 @@ public class RankingController {
 	public ResultDTO edit(Ranking ranking) {
 		try {
 			rankingService.update(ranking);
-			return ResultDTO.putSuccess("修改成功!");
+			return ResultDTO.putSuccessObj("添加成功!",null);
 		} catch (Exception e) {
 			return ResultDTO.putError(e.getMessage());
 		}
@@ -81,7 +81,7 @@ public class RankingController {
 	public ResultDTO delete(Long id) {
 		try {
 			rankingService.delete(id);
-			return ResultDTO.putSuccess("删除成功!");
+			return ResultDTO.putSuccessObj("删除成功!",null);
 		} catch (Exception e) {
 			return ResultDTO.putError(e.getMessage());
 		}
