@@ -43,13 +43,11 @@ public class MajorController{
 	public List<Major> listByoId(Long oId){
 		return majorService.selectByoId(oId);
 	}
-	/*
 	@RequestMapping("/firstmajor2")
 	@ResponseBody
 	public List<Major> firstmajor2(int type){
 		return majorService.selectAllByLayer(type);
 	}
-	*/
 	@ResponseBody
 	@RequestMapping("/selectOneById")
 	public Major selectOneById(Long id){

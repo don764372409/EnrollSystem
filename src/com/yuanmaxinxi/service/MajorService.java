@@ -172,6 +172,7 @@ public class MajorService {
 			mj.setChildren(children);
 			for (Major mj2 : children) {
 				List<Major> children2 = majorDAO.selectChildrenByPNo(mj2.getNo());
+				mj2.setChildren(children2);
 				/*
 				for (Major mj3 : children2) {
 					mj3.setOcc(occupationDAO.selectByMajor(mj3.getId()));
