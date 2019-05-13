@@ -24,11 +24,32 @@ import com.yuanmaxinxi.service.MajorService;
 public class MajorController{
 	@Autowired
 	private MajorService majorService;
+	/**
+	 * 获取具有层次关系的所有专业
+	 * @return
+	 */
+	@RequestMapping("/listLayer")
+	@ResponseBody
+	public List<Major> listLayer(){
+		return majorService.selectLayer(null,3);
+	}
+	/**
+	 * 根据职业查专业
+	 * @param oId 职业Id
+	 * @return
+	 */
+	@RequestMapping("/listByoId")
+	@ResponseBody
+	public List<Major> listByoId(Long oId){
+		return majorService.selectByoId(oId);
+	}
+	/*
 	@RequestMapping("/firstmajor2")
 	@ResponseBody
 	public List<Major> firstmajor2(int type){
 		return majorService.selectAllByLayer(type);
 	}
+	*/
 	@ResponseBody
 	@RequestMapping("/selectOneById")
 	public Major selectOneById(Long id){

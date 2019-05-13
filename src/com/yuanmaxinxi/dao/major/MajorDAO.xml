@@ -44,6 +44,11 @@
 	<select id="selectAll" resultType="Major">
 		select * from t_major
 	</select>
+	<select id="selectByOcc"   parameterType="long" resultType="Major">
+		SELECT id,name FROM t_major
+			WHERE id IN (SELECT mId FROM t_major_occupation 
+				WHERE oId=#{oId})
+	</select>
 	<select id="selectAllName" resultType="Major">
 		select id,name from t_major
 	</select>
@@ -62,6 +67,17 @@
 	</select>
 	<select id="selectFirstMajor" parameterType="int" resultType="Major">
 	    select id,name,no from t_major where layer=1 and type=#{type}
+	</select>
+	<select id="selectLayer" parameterType="java.lang.String" resultType="Major">
+	    SELECT id,name,no FROM t_major WHERE
+	    	<choose>
+	    		<when test="_parameter==null">
+		    		pNo IS NULL AND layer=1
+	    		</when>
+	    		<otherwise>
+		   			pNo=#{no,jdbcType=VARCHAR}
+	    		</otherwise>
+	    	</choose>
 	</select>
 	<insert id="save" parameterType="Major">
 	    insert into t_major(name,no,type,jianjie,layer,content,url,pNo)values

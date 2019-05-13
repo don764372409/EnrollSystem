@@ -16,6 +16,17 @@
 	<select id="selectAll" resultType="Occupation">
 		select * from t_occupation
 	</select>
+	<select id="selectFirst" resultType="Occupation">
+		SELECT id,name FROM t_occupation WHERE pId is null
+	</select>
+	<select id="selectBypId" parameterType="long" resultType="Occupation">
+		SELECT id,name FROM t_occupation WHERE pId=#{pId}
+	</select>
+	<select id="selectByMajor" parameterType="long" resultType="Occupation">
+		SELECT id,name FROM t_occupation
+			WHERE id IN (SELECT oId FROM t_major_occupation 
+				WHERE mId=#{mId})
+	</select>
 	
 	<select id="selectByPid" resultType="Occupation">
 		select * from t_occupation where pId is null
