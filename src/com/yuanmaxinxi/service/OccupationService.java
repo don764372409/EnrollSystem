@@ -35,7 +35,7 @@ public class OccupationService {
 		}else {
 			List<Occupation> children = occupationDAO.selectBypId(pId);
 			for(Occupation occ :children) {
-				occ.setChildren(selectChild(occ.getpId(), cnt-1));
+				occ.setChildren(selectChild(occ.getId(), cnt-1));
 				/*
 				List<Occupation> clild=selectChild(occ.getId(),cnt+1);
 				if(clild==null) {
