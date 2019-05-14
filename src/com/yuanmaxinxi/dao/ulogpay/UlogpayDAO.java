@@ -13,4 +13,8 @@ public interface UlogpayDAO{
 	int delete(Long id);
 	Ulogpay selectOneById(Long id);
 	List<Ulogpay> selectAll();
+
+	int updateOutNumber(Ulogpay ulogpay2);
+
+	Ulogpay selectOneByOutNumber(String outNumber);
 }

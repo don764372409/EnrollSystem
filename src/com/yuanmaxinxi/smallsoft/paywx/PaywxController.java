@@ -3,11 +3,16 @@
  */
 package com.yuanmaxinxi.smallsoft.paywx;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
 import com.yuanmaxinxi.service.ulogpay.UlogpayService;
 
@@ -23,13 +28,29 @@ public class PaywxController {
 	private UlogpayService ulogpayService;
 	@RequestMapping("/weixin")
 	@ResponseBody
-	public void payWeinxin(Ulogpay ulogpay) {
+	public ResultDTO payWeinxin(Ulogpay ulogpay) {
 		try {
 			System.out.println(ulogpay);
-			ulogpayService.payWeixin(ulogpay);
+			Map<String, String> payWeixin = ulogpayService.payWeixin(ulogpay);
+			Object json = JSONObject.toJSON(payWeixin);
+			return ResultDTO.newInstance(true,json);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return ResultDTO.newInstance(false, "获取失败");
 		}
+		
 	}
-
+	@RequestMapping("/finish")
+	@ResponseBody
+	public ResultDTO finish(Ulogpay ulogpay) {
+		try {
+			Map<String, String> payWeixin = ulogpayService.finish(ulogpay);
+			Object json = JSONObject.toJSON(payWeixin);
+			return ResultDTO.newInstance(true,json);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultDTO.newInstance(false, "获取失败");
+		}
+		
+	}
 }

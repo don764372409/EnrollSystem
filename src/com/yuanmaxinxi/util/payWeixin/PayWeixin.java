@@ -29,15 +29,16 @@ public class PayWeixin {
 	public static Map<String, String> payWeixin(Ulogpay ulogpay) {
 		String generateNonceStr = WXPayUtil.generateNonceStr();
 		String nonce_str = generateNonceStr;//随机字符串  (已有)用WXPayUtil中的generateNonceStr()即可,就是生成UUID的方法；
-//		String body = ulogpay.getTitle();//支付的名称（未有）
-//		String out_trade_no = String.valueOf(ulogpay.getNumber()) ;//后台生成的订单号（未有）
-//		String total_fee  = String.valueOf(ulogpay.getValue());//支付金额 单位：分,（未有）
-		String body ="这是一个测试";//支付的名称（未有）
-		String out_trade_no = "155541353137431143";//后台生成的订单号（未有）
-		String total_fee  = "1";//支付金额 单位：分,（未有）
+		String body = ulogpay.getTitle();//支付的名称（未有）
+		String out_trade_no = String.valueOf(ulogpay.getNumber()) ;//后台生成的订单号（未有）
+		String total_fee  = String.valueOf(ulogpay.getValue());//支付金额 单位：分,（未有）
+//		String body ="这是一个测试";//支付的名称（未有）
+//		String out_trade_no = "155541353137431143";//后台生成的订单号（未有）
+//		String total_fee  = "1";//支付金额 单位：分,（未有）
 		String spbill_create_ip = "183.67.49.14";//IP地址（已有）
 		String notify_url = "https://www.baidu.com/";//回调地址（已有）
 		String trade_type = "JSAPI";//支付类型 （已有）
+		String openid = "oLIw75BfY8zy3KSuH5IgF8DT9lnk";
 		//map封装十条数据
 		Map<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("appid", appid); //APPID （已有） 
@@ -49,23 +50,21 @@ public class PayWeixin {
 		paraMap.put("spbill_create_ip", spbill_create_ip); //IP地址（已有） 
 		paraMap.put("trade_type", trade_type);  //APP
 		paraMap.put("notify_url",notify_url);// 此路径是微信服务器调用支付结果通知路径随意写
+		paraMap.put("openid",openid);
 		try {
 			sign = WXPayUtil.generateSignature(paraMap, paternerKey);
-			System.out.println("签名sign:"+sign);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			throw new RuntimeException("获取签名失败");
 		}
 		paraMap.put("sign", sign);//获取签名
-		//map转换成xml
 		String xmlStr = new String();
 		try {
+			//map转换成xml
 			String xml = WXPayUtil.mapToXml(paraMap);
-		//发送请求
+			//发送请求
 			xmlStr = HttpRequest.sendPost(unifiedorder_url, xml);
 			System.out.println("返回的结果："+xmlStr);
-			//请求验证
-			//？？？
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("发送请求失败");
@@ -76,7 +75,7 @@ public class PayWeixin {
 			String prepay_id = "";
 			if (xmlStr.indexOf("SUCCESS") != -1) {  
 				Map<String, String> map = WXPayUtil.xmlToMap(xmlStr);  
-				System.out.println(map.toString());
+				System.out.println("转换成map:  "+map.toString());
 				prepay_id = (String) map.get("prepay_id");  
 				System.out.println("最终结果："+prepay_id);
 			}

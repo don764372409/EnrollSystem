@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.dao.user;
 
 import com.yuanmaxinxi.dao.BaseDAO;
+import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
 import com.yuanmaxinxi.entity.user.User;
 
 public interface UserDAO extends BaseDAO<User>{

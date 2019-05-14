@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.service.ulogpay;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,13 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yuanmaxinxi.dao.ulogpay.UlogpayDAO;
+import com.yuanmaxinxi.dao.user.UserDAO;
 import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
+import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.util.payWeixin.PayWeixin;
 
 @Service
 public class UlogpayService{
 	@Autowired
 	private UlogpayDAO ulogpayDAO;
+	@Autowired
+	private UserDAO userDAO;
 
 	@Transactional
 	public void insert(Ulogpay ulogpay){
@@ -90,15 +95,42 @@ public class UlogpayService{
 			throw new RuntimeException("查询失败.");
 		}
 	}
-	public void payWeixin(Ulogpay ulogpay) {
+	public Map<String, String> payWeixin(Ulogpay ulogpay) {
 		//假设是任务订单
+		Map<String, String> map = new HashMap<String, String>();
 		try {
-			Map<String, String> payWeixin = PayWeixin.payWeixin(ulogpay);
-			System.out.println(payWeixin.toString());
+			ulogpay.setNumber(new Date().getTime());//订单号
+			ulogpay.setPaytime(new Date());
+			map = PayWeixin.payWeixin(ulogpay);
+			if("success".equals(map.get("responseState"))) {
+				//形成微信流水订单
+				User user = userDAO.selectOneByOpenid(ulogpay.getOpenid());
+				ulogpay.setuId(user.getId());
+				int row = ulogpayDAO.insert(ulogpay);
+				if(row!=1) {
+					throw new RuntimeException("添加订单失败");
+				}
+				//设置外部微信商户订单
+				Ulogpay ulogpay2 = new Ulogpay();
+				ulogpay2.setId(ulogpay.getId());
+				ulogpay2.setOutNumber(map.get("package"));
+				int row1 = ulogpayDAO.updateOutNumber(ulogpay2);
+				if(row1!=1) {
+					throw new RuntimeException("修改订单失败");
+				}
+			}
+			return map;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("微信支付错误，请稍后重试");
 		}
+	}
+
+	public Map<String, String> finish(Ulogpay ulogpay) {
+		String outNumber = ulogpay.getOutNumber();
+		Ulogpay obj = ulogpayDAO.selectOneByOutNumber(outNumber);
+		
+		return null;
 	}
 
 

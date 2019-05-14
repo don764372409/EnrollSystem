@@ -50,6 +50,7 @@ public class UserController{
 	public ResultDTO getOpenId (String code){
 		try {
 			JSONObject doGet = doGet("https://api.weixin.qq.com/sns/jscode2session?appId=wx934f1fc99b01220a&secret=f81900ff248a8727a5804f216534e622&js_code="+code+"&grant_type=authorization_code");
+			System.out.println(doGet);
 			return ResultDTO.putSuccessObj("信息查询成功.",doGet);
 		} catch (Exception e) {
 			return ResultDTO.putError(e.getMessage());
@@ -123,5 +124,12 @@ public class UserController{
 		//获取收藏院校数量
 		int numbers = userService.selectShoucangNumbers(id);
 		return numbers;
+	}
+	@ResponseBody
+	@RequestMapping("/selectOne")
+	public User shoucangs (String openid){
+		//获取收藏院校数量
+		User user = userService.selectOneByOpenid(openid);
+		return user;
 	}
 }

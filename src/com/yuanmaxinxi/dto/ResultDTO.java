@@ -7,10 +7,10 @@ public class ResultDTO {
 	private Object obj;//当前携带的数据对象
 	private ResultDTO() {
 	}
-	public static ResultDTO newInstance(boolean result,String msg) {
+	public static ResultDTO newInstance(boolean result,Object obj) {
 		ResultDTO dto = new ResultDTO();
 		dto.result = result;
-		dto.msg = msg;
+		dto.obj=obj;
 		return dto;
 	}
 	public static ResultDTO newInstance(Object obj) {
