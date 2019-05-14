@@ -1,5 +1,6 @@
 package com.yuanmaxinxi.dto;
 
+
 public class ResultDTO {
 	private boolean result;
 	private String msg;

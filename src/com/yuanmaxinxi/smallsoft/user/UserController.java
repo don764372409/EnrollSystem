@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.service.UserService;
@@ -31,6 +30,7 @@ public class UserController{
 		//响应
 		return dto;
 	}
+	//
 	@ResponseBody
 	@RequestMapping("/regist")
 	public ResultDTO regist(User user){

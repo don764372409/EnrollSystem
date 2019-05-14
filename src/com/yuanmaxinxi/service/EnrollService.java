@@ -62,7 +62,7 @@ public class EnrollService {
 		for (Enroll e : enrollDAO.queryEnrollByRankUni()) {
 			uId = e.getuId();
 			if (uMap.containsKey(uId) && uMap.get(uId) != null) {
-
+ 
 				System.err.println(uId);
 
 				University uni = universityDao.selectOneById(uId);
