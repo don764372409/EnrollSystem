@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.MajorQueryPageDTO;
+import com.yuanmaxinxi.entity.enroll.Enroll;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.university.University;
 import com.yuanmaxinxi.service.MajorService;
@@ -23,6 +24,25 @@ import com.yuanmaxinxi.service.MajorService;
 public class MajorController{
 	@Autowired
 	private MajorService majorService;
+	/**
+	 * 获取具有层次关系的所有专业
+	 * @return
+	 */
+	@RequestMapping("/listLayer")
+	@ResponseBody
+	public List<Major> listLayer(){
+		return majorService.selectLayer(null,3);
+	}
+	/**
+	 * 根据职业查专业
+	 * @param oId 职业Id
+	 * @return
+	 */
+	@RequestMapping("/listByoId")
+	@ResponseBody
+	public List<Major> listByoId(Long oId){
+		return majorService.selectByoId(oId);
+	}
 	@RequestMapping("/firstmajor2")
 	@ResponseBody
 	public List<Major> firstmajor2(int type){
@@ -49,6 +69,7 @@ public class MajorController{
 	public List<University> uni(Long id){
 		return  majorService.selectUnis(id);
 	}
+
 	
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/json;charset=UTF-8");

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.ranking.RankingDAO">
+	<insert id="insert" parameterType="Ranking" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ranking(uId,number1,number2,number3,number4,ranking1,ranking2,ranking3,ranking4) values(#{uId},#{number1},#{number2},#{number3},#{number4},#{ranking1},#{ranking2},#{ranking3},#{ranking4})
+	</insert>
+	<insert id="insert2" parameterType="Ranking" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ranking(uId,number,ranking,type) values(#{uId},#{number},#{ranking},#{type})
+	</insert>
+	<delete id="delete" parameterType='Long'>
+		delete from t_ranking where Long=#{id}
+	</delete>
+	<select id="selectOneById" parameterType="Ranking" resultType="Ranking">
+		select * from t_ranking where uId=#{uId} and type = #{type}
+	</select>
+	<select id="selectAll" resultType="Ranking" parameterType="int">
+		select * from t_ranking where type = #{type}
+	</select>
+	<select id="selectAllRankingsByUniversityId" parameterType="Long" resultType="Ranking">
+		select * from t_ranking where Long in( select uId from t_ranking where id=#{id})
+	</select>
+
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.RankingPageDTO" resultType="int">
+		select count(id) from t_ranking 
+		<include refid="whereSql"></include>
+	</select>
+	<select id="queryPage" parameterType="com.yuanmaxinxi.dto.RankingPageDTO" resultType="Ranking">
+		select * from t_ranking 
+		<include refid="whereSql"></include>
+		limit #{beginIndex},#{pageSize}
+	</select>
+	<sql id="whereSql">
+	    <where>
+
+	    </where>
+	</sql>
+</mapper>

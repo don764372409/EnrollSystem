@@ -32,6 +32,8 @@ public interface MajorDAO extends BaseDAO<Major>{
 	 * @return
 	 */
 	public List<Major> selectAllMajor();
+	public List<Major> selectByOcc(Long oId);
+	public List<Major> selectLayer(String no);
 	public void updateInfo(Major mj);
 	public Major selectOneByOn(String on);
 	
@@ -43,8 +45,10 @@ public interface MajorDAO extends BaseDAO<Major>{
 	public void insertXXX(String content);
 	public List<Major> selectLikeMajorsById(Long id);
 	public List<University> selectUnis(Long id);
+
 	
 	
+	public Major selectOneBenByName(String name);
 	public Major selectOneByNameXXX(String name);
 	public Major selectOneByNameYYY(String name);
 	public Major selectOneByNameZZZ(String name);

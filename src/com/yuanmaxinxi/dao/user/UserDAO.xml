@@ -4,6 +4,9 @@
     <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user(name,url,openid,code)values(#{name},#{url},#{openid},#{code})
     </insert>
+    <update id="update" parameterType="User">
+    	update t_user set name=#{name},url=#{url},number=#{number} where id = #{id}
+    </update>
     <select id="selectAll" resultType="User">
        select * from t_user
     </select>

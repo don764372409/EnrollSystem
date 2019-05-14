@@ -100,4 +100,31 @@ public class UserService {
 	public int selectShoucangNumbers(Long id) {
 		return userDAO.selectShoucangNumbers(id);
 	}
+	@Transactional
+	public void update(User user) {
+		if (user.getId()==null||user.getId()<1) {
+			throw new RuntimeException("登录失效了,请重新登录后尝试.");
+		}
+		if (StringUtil.isNullOrEmpty(user.getName())) {
+			throw new RuntimeException("用户名不能为空.");
+		}
+		if (StringUtil.isNullOrEmpty(user.getUrl())) {
+			throw new RuntimeException("头像不能为空.");
+		}
+		if (StringUtil.isNullOrEmpty(user.getNumber())) {
+			throw new RuntimeException("手机号码不能为空.");
+		}
+		if (!StringUtil.isMobile(user.getNumber())) {
+			throw new RuntimeException("手机号码格式不正确.");
+		}
+		try {
+			int i = userDAO.update(user);
+			if (i!=1) {
+				throw new RuntimeException("修改信息失败,请刷新或稍后重试.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("修改信息失败,请刷新或稍后重试.");
+		}
+	}
 }

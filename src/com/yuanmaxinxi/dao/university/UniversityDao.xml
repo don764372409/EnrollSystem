@@ -25,12 +25,18 @@
     <select id="selectAll" resultType="University">
         select * from t_university
     </select>
+    <select id="selectAllEnrollMajor" resultType="University">
+        select id,name,pId,f985,f211,property from t_university
+    </select>
     <select id="selectAllName" resultType="University">
         select id,name from t_university
     </select>
     <update id="updateRanking" parameterType="University">
         update t_university set ranking = #{ranking} where name = #{name}
     </update>
+     <select id="selectUniversityProperty" parameterType="map" resultType="string">
+        select distinct property from t_university_major where no=#{no} and uId=#{uId}
+    </select>
     <select id="selectMajorsById" parameterType="map" resultType="Major">
         select id ,name from t_major where id in (
 			select mId from t_enroll where uId = #{id} and bId = #{bId1} 
