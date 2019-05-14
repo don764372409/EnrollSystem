@@ -80,12 +80,6 @@ public class MemberController {
 		map.put("number", number);
 		map.put("range", range);
 		List<UniNumberDTO> list = enrollService.serch2(map);
-//		for (UniNumberDTO uniNumberDTO : list) {
-//			System.err.println(uniNumberDTO.getName());
-//			for (UniAndMajorDTO uam : uniNumberDTO.getUams()) {
-//				System.err.println("\t"+uam.getName());
-//			}
-//		}
 		return list;
 	}
 

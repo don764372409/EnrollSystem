@@ -27,12 +27,14 @@ public class UniversityController{
 		List<Enroll> ens = universityService.selectEnrollByTwoUni(batch,mId,uIds);
 		return ens;
 	}
+	//学校所在省份
 	@RequestMapping("/selectProvince")
 	@ResponseBody
 	public List<Province> selectProvince(){
 		List<Province> provinces = universityService.selectProvince();
 		return provinces;
 	}
+	//第一个学校理工类，医学类
 	@RequestMapping("/selectPropertys")
 	@ResponseBody
 	public List<String> selectPropertys(){

@@ -1,12 +1,15 @@
 package com.yuanmaxinxi.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yuanmaxinxi.dao.ubalance.UbalanceDAO;
 import com.yuanmaxinxi.dao.user.UserDAO;
+import com.yuanmaxinxi.entity.ubalance.Ubalance;
 import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.util.StringUtil;
 @Service
@@ -14,6 +17,8 @@ import com.yuanmaxinxi.util.StringUtil;
 public class UserService {
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private UbalanceDAO ubalanceDAO;
 	public List<User> selectAll() {
 		List<User> list = userDAO.selectAll();
 		return list;
@@ -47,6 +52,12 @@ public class UserService {
 			int i = userDAO.insert(user);
 			if (i!=1) {
 				throw new RuntimeException("授权失败,请稍后再次尝试");
+			}
+			Ubalance ubalance = new Ubalance();
+			ubalance.setuId(user.getId());
+			int insert = ubalanceDAO.insert(ubalance);
+			if(insert!=1) {
+				throw new RuntimeException("创建个人账户,请稍后再次尝试");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

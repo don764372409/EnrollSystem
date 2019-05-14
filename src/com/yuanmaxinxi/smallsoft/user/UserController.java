@@ -1,10 +1,20 @@
 package com.yuanmaxinxi.smallsoft.user;
 
+import java.io.IOException;
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.service.UserService;
@@ -13,12 +23,44 @@ import com.yuanmaxinxi.service.UserService;
 public class UserController{
 	@Autowired
 	private UserService userService;
+	//get请求
+    private static JSONObject doGet(String requestUrl) {
+    	HttpClient httpClient = new DefaultHttpClient();
+    	HttpResponse response = null;
+        String responseContent  = null;
+        com.alibaba.fastjson.JSONObject result = null;
+        try {
+            //创建Get请求，
+            HttpGet httpGet = new HttpGet(requestUrl);
+            //执行Get请求，
+            response = httpClient.execute(httpGet);
+            //得到响应体
+            HttpEntity entity = response.getEntity();
+            //获取响应内容
+            responseContent  = EntityUtils.toString(entity,"UTF-8");
+            //转换为map
+            result = JSON.parseObject(responseContent);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        return result;
+    }
+	@RequestMapping("/getOpenId")
+	@ResponseBody
+	public ResultDTO getOpenId (String code){
+		try {
+			JSONObject doGet = doGet("https://api.weixin.qq.com/sns/jscode2session?appId=wx934f1fc99b01220a&secret=f81900ff248a8727a5804f216534e622&js_code="+code+"&grant_type=authorization_code");
+			return ResultDTO.putSuccessObj("信息查询成功.",doGet);
+		} catch (Exception e) {
+			return ResultDTO.putError(e.getMessage());
+		}
+	}
 	@RequestMapping("/updateInfo")
 	@ResponseBody
 	public ResultDTO updateInfo (User user){
 		try {
 			userService.update(user);
-			return ResultDTO.putError("修改信息成功.");
+			return ResultDTO.putSuccess("修改信息成功.");
 		} catch (Exception e) {
 			return ResultDTO.putError(e.getMessage());
 		}
@@ -41,6 +83,7 @@ public class UserController{
 		//响应
 		return dto;
 	}
+	//
 	@ResponseBody
 	@RequestMapping("/regist")
 	public ResultDTO regist(User user){

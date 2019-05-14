@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.ulogpay.UlogpayDAO">
+	<resultMap type="Ulogpay" id="UlogpayResultMap">
+		<id column="id" property="id"/>
+		<result column="uId" property="uId"/>
+		<result column="title" property="title"/>
+		<result column="number" property="number"/>
+		<result column="paytype" property="paytype"/>
+		<result column="value" property="value"/>
+		<result column="paytime" property="paytime"/>
+		<result column="type" property="type"/>
+
+	</resultMap>
+	<insert id="insert" parameterType="Ulogpay" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ulogpay(uId,title,number,paytype,value,paytime,type) values(#{uId},#{title},#{number},#{paytype},#{value},#{paytime},#{type})
+	</insert>
+	<update id="update" parameterType="Ulogpay">
+		update t_ulogpay set uId=#{uId},title=#{title},number=#{number},paytype=#{paytype},value=#{value},paytime=#{paytime},type=#{type} where id=#{id}
+	</update>
+	<delete id="delete" parameterType='Long'>
+		delete from t_ulogpay where id=#{id}
+	</delete>
+	<select id="selectOneById" parameterType="Long" resultMap="UlogpayResultMap">
+		select * from t_ulogpay where id=#{id}
+	</select>
+	<select id="selectAll" resultMap="UlogpayResultMap">
+		select * from t_ulogpay 
+	</select>
+
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.BaseQueryPageDTO" resultType="int">
+		select count(id) from t_ulogpay 
+		<include refid="whereSql"></include>
+	</select>
+	<select id="queryPage" parameterType="com.yuanmaxinxi.dto.BaseQueryPageDTO" resultMap="UlogpayResultMap">
+		select * from t_ulogpay 
+		<include refid="whereSql"></include>
+		limit #{beginIndex},#{pageSize}
+	</select>
+	<sql id="whereSql">
+	    <where>
+
+	    </where>
+	</sql>
+</mapper>
