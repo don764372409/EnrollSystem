@@ -17,13 +17,15 @@
 	<delete id="delete" parameterType='Long'>
 		delete from t_ubalance where id=#{id}
 	</delete>
-	<select id="selectOneById" parameterType="Long" resultMap="UbalanceResultMap">
+	<select id="selectOneById" parameterType="Long" resultType="Ubalance">
 		select * from t_ubalance where id=#{id}
+	</select>
+	<select id="selectOneByuId" parameterType="Long" resultType="Ubalance">
+		select * from t_ubalance where uId=#{uId}
 	</select>
 	<select id="selectAll" resultMap="UbalanceResultMap">
 		select * from t_ubalance 
 	</select>
-
 	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.BaseQueryPageDTO" resultType="int">
 		select count(id) from t_ubalance 
 		<include refid="whereSql"></include>

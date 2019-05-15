@@ -27,7 +27,10 @@ public class UserService {
 		return userDAO.selectOneById(id);
 	}
 	public User selectOneByOpenid(String openid) {
-		return userDAO.selectOneByOpenid(openid);
+		User user = userDAO.selectOneByOpenid(openid);
+		Ubalance ubalance = ubalanceDAO.selectOneByuId(user.getId());
+		user.setFen(String.valueOf(ubalance.getMoney().intValue()));
+		return user;
 	}
 	//授权注册
 	public void regist(User user) {

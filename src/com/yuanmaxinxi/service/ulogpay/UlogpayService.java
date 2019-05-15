@@ -1,4 +1,5 @@
 package com.yuanmaxinxi.service.ulogpay;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yuanmaxinxi.dao.ubalance.UbalanceDAO;
 import com.yuanmaxinxi.dao.ulogpay.UlogpayDAO;
 import com.yuanmaxinxi.dao.user.UserDAO;
+import com.yuanmaxinxi.entity.ubalance.Ubalance;
 import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
 import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.util.payWeixin.PayWeixin;
@@ -19,6 +22,8 @@ import com.yuanmaxinxi.util.payWeixin.PayWeixin;
 public class UlogpayService{
 	@Autowired
 	private UlogpayDAO ulogpayDAO;
+	@Autowired
+	private UbalanceDAO ubalanceDAO;
 	@Autowired
 	private UserDAO userDAO;
 
@@ -126,11 +131,26 @@ public class UlogpayService{
 		}
 	}
 
-	public Map<String, String> finish(Ulogpay ulogpay) {
+	public void finish(Ulogpay ulogpay) {
+		//更改订单状态
 		String outNumber = ulogpay.getOutNumber();
 		Ulogpay obj = ulogpayDAO.selectOneByOutNumber(outNumber);
-		
-		return null;
+		int row = ulogpayDAO.updateStatus(obj.getId());
+		if(row!=1) {
+			throw new RuntimeException("更新账户订单错误");
+		}
+		//更改积分余额
+		Ubalance selectUbla = ubalanceDAO.selectOneByuId(obj.getuId());
+		if(selectUbla==null) {
+			throw new RuntimeException("未创建改用户账户");
+		}
+		BigDecimal money = selectUbla.getMoney();
+		BigDecimal add = money.add(obj.getValue());//增加余额
+		selectUbla.setMoney(add);
+		int update = ubalanceDAO.update(selectUbla);
+		if(update!=1) {
+			throw new RuntimeException("更新账户余额错误");
+		}
 	}
 
 

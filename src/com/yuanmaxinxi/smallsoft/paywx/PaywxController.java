@@ -44,13 +44,11 @@ public class PaywxController {
 	@ResponseBody
 	public ResultDTO finish(Ulogpay ulogpay) {
 		try {
-			Map<String, String> payWeixin = ulogpayService.finish(ulogpay);
-			Object json = JSONObject.toJSON(payWeixin);
-			return ResultDTO.newInstance(true,json);
+			ulogpayService.finish(ulogpay);
+			return ResultDTO.newInstance(true,"更新成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResultDTO.newInstance(false, "获取失败");
+			return ResultDTO.newInstance(false, e.getMessage());
 		}
-		
 	}
 }

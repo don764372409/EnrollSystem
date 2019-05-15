@@ -23,13 +23,16 @@
 	<update id="updateOutNumber" parameterType="Ulogpay">
 		update t_ulogpay set outNumber=#{outNumber} where id=#{id}
 	</update>
+	<update id="updateStatus" parameterType="Long">
+		update t_ulogpay set status=1 where id=#{id}
+	</update>
 	<delete id="delete" parameterType='Long'>
 		delete from t_ulogpay where id=#{id}
 	</delete>
-	<select id="selectOneById" parameterType="Long" resultMap="UlogpayResultMap">
+	<select id="selectOneById" parameterType="Long" resultType="Ulogpay">
 		select * from t_ulogpay where id=#{id}
 	</select>
-	<select id="selectOneByOutNumber" parameterType="String" resultMap="UlogpayResultMap">
+	<select id="selectOneByOutNumber" parameterType="String" resultType="Ulogpay">
 		select * from t_ulogpay where outNumber=#{outNumber}
 	</select>
 	<select id="selectAll" resultMap="UlogpayResultMap">
