@@ -39,7 +39,7 @@ public class PayWeixin {
 		String spbill_create_ip = "183.67.49.14";//IP地址（已有）
 		String notify_url = "https://www.baidu.com/";//回调地址（已有）
 		String trade_type = "JSAPI";//支付类型 （已有）
-		String openid = "oLIw75BfY8zy3KSuH5IgF8DT9lnk";
+		String openid = ulogpay.getOpenid();
 		//map封装十条数据
 		Map<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("appid", appid); //APPID （已有） 
