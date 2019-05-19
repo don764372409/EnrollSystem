@@ -75,11 +75,11 @@ public class UserController{
 		ResultDTO dto;
 		//用户在之前已经授权
 		if (user!=null) {
-			dto = ResultDTO.newInstance(true, "");
+			dto = ResultDTO.putSuccess("");
 			dto.setObj(user);
 		}else {
 			//用户这是第一次使用这个小程序
-			dto = ResultDTO.newInstance(false, "您还没有授权,点击确定跳转授权页面.");
+			dto = ResultDTO.putError("您还没有授权,点击确定跳转授权页面.");
 		}
 		//响应
 		return dto;
@@ -92,7 +92,7 @@ public class UserController{
 		ResultDTO dto;
 		try {
 			userService.regist(user);
-			dto = ResultDTO.newInstance(true, "授权成功,点击进入下一步");
+			dto = ResultDTO.putSuccess("授权成功,点击进入下一步");
 		} catch (Exception e) {
 			if (e.getMessage().contains("授权成功")) {
 				dto = ResultDTO.newInstance(true, e.getMessage());

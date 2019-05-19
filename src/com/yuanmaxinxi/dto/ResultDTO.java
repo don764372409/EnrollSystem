@@ -51,6 +51,9 @@ public class ResultDTO {
 		return dto;
 	}
 	public static ResultDTO putError(String msg) {
-		return newInstance(false,msg);
+		ResultDTO dto = new ResultDTO();
+		dto.setResult(false);
+		dto.setMsg(msg);
+		return dto;
 	}
 }

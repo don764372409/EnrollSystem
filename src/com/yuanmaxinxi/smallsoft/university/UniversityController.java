@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
@@ -59,9 +58,9 @@ public class UniversityController{
 		ResultDTO dto;
 		try {
 			universityService.addShoucang(uId,id);
-			dto = ResultDTO.newInstance(true, "收藏成功!");
+			dto = ResultDTO.putSuccess( "收藏成功!");
 		} catch (Exception e) {
-			dto = ResultDTO.newInstance(false, e.getMessage());
+			dto = ResultDTO.putError( e.getMessage());
 		}
 		return dto;
 	}
@@ -77,9 +76,9 @@ public class UniversityController{
 		ResultDTO dto;
 		try {
 			universityService.unShoucang(uId,id);
-			dto = ResultDTO.newInstance(true, "取消收藏成功!");
+			dto = ResultDTO.putSuccess( "取消收藏成功!");
 		} catch (Exception e) {
-			dto = ResultDTO.newInstance(true, "取消收藏失败!"+e.getMessage());
+			dto = ResultDTO.putError("取消收藏失败!"+e.getMessage());
 		}
 		return dto;
 	}

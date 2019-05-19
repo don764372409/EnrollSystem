@@ -28,8 +28,10 @@ public class UserService {
 	}
 	public User selectOneByOpenid(String openid) {
 		User user = userDAO.selectOneByOpenid(openid);
-		Ubalance ubalance = ubalanceDAO.selectOneByuId(user.getId());
-		user.setFen(String.valueOf(ubalance.getMoney().intValue()));
+		if (user!=null) {
+			Ubalance ubalance = ubalanceDAO.selectOneByuId(user.getId());
+			user.setFen(String.valueOf(ubalance.getMoney().intValue()));
+		}
 		return user;
 	}
 	//授权注册
