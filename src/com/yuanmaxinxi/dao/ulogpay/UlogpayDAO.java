@@ -16,4 +16,5 @@ public interface UlogpayDAO{
 	int updateOutNumber(Ulogpay ulogpay2);
 	Ulogpay selectOneByOutNumber(String outNumber);
 	int updateStatus(Long id);
+	List<Ulogpay> selectAllByOpenId(String openid);
 }

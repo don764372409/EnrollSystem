@@ -12,5 +12,5 @@ public interface UbalanceDAO{
 	Ubalance selectOneById(Long id);
 	List<Ubalance> selectAll();
 	Ubalance selectOneByuId(Long uId);
-	
+	Ubalance selectOneByOpenId(String openid);
 }

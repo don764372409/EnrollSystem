@@ -5,7 +5,7 @@ public class Ubalance{
 	private Long id;
 	private Long uId;//用户外键表
 	private BigDecimal money;//用户余额
-
+	private int number;//充值次数
 	public void setId(Long id){
 		this.id=id;
 	}
@@ -24,8 +24,14 @@ public class Ubalance{
 	public BigDecimal getMoney(){
 		return this.money;
 	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
 	@Override
 	public String toString() {
-		return "Ubalance [id=" + id + ", uId=" + uId + ", money=" + money + "]";
+		return "Ubalance [id=" + id + ", uId=" + uId + ", money=" + money + ", number=" + number + "]";
 	}
 }

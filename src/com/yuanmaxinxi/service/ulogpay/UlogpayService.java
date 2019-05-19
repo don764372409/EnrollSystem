@@ -145,12 +145,19 @@ public class UlogpayService{
 			throw new RuntimeException("未创建改用户账户");
 		}
 		BigDecimal money = selectUbla.getMoney();
+		int number = selectUbla.getNumber();
+		selectUbla.setNumber(number+1);
 		BigDecimal add = money.add(obj.getValue());//增加余额
 		selectUbla.setMoney(add);
 		int update = ubalanceDAO.update(selectUbla);
 		if(update!=1) {
 			throw new RuntimeException("更新账户余额错误");
 		}
+	}
+
+	public List<Ulogpay> selectAllByOpenId(String openid) {
+		List<Ulogpay>  list = ulogpayDAO.selectAllByOpenId(openid);
+		return list;
 	}
 
 

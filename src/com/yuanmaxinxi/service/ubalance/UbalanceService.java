@@ -86,6 +86,14 @@ public class UbalanceService{
 			throw new RuntimeException("查询失败.");
 		}
 	}
+
+	public Ubalance selectOneByOpenId(String openid) {
+		Ubalance obj = ubalanceDAO.selectOneByOpenId(openid);
+		if(obj==null) {
+			throw new RuntimeException("查询失败.");
+		}
+		return obj;
+	}
 	
 
 }

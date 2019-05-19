@@ -32,6 +32,11 @@
 	<select id="selectOneById" parameterType="Long" resultType="Ulogpay">
 		select * from t_ulogpay where id=#{id}
 	</select>
+	<select id="selectAllByOpenId" parameterType="String" resultMap="UlogpayResultMap">
+		select * from t_ulogpay where status=1 and uId in (
+			select id from t_user where openid = #{openid}
+		)
+	</select>
 	<select id="selectOneByOutNumber" parameterType="String" resultType="Ulogpay">
 		select * from t_ulogpay where outNumber=#{outNumber}
 	</select>

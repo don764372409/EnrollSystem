@@ -30,7 +30,6 @@ public class PaywxController {
 	@ResponseBody
 	public ResultDTO payWeinxin(Ulogpay ulogpay) {
 		try {
-			System.out.println(ulogpay);
 			Map<String, String> payWeixin = ulogpayService.payWeixin(ulogpay);
 			Object json = JSONObject.toJSON(payWeixin);
 			return ResultDTO.newInstance(true,json);
