@@ -101,7 +101,7 @@ public class UlogpayService{
 		}
 	}
 	public Map<String, String> payWeixin(Ulogpay ulogpay) {
-		//假设是任务订单
+		//假设是充值订单
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			ulogpay.setNumber(new Date().getTime());//订单号
@@ -153,8 +153,29 @@ public class UlogpayService{
 		if(update!=1) {
 			throw new RuntimeException("更新账户余额错误");
 		}
+		int row1 =userDAO.updateVip(selectUbla.getuId());
+		if(row1!=1) {
+			throw new RuntimeException("更新账户余额错误");
+		}
 	}
-
+	public void pay(Ulogpay ulogpay) {
+		ulogpay.setPaytime(new Date());
+		int row = ulogpayDAO.insert(ulogpay);
+		if(row!=1) {
+			throw new RuntimeException("更新账户余额错误");
+		}
+		Ubalance selectUbla = ubalanceDAO.selectOneByuId(ulogpay.getuId());
+		if(selectUbla==null) {
+			throw new RuntimeException("未创建改用户账户");
+		}
+		BigDecimal money = selectUbla.getMoney();
+		BigDecimal add = money.subtract(ulogpay.getValue());//增加余额
+		selectUbla.setMoney(add);
+		int update = ubalanceDAO.update(selectUbla);
+		if(update!=1) {
+			throw new RuntimeException("更新账户余额错误");
+		}
+	}
 	public List<Ulogpay> selectAllByOpenId(String openid) {
 		List<Ulogpay>  list = ulogpayDAO.selectAllByOpenId(openid);
 		return list;

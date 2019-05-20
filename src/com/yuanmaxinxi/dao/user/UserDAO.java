@@ -22,4 +22,11 @@ public interface UserDAO extends BaseDAO<User>{
 	 */
 	public int bingNumber(User user) ;
 	int selectShoucangNumbers(Long id);
+	/**
+	 * @Author: 灰飞的猪
+	 * @Param @param getuId
+	 * @Param @return
+	 * @return int    返回类型
+	 */
+	int updateVip(Long id);
 }

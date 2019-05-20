@@ -12,10 +12,10 @@
 		<result column="value" property="value"/>
 		<result column="paytime" property="paytime"/>
 		<result column="type" property="type"/>
-		
+		<result column="status" property="status"/>
 	</resultMap>
 	<insert id="insert" parameterType="Ulogpay" useGeneratedKeys="true" keyProperty="id">
-		insert into t_ulogpay(uId,title,number,paytype,value,paytime,type) values(#{uId},#{title},#{number},#{paytype},#{value},#{paytime},#{type})
+		insert into t_ulogpay(uId,title,number,paytype,value,paytime,type,status) values(#{uId},#{title},#{number},#{paytype},#{value},#{paytime},#{type},#{status})
 	</insert>
 	<update id="update" parameterType="Ulogpay">
 		update t_ulogpay set uId=#{uId},title=#{title},number=#{number},paytype=#{paytype},value=#{value},paytime=#{paytime},type=#{type} where id=#{id}
@@ -38,7 +38,7 @@
 		)
 	</select>
 	<select id="selectOneByOutNumber" parameterType="String" resultType="Ulogpay">
-		select * from t_ulogpay where outNumber=#{outNumber}
+		select * from t_ulogpay where outNumber=#{outNumber} 
 	</select>
 	<select id="selectAll" resultMap="UlogpayResultMap">
 		select * from t_ulogpay 

@@ -50,4 +50,15 @@ public class PaywxController {
 			return ResultDTO.newInstance(false, e.getMessage());
 		}
 	}
+	@RequestMapping("/pay")
+	@ResponseBody
+	public ResultDTO pay(Ulogpay ulogpay) {
+		try {
+			ulogpayService.pay(ulogpay);
+			return ResultDTO.newInstance(true,"更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultDTO.newInstance(false, e.getMessage());
+		}
+	}
 }

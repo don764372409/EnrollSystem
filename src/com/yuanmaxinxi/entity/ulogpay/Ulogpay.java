@@ -13,7 +13,14 @@ public class Ulogpay{
 	private Date paytime;//流水发生的时间
 	private Integer type;//流水类型1-充值 2-支付消费 3-提现 4-退款
 	private String openid;//openId
+	private int status;
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public String getOutNumber() {
 		return outNumber;
 	}
@@ -78,6 +85,6 @@ public class Ulogpay{
 	public String toString() {
 		return "Ulogpay [id=" + id + ", uId=" + uId + ", title=" + title + ", number=" + number + ", outNumber="
 				+ outNumber + ", paytype=" + paytype + ", value=" + value + ", paytime=" + paytime + ", type=" + type
-				+ ", openid=" + openid + "]";
+				+ ", openid=" + openid + ", status=" + status + "]";
 	}
 }

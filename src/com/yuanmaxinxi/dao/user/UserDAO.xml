@@ -7,7 +7,9 @@
     <update id="update" parameterType="User">
     	update t_user set name=#{name},url=#{url},number=#{number} where id = #{id}
     </update>
-
+	 <update id="updateVip" parameterType="Long">
+    	update t_user set vip=1 where id = #{id}
+    </update>
     <select id="selectAll" resultType="User">
        select * from t_user
     </select>

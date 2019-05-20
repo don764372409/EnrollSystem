@@ -28,4 +28,5 @@ public class UlogpayController {
 		List<Ulogpay> obj = ulogpayService.selectAllByOpenId(openid);
 		return obj;
 	}
+	
 }
