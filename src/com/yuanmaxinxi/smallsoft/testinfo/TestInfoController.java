@@ -1,6 +1,13 @@
 package com.yuanmaxinxi.smallsoft.testinfo;
 
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,27 +74,55 @@ public class TestInfoController {
 	 * @param ua
 	 * @return
 	 */
-	@RequestMapping("/parseResult")
+	@RequestMapping(value="/parseResult")
 	@ResponseBody
-	public ResultDTO parseResult(Long uaId) {
+	public ResultDTO parseResult(Long uaId,HttpServletRequest request, HttpServletResponse response) {
 		ResultDTO dto;
 		try {
 			// 解析得到结果
 			UserAnswer ua = userAnswerService.parseResult(uaId);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String uName = userService.selectOneId(ua.getuId()).getName();
 			String rpath = this.getClass().getClassLoader().getResource("../../MBTI/").getPath();
 			String[] cmds = { "/bin/sh", "-c", "/usr/bin/sed -i '0,/<h3>/s/\\(<h3>\\).*\\(<\\/h3>\\)/\\1" + uName + " "
-					+ ua.getTime().toString() + "\\2/' " + rpath + ua.getResult() + ".html" };
+					+ sdf.format(new Date()) + "\\2/' " + rpath + ua.getResult() + ".html" };
 			if (Runtime.getRuntime().exec(cmds).waitFor() != 0) {
 				throw new RuntimeException();
 			}
+			
+			
+			// 解析得到结果
+			String result = userAnswerService.parseHLDResult(uaId);
+			String[] s;
+			for(String str: result.split(",")) {
+				s=str.split(":");
+				cmds[2]="/usr/bin/sed -i -e '0,/<td>"+s[0]+"/s/\\(<td>"+s[0]+"[^[:digit:]]*\\)[[:digit:]]\\{1,2\\}/\\1" + s[1] + "/' -e "
+				+ "'/<td>"+s[0]+"/{n;n;s/[[:digit:]]\\{1,2\\}%/"+s[1]+"%/;}' "+rpath + ua.getResult() + ".html" ;
+				System.err.println(cmds[2]);
+				if (Runtime.getRuntime().exec(cmds).waitFor() != 0) {
+					throw new RuntimeException();
+				}
+			}
+			
 			if (Runtime.getRuntime()
 					.exec("/usr/bin/wkhtmltopdf " + rpath + ua.getResult() + ".html " + rpath + "tmp.pdf")
 					.waitFor() != 0) {
 				throw new RuntimeException();
 			}
+			response.setContentType("application/pdf");
+			response.setHeader("content-disposition", "attachment;filename=" + ua.getResult() + ".pdf");
+			FileInputStream in = new FileInputStream(rpath+"tmp.pdf");
+			OutputStream out = response.getOutputStream();
+			byte buffer[] = new byte[1024];
+			int len = 0;
+			while ((len = in.read(buffer)) > 0) {
+				out.write(buffer, 0, len);
+				out.flush();
+			}
+			in.close();
+			out.close();
 			// 根据结果去获取解析详情
-			dto = ResultDTO.newInstance(true, "rul");
+			dto = ResultDTO.newInstance(true, "");
 		} catch (Exception e) {
 			e.printStackTrace();
 			dto = ResultDTO.newInstance(false, e.getMessage());
