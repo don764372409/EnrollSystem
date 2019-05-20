@@ -30,6 +30,7 @@ public interface OccupationDAO extends BaseDAO<Occupation>{
 
 	
 	public List<Occupation> selectAll();
+	public List<Occupation> selectByName(String name);
 	public List<Occupation> selectFirst();
 	public List<Occupation> selectBypId(Long pId);
 	

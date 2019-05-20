@@ -43,6 +43,12 @@ public class MajorController{
 	public List<Major> listByoId(Long oId){
 		return majorService.selectByoId(oId);
 	}
+	
+	@RequestMapping("/list")
+	@ResponseBody
+	public List<Major> list(String name){
+		return majorService.selectByName(name);
+	}
 
 	@RequestMapping("/firstmajor2")
 	@ResponseBody
