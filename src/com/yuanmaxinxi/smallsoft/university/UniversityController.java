@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
@@ -27,12 +26,14 @@ public class UniversityController{
 		List<Enroll> ens = universityService.selectEnrollByTwoUni(batch,mId,uIds);
 		return ens;
 	}
+	//学校所在省份
 	@RequestMapping("/selectProvince")
 	@ResponseBody
 	public List<Province> selectProvince(){
 		List<Province> provinces = universityService.selectProvince();
 		return provinces;
 	}
+	//第一个学校理工类，医学类
 	@RequestMapping("/selectPropertys")
 	@ResponseBody
 	public List<String> selectPropertys(){
@@ -57,9 +58,9 @@ public class UniversityController{
 		ResultDTO dto;
 		try {
 			universityService.addShoucang(uId,id);
-			dto = ResultDTO.newInstance(true, "收藏成功!");
+			dto = ResultDTO.putSuccess( "收藏成功!");
 		} catch (Exception e) {
-			dto = ResultDTO.newInstance(false, e.getMessage());
+			dto = ResultDTO.putError( e.getMessage());
 		}
 		return dto;
 	}
@@ -75,9 +76,9 @@ public class UniversityController{
 		ResultDTO dto;
 		try {
 			universityService.unShoucang(uId,id);
-			dto = ResultDTO.newInstance(true, "取消收藏成功!");
+			dto = ResultDTO.putSuccess( "取消收藏成功!");
 		} catch (Exception e) {
-			dto = ResultDTO.newInstance(true, "取消收藏失败!"+e.getMessage());
+			dto = ResultDTO.putError("取消收藏失败!"+e.getMessage());
 		}
 		return dto;
 	}

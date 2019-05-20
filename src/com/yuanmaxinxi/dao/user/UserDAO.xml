@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuanmaxinxi.dao.user.UserDAO">
-    <insert id="insert" parameterType="User">
+    <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user(name,url,openid,code)values(#{name},#{url},#{openid},#{code})
     </insert>
     <update id="update" parameterType="User">
     	update t_user set name=#{name},url=#{url},number=#{number} where id = #{id}
+    </update>
+	 <update id="updateVip" parameterType="Long">
+    	update t_user set vip=1 where id = #{id}
     </update>
     <select id="selectAll" resultType="User">
        select * from t_user

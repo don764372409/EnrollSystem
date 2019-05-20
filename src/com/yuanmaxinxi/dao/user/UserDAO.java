@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.dao.user;
 
 import com.yuanmaxinxi.dao.BaseDAO;
+import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
 import com.yuanmaxinxi.entity.user.User;
 
 public interface UserDAO extends BaseDAO<User>{
@@ -21,4 +22,11 @@ public interface UserDAO extends BaseDAO<User>{
 	 */
 	public int bingNumber(User user) ;
 	int selectShoucangNumbers(Long id);
+	/**
+	 * @Author: 灰飞的猪
+	 * @Param @param getuId
+	 * @Param @return
+	 * @return int    返回类型
+	 */
+	int updateVip(Long id);
 }

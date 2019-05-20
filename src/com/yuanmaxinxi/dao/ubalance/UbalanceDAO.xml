@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanmaxinxi.dao.ubalance.UbalanceDAO">
+	<resultMap type="Ubalance" id="UbalanceResultMap">
+		<id column="id" property="id"/>
+		<result column="uId" property="uId"/>
+		<result column="money" property="money"/>
+
+	</resultMap>
+	<insert id="insert" parameterType="Ubalance" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ubalance(uId) values(#{uId})
+	</insert>
+	<update id="update" parameterType="Ubalance">
+		update t_ubalance set uId=#{uId},money=#{money},number=#{number} where id=#{id}
+	</update>
+	<delete id="delete" parameterType='Long'>
+		delete from t_ubalance where id=#{id}
+	</delete>
+	<select id="selectOneById" parameterType="Long" resultType="Ubalance">
+		select * from t_ubalance where id=#{id}
+	</select>
+	<select id="selectOneByuId" parameterType="Long" resultType="Ubalance">
+		select * from t_ubalance where uId=#{uId}
+	</select>
+	<select id="selectOneByOpenId" parameterType="String" resultType="Ubalance">
+		select * from t_ubalance where uId in (
+			select id from t_user where openid = #{openid}
+		)
+	</select>
+	<select id="selectAll" resultMap="UbalanceResultMap">
+		select * from t_ubalance 
+	</select>
+	<select id="selectCount" parameterType="com.yuanmaxinxi.dto.BaseQueryPageDTO" resultType="int">
+		select count(id) from t_ubalance 
+		<include refid="whereSql"></include>
+	</select>
+	<select id="queryPage" parameterType="com.yuanmaxinxi.dto.BaseQueryPageDTO" resultMap="UbalanceResultMap">
+		select * from t_ubalance 
+		<include refid="whereSql"></include>
+		limit #{beginIndex},#{pageSize}
+	</select>
+	<sql id="whereSql">
+	    <where>
+
+	    </where>
+	</sql>
+</mapper>

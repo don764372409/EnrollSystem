@@ -8,7 +8,14 @@ public class User {
 	private String code;//自己的专属邀请码
 	private String number;//填写别人的邀请码
 	private String openid;
+	private String fen;
 	
+	public String getFen() {
+		return fen;
+	}
+	public void setFen(String fen) {
+		this.fen = fen;
+	}
 	public String getCode() {
 		return code;
 	}
@@ -51,7 +58,9 @@ public class User {
 	public void setVip(int vip) {
 		this.vip = vip;
 	}
-	
-
-
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", url=" + url + ", name=" + name + ", vip=" + vip + ", code=" + code + ", number="
+				+ number + ", openid=" + openid + ", fen=" + fen + "]";
+	}
 }
