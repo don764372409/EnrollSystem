@@ -122,11 +122,7 @@ public class TestInfoController {
 			in.close();
 			out.close();
 			// 根据结果去获取解析详情
-<<<<<<< HEAD
 			dto = ResultDTO.putSuccess("rul");
-=======
-			dto = ResultDTO.newInstance(true, "");
->>>>>>> branch 'master' of https://github.com/don764372409/EnrollSystem.git
 		} catch (Exception e) {
 			e.printStackTrace();
 			dto = ResultDTO.putError(e.getMessage());
