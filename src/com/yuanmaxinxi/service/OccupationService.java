@@ -137,6 +137,10 @@ public class OccupationService {
 		return occupationDAO.selectAll();
 	}
 	
+	public List<Occupation> selectByName(String name) {
+		return occupationDAO.selectByName(name);
+	}
+	
 	public List<Occupation> sFselectAll(){
 		List<Occupation> list = occupationDAO.selectByPid();
 		for (Occupation occupation : list) {

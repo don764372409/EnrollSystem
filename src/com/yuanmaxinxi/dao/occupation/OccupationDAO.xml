@@ -16,6 +16,9 @@
 	<select id="selectAll" resultType="Occupation">
 		select * from t_occupation
 	</select>
+	<select id="selectByName" parameterType="String" resultType="Occupation">
+		select * from t_occupation WHERE instr(name,#{_parameter})
+	</select>
 	<select id="selectFirst" resultType="Occupation">
 		SELECT id,name FROM t_occupation WHERE pId is null
 	</select>

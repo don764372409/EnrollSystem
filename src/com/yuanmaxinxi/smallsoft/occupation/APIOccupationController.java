@@ -26,6 +26,11 @@ public class APIOccupationController{
 	public List<Occupation> listLayer(){
 		return occupationService.selectAllByLayer();
 	}
+	@RequestMapping("/list")
+	@ResponseBody
+	public List<Occupation> list(String name){
+		return occupationService.selectByName(name);
+	}
 	
 	/**
 	 * 根据专业查职业
