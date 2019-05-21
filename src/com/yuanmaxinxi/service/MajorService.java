@@ -130,6 +130,10 @@ public class MajorService {
 	public List<Major> selectAll() {
 		return majorDAO.selectAll();
 	}
+	public List<Major> selectByName(String name) {
+		return majorDAO.selectByName(name);
+	}
+
 
 	public void queryPage(MyBatisQueryPageDTO<Major> dto) {
 		int count = majorDAO.selectCount(dto);
