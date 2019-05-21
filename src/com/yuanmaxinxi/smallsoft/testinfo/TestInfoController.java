@@ -87,10 +87,10 @@ public class TestInfoController {
 				throw new RuntimeException();
 			}
 			// 根据结果去获取解析详情
-			dto = ResultDTO.newInstance(true, "rul");
+			dto = ResultDTO.putSuccess("rul");
 		} catch (Exception e) {
 			e.printStackTrace();
-			dto = ResultDTO.newInstance(false, e.getMessage());
+			dto = ResultDTO.putError(e.getMessage());
 		}
 		return dto;
 	}
