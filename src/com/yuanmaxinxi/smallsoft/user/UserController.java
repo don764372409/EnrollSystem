@@ -104,7 +104,7 @@ public class UserController{
 		ResultDTO dto;
 		try {
 			userService.bindNumber(openid,code);
-			dto = ResultDTO.putSuccess("绑定成功!点击跳转到首页");
+			dto = ResultDTO.putSuccess("绑定成功,您的邀请人将获得50积分!点击跳转到首页");
 		} catch (Exception e) {
 			if (e.getMessage().contains("已经绑定")) {
 				dto = ResultDTO.putError(e.getMessage());
