@@ -4,6 +4,9 @@
     <select id="selectOneAir" parameterType="UserAnswer" resultType="UserAnswer">
         select * from t_useranswer where uId = #{uId} and type=#{type} and (result is null or result ='')
     </select>
+    <select id="selectNewUserAnswer" parameterType="UserAnswer" resultType="UserAnswer">
+        select * from t_useranswer where uId = #{uId} and type=#{type} order by time desc limit 0,1
+    </select>
     <insert id="insert" parameterType="UserAnswer" useGeneratedKeys="true" keyProperty="id">
         insert into t_useranswer(uId,time,result,type)values(#{uId},#{time},#{result},#{type})
     </insert>

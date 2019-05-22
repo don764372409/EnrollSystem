@@ -5,24 +5,26 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuanmaxinxi.dto.ResultDTO;
-import com.yuanmaxinxi.entity.test.Topic;
 import com.yuanmaxinxi.entity.test.TestInfo;
 import com.yuanmaxinxi.entity.test.TestResult;
+import com.yuanmaxinxi.entity.test.Topic;
 import com.yuanmaxinxi.entity.test.UserAnswer;
 import com.yuanmaxinxi.entity.test.UserAnswerItem;
-import com.yuanmaxinxi.service.TopicService;
 import com.yuanmaxinxi.service.TestInfoService;
 import com.yuanmaxinxi.service.TestResultService;
+import com.yuanmaxinxi.service.TopicService;
 import com.yuanmaxinxi.service.UserAnswerService;
 import com.yuanmaxinxi.service.UserService;
 
@@ -39,12 +41,32 @@ public class TestInfoController {
 	private UserAnswerService userAnswerService;
 	@Autowired
 	private TestResultService testResultService;
-
 	@RequestMapping("/selectOneByType")
 	@ResponseBody
 	public TestInfo selectOneByType(int type) {
 		TestInfo obj = testInfoService.selectOneByType(type);
 		return obj;
+	}
+	/**
+	 * 查询最新的一次是否完成，只查最新的
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping("/checkTest")
+	@ResponseBody
+	public Map<String,Integer> checkTest(Long uId) {
+		UserAnswer ua = new UserAnswer();
+		ua.setuId(uId);
+		ua.setType(1);
+		//先检查MBTI
+		int test1 = userAnswerService.checkTest(ua);
+		ua.setType(2);
+		//在检查霍兰德
+		int test2 = userAnswerService.checkTest(ua);
+		Map<String,Integer> map = new HashedMap<>();
+		map.put("test1", test1);
+		map.put("test2", test2);
+		return map;
 	}
 
 	@RequestMapping("/selectAllTopic")
@@ -67,20 +89,22 @@ public class TestInfoController {
 		TestResult tr = testResultService.selectOneByResult(result);
 		return tr;
 	}
-
 	/**
 	 * 解析测试答案
 	 * 
 	 * @param ua
 	 * @return
 	 */
-	@RequestMapping(value="/parseResult")
+	@RequestMapping(value="/downloadTestFile")
 	@ResponseBody
-	public void parseResult(Long uaId,HttpServletRequest request, HttpServletResponse response) {
+	public void downloadTestFile(Long uId,HttpServletRequest request, HttpServletResponse response) {
 		//ResultDTO dto;
 		try {
 			// 解析得到结果
-			UserAnswer ua = userAnswerService.parseResult(uaId);
+			UserAnswer usa = new UserAnswer();
+			usa.setuId(uId);
+			usa.setType(1);
+			UserAnswer ua = userAnswerService.selectNewUserAnswer(usa);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String uName = userService.selectOneId(ua.getuId()).getName();
 			String rpath = this.getClass().getClassLoader().getResource("../../MBTI/").getPath();
@@ -89,10 +113,10 @@ public class TestInfoController {
 			if (Runtime.getRuntime().exec(cmds).waitFor() != 0) {
 				throw new RuntimeException();
 			}
-			
-			
 			// 解析得到结果
-			String result = userAnswerService.parseHLDResult(uaId);
+			usa.setType(2);
+			//如果没有出结果 可能会报空指针
+			String result = userAnswerService.selectNewUserAnswer(usa).getResult();
 			String[] s;
 			for(String str: result.split(",")) {
 				s=str.split(":");
@@ -122,13 +146,30 @@ public class TestInfoController {
 				out.flush();
 			in.close();
 			out.close();
-			// 根据结果去获取解析详情
-		//	dto = ResultDTO.newInstance(true, "");
 		} catch (Exception e) {
 			e.printStackTrace();
-		//	dto = ResultDTO.putError(e.getMessage());
 		}
-		//return dto;
+	}
+	/**
+	 * 解析测试答案
+	 * 
+	 * @param ua
+	 * @return
+	 */
+	@RequestMapping(value="/parseResult")
+	@ResponseBody
+	public ResultDTO parseResult(Long uaId,HttpServletRequest request, HttpServletResponse response) {
+		ResultDTO dto;
+		try {
+			// 解析得到结果
+			userAnswerService.parseResult(uaId);
+			// 根据结果去获取解析详情
+			dto = ResultDTO.newInstance(true, "");
+		} catch (Exception e) {
+			e.printStackTrace();
+			dto = ResultDTO.newInstance(false, e.getMessage());
+		}
+		return dto;
 	}
 
 	/**
