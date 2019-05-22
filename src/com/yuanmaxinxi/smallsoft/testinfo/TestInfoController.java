@@ -110,6 +110,7 @@ public class TestInfoController {
 			String rpath = this.getClass().getClassLoader().getResource("../../MBTI/").getPath();
 			String[] cmds = { "/bin/sh", "-c", "/usr/bin/sed -i '0,/<h3>/s/\\(<h3>\\).*\\(<\\/h3>\\)/\\1" + uName + " "
 					+ sdf.format(new Date()) + "\\2/' " + rpath + ua.getResult() + ".html" };
+			System.err.println(cmds[2]);
 			if (Runtime.getRuntime().exec(cmds).waitFor() != 0) {
 				throw new RuntimeException();
 			}
@@ -117,8 +118,27 @@ public class TestInfoController {
 			usa.setType(2);
 			//如果没有出结果 可能会报空指针
 			String result = userAnswerService.selectNewUserAnswer(usa).getResult();
-			String[] s;
-			for(String str: result.split(",")) {
+			String[] results=result.split(",");
+			int length =results.length;
+			for(int i=2;i<length;i++) {
+				String strKey=results[i];
+				int key=Integer.parseInt(strKey.split(":")[1]);
+				int j=i-1;
+				while(Integer.parseInt(results[j].split(":")[1]) < key && j>=0) {
+					results[j+1]=results[j];
+					j--;
+				}
+				results[j+1]=strKey;
+				
+			}
+			String type = results[0].split(":")[0]+results[1].split(":")[0]+results[2].split(":")[0];
+			cmds[2]="/usr/bin/sed -i -e '0,/[CESAIR]\\{3\\}/s/[CESAIR]\\{3\\}/"+type+"/' "+rpath + ua.getResult() + ".html" ;
+			System.err.println(cmds[2]);
+			if (Runtime.getRuntime().exec(cmds).waitFor() != 0) {
+				throw new RuntimeException();
+			}
+			String s[];
+			for(String str: results) {
 				s=str.split(":");
 				cmds[2]="/usr/bin/sed -i -e '0,/<td>"+s[0]+"/s/\\(<td>"+s[0]+"[^[:digit:]]*\\)[[:digit:]]\\{1,2\\}/\\1" + s[1] + "/' -e "
 				+ "'/<td>"+s[0]+"/{n;n;s/[[:digit:]]\\{1,2\\}%/"+s[1]+"%/;}' "+rpath + ua.getResult() + ".html" ;
