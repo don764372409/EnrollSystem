@@ -128,9 +128,7 @@ public class UserController{
 	@ResponseBody
 	@RequestMapping("/selectOne")
 	public User selectOne (String openid){
-		//获取收藏院校数量
 		User user = userService.selectOneByOpenid(openid);
-		
 		return user;
 	}
 
