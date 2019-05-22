@@ -103,14 +103,14 @@ public class UserService {
 			//将邀请人的积分+50分
 			Ulogpay ulogpay = new Ulogpay();
 			ulogpay.setuId(user.getId());
-			ulogpay.setTitle("邀请人");
+			ulogpay.setTitle("邀请人+50");
 			Date date = new Date();
 			ulogpay.setNumber(date.getTime());
 			ulogpay.setPaytype(0);
 			BigDecimal bb = new BigDecimal(50.00);
 			ulogpay.setValue(bb);
 			ulogpay.setPaytime(new Date());
-			ulogpay.setType(5);
+			ulogpay.setType(1);
 			ulogpay.setStatus(1);
 			int row = ulogpayDAO.insert(ulogpay);
 			if(row!=1) {
