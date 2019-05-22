@@ -101,26 +101,6 @@
         select * from t_university
     </select>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <sql id="whereSql">
         <where>
 			 <if test="name!=null and name != ''">
