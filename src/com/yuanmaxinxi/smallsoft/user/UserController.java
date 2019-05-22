@@ -94,11 +94,7 @@ public class UserController{
 			userService.regist(user);
 			dto = ResultDTO.putSuccess("授权成功,点击进入下一步");
 		} catch (Exception e) {
-			if (e.getMessage().contains("授权成功")) {
-				dto = ResultDTO.newInstance(true, e.getMessage());
-			}else {
-				dto = ResultDTO.newInstance(false, e.getMessage());
-			}
+			dto = ResultDTO.putError(e.getMessage());
 		}
 		return dto;
 	}
@@ -108,12 +104,12 @@ public class UserController{
 		ResultDTO dto;
 		try {
 			userService.bindNumber(openid,code);
-			dto = ResultDTO.newInstance(true, "绑定成功!点击跳转到首页");
+			dto = ResultDTO.putSuccess("绑定成功!点击跳转到首页");
 		} catch (Exception e) {
 			if (e.getMessage().contains("已经绑定")) {
-				dto = ResultDTO.newInstance(true, e.getMessage());
+				dto = ResultDTO.putError(e.getMessage());
 			}else {
-				dto = ResultDTO.newInstance(false, e.getMessage());
+				dto = ResultDTO.putError(e.getMessage());
 			}
 		}
 		return dto;
