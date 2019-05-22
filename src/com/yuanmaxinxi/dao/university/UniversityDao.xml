@@ -136,9 +136,6 @@
 			 <if test="pId!=null and pId &gt; 0">
 			     and pId = #{pId}
 			 </if>
-			 <if test="uId!=null and uId &gt; 0">
-			     and uId = #{uId}
-			 </if>
 			 <if test="f211!=-1">
 			     and f211 = #{f211}
 			 </if>
