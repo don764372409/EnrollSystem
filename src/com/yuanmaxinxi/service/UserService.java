@@ -93,6 +93,9 @@ public class UserService {
 			if (user.getOpenid().equals(openid)) {
 				throw new RuntimeException("不能自己邀请自己.");
 			}
+			//将邀请人的积分+50分
+			
+			
 			User user2 = new User();
 			user2.setOpenid(openid);
 			user2.setNumber(code);
