@@ -17,7 +17,9 @@
 		select * from t_occupation
 	</select>
 	<select id="selectByName" parameterType="String" resultType="Occupation">
-		select * from t_occupation WHERE instr(name,#{_parameter})
+		select * from t_occupation WHERE instr(name,#{_parameter}) and id not in(
+			select DISTINCT pId as id from t_occupation where pId is not null
+		)
 	</select>
 	<select id="selectFirst" resultType="Occupation">
 		SELECT id,name FROM t_occupation WHERE pId is null
