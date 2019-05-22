@@ -94,11 +94,7 @@ public class UserController{
 			userService.regist(user);
 			dto = ResultDTO.putSuccess("授权成功,点击进入下一步");
 		} catch (Exception e) {
-			if (e.getMessage().contains("授权成功")) {
-				dto = ResultDTO.newInstance(true, e.getMessage());
-			}else {
-				dto = ResultDTO.newInstance(false, e.getMessage());
-			}
+			dto = ResultDTO.putError(e.getMessage());
 		}
 		return dto;
 	}
@@ -108,22 +104,27 @@ public class UserController{
 		ResultDTO dto;
 		try {
 			userService.bindNumber(openid,code);
-			dto = ResultDTO.newInstance(true, "绑定成功!点击跳转到首页");
+			dto = ResultDTO.putSuccess("绑定成功,您的邀请人将获得50积分!点击跳转到首页");
 		} catch (Exception e) {
 			if (e.getMessage().contains("已经绑定")) {
-				dto = ResultDTO.newInstance(true, e.getMessage());
+				dto = ResultDTO.putError(e.getMessage());
 			}else {
-				dto = ResultDTO.newInstance(false, e.getMessage());
+				dto = ResultDTO.putError(e.getMessage());
 			}
 		}
 		return dto;
 	}
 	@ResponseBody
 	@RequestMapping("/shoucangs")
-	public int shoucangs (Long id){
+	public ResultDTO shoucangs (Long id){
 		//获取收藏院校数量
-		int numbers = userService.selectShoucangNumbers(id);
-		return numbers;
+		ResultDTO dto;
+		try {
+			int numbers = userService.selectShoucangNumbers(id);
+			return ResultDTO.putSuccessObj("获取成功!", numbers);
+		} catch (Exception e) {
+			return ResultDTO.putError("获取收藏院校失败,请稍后重试.");
+		}
 	}
 	@ResponseBody
 	@RequestMapping("/selectOne")

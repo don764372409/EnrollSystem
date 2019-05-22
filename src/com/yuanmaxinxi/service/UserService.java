@@ -1,6 +1,6 @@
 package com.yuanmaxinxi.service;
 
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +66,9 @@ public class UserService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (e instanceof SQLException) {
+				throw new RuntimeException("网络异常,请稍后重试.");
+			}
 			throw new RuntimeException("授权失败,请稍后再次尝试");
 		}
 	}
@@ -90,15 +93,20 @@ public class UserService {
 			if (user.getOpenid().equals(openid)) {
 				throw new RuntimeException("不能自己邀请自己.");
 			}
+			//将邀请人的积分+50分
+			
+			
 			User user2 = new User();
 			user2.setOpenid(openid);
-			user2.setCode(code);
+			user2.setNumber(code);
 			int i = userDAO.bingNumber(user2);
 			if (i!=1) {
 				throw new RuntimeException("绑定失败,请稍后再次尝试.");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (e instanceof SQLException) {
+				throw new RuntimeException("网络异常,请稍后重试.");
+			}
 			throw new RuntimeException(e.getMessage());
 		}
 	}
@@ -116,10 +124,10 @@ public class UserService {
 		if (StringUtil.isNullOrEmpty(user.getUrl())) {
 			throw new RuntimeException("头像不能为空.");
 		}
-		if (StringUtil.isNullOrEmpty(user.getNumber())) {
+		if (StringUtil.isNullOrEmpty(user.getMobile())) {
 			throw new RuntimeException("手机号码不能为空.");
 		}
-		if (!StringUtil.isMobile(user.getNumber())) {
+		if (!StringUtil.isMobile(user.getMobile())) {
 			throw new RuntimeException("手机号码格式不正确.");
 		}
 		try {
