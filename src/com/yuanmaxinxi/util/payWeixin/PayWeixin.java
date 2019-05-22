@@ -38,7 +38,7 @@ public class PayWeixin {
 			e2.printStackTrace();
 		}
 		String generateNonceStr = WXPayUtil.generateNonceStr();
-		String nonce_str = generateNonceStr;//随机字符串  (已有)用WXPayUtil中的generateNonceStr()即可,就是生成UUID的方法；
+		String nonce_str = generateNonceStr;//随机字符串  (已有)用WXPayUtil中的generateNonceStr()即可,就是生成UUID的方法;
 		String body = ulogpay.getTitle();//支付的名称（未有）
 		String out_trade_no = String.valueOf(ulogpay.getNumber()) ;//后台生成的订单号（未有）
 		String total_fee  = String.valueOf(ulogpay.getValue().multiply(BigDecimal.valueOf(100)));//支付金额 单位：分,（未有）

@@ -100,6 +100,7 @@ public class UlogpayService{
 			throw new RuntimeException("查询失败.");
 		}
 	}
+	@Transactional
 	public Map<String, String> payWeixin(Ulogpay ulogpay) {
 		//假设是充值订单
 		Map<String, String> map = new HashMap<String, String>();
@@ -130,7 +131,7 @@ public class UlogpayService{
 			throw new RuntimeException("微信支付错误，请稍后重试");
 		}
 	}
-
+	@Transactional
 	public void finish(Ulogpay ulogpay) {
 		//更改订单状态
 		String outNumber = ulogpay.getOutNumber();
