@@ -45,7 +45,7 @@
 		select * from t_major
 	</select>
 	<select id="selectByName" parameterType="String" resultType="Major">
-		select * from t_major WHERE instr(name,#{_parameter})
+		select * from t_major WHERE instr(name,#{_parameter}) and layer = 3
 	</select>
 	<select id="selectByOcc"   parameterType="long" resultType="Major">
 	SELECT * FROM t_major WHERE pNo IN(
