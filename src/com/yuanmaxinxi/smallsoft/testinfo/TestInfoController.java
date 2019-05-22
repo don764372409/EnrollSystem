@@ -76,8 +76,8 @@ public class TestInfoController {
 	 */
 	@RequestMapping(value="/parseResult")
 	@ResponseBody
-	public ResultDTO parseResult(Long uaId,HttpServletRequest request, HttpServletResponse response) {
-		ResultDTO dto;
+	public void parseResult(Long uaId,HttpServletRequest request, HttpServletResponse response) {
+		//ResultDTO dto;
 		try {
 			// 解析得到结果
 			UserAnswer ua = userAnswerService.parseResult(uaId);
@@ -104,6 +104,7 @@ public class TestInfoController {
 				}
 			}
 			
+			System.err.println("/usr/bin/wkhtmltopdf " + rpath + ua.getResult() + ".html " + rpath + "tmp.pdf");
 			if (Runtime.getRuntime()
 					.exec("/usr/bin/wkhtmltopdf " + rpath + ua.getResult() + ".html " + rpath + "tmp.pdf")
 					.waitFor() != 0) {
@@ -117,17 +118,17 @@ public class TestInfoController {
 			int len = 0;
 			while ((len = in.read(buffer)) > 0) {
 				out.write(buffer, 0, len);
-				out.flush();
 			}
+				out.flush();
 			in.close();
 			out.close();
 			// 根据结果去获取解析详情
-			dto = ResultDTO.newInstance(true, "");
+		//	dto = ResultDTO.newInstance(true, "");
 		} catch (Exception e) {
 			e.printStackTrace();
-			dto = ResultDTO.newInstance(false, e.getMessage());
+		//	dto = ResultDTO.newInstance(false, e.getMessage());
 		}
-		return dto;
+		//return dto;
 	}
 
 	/**
