@@ -121,10 +121,10 @@ public class UserService {
 		if (StringUtil.isNullOrEmpty(user.getUrl())) {
 			throw new RuntimeException("头像不能为空.");
 		}
-		if (StringUtil.isNullOrEmpty(user.getNumber())) {
+		if (StringUtil.isNullOrEmpty(user.getMobile())) {
 			throw new RuntimeException("手机号码不能为空.");
 		}
-		if (!StringUtil.isMobile(user.getNumber())) {
+		if (!StringUtil.isMobile(user.getMobile())) {
 			throw new RuntimeException("手机号码格式不正确.");
 		}
 		try {

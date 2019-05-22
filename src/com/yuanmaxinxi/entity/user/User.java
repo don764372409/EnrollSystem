@@ -9,7 +9,14 @@ public class User {
 	private String number;//填写别人的邀请码
 	private String openid;
 	private String fen;
+	private String mobile;//手机号
 	
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 	public String getFen() {
 		return fen;
 	}

@@ -116,10 +116,15 @@ public class UserController{
 	}
 	@ResponseBody
 	@RequestMapping("/shoucangs")
-	public int shoucangs (Long id){
+	public ResultDTO shoucangs (Long id){
 		//获取收藏院校数量
-		int numbers = userService.selectShoucangNumbers(id);
-		return numbers;
+		ResultDTO dto;
+		try {
+			int numbers = userService.selectShoucangNumbers(id);
+			return ResultDTO.putSuccessObj("获取成功!", numbers);
+		} catch (Exception e) {
+			return ResultDTO.putError("获取收藏院校失败,请稍后重试.");
+		}
 	}
 	@ResponseBody
 	@RequestMapping("/selectOne")

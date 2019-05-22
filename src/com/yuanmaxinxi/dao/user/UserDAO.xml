@@ -5,7 +5,7 @@
         insert into t_user(name,url,openid,code)values(#{name},#{url},#{openid},#{code})
     </insert>
     <update id="update" parameterType="User">
-    	update t_user set name=#{name},url=#{url},number=#{number} where id = #{id}
+    	update t_user set name=#{name},url=#{url},mobile=#{mobile} where id = #{id}
     </update>
 	 <update id="updateVip" parameterType="Long">
     	update t_user set vip=1 where id = #{id}
