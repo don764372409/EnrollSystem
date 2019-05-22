@@ -101,26 +101,6 @@
         select * from t_university
     </select>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <sql id="whereSql">
         <where>
 			 <if test="name!=null and name != ''">
@@ -135,9 +115,6 @@
 <!-- 			 &lt; 小于 -->
 			 <if test="pId!=null and pId &gt; 0">
 			     and pId = #{pId}
-			 </if>
-			 <if test="uId!=null and uId &gt; 0">
-			     and uId = #{uId}
 			 </if>
 			 <if test="f211!=-1">
 			     and f211 = #{f211}
