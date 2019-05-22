@@ -13,6 +13,7 @@ import com.yuanmaxinxi.dao.useranswer.UserAnswerDAO;
 import com.yuanmaxinxi.entity.test.Answer;
 import com.yuanmaxinxi.entity.test.UserAnswer;
 import com.yuanmaxinxi.entity.test.UserAnswerItem;
+import com.yuanmaxinxi.util.StringUtil;
 
 @Service
 @Transactional
@@ -267,5 +268,21 @@ public class UserAnswerService {
 			e2.printStackTrace();
 			throw new RuntimeException("解析失败,请稍后重试.");
 		}
+	}
+	/**
+	 * 检查最新的测试是否有结果
+	 * @param type
+	 * @return
+	 */
+	public int checkTest(UserAnswer ua) {
+		UserAnswer sysUa = userAnswerDAO.selectNewUserAnswer(ua);
+		if (sysUa!=null&&StringUtil.isNotNullAndEmpty(sysUa.getResult())) {
+			return 1;
+		}
+		return 0;
+	}
+
+	public UserAnswer selectNewUserAnswer(UserAnswer usa) {
+		return userAnswerDAO.selectNewUserAnswer(usa);
 	}
 }

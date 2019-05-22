@@ -19,4 +19,11 @@ public interface UserAnswerDAO extends BaseDAO<UserAnswer>{
 	Integer getCountItem(Long uaId);
 	List<UserAnswerItem> selectAllUserAnswerItemByUaId(Long uaId);
 	int updateUserAnswerResult(UserAnswer ua);
+	/**
+	 * 获取最新的测试,无论有没有得到结果
+	 * 只查1条
+	 * @param ua
+	 * @return
+	 */
+	UserAnswer selectNewUserAnswer(UserAnswer ua);
 }
