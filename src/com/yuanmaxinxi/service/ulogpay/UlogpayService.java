@@ -153,11 +153,15 @@ public class UlogpayService{
 		if(update!=1) {
 			throw new RuntimeException("更新账户余额错误");
 		}
-		int row1 =userDAO.updateVip(selectUbla.getuId());
-		if(row1!=1) {
-			throw new RuntimeException("更新账户余额错误");
+		User user = userDAO.selectOneById(obj.getuId());
+		if(user.getVip()==0) {
+			int row1 =userDAO.updateVip(selectUbla.getuId());
+			if(row1!=1) {
+				throw new RuntimeException("更新账户余额错误");
+			}
 		}
 	}
+	
 	public void pay(Ulogpay ulogpay) {
 		ulogpay.setPaytime(new Date());
 		int row = ulogpayDAO.insert(ulogpay);
@@ -169,12 +173,13 @@ public class UlogpayService{
 			throw new RuntimeException("未创建改用户账户");
 		}
 		BigDecimal money = selectUbla.getMoney();
-		BigDecimal add = money.subtract(ulogpay.getValue());//增加余额
+		BigDecimal add = money.subtract(ulogpay.getValue());//减少余额
 		selectUbla.setMoney(add);
 		int update = ubalanceDAO.update(selectUbla);
 		if(update!=1) {
 			throw new RuntimeException("更新账户余额错误");
 		}
+		
 	}
 	public List<Ulogpay> selectAllByOpenId(String openid) {
 		List<Ulogpay>  list = ulogpayDAO.selectAllByOpenId(openid);

@@ -4,6 +4,8 @@
 package com.yuanmaxinxi.util.payWeixin;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,15 +30,22 @@ public class PayWeixin {
 	private static final String unifiedorder_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//下单接口
 	private static String sign;	//签名验证
 	public static Map<String, String> payWeixin(Ulogpay ulogpay) {
+		String ip = null;
+		try {
+			InetAddress address = InetAddress.getLocalHost();
+			ip = address.getHostAddress();
+		} catch (UnknownHostException e2) {
+			e2.printStackTrace();
+		}
 		String generateNonceStr = WXPayUtil.generateNonceStr();
 		String nonce_str = generateNonceStr;//随机字符串  (已有)用WXPayUtil中的generateNonceStr()即可,就是生成UUID的方法；
 		String body = ulogpay.getTitle();//支付的名称（未有）
 		String out_trade_no = String.valueOf(ulogpay.getNumber()) ;//后台生成的订单号（未有）
-//		String total_fee  = String.valueOf(ulogpay.getValue().multiply(BigDecimal.valueOf(100.00)));//支付金额 单位：分,（未有）
+		String total_fee  = String.valueOf(ulogpay.getValue().multiply(BigDecimal.valueOf(100.00)));//支付金额 单位：分,（未有）
 //		String body ="这是一个测试";//支付的名称（未有）
 //		String out_trade_no = "155541353137431143";//后台生成的订单号（未有）
-		String total_fee  = "1";//支付金额 单位：分,（未有）
-		String spbill_create_ip = "183.67.49.14";//IP地址（已有）
+//		String total_fee  = "1";//支付金额 单位：分,（未有）
+		String spbill_create_ip = ip;//IP地址（已有）
 		String notify_url = "https://www.baidu.com/";//回调地址（已有）
 		String trade_type = "JSAPI";//支付类型 （已有）
 		String openid = ulogpay.getOpenid();
