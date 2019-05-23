@@ -30,6 +30,7 @@ import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
 import com.yuanmaxinxi.entity.provincescore.Provincescore;
 import com.yuanmaxinxi.entity.university.University;
+import com.yuanmaxinxi.util.StringUtil;
 import com.yuanmaxinxi.web.enroll.EnrollController;
 
 @Service
@@ -604,5 +605,15 @@ public class EnrollService {
 
 	public List<Province> selectEnrollProvinceByUniId(Long uniId) {
 		return enrollDAO.selectEnrollProvinceByUniId(uniId);
+	}
+
+	public List<Province> selectEnrollProvinceByUniIds(String uniIds) {
+		Map<String,String> map = new HashMap<>();
+		if (StringUtil.isNotNullAndEmpty(uniIds)) {
+			String[] split = uniIds.split(",");
+			map.put("uId1", split[0]);
+			map.put("uId2", split[1]);
+		}
+		return enrollDAO.selectEnrollProvinceByUniIds(map);
 	}
 }

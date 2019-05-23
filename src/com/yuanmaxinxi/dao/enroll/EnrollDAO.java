@@ -120,4 +120,6 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 	public List<University> queryUniversity(String name);
 
 	public List<Province> selectEnrollProvinceByUniId(Long uniId);
+
+	public List<Province> selectEnrollProvinceByUniIds(Map<String,String> map);
 }

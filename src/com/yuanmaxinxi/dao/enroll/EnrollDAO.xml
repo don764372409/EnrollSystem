@@ -88,6 +88,11 @@
         	select distinct pId from t_enroll where uId = #{uniId}
         )
     </select>
+    <select id="selectEnrollProvinceByUniIds" parameterType="map" resultType="Province">
+    	select id,name from t_province where id in (
+			select DISTINCT e1.pId pId from t_enroll e1 LEFT JOIN t_enroll e2 on e1.pId = e2.pId where e1.uId = #{uId1} and e2.uId = #{uId2}
+		)
+    </select>
     <select id="serch" parameterType="map" resultType="Enroll">
         select en.* from ( 
 	  		select * from t_enroll 

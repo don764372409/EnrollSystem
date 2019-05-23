@@ -54,6 +54,16 @@ public class MemberController {
 
 	/**
 	 * 获取招生省份 提供给用户做查询
+	 * 加两个个学校id的过滤条件
+	 * @return
+	 */
+	@RequestMapping("/selectEnrollProvinceByUniIds")
+	@ResponseBody
+	public List<Province> selectEnrollProvinceByUniIds(String uIds) {
+		return enrollService.selectEnrollProvinceByUniIds(uIds);
+	}
+	/**
+	 * 获取招生省份 提供给用户做查询
 	 * 加个学校id的过滤条件
 	 * @return
 	 */
