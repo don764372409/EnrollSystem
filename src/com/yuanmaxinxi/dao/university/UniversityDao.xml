@@ -39,9 +39,9 @@
     </select>
     <select id="selectMajorsById" parameterType="map" resultType="Major">
         select id ,name from t_major where id in (
-			select mId from t_enroll where uId = #{id} and bId = #{bId1} 
+			select mId from t_enroll where uId = #{id} and bId = #{bId1} and pId = #{pId}
 			union
-			select mId from t_enroll where uId = #{id} and bId = #{bId2}
+			select mId from t_enroll where uId = #{id} and bId = #{bId2} and pId = #{pId}
 		)
     </select>
     <select id="selectYearByMajorAndBidAndId" parameterType="map" resultType="Enroll">

@@ -436,9 +436,10 @@ public class UniversityService {
 	 * 根据学校ID查询学校的录取专业
 	 * @param id
 	 * @param activBatch 批次代号 1->10,11  2->8,9  3->14-15  4,5->12,13 
+	 * @param pId 招生地区省份
 	 * @return
 	 */
-	public List<Major> selectMajorsById(String id, String activBatch) {
+	public List<Major> selectMajorsById(String id, String activBatch, Long pId) {
 		Map<String,String> map = new HashMap<>();
 		map.put("id", id);
 		//默认提前批
@@ -472,6 +473,7 @@ public class UniversityService {
 		}
 		map.put("bId1", bId1);
 		map.put("bId2", bId2);
+		map.put("pId", pId+"");
 		System.err.println(map);
 		return universityDAO.selectMajorsById(map);
 	}

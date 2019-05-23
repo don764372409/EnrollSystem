@@ -101,8 +101,8 @@ public class UniversityController{
 	}
 	@RequestMapping("/luquMajors")
 	@ResponseBody
-	public List<Major> luquMajors(String id,String activBatch){
-		List<Major> majors = universityService.selectMajorsById(id,activBatch);
+	public List<Major> luquMajors(String id,String activBatch,Long pId){
+		List<Major> majors = universityService.selectMajorsById(id,activBatch,pId);
 		return majors;
 	}
 	@RequestMapping("/details1")

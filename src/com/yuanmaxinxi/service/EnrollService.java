@@ -204,7 +204,8 @@ public class EnrollService {
 	}
 
 	public int queryProvinceScore(Provincescore ps) {
-		return enrollDAO.queryProvinceScore(ps).getScore();
+		Provincescore score = enrollDAO.queryProvinceScore(ps);
+		return score.getScore();
 	}
 
 	public Batch selectOneByName(String name) {
@@ -242,9 +243,16 @@ public class EnrollService {
 	public List<University> queryUniversity(String name) {
 		return enrollDAO.queryUniversity(name);
 	}
-
-	public List<Major> queryMajorByuId(Long uId) {
-		return enrollDAO.queryMajorByuId(uId);
+	/**
+	 * 根据招生地区和学校id查询录取数据里面的专业
+	 * @param map
+	 * @return
+	 */
+	public List<Major> queryMajorByuId(Long uId,Long pId) {
+		Map<String,Long> map = new HashMap<>();
+		map.put("uId", uId);
+		map.put("pId", pId);
+		return enrollDAO.queryMajorByuId(map);
 	}
 
 	public int importEnroll(Map<String, String> map) {
@@ -592,5 +600,9 @@ public class EnrollService {
 			list.remove(enroll);
 		}
 		return list;
+	}
+
+	public List<Province> selectEnrollProvinceByUniId(Long uniId) {
+		return enrollDAO.selectEnrollProvinceByUniId(uniId);
 	}
 }
