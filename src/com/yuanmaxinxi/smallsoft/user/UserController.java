@@ -1,6 +1,7 @@
 package com.yuanmaxinxi.smallsoft.user;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.service.UserService;
 import com.yuanmaxinxi.service.ubalance.UbalanceService;
 import com.yuanmaxinxi.service.ulogpay.UlogpayService;
+import com.yuanmaxinxi.util.StringUtil;
 @RequestMapping("/soft/user")
 @Controller
 public class UserController{
@@ -165,35 +167,59 @@ public class UserController{
 		return "account/account";
 	}
 	@RequestMapping("/index")
-	public String getCode(HttpServletRequest request,HttpServletResponse response) {
-//	        StringBuffer sb = new StringBuffer();
-//	        StringBuffer encodeUrl = new StringBuffer(300);
-//	        //公众号中配置的回调域名（网页授权回调域名）
-//	        String appId ="wx934f1fc99b01220a";
-//	        sb.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=");
-//	        sb.append(appId);
-//	        String url = "";
-//	        try {
-//	            //对重定向url进行编码，官方文档要求
-//	            encodeUrl.append("http://www.methodol-edu.com/shouquan/index.html");
-//	            url = URLEncoder.encode("http://www.methodol-edu.com/shouquan/index.html", "utf-8");
-//	            sb.append("&redirect_uri=").append(url);
-//	            //网页授权的静默授权snsapi_base
-//	            sb.append("&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
-//	            response.sendRedirect(sb.toString());
-//	        } catch (Exception e) {
-//	        	e.printStackTrace();
-//	            throw new RuntimeException("重定向url编码失败");
-//	        }
-		System.out.println("今入到jsp页面进行处理");
-		return "/shouquan/index";
+	public void getCode(HttpServletRequest req,HttpServletResponse response) {
+			String code = req.getParameter("code");
+			if(StringUtil.isNotNullAndEmpty(code)) {
+				System.out.println("1111111111");
+				System.out.println(code);
+				  try {
+					response.sendRedirect("http://www.methodol-edu.com/SSM/soft/user/toAccount");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	        StringBuffer sb = new StringBuffer();
+	        StringBuffer encodeUrl = new StringBuffer(300);
+	        //公众号中配置的回调域名（网页授权回调域名）
+	        String appId ="wx934f1fc99b01220a";
+	        sb.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=");
+	        sb.append(appId);
+	        String url = "";
+	        try {
+	            //对重定向url进行编码，官方文档要求
+	            url = URLEncoder.encode("https://www.methodol-edu.com/SSM/soft/user/index", "utf-8");
+	            sb.append("&redirect_uri=").append(url);
+	            //网页授权的静默授权snsapi_base
+	            sb.append("&response_type=code&scope=snsapi_base&state=State");
+	            response.sendRedirect(sb.toString());
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	            throw new RuntimeException("重定向url编码失败");
+	        }
 	}
-	@RequestMapping("/getCode")
-	public String getCode1(HttpServletRequest req,HttpServletResponse resp) {
+	@RequestMapping("/secc")
+	@ResponseBody
+	public void scc(HttpServletRequest req,HttpServletResponse resp) {
+		System.out.println("222222222222222");
+	
+	}
+	@RequestMapping("/get")
+	@ResponseBody
+	public ResultDTO getCode1(HttpServletRequest req,HttpServletResponse resp) {
+		ResultDTO dto;
 		System.out.println("进入到获取code的页面");
 		System.out.println(req.getContextPath());
 	    String code = req.getParameter("code");
 	    System.out.println(code);
-		return "account/account";
+		dto = ResultDTO.putSuccessObj("获取成功!", code);
+		return dto;
+	}
+	@RequestMapping("/validataWx")
+	public void validataWx(String signature,String timestamp,String nonce,String echostr,HttpServletResponse resp) throws IOException {
+		PrintWriter out = resp.getWriter();
+		// 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
+		out.print(echostr);
+		out.close();
+		out = null;
 	}
 }
