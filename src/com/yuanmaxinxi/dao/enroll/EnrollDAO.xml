@@ -41,9 +41,9 @@
     	SELECT * FROM t_university WHERE id IN
     		(SELECT DISTINCT uId FROM t_enroll) AND instr(name,#{name})
     </select>
-    <select id="queryMajorByuId" parameterType="Long" resultType="Major">
+    <select id="queryMajorByuId" parameterType="map" resultType="Major">
     	SELECT * FROM t_major WHERE id IN
-    		(SELECT DISTINCT mId FROM t_enroll WHERE uId=#{uId}) 
+    		(SELECT DISTINCT mId FROM t_enroll WHERE uId=#{uId} and pId = #{pId}) 
     </select>
     <select id="queryPage" parameterType="com.yuanmaxinxi.dto.MyBatisQueryPageDTO" resultType="Enroll">
         select * from t_enroll <include refid="whereSql"></include> 
@@ -82,6 +82,16 @@
         select id,name from t_province where id in (
         	select distinct pId from t_enroll
         )
+    </select>
+    <select id="selectEnrollProvinceByUniId" parameterType="long" resultType="Province">
+    	select id,name from t_province where id in (
+        	select distinct pId from t_enroll where uId = #{uniId}
+        )
+    </select>
+    <select id="selectEnrollProvinceByUniIds" parameterType="map" resultType="Province">
+    	select id,name from t_province where id in (
+			select DISTINCT e1.pId pId from t_enroll e1 LEFT JOIN t_enroll e2 on e1.pId = e2.pId where e1.uId = #{uId1} and e2.uId = #{uId2}
+		)
     </select>
     <select id="serch" parameterType="map" resultType="Enroll">
         select en.* from ( 

@@ -436,9 +436,10 @@ public class UniversityService {
 	 * 根据学校ID查询学校的录取专业
 	 * @param id
 	 * @param activBatch 批次代号 1->10,11  2->8,9  3->14-15  4,5->12,13 
+	 * @param pId 招生地区省份
 	 * @return
 	 */
-	public List<Major> selectMajorsById(String id, String activBatch) {
+	public List<Major> selectMajorsById(String id, String activBatch, Long pId) {
 		Map<String,String> map = new HashMap<>();
 		map.put("id", id);
 		//默认提前批
@@ -472,15 +473,17 @@ public class UniversityService {
 		}
 		map.put("bId1", bId1);
 		map.put("bId2", bId2);
+		map.put("pId", pId+"");
 		System.err.println(map);
 		return universityDAO.selectMajorsById(map);
 	}
 	/**
 	 * 根据学校ID获取录取数据 指定批次指定专业最新的五个年份
 	 * @param id
+	 * @param pId 招生地区
 	 * @return
 	 */
-	public List<Enroll> selectYearByMajorAndBidAndId(String id,String activBatch,String mId) {
+	public List<Enroll> selectYearByMajorAndBidAndId(String id,String activBatch,String mId, Long pId) {
 		Map<String,String> map = new HashMap<>();
 		map.put("id", id);
 		//默认提前批
@@ -515,6 +518,7 @@ public class UniversityService {
 		map.put("bId1", bId1);
 		map.put("bId2", bId2);
 		map.put("mId", mId);
+		map.put("pId", pId+"");
 		return universityDAO.selectYearByMajorAndBidAndId(map);
 	}
 	/**
@@ -619,8 +623,9 @@ public class UniversityService {
 	/**
 	 * 根据两个学校ID 去录取数据中查询相同的专业
 	 * @param ids
+	 * @param pId 招生地区id
 	 */
-	public List<Major> selectMajor(String ids) {
+	public List<Major> selectMajor(String ids, Long pId) {
 		try {
 			//"2409,333"
 			if (StringUtil.isNotNullAndEmpty(ids)) {
@@ -628,6 +633,7 @@ public class UniversityService {
 				Map<String,String> map = new HashMap<>();
 				map.put("id1", uIds[0]);
 				map.put("id2", uIds[1]);
+				map.put("pId", pId+"");
 				return universityDAO.selectMajor(map);
 			}
 		} catch (Exception e) {
@@ -640,10 +646,11 @@ public class UniversityService {
 	 * @param batch
 	 * @param numberActive
 	 * @param mId
+	 * @param pId 
 	 * @param uIds 
 	 * @return
 	 */
-	public List<Enroll> selectEnrollByTwoUni(String batch,String mId, String ids) {
+	public List<Enroll> selectEnrollByTwoUni(String batch,String mId, String ids, Long pId) {
 		Map<String,String> map = new HashMap<>();
 		//默认提前批
 		String bId1 = "6" ;
@@ -682,6 +689,7 @@ public class UniversityService {
 			String[] uIds = ids.split(",");
 			map.put("id1", uIds[0]);
 			map.put("id2", uIds[1]);
+			map.put("pId", pId+"");
 		}
 		
 		return universityDAO.selectEnrollByTwoUni(map);

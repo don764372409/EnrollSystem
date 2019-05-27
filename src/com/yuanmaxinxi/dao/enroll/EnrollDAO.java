@@ -111,7 +111,15 @@ public interface EnrollDAO extends BaseDAO<Enroll>{
 	public void xxx(String content);
 
 	public List<Enroll> selectAllByMajorName(String majorName);
-
-	public List<Major> queryMajorByuId(Long uId);
+	/**
+	 * 根据招生地区和学校id查询录取数据里面的专业
+	 * @param map
+	 * @return
+	 */
+	public List<Major> queryMajorByuId(Map<String,Long> map);
 	public List<University> queryUniversity(String name);
+
+	public List<Province> selectEnrollProvinceByUniId(Long uniId);
+
+	public List<Province> selectEnrollProvinceByUniIds(Map<String,String> map);
 }

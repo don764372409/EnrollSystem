@@ -7,13 +7,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dto.ResultDTO;
+import com.yuanmaxinxi.entity.ubalance.Ubalance;
 import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
+import com.yuanmaxinxi.service.ubalance.UbalanceService;
 import com.yuanmaxinxi.service.ulogpay.UlogpayService;
 
 /**
@@ -26,6 +29,8 @@ import com.yuanmaxinxi.service.ulogpay.UlogpayService;
 public class PaywxController {
 	@Autowired
 	private UlogpayService ulogpayService;
+	@Autowired
+	private UbalanceService ubalanceService;
 	@RequestMapping("/weixin")
 	@ResponseBody
 	public ResultDTO payWeinxin(Ulogpay ulogpay) {
@@ -60,5 +65,11 @@ public class PaywxController {
 			e.printStackTrace();
 			return ResultDTO.newInstance(false, e.getMessage());
 		}
+	}
+	@RequestMapping("/toRecharge")
+	public String toRecharge(String openid,Model model) {
+		Ubalance ubalance = ubalanceService.selectOneByOpenId(openid);
+		model.addAttribute("account", ubalance);
+		return "account/recharge";
 	}
 }

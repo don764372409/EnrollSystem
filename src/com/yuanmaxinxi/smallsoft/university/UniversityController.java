@@ -22,8 +22,8 @@ public class UniversityController{
 	private UniversityService universityService;
 	@RequestMapping("/selectEnrollByTwoUni")
 	@ResponseBody
-	public List<Enroll> selectEnrollByTwoUni(String batch,String mId,String uIds){
-		List<Enroll> ens = universityService.selectEnrollByTwoUni(batch,mId,uIds);
+	public List<Enroll> selectEnrollByTwoUni(String batch,String mId,String uIds,Long pId){
+		List<Enroll> ens = universityService.selectEnrollByTwoUni(batch,mId,uIds,pId);
 		return ens;
 	}
 	//学校所在省份
@@ -48,8 +48,8 @@ public class UniversityController{
 	}
 	@RequestMapping("/selectMajor")
 	@ResponseBody
-	public List<Major> selectMajor(String ids){
-		List<Major> majors = universityService.selectMajor(ids);
+	public List<Major> selectMajor(String ids,Long pId){
+		List<Major> majors = universityService.selectMajor(ids,pId);
 		return majors;
 	}
 	@RequestMapping("/addShoucang")
@@ -95,14 +95,14 @@ public class UniversityController{
 	}
 	@RequestMapping("/luquYear")
 	@ResponseBody
-	public List<Enroll> luquYear(String id,String mId,String activBatch){
-		List<Enroll> majors = universityService.selectYearByMajorAndBidAndId(id,activBatch,mId);
+	public List<Enroll> luquYear(String id,String mId,String activBatch,Long pId){
+		List<Enroll> majors = universityService.selectYearByMajorAndBidAndId(id,activBatch,mId,pId);
 		return majors;
 	}
 	@RequestMapping("/luquMajors")
 	@ResponseBody
-	public List<Major> luquMajors(String id,String activBatch){
-		List<Major> majors = universityService.selectMajorsById(id,activBatch);
+	public List<Major> luquMajors(String id,String activBatch,Long pId){
+		List<Major> majors = universityService.selectMajorsById(id,activBatch,pId);
 		return majors;
 	}
 	@RequestMapping("/details1")

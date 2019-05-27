@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yuanmaxinxi.dto.UniNumberDTO;
 import com.yuanmaxinxi.dto.enroll.EnrollQueryPageDTO;
 import com.yuanmaxinxi.entity.enroll.Enroll;
-import com.yuanmaxinxi.entity.enroll.EnrollMajor;
 import com.yuanmaxinxi.entity.enroll.UniEnrollMajor;
 import com.yuanmaxinxi.entity.major.Major;
 import com.yuanmaxinxi.entity.province.Province;
@@ -53,6 +52,26 @@ public class MemberController {
 		return "login";
 	}
 
+	/**
+	 * 获取招生省份 提供给用户做查询
+	 * 加两个个学校id的过滤条件
+	 * @return
+	 */
+	@RequestMapping("/selectEnrollProvinceByUniIds")
+	@ResponseBody
+	public List<Province> selectEnrollProvinceByUniIds(String uIds) {
+		return enrollService.selectEnrollProvinceByUniIds(uIds);
+	}
+	/**
+	 * 获取招生省份 提供给用户做查询
+	 * 加个学校id的过滤条件
+	 * @return
+	 */
+	@RequestMapping("/selectEnrollProvinceByUniId")
+	@ResponseBody
+	public List<Province> selectEnrollProvinceByUniId(Long uniId) {
+		return enrollService.selectEnrollProvinceByUniId(uniId);
+	}
 	/**
 	 * 获取招生省份 提供给用户做查询
 	 * 
@@ -128,8 +147,8 @@ public class MemberController {
 
 	@RequestMapping("/enrollqueryMajorByuId")
 	@ResponseBody
-	public List<Major> queryMajorByuId(Long uId) {
-		return enrollService.queryMajorByuId(uId);
+	public List<Major> queryMajorByuId(Long uId,Long pId) {
+		return enrollService.queryMajorByuId(uId,pId);
 	}
 
 	private void setPageParma(EnrollQueryPageDTO page) {
@@ -169,7 +188,9 @@ public class MemberController {
 	@ResponseBody
 	public List<UniEnrollMajor> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
 		setPageParma(page);
-		return enrollService.queryUniANDMajorByRank(page);
+		List<UniEnrollMajor> list = enrollService.queryUniANDMajorByRank(page);
+		System.out.println(list);
+		return list;
 	}
 
 	/**

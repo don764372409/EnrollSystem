@@ -1,5 +1,8 @@
 package com.yuanmaxinxi.entity.provincescore;
-
+/**
+ * 省控分
+ * @author 微笑ぃ一刀
+ */
 public class Provincescore {
 	private Long id;
 	private Long pId;
