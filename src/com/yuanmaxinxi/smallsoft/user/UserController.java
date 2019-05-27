@@ -1,7 +1,7 @@
 package com.yuanmaxinxi.smallsoft.user;
 
 import java.io.IOException;
-
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,18 +11,27 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dto.ResultDTO;
+import com.yuanmaxinxi.entity.ubalance.Ubalance;
+import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
 import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.service.UserService;
+import com.yuanmaxinxi.service.ubalance.UbalanceService;
+import com.yuanmaxinxi.service.ulogpay.UlogpayService;
 @RequestMapping("/soft/user")
 @Controller
 public class UserController{
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UbalanceService ubalanceService;
+	@Autowired
+	private UlogpayService ulogpayService;
 	//get请求
     private static JSONObject doGet(String requestUrl) {
     	HttpClient httpClient = new DefaultHttpClient();
@@ -132,5 +141,17 @@ public class UserController{
 		User user = userService.selectOneByOpenid(openid);
 		return user;
 	}
-
+	@RequestMapping("/toAccount")
+	public String toAccount(String openid,Model model) {
+		//获取用户昵称
+		User user = userService.selectOneByOpenid(openid);
+		//获取剩余积分
+		Ubalance ubalance = ubalanceService.selectOneByOpenId(openid);
+		//获取消费记录
+		List<Ulogpay> list = ulogpayService.selectAllByOpenId(openid);
+		model.addAttribute("user", user);
+		model.addAttribute("account", ubalance);
+		model.addAttribute("list", list);
+		return "account/account";
+	}
 }

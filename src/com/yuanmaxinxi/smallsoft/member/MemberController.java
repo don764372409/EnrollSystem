@@ -188,7 +188,9 @@ public class MemberController {
 	@ResponseBody
 	public List<UniEnrollMajor> queryUniANDMajorByRank(EnrollQueryPageDTO page) {
 		setPageParma(page);
-		return enrollService.queryUniANDMajorByRank(page);
+		List<UniEnrollMajor> list = enrollService.queryUniANDMajorByRank(page);
+		System.out.println(list);
+		return list;
 	}
 
 	/**
