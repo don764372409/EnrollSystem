@@ -104,10 +104,6 @@ public class PayWeixin {
 			throw new RuntimeException(e.getMessage());
 		}	
 	}
-	public static void main(String[] args) {
-		Ulogpay ulogpay = new Ulogpay();
-		payWeixin(ulogpay);
-	}
 	public static void noyify(Map<String,String> obj) {
 		String sign1 = obj.get("sign");
 		if(StringUtil.isNullOrEmpty(sign1)) {

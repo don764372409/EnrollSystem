@@ -121,10 +121,11 @@ public class UserController{
 		ResultDTO dto;
 		try {
 			int numbers = userService.selectShoucangNumbers(id);
-			return ResultDTO.putSuccessObj("获取成功!", numbers);
+			dto = ResultDTO.putSuccessObj("获取成功!", numbers);
 		} catch (Exception e) {
-			return ResultDTO.putError("获取收藏院校失败,请稍后重试.");
+			dto =  ResultDTO.putError("获取收藏院校失败,请稍后重试.");
 		}
+		return dto;
 	}
 	@ResponseBody
 	@RequestMapping("/selectOne")
