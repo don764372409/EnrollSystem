@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//webapp/WEB-INF/admin/list.jsp=UTF-8
+encoding//webapp/WEB-INF/shouquan/index.jsp=UTF-8
+encoding//webapp/WEB-INF/shouquan/notify.jsp=UTF-8
 encoding//webapp/WEB-INF/university/add.jsp=UTF-8
 encoding//webapp/index.jsp=UTF-8
 encoding/<project>=UTF-8

@@ -1,7 +1,12 @@
 package com.yuanmaxinxi.smallsoft.user;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -144,6 +149,10 @@ public class UserController{
 	}
 	@RequestMapping("/toAccount")
 	public String toAccount(String openid,Model model) {
+		//先获取Code
+		
+		//获取openID
+
 		//获取用户昵称
 		User user = userService.selectOneByOpenid(openid);
 		//获取剩余积分
@@ -153,6 +162,38 @@ public class UserController{
 		model.addAttribute("user", user);
 		model.addAttribute("account", ubalance);
 		model.addAttribute("list", list);
+		return "account/account";
+	}
+	@RequestMapping("/index")
+	public String getCode(HttpServletRequest request,HttpServletResponse response) {
+//	        StringBuffer sb = new StringBuffer();
+//	        StringBuffer encodeUrl = new StringBuffer(300);
+//	        //公众号中配置的回调域名（网页授权回调域名）
+//	        String appId ="wx934f1fc99b01220a";
+//	        sb.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=");
+//	        sb.append(appId);
+//	        String url = "";
+//	        try {
+//	            //对重定向url进行编码，官方文档要求
+//	            encodeUrl.append("http://www.methodol-edu.com/shouquan/index.html");
+//	            url = URLEncoder.encode("http://www.methodol-edu.com/shouquan/index.html", "utf-8");
+//	            sb.append("&redirect_uri=").append(url);
+//	            //网页授权的静默授权snsapi_base
+//	            sb.append("&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
+//	            response.sendRedirect(sb.toString());
+//	        } catch (Exception e) {
+//	        	e.printStackTrace();
+//	            throw new RuntimeException("重定向url编码失败");
+//	        }
+		System.out.println("今入到jsp页面进行处理");
+		return "/shouquan/index";
+	}
+	@RequestMapping("/getCode")
+	public String getCode1(HttpServletRequest req,HttpServletResponse resp) {
+		System.out.println("进入到获取code的页面");
+		System.out.println(req.getContextPath());
+	    String code = req.getParameter("code");
+	    System.out.println(code);
 		return "account/account";
 	}
 }
