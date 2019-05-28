@@ -254,6 +254,7 @@ public class UlogpayService{
 	      String requestUrl = url.replace("APPID", appid).replace("APPSECRET", appsecret);
 	      // 发起GET请求获取凭证
 	      JSONObject jsonObject = doGet(requestUrl);
+	      System.out.println(jsonObject);
 	     if (null != jsonObject) {
 	         try {
 	        	 map.put("access_token", jsonObject.getString("access_token"));
@@ -261,7 +262,8 @@ public class UlogpayService{
 	         } catch (Exception e) {
 	             // 获取token失败
 	        	 e.printStackTrace();
-	        	 throw new RuntimeException("获取access_token错误");
+//	        	 throw new RuntimeException("获取access_token错误");
+	        	 throw new RuntimeException(e.getMessage()+"-------"+jsonObject);
 	         }
 	    }
 	     return map;
@@ -279,6 +281,7 @@ public class UlogpayService{
 		String url ="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
 		String requestUrl = url.replace("ACCESS_TOKEN", map.get("access_token"));
 		JSONObject jsonObject = doGet(requestUrl);
+		 System.out.println(jsonObject);
         if (null != jsonObject) {
             try {
             	 map2.put("ticket", jsonObject.getString("ticket"));
@@ -286,7 +289,7 @@ public class UlogpayService{
             } catch (Exception e) {
                 // 获取失败
             	 e.printStackTrace();
-	        	 throw new RuntimeException("获取ticket错误");
+	        	 throw new RuntimeException(e.getMessage()+"-----"+jsonObject);
             }
         }
         return map2;

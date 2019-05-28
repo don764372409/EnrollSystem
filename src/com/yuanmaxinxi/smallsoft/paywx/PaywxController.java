@@ -45,7 +45,7 @@ public class PaywxController {
 			dto= ResultDTO.newInstance(true,json);
 		} catch (Exception e) {
 			e.printStackTrace();
-			dto= ResultDTO.newInstance(false, e.getMessage());
+			dto= ResultDTO.putError(e.getMessage());
 		}
 		return dto;
 	}
