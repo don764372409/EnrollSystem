@@ -3,6 +3,7 @@
  */
 package com.yuanmaxinxi.smallsoft.paywx;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,19 @@ public class PaywxController {
 	@RequestMapping("/weixin")
 	@ResponseBody
 	public ResultDTO payWeinxin(Ulogpay ulogpay) {
+		ResultDTO dto=null;
 		try {
+			String value1 = ulogpay.getStrValue().split("元")[0];
+			System.out.println(value1);
+			ulogpay.setValue(new BigDecimal(value1));
 			Map<String, String> payWeixin = ulogpayService.payWeixin(ulogpay);
 			Object json = JSONObject.toJSON(payWeixin);
-			return ResultDTO.newInstance(true,json);
+			dto= ResultDTO.newInstance(true,json);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResultDTO.newInstance(false, "获取失败");
+			dto= ResultDTO.newInstance(false, e.getMessage());
 		}
-		
+		return dto;
 	}
 	@RequestMapping("/finish")
 	@ResponseBody
@@ -69,6 +74,7 @@ public class PaywxController {
 	@RequestMapping("/toRecharge")
 	public String toRecharge(String openid,Model model) {
 		Ubalance ubalance = ubalanceService.selectOneByOpenId(openid);
+		model.addAttribute("openid", openid);
 		model.addAttribute("account", ubalance);
 		return "account/recharge";
 	}

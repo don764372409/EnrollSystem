@@ -115,11 +115,13 @@ body {
 		});
 	})
 	function goRecharge(){
-		location.href="${path}/pay/toRecharge";
+		var openid = $("input[type='hidden']").val();
+		location.href="${path}/pay/toRecharge?openid="+openid;
 	}
 </script>
 <body>
 	<div class='top'>
+		<input type="hidden" value="${user.openid}"></input>
 		<img src='${path}/commons/img/soft/huiyuan.png' width="100%" />
 		<div class="text-box">
 			<p>${user.name}</p>
@@ -146,5 +148,6 @@ body {
 			</li>
 		</c:forEach>
 	</ul>
+	
 </body>
 </html>

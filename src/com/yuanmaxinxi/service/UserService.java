@@ -167,4 +167,15 @@ public class UserService {
 			throw new RuntimeException("修改信息失败,请刷新或稍后重试.");
 		}
 	}
+
+	public User selectOneByCode(String code) {
+		if(StringUtil.isNullOrEmpty(code)) {
+			throw new RuntimeException("请填写邀请码");
+		}
+		User user = userDAO.selectOneByCode(code);
+		if(user==null) {
+			throw new RuntimeException("邀请码不存在，请核对后重试");
+		}
+		return user;
+	}
 }

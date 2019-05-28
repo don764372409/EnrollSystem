@@ -1,21 +1,33 @@
 package com.yuanmaxinxi.service.ulogpay;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dao.ubalance.UbalanceDAO;
 import com.yuanmaxinxi.dao.ulogpay.UlogpayDAO;
 import com.yuanmaxinxi.dao.user.UserDAO;
 import com.yuanmaxinxi.entity.ubalance.Ubalance;
 import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
 import com.yuanmaxinxi.entity.user.User;
+import com.yuanmaxinxi.smallsoft.user.UserController;
 import com.yuanmaxinxi.util.payWeixin.PayWeixin;
 
 @Service
@@ -102,7 +114,12 @@ public class UlogpayService{
 	}
 	@Transactional
 	public Map<String, String> payWeixin(Ulogpay ulogpay) {
-		//假设是充值订单
+		//补充订单详情
+		ulogpay.setTitle("充值");
+		ulogpay.setPaytype(1);
+		ulogpay.setPaytime(new Date());
+		ulogpay.setType(1);
+		//默认是充值订单
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			ulogpay.setNumber(new Date().getTime());//订单号
@@ -125,10 +142,30 @@ public class UlogpayService{
 					throw new RuntimeException("修改订单失败");
 				}
 			}
+			//获取微信access_token
+			Map<String, String> getmap = getToken();
+			Map<String, String> ticket = getTicket(getmap);
+			String url = ulogpay.getUrl();
+			String string1 = "jsapi_ticket=" + ticket.get("ticket") +
+					                   "&noncestr=" + map.get("nonceStr") +
+					                   "&timestamp=" + map.get("timeStamp") +
+					                   "&url=" + "www.methodol-edu.com";
+			 MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+		     crypt.reset();
+			 crypt.update(string1.getBytes("UTF-8"));
+			 byte[] signature = crypt.digest();
+			 Formatter formatter = new Formatter();
+			for (byte b : signature) {
+				formatter.format("%02x", b);
+			}
+			String result = formatter.toString();
+			formatter.close();
+			 map.put("signature", result);
 			return map;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("微信支付错误，请稍后重试");
+//			throw new RuntimeException("微信支付错误，请稍后重试");
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 	@Transactional
@@ -187,5 +224,71 @@ public class UlogpayService{
 		return list;
 	}
 
+	//微信支付工具
+	private static JSONObject doGet(String requestUrl) {
+    	HttpClient httpClient = new DefaultHttpClient();
+    	HttpResponse response = null;
+        String responseContent  = null;
+        com.alibaba.fastjson.JSONObject result = null;
+        try {
+            //创建Get请求，
+            HttpGet httpGet = new HttpGet(requestUrl);
+            //执行Get请求，
+            response = httpClient.execute(httpGet);
+            //得到响应体
+            HttpEntity entity = response.getEntity();
+            //获取响应内容
+            responseContent  = EntityUtils.toString(entity,"UTF-8");
+            //转换为map
+            result = JSON.parseObject(responseContent);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        return result;
+    }
+	public static Map<String,String> getToken() {
+		Map<String, String> map = new HashMap<String,String>();
+	     String url ="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+	     String appid="wx4567caad1b60b9e1";
+	     String appsecret="75f903c2c84c191b7da4ca506ff35e70";
+	      String requestUrl = url.replace("APPID", appid).replace("APPSECRET", appsecret);
+	      // 发起GET请求获取凭证
+	      JSONObject jsonObject = doGet(requestUrl);
+	     if (null != jsonObject) {
+	         try {
+	        	 map.put("access_token", jsonObject.getString("access_token"));
+	        	 map.put("expires_in", jsonObject.getString("expires_in"));
+	         } catch (Exception e) {
+	             // 获取token失败
+	        	 e.printStackTrace();
+	        	 throw new RuntimeException("获取access_token错误");
+	         }
+	    }
+	     return map;
+	}
 
+//	public static void main(String[] args) {
+//		Map<String, String> token = getToken();
+//		System.out.println(token.toString());
+//		Map<String, String> ticket = getTicket(token);
+//		System.out.println(ticket.toString());
+//	}
+	public static Map<String,String> getTicket(Map<String,String> map) {
+		Map<String,String> map2 = new HashMap<String,String>();
+        //Constants.ticket_url = https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi
+		String url ="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+		String requestUrl = url.replace("ACCESS_TOKEN", map.get("access_token"));
+		JSONObject jsonObject = doGet(requestUrl);
+        if (null != jsonObject) {
+            try {
+            	 map2.put("ticket", jsonObject.getString("ticket"));
+	        	 map2.put("expires_in", jsonObject.getString("expires_in"));
+            } catch (Exception e) {
+                // 获取失败
+            	 e.printStackTrace();
+	        	 throw new RuntimeException("获取ticket错误");
+            }
+        }
+        return map2;
+    }
 }

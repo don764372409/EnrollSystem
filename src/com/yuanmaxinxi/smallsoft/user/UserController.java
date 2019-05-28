@@ -1,8 +1,8 @@
 package com.yuanmaxinxi.smallsoft.user;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,6 @@ import com.yuanmaxinxi.entity.user.User;
 import com.yuanmaxinxi.service.UserService;
 import com.yuanmaxinxi.service.ubalance.UbalanceService;
 import com.yuanmaxinxi.service.ulogpay.UlogpayService;
-import com.yuanmaxinxi.util.StringUtil;
 @RequestMapping("/soft/user")
 @Controller
 public class UserController{
@@ -148,18 +147,30 @@ public class UserController{
 		User user = userService.selectOneByOpenid(openid);
 		return user;
 	}
+	@ResponseBody
+	@RequestMapping("/selectOneByCode")
+	public ResultDTO selectOneByCode (String code){
+		ResultDTO dto;
+		try {
+			User user = userService.selectOneByCode(code);
+			dto = ResultDTO.putSuccessObj("获取成功!", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			dto =  ResultDTO.putError(e.getMessage());
+		}
+		return dto;
+	}
 	@RequestMapping("/toAccount")
 	public String toAccount(Model model,String code) {
-		System.out.println(code);
-		JSONObject doGet = doGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4567caad1b60b9e1&secret=75f903c2c84c191b7da4ca506ff35e70&code="+code+"&grant_type=authorization_code");
-		System.out.println(doGet);
-		String openid = doGet.getString("openid");
+//		JSONObject doGet = doGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4567caad1b60b9e1&secret=75f903c2c84c191b7da4ca506ff35e70&code="+code+"&grant_type=authorization_code");
+//		String openid = doGet.getString("openid");
 //		String openid = "oLIw75Gcx0gWb4u4P6Wl3nckpYI4";
 		//先获取Code
 		//获取openID
 		//获取用户昵称
-		User user = userService.selectOneByOpenid(openid);
+		User user = userService.selectOneByCode(code);
 		//获取剩余积分
+		String openid = user.getOpenid();
 		Ubalance ubalance = ubalanceService.selectOneByOpenId(openid);
 		//获取消费记录
 		List<Ulogpay> list = ulogpayService.selectAllByOpenId(openid);

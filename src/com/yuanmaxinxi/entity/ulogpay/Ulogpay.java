@@ -14,7 +14,21 @@ public class Ulogpay{
 	private Integer type;//流水类型1-充值 2-支付消费 3-提现 4-退款
 	private String openid;//openId
 	private int status;
+	private String strValue;
+	private String url;
 	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getStrValue() {
+		return strValue;
+	}
+	public void setStrValue(String strValue) {
+		this.strValue = strValue;
+	}
 	public int getStatus() {
 		return status;
 	}
