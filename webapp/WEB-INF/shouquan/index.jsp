@@ -10,10 +10,7 @@
 
 <body>
 <script>
-function callback(result) {    
-    alert('success');    
-    alert(result);  //输出openid  
-}
+
 	function getUrlParam(name) {
 	  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 	  console.log(reg);
@@ -22,17 +19,17 @@ function callback(result) {
 	  return null;
 	}
 	function wxLogin(callback) {
-	 /*  var appId = 'wx934f1fc99b01220a';
+	  var appId = 'wx934f1fc99b01220a';
 	  var oauth_url = 'http://www.methodol-edu.com/SSM/soft/user/get';
 		 var tt =  location.href.split('#')[0];
 		 callback(tt);
 	  var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + location.href.split('#')[0] + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
 	  var code = getUrlParam("code");
-	  callback(code); */
-	/*   if (!code) {
+	  callback(code); 
+	  if (!code) {
 	    window.location = url;
 	    
-	  } else { */
+	  } else { 
 	    $.ajax({
 	      type: 'GET',
 	      url: oauth_url,
