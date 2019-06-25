@@ -3,6 +3,7 @@
  */
 package com.yuanmaxinxi.util.payWeixin;
 
+
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -42,10 +43,9 @@ public class PayWeixin {
 //		String body = ulogpay.getTitle();//支付的名称（未有）
 		String out_trade_no = String.valueOf(ulogpay.getNumber()) ;//后台生成的订单号（未有）
 		String total_fee  = String.valueOf(ulogpay.getValue().multiply(BigDecimal.valueOf(100)));//支付金额 单位：分,（未有）
-		System.out.println(total_fee);
 		String body ="充钱";//支付的名称（未有）
 //		String out_trade_no = "155541353137431143";//后台生成的订单号（未有）
-//		String total_fee  = "1";//支付金额 单位：分,（未有）
+//		String total_fee  = "100";//支付金额 单位：分,（未有）
 		String spbill_create_ip = ip;//IP地址（已有）
 		String notify_url = "http://www.methodol-edu.com/SSM/pay/toRecharge";//回调地址（已有）
 		String trade_type = "JSAPI";//支付类型 （已有）
@@ -95,7 +95,7 @@ public class PayWeixin {
 			payMap.put("timeStamp", String.valueOf(WXPayUtil.getCurrentTimestamp()));  
 			payMap.put("nonceStr", WXPayUtil.generateNonceStr());  
 			payMap.put("signType", "MD5");  
-			payMap.put("package1", "prepay_id=" + prepay_id);  
+			payMap.put("package", "prepay_id=" + prepay_id);  
 			payMap.put("paySign", WXPayUtil.generateSignature(payMap, paternerKey));
 			payMap.put("responseState","success");
 			return payMap;

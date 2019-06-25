@@ -17,6 +17,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.yuanmaxinxi.dto.ResultDTO;
 import com.yuanmaxinxi.entity.ubalance.Ubalance;
 import com.yuanmaxinxi.entity.ulogpay.Ulogpay;
+import com.yuanmaxinxi.entity.user.User;
+import com.yuanmaxinxi.service.UserService;
 import com.yuanmaxinxi.service.ubalance.UbalanceService;
 import com.yuanmaxinxi.service.ulogpay.UlogpayService;
 
@@ -31,6 +33,8 @@ public class PaywxController {
 	@Autowired
 	private UlogpayService ulogpayService;
 	@Autowired
+	private UserService userService;
+	@Autowired
 	private UbalanceService ubalanceService;
 	@RequestMapping("/weixin")
 	@ResponseBody
@@ -38,7 +42,6 @@ public class PaywxController {
 		ResultDTO dto=null;
 		try {
 			String value1 = ulogpay.getStrValue().split("元")[0];
-			System.out.println(value1);
 			ulogpay.setValue(new BigDecimal(value1));
 			Map<String, String> payWeixin = ulogpayService.payWeixin(ulogpay);
 			Object json = JSONObject.toJSON(payWeixin);
@@ -74,6 +77,9 @@ public class PaywxController {
 	@RequestMapping("/toRecharge")
 	public String toRecharge(String openid,Model model) {
 		Ubalance ubalance = ubalanceService.selectOneByOpenId(openid);
+		User user = userService.selectOneByOpenid(openid);
+		model.addAttribute("ubalance", ubalance);
+		model.addAttribute("user", user);
 		model.addAttribute("openid", openid);
 		model.addAttribute("account", ubalance);
 		return "account/recharge";

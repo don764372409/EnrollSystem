@@ -145,7 +145,6 @@ public class UlogpayService{
 			//获取微信access_token
 			Map<String, String> getmap = getToken();
 			Map<String, String> ticket = getTicket(getmap);
-			String url = ulogpay.getUrl();
 			String string1 = "jsapi_ticket=" + ticket.get("ticket") +
 					                   "&noncestr=" + map.get("nonceStr") +
 					                   "&timestamp=" + map.get("timeStamp") +
@@ -169,7 +168,7 @@ public class UlogpayService{
 		}
 	}
 	@Transactional
-	public void finish(Ulogpay ulogpay) {
+	public void finish(Ulogpay ulogpay) {//订单号
 		//更改订单状态
 		String outNumber = ulogpay.getOutNumber();
 		Ulogpay obj = ulogpayDAO.selectOneByOutNumber(outNumber);

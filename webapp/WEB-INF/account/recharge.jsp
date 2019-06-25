@@ -95,20 +95,26 @@
 	$(function(){
 		var height = $(window).height();
 		$(".main").height(height);
+		var number = $("input[class='ip3']").val();
+		if(number==0){
+			$(".lab").text("250元");
+		}
 	});
 	function paymentSubmit(){
+		var code = $("input[class='ip2']").val();
+		console.log(code);
+		var number = $("input[class='ip3']").val();
+		console.log(number);
 		var value = $(".lab").text();
-		var openid = $("input[type='hidden']").val();
+		var openid = $("input[class='ip1']").val();
 		var url = window.location.href;
 		$.post("${path}/pay/weixin",{strValue:value,openid:openid,url:url},function(res){
 			var res =JSON.parse(res);
 			console.log(res);
 			if(res.result){
-				 alert("1111111111");
 				if(res.obj.responseState=="success"){
-					 alert("22222222");
 					var data = res.obj;
-				/* 	if (typeof WeixinJSBridge == "undefined"){
+					if (typeof WeixinJSBridge == "undefined"){
 					   if( document.addEventListener ){
 					       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
 					   }else if (document.attachEvent){
@@ -118,63 +124,42 @@
 					}else{
 					   onBridgeReady(data);
 					}
-			 */
-					console.log(data)
-					wx.config({
-						debug:false,
-						appId:data.appId,
-						timestamp:data.timeStamp,
-						nonceStr:data.nonceStr,
-						signature:data.signature,
-						jsApiList: ['chooseWXPay']
-					});
-					wx.chooseWXPay({
-                        timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                        nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
-                        package: data.package1, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                        signType: "MD5", // 签名方式，默认为´SHA1´，使用新版支付需传入´MD5´
-                        paySign: data.paySign, // 支付签名
-                        success: function (res) {
-                        	 if(res.errMsg == "chooseWXPay:ok"){
-                                 //alert("支付成功");
-                                 window.location.href  = "http://www.methodol-edu.com/SSM/soft/user/toAccount";
-                             }else{
-                                 alert(res.errMsg);
-                             }
-                         },
-                         cancel: function(res){
-                             alert("取消支付");
-                         }
-                    }); 
 				}
 			}
 		})
 	}
-	/* function onBridgeReady(data){
-		alert("开始支付");
+	function onBridgeReady(data){
 		   WeixinJSBridge.invoke(
 		      'getBrandWCPayRequest', {
 		         "appId":data.appId,     //公众号名称，由商户传入     
 		         "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
 		         "nonceStr":data.nonceStr,//随机串     
-		         "package":data.package1,     
+		         "package":data.package,     
 		         "signType":"MD5",         //微信签名方式：     
 		         "paySign":data.paySign //微信签名 
 		      },
 		      function(res){
 			      if(res.err_msg == "get_brand_wcpay_request:ok" ){
-			      // 使用以上方式判断前端返回,微信团队郑重提示：
-			            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-			    	  alert("成功支付");
+			    	var code = $("input[class='ip2']").val();
+			    	  $.post("${path}/pay/finish",{outNumber:data.package},function(res){
+			    		  window.location.href="http://www.methodol-edu.com/SSM/soft/user/toAccount?code="+code;
+			    	  })
+			      }else{
+			    	  alert("成功失败，请稍后重试");
 			      } 
 		   }); 
-		} */
+		} 
 	$(function() {
 		$("a").bind("click",function(){
-			$("a").removeClass("active");
-			$(this).addClass("active");
-			var value = $(this).text();
-			$(".lab").text(value);
+			var number = $("input[class='ip3']").val();
+			if(number==0){
+				$(".lab").text("250元");
+			}else{
+				$("a").removeClass("active");
+				$(this).addClass("active");
+				var value = $(this).text();
+				$(".lab").text(value);
+			}
 		})
 	})
 
@@ -183,7 +168,9 @@
 <body>
 	<div class='main'>
 		<div class='item1'>
-			<input type="hidden" value="${openid}"></input>
+			<input class="ip1" type="hidden" value="${openid}"></input>
+			<input class="ip2" type="hidden" value="${user.code}"></input>
+			<input class="ip3" type="hidden" value="${ubalance.number}"></input>
 			<div style="font-size: 50px">积分:${account.money}</div>
 			<div style="font-size: 35px">当前积分</div>
 		</div>

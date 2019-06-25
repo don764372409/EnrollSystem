@@ -174,6 +174,9 @@ public class UserController{
 		Ubalance ubalance = ubalanceService.selectOneByOpenId(openid);
 		//获取消费记录
 		List<Ulogpay> list = ulogpayService.selectAllByOpenId(openid);
+		model.addAttribute("ubalance", ubalance);
+		model.addAttribute("code", user.getCode());
+		model.addAttribute("number", user.getNumber());
 		model.addAttribute("user", user);
 		model.addAttribute("account", ubalance);
 		model.addAttribute("list", list);
